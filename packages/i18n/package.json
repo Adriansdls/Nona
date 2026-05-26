@@ -1,0 +1,17 @@
+{
+  "name": "@salvacao/i18n",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./messages/*": "./src/messages/*.json"
+  },
+  "dependencies": {
+    "next-intl": "^3.26.3"
+  },
+  "devDependencies": {
+    "@salvacao/config": "workspace:*",
+    "typescript": "^5"
+  }
+}

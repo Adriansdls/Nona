@@ -1,0 +1,12 @@
+CREATE TYPE case_type AS ENUM ('perdido', 'encontrado', 'avistado', 'bienestar');
+CREATE TYPE case_status AS ENUM ('ativo', 'resolvido', 'arquivado', 'duplicado', 'descartado');
+CREATE TYPE case_sensitivity AS ENUM ('publico', 'restringido', 'privado');
+CREATE TYPE dog_sex AS ENUM ('macho', 'femea', 'desconhecido');
+CREATE TYPE dog_size AS ENUM ('pequeno', 'medio', 'grande', 'gigante');
+CREATE TYPE image_type AS ENUM ('referencia', 'avistamiento');
+CREATE TYPE sighting_credibility AS ENUM ('pendente', 'alta', 'media', 'baixa');
+CREATE TYPE match_status AS ENUM ('pendente', 'revisado', 'confirmado', 'descartado');
+CREATE TYPE poster_type AS ENUM ('a4', 'cuadrado_1080', 'horizontal_1200');
+CREATE TYPE poster_language AS ENUM ('pt', 'en', 'es');
+CREATE TYPE user_role AS ENUM ('admin', 'asociacion', 'clinica', 'voluntario');
+CREATE TYPE locale_preference AS ENUM ('pt', 'en', 'es');

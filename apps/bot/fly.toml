@@ -1,0 +1,15 @@
+app = "salvacao-bot"
+primary_region = "fra"
+
+[build]
+
+# Bot is a long-running polling process, not an HTTP server
+# No [http_service] — Fly keeps it running as a worker
+[[processes]]
+  name = "bot"
+  cmd = "python main.py"
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

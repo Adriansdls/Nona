@@ -1,0 +1,882 @@
+# ═══════════════════════════════════════════════════════════════
+# PLAN MAESTRO — Red Cão Algarve
+# Versión 1.0 — 2026-05-26
+# ═══════════════════════════════════════════════════════════════
+
+proyecto:
+  nombre_provisional: "SalvaCão"  # propuesta — ver F0-1 para decisión
+  mision: >
+    Tecnología gratuita al servicio de las redes que ya salvan perros en el Algarve.
+    No sustituimos a nadie. Les damos infraestructura.
+  modelo: open-source, gratuito siempre, sin monetización
+  licencia: MIT
+  repositorio: público desde el primer commit
+  idiomas: [pt-PT, en, es]  # todos desde v0.1
+  principio_rector: >
+    La herramienta debe REDUCIR trabajo, nunca añadirlo.
+    Si complica el flujo de admins y asociaciones, ha fallado.
+
+# ───────────────────────────────────────────────
+# STACK TECNOLÓGICO
+# ───────────────────────────────────────────────
+stack:
+  frontend:
+    framework: "Next.js 15 (App Router)"
+    lenguaje: TypeScript (strict)
+    estilos: "Tailwind CSS 4"
+    componentes: "shadcn/ui"
+    i18n: next-intl
+    forms: react-hook-form + zod
+    deployment: Vercel (free tier → Pro si crece)
+
+  base_de_datos:
+    plataforma: Supabase
+    engine: PostgreSQL 16
+    orm: Drizzle ORM
+    auth: Supabase Auth (email/password para admins; anónimo para avistamientos)
+    storage: Supabase Storage (imágenes de casos y avistamientos)
+    vector: "pgvector (extensión activada desde v0.1, columnas usadas en v0.2)"
+
+  ml_service:
+    framework: "FastAPI (Python 3.12)"
+    detection: "YOLOv11 (localización del perro + caras humanas)"
+    embeddings: "DINOv2-large + SigLIP2 (fusionados en v0.2)"
+    ocr: "PaddleOCR (v0.3 — anuncios sospechosos)"
+    deployment: "Fly.io (se añade en v0.2, NO existe en v0.1)"
+    nota: "Servicio separado. No bloquea v0.1."
+
+  servicios:
+    email: Resend (templates HTML responsivos, SPF/DKIM)
+    qr: qrcode (npm)
+    pdf_posters: "@react-pdf/renderer"
+    imagenes_servidor: Sharp (compresión, resize)
+    mapas: "Leaflet + OpenStreetMap (se añade en v0.2)"
+    analytics: Plausible (self-hosted, privacy-first, sin cookies)
+    errores: Sentry
+    ci_cd: "GitHub Actions"
+
+  monorepo:
+    gestor: pnpm workspaces
+    estructura:
+      apps/web: "Next.js — la aplicación principal"
+      apps/ml: "FastAPI Python — servicio de visión (v0.2)"
+      packages/db: "Drizzle schema + migrations + seeds"
+      packages/ui: "Componentes shadcn/ui reutilizables"
+      packages/i18n: "Traducciones PT/EN/ES"
+      packages/types: "Tipos TypeScript compartidos"
+      packages/config: "ESLint, Prettier, TypeScript base configs"
+
+# ───────────────────────────────────────────────
+# PRINCIPIOS DE CÓDIGO (no negociables)
+# ───────────────────────────────────────────────
+principios_de_codigo:
+
+  privacidad_by_design:
+    - "Microchip NUNCA completo en ninguna página pública (máx últimos 3 dígitos)"
+    - "PII del reportante (tel, email, nombre completo) NUNCA en URLs ni en JSON público"
+    - "Caras humanas y matrículas se difuminan ANTES de subir a Storage público (v0.2 via YOLO)"
+    - "Localización exacta de avistamientos nunca es pública (zona ~500m de radio)"
+    - "Todos los campos sensibles tienen Row Level Security en Supabase"
+    - "Variables de entorno: NUNCA en el repo. Siempre .env.local ignorado por git"
+
+  no_acusacion:
+    - "El enum 'type' de casos públicos NO incluye 'robado'"
+    - "Tipos públicos solo: perdido | encontrado | avistado | bienestar"
+    - "Campo 'suspected_theft' es PRIVADO — solo accesible por rol admin/asociacion"
+    - "Coincidencias visuales se llaman SIEMPRE 'posible_coincidencia'"
+    - "No existe en el código: 'ladrón', 'sospechoso', 'culpable', 'delincuente'"
+    - "Notificaciones sobre posibles coincidencias requieren revisión humana previa"
+
+  gdpr:
+    - "Base jurídica: interés legítimo documentado en política de privacidad pública"
+    - "Artículo 10 RGPD: sin base de datos de sospechosos ni perfiles de infractores"
+    - "Retención: casos cerrados archivados y purgados tras 2 años (job automático)"
+    - "DPIA (Data Protection Impact Assessment) documentada desde el piloto"
+    - "Unsubscribe funcional en todos los emails transaccionales"
+
+
+# ═══════════════════════════════════════════════
+# FASE 0 — FUNDACIÓN (pre-código)
+# Lo que se decide y configura ANTES del primer commit de producto
+# ═══════════════════════════════════════════════
+fase_0:
+  nombre: "Fundación"
+  objetivo: "Todo lo necesario antes de escribir la primera línea de producto"
+
+  modulos:
+
+    - id: F0-1
+      nombre: "Nombre, marca y dominio"
+      descripcion: >
+        El nombre debe funcionar en PT, EN y ES. Debe ser memorable para admins locales
+        y no sonar a startup comercial.
+      candidatos:
+        - nombre: SalvaCão
+          logica: "'Salva' (saves) + 'Cão' (dog). Suena como 'Salvação' (salvation en PT). Multilingüe natural."
+          dominio_probable: salvacao.pt
+          valoracion: RECOMENDADO
+        - nombre: AcharCão
+          logica: "'Achar' (encontrar en PT) + 'Cão'. Simple y descriptivo."
+          dominio_probable: acharcao.pt
+          valoracion: alternativa
+        - nombre: VoltaCão
+          logica: "'Volta' (regresa) + 'Cão'. 'Voltação' suena bien en PT."
+          dominio_probable: voltacao.pt
+          valoracion: alternativa
+      entregables:
+        - Nombre final decidido y documentado
+        - Dominio .pt registrado (o .org si no disponible)
+        - Paleta de colores (5 tokens: primary, secondary, accent, neutral, error)
+        - Tipografía (1 display font + 1 body font — ambas Google Fonts)
+        - Logo placeholder en SVG (wordmark simple — no necesita ser definitivo)
+        - Favicon
+
+    - id: F0-2
+      nombre: "Schema de base de datos"
+      descripcion: >
+        El contrato del que dependen todos los módulos.
+        Se diseña completo ANTES de tocar UI. Cambiar el schema después es caro.
+      tablas:
+
+        cases:
+          descripcion: "Entidad principal de cada caso"
+          campos:
+            id: "uuid PRIMARY KEY DEFAULT gen_random_uuid()"
+            slug: "text UNIQUE NOT NULL — URL pública (ej: cao-labrador-faro-2026-05-abc)"
+            type: "enum: perdido | encontrado | avistado | bienestar"
+            status: "enum: ativo | resolvido | arquivado | duplicado | descartado"
+            sensitivity: "enum: publico | restringido | privado"
+            dog_name: "text NULLABLE"
+            breed: "text NOT NULL"
+            sex: "enum: macho | femea | desconhecido"
+            neutered: "boolean NULLABLE"
+            size: "enum: pequeno | medio | grande | gigante"
+            primary_color: "text NOT NULL"
+            secondary_color: "text NULLABLE"
+            distinctive_marks: "text[] DEFAULT '{}'"
+            age_estimate: "text NULLABLE — texto libre ('~2 años', 'cachorro', 'adulto')"
+            has_chip: "boolean NULLABLE"
+            chip_last_3: "text NULLABLE — PÚBLICO: últimos 3 dígitos solo"
+            chip_number_encrypted: "text NULLABLE — PRIVADO: solo admin/asociacion"
+            last_seen_at: "timestamptz NOT NULL"
+            last_seen_municipality: "text NOT NULL"
+            last_seen_zone_approx: "text NOT NULL — descripción textual ('cerca de la playa de Faro')"
+            last_seen_coords_approx: "point NULLABLE — PRIVADO: precisión ~500m"
+            description: "text NOT NULL — descripción narrativa del caso"
+            context: "text NULLABLE — cómo desapareció/fue encontrado"
+            suspected_theft: "boolean DEFAULT false — PRIVADO"
+            reporter_name: "text NOT NULL — PRIVADO"
+            reporter_email: "text NOT NULL — PRIVADO"
+            reporter_phone: "text NULLABLE — PRIVADO"
+            reporter_contact_public: "text NULLABLE — lo que el dueño quiere mostrar públicamente"
+            admin_notes: "text NULLABLE — PRIVADO, solo admins"
+            created_at: "timestamptz DEFAULT now()"
+            updated_at: "timestamptz DEFAULT now()"
+            resolved_at: "timestamptz NULLABLE"
+            created_by: "uuid NULLABLE REFERENCES auth.users"
+
+        case_images:
+          campos:
+            id: "uuid PRIMARY KEY"
+            case_id: "uuid REFERENCES cases ON DELETE CASCADE"
+            storage_path_public: "text — ruta con PII difuminada (caras/matrículas)"
+            storage_path_original: "text — PRIVADO, ruta sin difuminar"
+            public_url: "text — URL CDN pública"
+            is_primary: "boolean DEFAULT false"
+            image_type: "enum: referencia | avistamiento"
+            embedding: "vector(768) NULLABLE — null hasta v0.2"
+            quality_score: "float NULLABLE — null hasta v0.2"
+            processed_at: "timestamptz NULLABLE — null hasta v0.2"
+            created_at: "timestamptz DEFAULT now()"
+
+        sightings:
+          campos:
+            id: "uuid PRIMARY KEY"
+            case_id: "uuid REFERENCES cases ON DELETE CASCADE"
+            seen_at: "timestamptz NOT NULL"
+            municipality: "text NOT NULL"
+            zone_approx: "text NOT NULL — descripción textual"
+            coords_approx: "point NULLABLE — PRIVADO"
+            direction: "text NULLABLE"
+            was_moving: "boolean NULLABLE"
+            seemed_injured: "boolean NULLABLE"
+            description: "text NULLABLE"
+            reporter_contact: "text NULLABLE — PRIVADO"
+            credibility: "enum: pendente | alta | media | baixa"
+            reviewed_by: "uuid NULLABLE REFERENCES auth.users"
+            reviewed_at: "timestamptz NULLABLE"
+            is_public: "boolean DEFAULT false — solo true tras revisión humana"
+            created_at: "timestamptz DEFAULT now()"
+
+        sighting_images:
+          campos:
+            id: "uuid PRIMARY KEY"
+            sighting_id: "uuid REFERENCES sightings ON DELETE CASCADE"
+            storage_path_public: "text"
+            public_url: "text"
+            embedding: "vector(768) NULLABLE"
+
+        visual_matches:
+          descripcion: "Posibles coincidencias visuales — se puebla en v0.2"
+          campos:
+            id: "uuid PRIMARY KEY"
+            case_a_id: "uuid REFERENCES cases"
+            case_b_id: "uuid REFERENCES cases"
+            similarity_score: "float NOT NULL"
+            status: "enum: pendente | revisado | confirmado | descartado"
+            reviewed_by: "uuid NULLABLE REFERENCES auth.users"
+            reviewed_at: "timestamptz NULLABLE"
+            created_at: "timestamptz DEFAULT now()"
+
+        users:
+          descripcion: "Admins, asociaciones, clínicas y voluntarios verificados"
+          campos:
+            id: "uuid PRIMARY KEY REFERENCES auth.users"
+            role: "enum: admin | asociacion | clinica | voluntario"
+            organization_name: "text NULLABLE"
+            municipality: "text NULLABLE"
+            verified: "boolean DEFAULT false"
+            locale_preference: "enum: pt | en | es DEFAULT pt"
+            created_at: "timestamptz DEFAULT now()"
+
+        posters:
+          campos:
+            id: "uuid PRIMARY KEY"
+            case_id: "uuid REFERENCES cases"
+            storage_path: "text"
+            public_url: "text"
+            poster_type: "enum: a4 | cuadrado_1080 | horizontal_1200"
+            language: "enum: pt | en | es"
+            created_at: "timestamptz DEFAULT now()"
+
+      rls_policies:
+        cases_select_public: "WHERE status = 'ativo' AND sensitivity = 'publico'"
+        cases_private_fields: "chip_number_encrypted, reporter_*, admin_notes, suspected_theft, *_coords_* — solo rol >= voluntario"
+        cases_chip_encrypted: "solo rol admin o asociacion"
+        sightings_insert: "permitido anónimo (sin auth)"
+        sightings_select: "solo created_by del caso y roles >= voluntario"
+        case_images_original: "solo rol admin"
+        visual_matches: "solo roles >= voluntario"
+
+    - id: F0-3
+      nombre: "Infraestructura de cuentas y repositorio"
+      entregables:
+        - "GitHub repo público creado con licencia MIT y README inicial"
+        - "Proyecto Supabase creado (región: eu-west-2 London — más cercana al Algarve)"
+        - "Proyecto Vercel conectado al repo con deploy automático en main"
+        - "Cuenta Resend con dominio verificado para emails transaccionales"
+        - "Cuenta Sentry para error tracking"
+        - ".env.example documentado con todas las variables necesarias"
+        - "Branch strategy documentada: main (prod) + develop + feature/xxx"
+        - "GitHub Actions: CI en cada PR (lint, typecheck, build, tests)"
+        - "Dependabot activado para security updates"
+        - "CODEOWNERS definido"
+
+    - id: F0-4
+      nombre: "Setup del monorepo"
+      entregables:
+        - "pnpm workspace inicializado con estructura de carpetas"
+        - "TypeScript strict en todos los packages"
+        - "ESLint (eslint-config-next + @typescript-eslint) configurado"
+        - "Prettier configurado"
+        - "Husky pre-commit: lint-staged + typecheck"
+        - "Drizzle ORM configurado con conexión a Supabase"
+        - "Primera migración vacía ejecutada"
+        - "Script db:migrate, db:studio disponibles"
+        - "Scripts: dev, build, lint, typecheck, test en cada package"
+
+
+# ═══════════════════════════════════════════════
+# FASE 1 — MVP v0.1 (el wedge)
+# Sin IA visual. Sin mapas. El flujo core end-to-end.
+# ═══════════════════════════════════════════════
+fase_1:
+  nombre: "MVP v0.1 — El wedge"
+  objetivo: >
+    Un sistema que convierte un caso caótico en una ficha útil,
+    compartible, seguible y accionable. En < 8 minutos.
+  constraint_critico: >
+    NO incluir IA visual, mapas ni scraping en esta fase.
+    La única IA aquí es generación de texto (posts, traducciones via LLM si hace falta).
+
+  modulos:
+
+    - id: M1-1
+      nombre: "Sistema de diseño base e i18n"
+      descripcion: >
+        Fundación visual y lingüística. Todo lo que se construya después la usa.
+        i18n desde la línea 1 — no como afterthought.
+      entregables:
+        - "Design tokens en tailwind.config: colores, tipografía, radios, sombras"
+        - "Componentes base en packages/ui con variantes: Button, Input, Select, Textarea, Badge, Card, Modal/Dialog, Toast, Skeleton, Spinner"
+        - "Layout base: Header (logo + nav + language switcher), Footer (privacidad, términos, GitHub)"
+        - "next-intl configurado: locales [pt, en, es], default locale pt"
+        - "Archivos de traducción: messages/pt.json, messages/en.json, messages/es.json"
+        - "Ruta con locale: /[locale]/... (todas las páginas)"
+        - "middleware.ts para redirect automático al locale detectado"
+        - "Metadata dinámica con hreflang para SEO"
+        - "Componente <LocaleSwitcher /> funcional"
+      criterios_aceptacion:
+        - "Cambiar idioma en el header recarga la misma ruta en el nuevo idioma"
+        - "Todas las cadenas de texto visible están en los 3 archivos de traducción (sin hardcode)"
+        - "Lighthouse Accessibility >= 95"
+        - "No hay texto en inglés hardcodeado en ningún componente"
+
+    - id: M1-2
+      nombre: "Landing page"
+      descripcion: "Primera impresión. Confianza, claridad, CTA."
+      entregables:
+        - "Hero: headline + subhealine + CTA primario 'Reportar um cão' + CTA secundario 'Ver casos'"
+        - "Sección cómo funciona: 3 pasos visuales (Reporta → Difunde → Ayuda)"
+        - "Sección para quién es: 4 cards (admins FB, asociaciones, dueños, ciudadanos)"
+        - "Sección principios éticos: gratuito, sin acusaciones, privacidad, revisión humana"
+        - "Sección partners (placeholder con logos genéricos hasta tener partners reales)"
+        - "Sección contador de impacto (casos activos, resueltos — live desde DB)"
+        - "Footer: política de privacidad, términos de uso, contacto, GitHub"
+        - "Open Graph completo para FB/WhatsApp preview"
+        - "Schema.org markup para SEO local (Organization)"
+      criterios_aceptacion:
+        - "Lighthouse Performance >= 90 en mobile"
+        - "LCP < 2.5s en 3G"
+        - "Compartir la URL en WhatsApp muestra imagen + título + descripción"
+        - "Funciona en iOS Safari 16+ y Android Chrome 110+"
+
+    - id: M1-3
+      nombre: "Formulario de reporte de caso"
+      descripcion: >
+        El módulo más importante. Convierte el caos del dueño en datos estructurados.
+        Debe poder completarse en < 5 minutos en móvil.
+      ruta: "/[locale]/reportar"
+      entregables:
+        wizard_pasos:
+          paso_1_tipo:
+            titulo: "O que aconteceu?"
+            campos:
+              - "type: perdido | encontrado | avistado | posible maltrato/abandono"
+            ux: "4 cards grandes con icono, fácil de tocar en móvil"
+
+          paso_2_el_perro:
+            titulo: "Conta-nos sobre o cão"
+            campos:
+              - "dog_name: text (opcional)"
+              - "breed: combobox con autocomplete (lista de razas + 'mestizo/sem raça definida')"
+              - "sex: radio macho | femea | não sei"
+              - "neutered: radio sí | no | no sé"
+              - "size: radio pequeño | mediano | grande | gigante (con ejemplos visuales)"
+              - "primary_color + secondary_color: color picker simplificado (10 opciones)"
+              - "distinctive_marks: tags input (collar azul, mancha en ojo, cojea de izquierda...)"
+              - "age_estimate: text libre ('unos 2 años', 'cachorro', 'mayor')"
+              - "has_chip: radio sí | no | no sé"
+              - "chip_last_3: text (solo visible si has_chip = sí, con explicación de privacidad)"
+
+          paso_3_donde_cuando:
+            titulo: "Onde e quando?"
+            campos:
+              - "last_seen_at: datetime picker (default: ahora)"
+              - "last_seen_municipality: select (lista de municipios del Algarve)"
+              - "last_seen_zone_approx: textarea ('cerca de la playa de Faro, junto al Mercado de Levante')"
+              - "context: textarea ('desapareció mientras paseaba en...', 'lo encontré en...')"
+              - "photos: upload múltiple (mín 1, máx 8, 10MB/foto, compresión automática a 1200px)"
+
+          paso_4_contacto:
+            titulo: "Como podemos contactar?"
+            campos:
+              - "reporter_name: text (privado, explicación visible)"
+              - "reporter_email: email (privado, explicación visible)"
+              - "reporter_phone: tel (privado, opcional)"
+              - "reporter_contact_public: text libre ('Contactar por Facebook: nombre' o 'Llamar al 9XX...' — decisión del dueño)"
+              - "description: textarea (descripción libre adicional para la página pública)"
+              - "privacy_accepted: checkbox con link a política de privacidad"
+              - "photo_permission: checkbox ('Autorizo publicar las fotos en la plataforma')"
+
+        funcionalidad:
+          - "Validación zod en cliente Y en servidor (API Route)"
+          - "Progreso guardado en localStorage (si cierra y vuelve, no pierde datos)"
+          - "Upload de fotos: drag & drop + botón + cámara en móvil"
+          - "Preview de fotos con reordenación (la primera = foto principal)"
+          - "Compresión automática: max 1200px, WebP, calidad 85%"
+          - "Submit: crea caso en DB + sube fotos + envía email de confirmación"
+          - "Redirect tras submit a /[locale]/caso/[slug]"
+
+        privacidad_ux:
+          - "Cada campo privado tiene tooltip explicando: 'Solo visible para el equipo. No se publica.'"
+          - "El formulario NO pide ubicación GPS (solo municipio + zona textual)"
+          - "El número de chip nunca se pide completo en ningún campo público"
+
+      criterios_aceptacion:
+        - "Formulario completable en < 5 minutos por alguien sin instrucciones previas"
+        - "Las fotos se comprimen y suben en background sin bloquear el wizard"
+        - "Si se pierde conexión a mitad, localStorage preserva los datos"
+        - "Funciona en iPhone 12+ y Android mid-range"
+        - "El servidor rechaza cualquier payload que intente exponer PII en campos públicos"
+        - "0 campos privados visibles en el HTML de la página pública resultante"
+
+    - id: M1-4
+      nombre: "Página pública del caso"
+      descripcion: "La URL que se comparte en Facebook, WhatsApp y carteles. El producto que llega a la comunidad."
+      ruta: "/[locale]/caso/[slug]"
+      entregables:
+        - "Gallery de fotos del perro (swipeable en móvil)"
+        - "Badges: tipo de caso (perdido/encontrado/etc), estado (activo/resuelto)"
+        - "Info card: raza, sexo, tamaño, colores, marcas distintivas, chip (solo últimos 3 dígitos)"
+        - "Info temporal: municipio + zona aproximada + fecha de desaparición"
+        - "Descripción narrativa del caso"
+        - "Botón prominente: 'Vi este cão' → flujo de avistamiento"
+        - "Botón: 'Descargar cartel'"
+        - "Share buttons: Facebook (con copy pre-generado) + WhatsApp"
+        - "QR code de la propia página (para imprimir o compartir)"
+        - "Sección avistamientos aprobados: lista cronológica con zona aproximada + fecha (SIN coords exactas, SIN contacto)"
+        - "Banner de caso resuelto si status = resolvido: '¡[Nombre] foi encontrado! Obrigado a todos.'"
+        - "Open Graph optimizado: foto del perro + nombre + municipio + estado"
+        - "Canonical URL con locale"
+        - "Página 404 custom si el slug no existe"
+
+      privacidad_critica:
+        - "reporter_name, reporter_email, reporter_phone: NUNCA en HTML ni en JSON público"
+        - "chip_number_encrypted: NUNCA visible"
+        - "coords_approx: NUNCA en respuesta pública"
+        - "suspected_theft: NUNCA visible"
+        - "admin_notes: NUNCA visibles"
+        - "sightings con is_public=false: NUNCA visibles"
+
+      criterios_aceptacion:
+        - "LCP < 1.5s"
+        - "Facebook share preview muestra foto del perro + título correcto"
+        - "Auditoría manual: ningún campo privado en el HTML fuente ni en Network tab"
+        - "La página funciona sin JavaScript (SSR completo)"
+
+    - id: M1-5
+      nombre: "Generador de cartel y post"
+      descripcion: >
+        En 30 segundos el dueño tiene un cartel A4 imprimible y copy para Facebook/WhatsApp.
+        Disponible en PT/EN/ES.
+      ruta: "/api/generate/poster/[caseId]"
+      entregables:
+        poster_a4:
+          descripcion: "PDF descargable, formato A4, imprimible en casa"
+          contenido:
+            - "Foto principal del perro (grande, parte superior)"
+            - "Título: PROCURA-SE / LOST DOG / SE BUSCA según idioma"
+            - "Nombre si existe, raza, color principal, tamaño"
+            - "Municipio + zona aproximada + fecha"
+            - "Marcas distintivas más relevantes (máx 3)"
+            - "QR code grande que apunta a la página pública del caso"
+            - "Instrucción: 'Se o vir: tire foto, não tente apanhar, reporte aqui' (con QR)"
+            - "Contacto público (el que el dueño eligió mostrar)"
+            - "Nota: 'Por segurança, não todos os detalhes identificativos são públicos'"
+            - "Branding del proyecto: logo + URL"
+          privacidad: "NUNCA incluye teléfono a menos que el dueño lo puso en reporter_contact_public"
+
+        imagen_cuadrada:
+          descripcion: "1080x1080px PNG para Instagram/Facebook Stories"
+
+        imagen_horizontal:
+          descripcion: "1200x630px PNG para Facebook posts y Open Graph"
+
+        copy_facebook:
+          descripcion: "Texto listo para copiar-pegar, con emoji, en el idioma elegido"
+          incluye: "nombre, raza, municipio, fecha, enlace al caso, CTA a reportar avistamiento"
+
+        mensaje_whatsapp:
+          descripcion: "Versión corta (< 280 chars) con enlace al caso"
+
+        idiomas: "Todos los formatos disponibles en PT, EN, ES"
+        regenerar: "Botón de regenerar en panel admin y en página del caso para el dueño"
+
+      criterios_aceptacion:
+        - "PDF generado e imprime correctamente en A4"
+        - "Generación del PDF < 3 segundos"
+        - "QR del cartel apunta correctamente a la URL pública"
+        - "El cartel NUNCA incluye teléfono si reporter_contact_public está vacío"
+        - "Las imágenes del cartel tienen suficiente resolución para impresión"
+
+    - id: M1-6
+      nombre: "Flujo de avistamiento (sighting)"
+      descripcion: >
+        Un ciudadano ve el perro y puede reportarlo en < 60 segundos,
+        sin crear cuenta, desde el móvil.
+      ruta: "/[locale]/caso/[slug]/avistamento"
+      entregables:
+        - "Formulario accesible desde botón prominente en la página del caso"
+        - "Campo: seen_at datetime (default: ahora)"
+        - "Campo: municipality select (municipios del Algarve)"
+        - "Campo: zone_approx textarea ('junto al Lidl de Faro', 'playa de Meia Praia')"
+        - "Campo: was_moving boolean (opcional)"
+        - "Campo: seemed_injured boolean (opcional)"
+        - "Campo: description textarea (opcional)"
+        - "Campo: photo upload (opcional, 1 foto)"
+        - "Campo: reporter_contact text (muy opcional, con nota de privacidad)"
+        - "Confirmación clara tras submit: '¡Obrigado! O responsável foi notificado.'"
+        - "Avistamiento guardado con is_public=false (no visible hasta revisión humana)"
+        - "Email automático al responsable del caso: resumen del avistamiento"
+        - "Avistamiento anónimo por defecto"
+
+      criterios_aceptacion:
+        - "Flujo completable en mobile en < 60 segundos"
+        - "NO se requiere cuenta para reportar"
+        - "El responsable del caso recibe email en < 2 minutos"
+        - "Los datos de contacto del alertante NUNCA en UI pública"
+        - "El avistamiento NO aparece en la página pública hasta que admin lo apruebe"
+
+    - id: M1-7
+      nombre: "Panel de administración"
+      descripcion: >
+        Para admins, asociaciones y voluntarios verificados.
+        Debe reducir su trabajo, no añadirlo.
+      ruta: "/[locale]/admin/..."
+      entregables:
+        auth:
+          - "Login/logout via Supabase Auth (email + contraseña)"
+          - "Recuperación de contraseña"
+          - "Protección de rutas /admin con middleware"
+          - "Invite-only: un admin invita a otro usuario y le asigna rol"
+
+        dashboard:
+          - "Métricas rápidas: casos activos, resueltos hoy, avistamientos pendientes de revisión"
+          - "Feed de actividad reciente (últimos 10 eventos del sistema)"
+          - "Acceso rápido a cola de avistamientos pendientes"
+
+        lista_casos:
+          - "Tabla de casos: foto thumbnail, nombre/raza, tipo, estado, municipio, fecha, avistamientos"
+          - "Filtros: tipo, estado, municipio, fecha"
+          - "Búsqueda: por nombre del perro, raza, municipio"
+          - "Orden: más reciente, más avistamientos, urgencia"
+          - "Paginación (25 por página)"
+
+        detalle_caso_admin:
+          - "Todos los campos incluyendo privados (nombre, email, tel del reportante)"
+          - "Chip completo (si existe y el usuario tiene rol admin/asociacion)"
+          - "Historial de avistamientos (todos, aprobados y pendientes)"
+          - "Notas internas (campo privado admin)"
+          - "Acciones: cambiar estado, editar cualquier campo, marcar duplicado, archivar"
+          - "Botón: generar dossier legal"
+          - "Botón: marcar como resuelto (solicita nota de cómo se resolvió)"
+          - "Log de cambios de estado del caso"
+
+        cola_avistamientos:
+          - "Lista de avistamientos pendientes de revisión con foto (si la hay)"
+          - "Ver: zona, fecha, descripción, contacto del alertante"
+          - "Acciones: aprobar (is_public=true) | rechazar | pedir más información"
+          - "Nota al rechazar (opcional, para el archivo)"
+
+        gestion_usuarios:
+          - "Lista de usuarios con rol y estado (verificado / pendiente)"
+          - "Invitar nuevo usuario por email"
+          - "Cambiar rol, verificar, desactivar"
+          - "Filtro por organización y municipio"
+
+      criterios_aceptacion:
+        - "Un admin puede revisar todos los avistamientos del día en < 10 minutos"
+        - "El cambio de estado a 'resolvido' envía email celebratorio al reportante"
+        - "No existe en el panel ningún label que diga 'ladrón', 'robado', 'sospechoso'"
+        - "Un voluntario NO puede archivar casos ni ver el chip completo"
+        - "Todos los cambios de estado quedan en log con timestamp y usuario"
+
+    - id: M1-8
+      nombre: "Dossier legal exportable"
+      descripcion: "PDF listo para adjuntar a una denuncia en PSP/GNR."
+      entregables:
+        version_publica:
+          descripcion: "Sin PII del titular — para compartir con vets/CRO/asociaciones"
+          contenido:
+            - "Cabecera: logo + título + fecha de generación + ID del caso"
+            - "Información del animal: raza, sexo, tamaño, colores, marcas, chip (últimos 3)"
+            - "Última vez visto: municipio, zona aproximada, fecha"
+            - "Descripción del caso"
+            - "Fotos de referencia (4-8)"
+            - "Historial de avistamientos aprobados: zona, fecha, descripción"
+            - "Nota legal: 'Documento de apoyo. No constituye prueba legal certificada.'"
+
+        version_completa:
+          descripcion: "Con PII completa — solo descargable por el titular o por admin"
+          campos_adicionales:
+            - "Nombre completo del titular"
+            - "Teléfono y email del titular"
+            - "Número de microchip completo (si existe)"
+            - "Coordenadas aproximadas de avistamientos"
+            - "Notas del admin (si aplica)"
+            - "Solicitud de diligencias sugeridas: preservar anuncio, verificar chip, consultar CRO"
+
+        acceso:
+          - "Versión pública: accesible desde panel admin para compartir"
+          - "Versión completa: solo titular autenticado o admin"
+          - "Link de descarga de 24h (no URL permanente con PII)"
+
+      criterios_aceptacion:
+        - "La versión pública NO expone teléfono, email ni chip completo"
+        - "Generación < 5 segundos"
+        - "El PDF incluye las fotos en resolución suficiente para identificación"
+        - "El link de descarga expira (no URL permanente indexable)"
+
+    - id: M1-9
+      nombre: "Sistema de email transaccional"
+      descripcion: "Notificaciones automáticas del sistema. Diseño limpio, mobile-first."
+      entregables:
+        templates:
+          confirmacion_caso:
+            trigger: "Caso creado"
+            destinatario: reporter_email
+            contenido: "Resumen del caso, enlace público, enlace al cartel, QR, próximos pasos"
+
+          nuevo_avistamiento:
+            trigger: "Avistamiento recibido (is_public no importa)"
+            destinatario: reporter_email del caso
+            contenido: "Zona, fecha, descripción resumida (sin contacto del alertante si es anónimo)"
+
+          avistamiento_aprobado:
+            trigger: "Admin aprueba avistamiento"
+            destinatario: reporter_contact del avistamiento (si dejó email)
+            contenido: "Gracias por reportar. El equipo ha revisado tu avistamiento."
+
+          caso_resuelto:
+            trigger: "Estado cambia a resolvido"
+            destinatario: reporter_email
+            contenido: "¡[Nombre] foi encontrado! Celebración + estadísticas del caso + agradecimiento a la comunidad"
+
+          recordatorio_semanal:
+            trigger: "Caso activo > 7 días (opt-in explícito)"
+            destinatario: reporter_email
+            contenido: "Estado del caso, últimos avistamientos, sugerencias de acción"
+
+          nuevo_caso_municipio:
+            trigger: "Caso creado en municipio X"
+            destinatario: "partners suscritos al municipio X"
+            contenido: "Resumen del caso, enlace, instrucción para escanear chip si el perro aparece"
+
+        requisitos_tecnicos:
+          - "SPF + DKIM configurados via Resend para no caer en spam"
+          - "Unsubscribe funcional en todos los emails (1 click, sin cuenta)"
+          - "Diseño responsive con tabla HTML simple (compatible con Gmail, Outlook, Apple Mail)"
+          - "Disponible en PT/EN/ES según preferencia del usuario"
+          - "Logs de envío en Resend para debugging"
+
+      criterios_aceptacion:
+        - "Email de confirmación llega en < 1 minuto"
+        - "No caen en spam (verificado con mail-tester.com >= 9/10)"
+        - "El unsubscribe funciona sin necesidad de cuenta"
+        - "Los emails se ven correctamente en iOS Mail y Gmail"
+
+
+# ═══════════════════════════════════════════════
+# FASE 2 — MVP v0.2 (IA visual + mapa)
+# ═══════════════════════════════════════════════
+fase_2:
+  nombre: "MVP v0.2 — IA visual y mapa"
+  objetivo: "Matching visual entre casos. La IA sugiere, el humano siempre decide."
+  prerequisito: "v0.1 en producción con >= 50 casos activos y >= 3 usuarios activos del panel"
+  constraint_critico: >
+    Las coincidencias visuales NUNCA se muestran al público sin revisión humana.
+    La IA aquí es un motor de búsqueda y ranking. No es un juez.
+
+  modulos:
+
+    - id: M2-1
+      nombre: "Servicio Python de visión (apps/ml)"
+      entregables:
+        - "FastAPI app desplegada en Fly.io"
+        - "Endpoint POST /process-image: recibe storage_path, devuelve embedding + bbox + quality_score"
+        - "YOLOv11: detecta y recorta el perro de la imagen"
+        - "Quality check: frontalidad, nitidez, iluminación (score 0-1)"
+        - "Difuminado de caras humanas y matrículas detectadas (antes de storage público)"
+        - "Embedding DINOv2-large: vector(768) del recorte normalizado del perro"
+        - "Job asíncrono: Supabase webhook → cola → ML service → actualiza DB"
+        - "Health check endpoint y logging estructurado"
+        - "Tests: al menos 20 imágenes reales de perros con resultados esperados"
+
+    - id: M2-2
+      nombre: "Motor de matching visual"
+      entregables:
+        - "pgvector: índice HNSW en case_images.embedding y sighting_images.embedding"
+        - "Función search_similar_cases(case_id, threshold, geo_filter): devuelve top-20 candidatos"
+        - "Filtros: ventana temporal (90 días), municipio/radio, tipo (perdido vs encontrado)"
+        - "Job: al procesar embedding nuevo, busca automáticamente y puebla visual_matches"
+        - "UI de revisión en panel admin: dos fotos lado a lado + score + datos contextuales"
+        - "Acciones: confirmar como coincidencia plausible | descartar | solicitar más fotos"
+        - "Notificación a ambos responsables SOLO después de revisión humana positiva"
+        - "Etiqueta pública: 'Posible coincidência identificada' (nunca 'confirmado' sin humano)"
+
+      criterios_aceptacion:
+        - "Una posible coincidencia NUNCA se muestra al público sin revisión humana"
+        - "La interfaz muestra: ambas fotos, score numérico, municipios, fechas, descripciones"
+        - "El sistema no envía notificaciones automáticas sin revisión"
+        - "Precision@1 >= 50% en casos revisados (medido en producción)"
+
+    - id: M2-3
+      nombre: "Mapa de avistamientos (admin)"
+      entregables:
+        - "Leaflet + OpenStreetMap en vista detalle admin del caso"
+        - "Pins de avistamientos aprobados: zona ~500m, no coordenada exacta"
+        - "Clustering automático si hay > 5 pins cercanos"
+        - "Timeline sincronizada con el mapa (click en avistamiento → zoom en mapa)"
+        - "Botón: 'Sugerir área de búsqueda' basado en centroide de cluster reciente"
+        - "El mapa NO es público: solo visible en panel admin y para el responsable autenticado"
+
+    - id: M2-4
+      nombre: "Dossier de bienestar animal"
+      descripcion: "Para situaciones de posible maltrato/abandono sin match con desaparecidos."
+      entregables:
+        - "Formulario especializado: tipo de situación (atado, enjaulado, sin agua, malnutrido, herido, hacinado, abandonado)"
+        - "Upload de fotos con timestamp automático"
+        - "Cronología de observaciones (múltiples reportes del mismo lugar)"
+        - "Nivel de urgencia: inmediato | preocupante | seguimiento"
+        - "Dossier exportable: fotos fechadas, descripción factual (sin acusaciones), localización general, cronología"
+        - "Canal para enviar a asociaciones verificadas: PRAVI, MAF, ADAP, otras"
+        - "La ubicación exacta del animal en peligro es PRIVADA hasta que asociación actúe"
+        - "Lenguaje factual forzado: sin 'maltratador', sin 'criminal' — solo descripción de lo observado"
+
+
+# ═══════════════════════════════════════════════
+# FASE 3 — MVP v0.3 (red de partners)
+# ═══════════════════════════════════════════════
+fase_3:
+  nombre: "MVP v0.3 — Red de partners y escala"
+  objetivo: "Conectar el sistema con clínicas, CROs y asociaciones del Algarve"
+  prerequisito: "v0.2 en producción. >= 3 partners activos comprometidos."
+
+  modulos:
+
+    - id: M3-1
+      nombre: "Portal de partners"
+      entregables:
+        - "Onboarding para clínicas, CROs, asociaciones: formulario de alta + verificación manual"
+        - "Dashboard de partner: casos activos en su municipio/radio"
+        - "Digest configurable por email: diario o semanal, solo su municipio"
+        - "Flujo 'Tengo un perro encontrado' → crear caso tipo=encontrado → matching automático"
+        - "Perfil público del partner: nombre, municipio, tipo, horarios (visible en la web)"
+
+    - id: M3-2
+      nombre: "Monitorización de anuncios (user-submitted)"
+      descripcion: "NO scraping. Los usuarios/partners aportan URLs de anuncios sospechosos."
+      entregables:
+        - "Formulario: reportar URL de anuncio OLX/CustoJusto + captura de pantalla"
+        - "Extracción automática de texto e imágenes"
+        - "OCR si hay texto incrustado en imagen del anuncio"
+        - "Scoring de irregularidad: sin número criador, lenguaje urgente, sin edad, sin chip"
+        - "Matching visual contra casos activos"
+        - "Cola de revisión humana (nunca acusación automática)"
+        - "Etiquetas permitidas: 'anuncio potencialmente irregular' — nunca 'ladrón'"
+        - "Alerta a admin si score de irregularidad > 0.8"
+
+    - id: M3-3
+      nombre: "Métricas de impacto público"
+      entregables:
+        - "Página pública /impacto: casos activos, resueltos este mes, reencuentros facilitados"
+        - "Mapa de calor anónimo de casos por municipio"
+        - "Estadísticas: tiempo medio de resolución, avistamientos por caso resuelto"
+        - "Informe mensual en PDF descargable"
+
+    - id: M3-4
+      nombre: "API para partners"
+      entregables:
+        - "API REST documentada con OpenAPI/Swagger"
+        - "Autenticación por API key (por partner)"
+        - "Endpoints: POST /cases, GET /cases/{id}, POST /cases/{id}/sightings, GET /cases?municipality=X"
+        - "Webhook: notificación cuando caso cercano a un partner cambia de estado"
+        - "Rate limiting (100 req/hora por key)"
+        - "Logs de uso por partner"
+
+
+# ═══════════════════════════════════════════════
+# MÉTRICAS DE ÉXITO POR FASE
+# ═══════════════════════════════════════════════
+metricas:
+  v0_1:
+    adopcion:
+      - "1 admin de Facebook usando el formulario regularmente"
+      - ">= 20 casos creados en los primeros 30 días"
+      - ">= 10 carteles generados"
+      - ">= 5 avistamientos recibidos"
+    calidad:
+      - "Tiempo medio formulario → página pública: < 8 minutos"
+      - "0 exposiciones de PII en páginas públicas (auditoría manual)"
+      - "0 instancias de lenguaje acusatorio en UI"
+    feedback_cualitativo:
+      - ">= 1 admin dice: 'Esto me ahorra trabajo'"
+      - ">= 1 dueño completa el formulario sin ayuda ni instrucciones"
+
+  v0_2:
+    adopcion:
+      - ">= 1 coincidencia visual útil confirmada por humano"
+      - "Embedding generado en >= 80% de casos con foto"
+    calidad:
+      - "Precision@1 del matching >= 50% (medido en revisión humana)"
+      - "0 notificaciones automáticas a dueños sin revisión humana"
+      - "0 coincidencias visuales mostradas al público sin revisión"
+
+  v0_3:
+    adopcion:
+      - ">= 3 partners activos (clínica, CRO o asociación)"
+      - ">= 1 caso resuelto donde el partner fue clave en la cadena"
+    impacto:
+      - ">= 5 reencuentros documentados donde la herramienta contribuyó"
+      - "Net Promoter Score de admins >= 8/10"
+
+
+# ═══════════════════════════════════════════════
+# DECISIONES DIFERIDAS EXPLÍCITAMENTE
+# ═══════════════════════════════════════════════
+decisiones_diferidas:
+  - item: "Scraping activo de OLX/CustoJusto"
+    cuando: "Solo en v0.3 y tras revisión legal explícita de TOS y RGPD"
+
+  - item: "Integración con Telegram Bot"
+    cuando: "v0.2 o v0.3 según demanda real de partners"
+
+  - item: "Fine-tuning de embeddings con datos locales del Algarve"
+    cuando: "Solo si corpus >= 500 casos con fotos de buena calidad"
+
+  - item: "Integración directa con SIAC API"
+    cuando: "Depende de disponibilidad de API oficial portuguesa"
+
+  - item: "Asistente de Facebook Ads"
+    cuando: "v0.3 — baja prioridad"
+
+  - item: "App nativa iOS/Android"
+    cuando: "NUNCA — el sitio web es una PWA. App nativa añade mantenimiento sin beneficio real"
+
+  - item: "Chat en tiempo real"
+    cuando: "No está en el brief. Diferido indefinidamente."
+
+  - item: "Cuentas de usuario para ciudadanos que reportan avistamientos"
+    cuando: "Los avistamientos son anónimos por defecto. Si hay demanda demostrada, se evalúa en v0.3"
+
+  - item: "Expansion fuera del Algarve"
+    cuando: "Solo si el piloto del Algarve tiene impacto demostrado y hay partner local en otra región"
+
+  - item: "Modelo de embeddings alternativo (PetFace fine-tuned)"
+    cuando: "v0.2 — solo si DINOv2 no tiene precision suficiente con datos reales"
+
+
+# ═══════════════════════════════════════════════
+# ORDEN DE CONSTRUCCIÓN RECOMENDADO
+# (dentro de cada fase, esta es la secuencia)
+# ═══════════════════════════════════════════════
+secuencia_construccion:
+  fase_0:
+    - F0-1  # nombre y marca (bloqueante para todo lo visual)
+    - F0-4  # monorepo setup (bloqueante para todo lo técnico)
+    - F0-3  # cuentas e infraestructura (en paralelo con F0-4)
+    - F0-2  # schema DB (puede diseñarse en paralelo, se implementa después de F0-4)
+
+  fase_1:
+    - M1-1  # design system + i18n (bloqueante para todo lo visual)
+    - M1-3  # formulario de caso (el core — construir primero)
+    - M1-4  # página pública del caso (depende de M1-3)
+    - M1-7  # panel admin básico (en paralelo con M1-4)
+    - M1-6  # flujo de avistamiento (depende de M1-4)
+    - M1-5  # generador de cartel y post (depende de M1-4)
+    - M1-9  # sistema de email (en paralelo con M1-5 y M1-6)
+    - M1-8  # dossier legal (depende de M1-7)
+    - M1-2  # landing page (última — cuando ya tienes casos reales para mostrar)
+
+  fase_2:
+    - M2-1  # ML service Python (bloqueante para todo lo visual)
+    - M2-2  # motor de matching (depende de M2-1)
+    - M2-3  # mapa (independiente, en paralelo con M2-2)
+    - M2-4  # dossier bienestar (independiente)
+
+  fase_3:
+    - M3-1  # portal partners (bloqueante para el resto)
+    - M3-3  # métricas públicas (en paralelo con M3-1)
+    - M3-2  # monitorización anuncios (depende de M3-1)
+    - M3-4  # API (depende de M3-1)

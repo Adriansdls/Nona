@@ -1,0 +1,26 @@
+{
+  "name": "salvacao",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "db:migrate": "pnpm --filter @salvacao/db migrate",
+    "db:generate": "pnpm --filter @salvacao/db generate",
+    "db:seed": "pnpm --filter @salvacao/db seed",
+    "db:studio": "pnpm --filter @salvacao/db studio",
+    "privacy:check": "grep -r --include='*.ts' --include='*.tsx' --include='*.json' -l 'robado\\|ladrão\\|sospechoso\\|culpable\\|delincuente' apps/ packages/ && echo 'PRIVACY VIOLATION: accusatory language found' && exit 1 || true"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "husky": "^9",
+    "lint-staged": "^15"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

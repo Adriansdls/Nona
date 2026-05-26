@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "report": "Report a dog",
+    "cases": "View cases",
+    "admin": "Dashboard",
+    "login": "Sign in"
+  },
+  "case": {
+    "type": {
+      "perdido": "Lost",
+      "encontrado": "Found",
+      "avistado": "Sighted",
+      "bienestar": "Animal welfare"
+    },
+    "status": {
+      "ativo": "Active",
+      "resolvido": "Resolved",
+      "arquivado": "Archived",
+      "duplicado": "Duplicate",
+      "descartado": "Discarded"
+    },
+    "sex": {
+      "macho": "Male",
+      "femea": "Female",
+      "desconhecido": "Unknown"
+    },
+    "size": {
+      "pequeno": "Small",
+      "medio": "Medium",
+      "grande": "Large",
+      "gigante": "Giant"
+    }
+  },
+  "report": {
+    "title": "Report a dog",
+    "step1Title": "What happened?",
+    "step1Description": "Choose the type of situation",
+    "step2Title": "Tell us about the dog",
+    "step2Description": "The more details, the better",
+    "step3Title": "Where and when?",
+    "step3Description": "Location and date",
+    "step4Title": "How can we reach you?",
+    "step4Description": "Your details are private",
+    "next": "Continue",
+    "back": "Back",
+    "submit": "Publish case",
+    "submitting": "Publishing...",
+    "stepOf": "Step {current} of {total}"
+  },
+  "privacy": {
+    "privateFieldNote": "Only visible to our team. Not published.",
+    "chipNote": "Only the last 3 digits will be publicly visible.",
+    "locationNote": "Only the municipality and an approximate area will be shared."
+  },
+  "sighting": {
+    "submitCta": "I saw this dog",
+    "title": "Report a sighting",
+    "description": "Did you see this dog? Help us find it",
+    "submit": "Submit sighting",
+    "thanks": "Thank you! The owner has been notified.",
+    "thanksDetail": "The sighting will be reviewed by our team before being published."
+  },
+  "poster": {
+    "title": "LOST DOG",
+    "download": "Download poster",
+    "qrInstruction": "If you see it: take a photo, do not approach, report here",
+    "privacyNote": "For security, not all identifying details are public",
+    "shareFacebook": "Share on Facebook",
+    "shareWhatsapp": "Share on WhatsApp"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "cases": "Cases",
+    "sightings": "Sightings",
+    "visualMatches": "Possible matches",
+    "users": "Users",
+    "pendingReview": "Pending review",
+    "approve": "Approve",
+    "reject": "Reject",
+    "markResolved": "Mark as resolved",
+    "confirm": "Confirm match",
+    "discard": "Discard",
+    "inviteUser": "Invite user"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "caseNotFound": "Case not found",
+    "generic": "Something went wrong. Please try again."
+  },
+  "landing": {
+    "heroTitle": "Every dog deserves to come home",
+    "heroSubtitle": "Free technology supporting the networks already saving dogs in the Algarve",
+    "reportCta": "Report a dog",
+    "viewCases": "View active cases",
+    "howItWorks": "How it works",
+    "step1": "Report",
+    "step1Detail": "Fill in the form in under 5 minutes",
+    "step2": "Share",
+    "step2Detail": "Poster, post and QR ready to share",
+    "step3": "Help",
+    "step3Detail": "The community reports sightings"
+  },
+  "stats": {
+    "activeCases": "active cases",
+    "resolvedCases": "cases resolved",
+    "sightings": "sightings"
+  }
+}

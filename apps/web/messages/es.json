@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "report": "Reportar un perro",
+    "cases": "Ver casos",
+    "admin": "Panel",
+    "login": "Entrar"
+  },
+  "case": {
+    "type": {
+      "perdido": "Perdido",
+      "encontrado": "Encontrado",
+      "avistado": "Avistado",
+      "bienestar": "Bienestar animal"
+    },
+    "status": {
+      "ativo": "Activo",
+      "resolvido": "Resuelto",
+      "arquivado": "Archivado",
+      "duplicado": "Duplicado",
+      "descartado": "Descartado"
+    },
+    "sex": {
+      "macho": "Macho",
+      "femea": "Hembra",
+      "desconhecido": "Desconocido"
+    },
+    "size": {
+      "pequeno": "Pequeño",
+      "medio": "Mediano",
+      "grande": "Grande",
+      "gigante": "Gigante"
+    }
+  },
+  "report": {
+    "title": "Reportar un perro",
+    "step1Title": "¿Qué ocurrió?",
+    "step1Description": "Elige el tipo de situación",
+    "step2Title": "Cuéntanos sobre el perro",
+    "step2Description": "Cuantos más detalles, mejor",
+    "step3Title": "¿Dónde y cuándo?",
+    "step3Description": "Ubicación y fecha",
+    "step4Title": "¿Cómo podemos contactarte?",
+    "step4Description": "Tus datos son privados",
+    "next": "Continuar",
+    "back": "Volver",
+    "submit": "Publicar caso",
+    "submitting": "Publicando...",
+    "stepOf": "Paso {current} de {total}"
+  },
+  "privacy": {
+    "privateFieldNote": "Solo visible para el equipo. No se publica.",
+    "chipNote": "Solo los últimos 3 dígitos serán visibles públicamente.",
+    "locationNote": "Solo el municipio y una zona aproximada serán compartidos."
+  },
+  "sighting": {
+    "submitCta": "Vi a este perro",
+    "title": "Reportar avistamiento",
+    "description": "¿Viste a este perro? Ayúdanos a encontrarlo",
+    "submit": "Enviar avistamiento",
+    "thanks": "¡Gracias! El responsable ha sido notificado.",
+    "thanksDetail": "El avistamiento será revisado por nuestro equipo antes de publicarse."
+  },
+  "poster": {
+    "title": "SE BUSCA",
+    "download": "Descargar cartel",
+    "qrInstruction": "Si lo ves: saca una foto, no te acerques, repórtalo aquí",
+    "privacyNote": "Por seguridad, no todos los detalles identificativos son públicos",
+    "shareFacebook": "Compartir en Facebook",
+    "shareWhatsapp": "Compartir en WhatsApp"
+  },
+  "admin": {
+    "dashboard": "Panel de control",
+    "cases": "Casos",
+    "sightings": "Avistamientos",
+    "visualMatches": "Posibles coincidencias",
+    "users": "Usuarios",
+    "pendingReview": "Pendientes de revisión",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "markResolved": "Marcar como resuelto",
+    "confirm": "Confirmar coincidencia",
+    "discard": "Descartar",
+    "inviteUser": "Invitar usuario"
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "caseNotFound": "Caso no encontrado",
+    "generic": "Algo salió mal. Por favor inténtalo de nuevo."
+  },
+  "landing": {
+    "heroTitle": "Cada perro merece volver a casa",
+    "heroSubtitle": "Tecnología gratuita al servicio de las redes que ya salvan perros en el Algarve",
+    "reportCta": "Reportar un perro",
+    "viewCases": "Ver casos activos",
+    "howItWorks": "Cómo funciona",
+    "step1": "Reporta",
+    "step1Detail": "Rellena el formulario en menos de 5 minutos",
+    "step2": "Difunde",
+    "step2Detail": "Cartel, post y QR listos para compartir",
+    "step3": "Ayuda",
+    "step3Detail": "La comunidad reporta avistamientos"
+  },
+  "stats": {
+    "activeCases": "casos activos",
+    "resolvedCases": "casos resueltos",
+    "sightings": "avistamientos"
+  }
+}

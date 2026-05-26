@@ -1,0 +1,49 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Next.js
+.next
+out
+build
+
+# Turbo
+.turbo
+
+# Python
+__pycache__
+*.py[cod]
+.venv
+apps/ml/.venv
+apps/ml/__pycache__
+apps/bot/.venv
+apps/bot/__pycache__
+
+# Supabase
+supabase/.branches
+supabase/.temp
+supabase/seed.sql
+
+# ML model weights (large files)
+apps/ml/*.pt
+apps/ml/models/*.pt
+
+# OS
+.DS_Store
+*.swp
+
+# Test output
+coverage
+.nyc_output
+
+# Drizzle
+packages/db/migrations/*.sql
+.agents/
+brief_red_cao_algarve.md
+identificacion-perros-ml.md
+perros-algarve.md

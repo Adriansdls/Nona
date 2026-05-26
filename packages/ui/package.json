@@ -1,0 +1,25 @@
+{
+  "name": "@salvacao/ui",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./components/*": "./src/components/*.tsx"
+  },
+  "dependencies": {
+    "@salvacao/i18n": "workspace:*",
+    "next-intl": "^3.26.3"
+  },
+  "devDependencies": {
+    "@salvacao/config": "workspace:*",
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "react": ">=19"
+  }
+}
