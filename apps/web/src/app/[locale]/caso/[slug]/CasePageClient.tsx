@@ -11,7 +11,7 @@ import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
 import { AgentFeed, LIFETIME_EVENTS, type AgentEvent } from '@/components/nona/AgentFeed'
 import { QRTile } from '@/components/nona/QRTile'
 import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
-import type { SearchIntel, IntelZone, IntelHazard } from '@/app/api/cases/[slug]/intel/route'
+import type { SearchIntel, IntelZone, IntelHazard, InsufficientData } from '@/app/api/cases/[slug]/intel/route'
 
 const SearchMap = dynamic(
   () => import('@/components/nona/SearchMap').then((m) => ({ default: m.SearchMap })),
@@ -60,22 +60,32 @@ function LiveStat({ icon, n, label, sub, accent = N.ink3, pulsing }: {
 
 const ZONE_COLORS: Record<string, string> = { rose: N.rose, amber: N.amber, blue: N.indigo }
 
-function ZoneCard({ title, ring, radius, instruct, checkpoints }: {
-  title: string; ring: string; radius: string; instruct: string; checkpoints: string[]
+function ZoneCard({ title, ring, radius_km, instruct, checkpoints, evidence }: {
+  title: string; ring: string; radius_km: number; instruct: string; checkpoints: string[];
+  evidence: IntelZone['evidence']
 }) {
   return (
     <div style={{ padding: '14px 16px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
         <span style={{ width: 12, height: 12, borderRadius: '50%', border: `2px dashed ${ring}`, flexShrink: 0, marginTop: 4 }}/>
         <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em', flex: 1 }}>{title}</span>
-        <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>{radius}</span>
+        <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>{radius_km} km</span>
       </div>
       <p style={{ margin: '4px 0 8px', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>{instruct}</p>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-        {checkpoints.map(c => (
-          <span key={c} style={{ padding: '3px 8px', borderRadius: 6, background: N.surface, fontFamily: N.mono, fontSize: 10.5, color: N.ink2 }}>{c}</span>
+        {checkpoints.map(cp => (
+          <span key={cp} style={{ padding: '3px 8px', borderRadius: 6, background: N.surface, fontFamily: N.mono, fontSize: 10.5, color: N.ink2 }}>{cp}</span>
         ))}
       </div>
+      {evidence.length > 0 && (
+        <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {evidence.map((e, i) => (
+            e.url
+              ? <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" title={e.detail} style={{ fontFamily: N.mono, fontSize: 9.5, color: N.ink3, textDecoration: 'none', padding: '2px 5px', borderRadius: 4, background: N.surface, border: `1px solid ${N.rule}` }}>{e.source}</a>
+              : <span key={i} title={e.detail} style={{ fontFamily: N.mono, fontSize: 9.5, color: N.ink3, padding: '2px 5px', borderRadius: 4, background: N.surface, border: `1px solid ${N.rule}` }}>{e.source}</span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -155,11 +165,18 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const [selectedImg, setSelectedImg] = useState(0)
   const [copied, setCopied] = useState(false)
   const [intel, setIntel] = useState<SearchIntel | null>(null)
+  const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
 
   useEffect(() => {
     fetch(`/api/cases/${c.slug}/intel`)
       .then((r) => r.json())
-      .then((body: { data: SearchIntel }) => setIntel(body.data))
+      .then((body: { data: SearchIntel | InsufficientData }) => {
+        if ('what_was_tried' in body.data) {
+          setIntelInsufficient(body.data as InsufficientData)
+        } else {
+          setIntel(body.data as SearchIntel)
+        }
+      })
       .catch(() => {})
   }, [c.slug])
 
@@ -328,11 +345,13 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           </div>
         )}
 
-        {/* Movement analysis — shown when sightings enable triangulation */}
+        {/* Movement analysis — shown when 2+ sightings enable triangulation */}
         {intel?.movement && (
           <div style={{ marginBottom: 14, padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, fontSize: 13, color: '#15803d', lineHeight: 1.55 }}>
             <strong style={{ fontFamily: N.mono, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Análise de movimento</strong>
-            {intel.movement}
+            <span style={{ fontWeight: 600 }}>{intel.movement.direction}</span>
+            {intel.movement.speed_estimate && <span style={{ color: '#166534', marginLeft: 6 }}>· {intel.movement.speed_estimate}</span>}
+            <div style={{ marginTop: 4 }}>{intel.movement.pattern}</div>
           </div>
         )}
 
@@ -353,38 +372,77 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
                   fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
                 }]
               })}
+              zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {intel
-              ? intel.zones.map((z: IntelZone) => (
-                  <ZoneCard
-                    key={z.title}
-                    title={z.title}
-                    ring={ZONE_COLORS[z.color] ?? N.amber}
-                    radius={z.radius}
-                    instruct={z.instruction}
-                    checkpoints={z.checkpoints}
-                  />
-                ))
-              : [1, 2].map(i => <ZoneCardSkeleton key={i} />)
-            }
+            {/* Confidence badge */}
+            {intel && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.confidence === 'high' ? '#16a34a' : intel.confidence === 'medium' ? '#d97706' : N.ink3 }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
+                confiança {intel.confidence === 'high' ? 'alta' : intel.confidence === 'medium' ? 'média' : 'baixa'}
+              </div>
+            )}
+
+            {/* Insufficient data state */}
+            {intelInsufficient && !intel && (
+              <div style={{ padding: '14px 16px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
+                <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 10.5, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.06em' }}>dados insuficientes</p>
+                <p style={{ margin: '0 0 8px', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>{intelInsufficient.reason}</p>
+                {intelInsufficient.partial_context && (
+                  <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink2, lineHeight: 1.4 }}>{intelInsufficient.partial_context}</p>
+                )}
+              </div>
+            )}
+
+            {/* Zone cards */}
+            {(intel ? intel.zones : []).map((z: IntelZone) => (
+              <ZoneCard
+                key={z.title}
+                title={z.title}
+                ring={ZONE_COLORS[z.color] ?? N.amber}
+                radius_km={z.radius_km}
+                instruct={z.instruction}
+                checkpoints={z.checkpoints}
+                evidence={z.evidence ?? []}
+              />
+            ))}
+            {!intel && !intelInsufficient && [1, 2].map(i => <ZoneCardSkeleton key={i} />)}
+
+            {/* Warnings */}
+            {intel && intel.warnings?.length > 0 && (
+              <div style={{ padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12 }}>
+                {intel.warnings.map((w: string, i: number) => (
+                  <p key={i} style={{ margin: i > 0 ? '6px 0 0' : 0, fontSize: 12, color: '#b91c1c', lineHeight: 1.45 }}>{w}</p>
+                ))}
+              </div>
+            )}
+
+            {/* Hazards panel */}
             <div style={{ padding: '14px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <span style={{ width: 16, height: 16, borderRadius: 4, background: '#1f2937', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: N.mono, fontSize: 10, fontWeight: 700 }}>!</span>
                 <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em' }}>Riscos imediatos</span>
               </div>
               {intel
-                ? (
-                  <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
-                    {intel.hazards.map((h: IntelHazard, i: number) => (
-                      <li key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
-                        <span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span>
-                        <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>{h.note}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )
+                ? intel.hazards.length === 0
+                  ? <p style={{ margin: 0, fontSize: 12, color: N.ink3 }}>Sem riscos imediatos identificados nesta área.</p>
+                  : (
+                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
+                      {intel.hazards.map((h: IntelHazard, i: number) => (
+                        <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
+                          <span>
+                            <span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span>
+                            <span style={{ color: N.ink3 }}> · {h.note}</span>
+                          </span>
+                          {h.evidence?.url
+                            ? <a href={h.evidence.url} target="_blank" rel="noopener noreferrer" title={h.evidence.detail} style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9, color: N.ink3, textDecoration: 'none', padding: '1px 4px', borderRadius: 3, background: N.surface, border: `1px solid ${N.rule}` }}>{h.severity}</a>
+                            : <span style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9.5, color: h.severity === 'critical' ? '#dc2626' : h.severity === 'high' ? '#d97706' : N.ink3 }}>{h.severity}</span>
+                          }
+                        </li>
+                      ))}
+                    </ul>
+                  )
                 : (
                   <div style={{ display: 'grid', gap: 5 }}>
                     {[1, 2].map(i => (

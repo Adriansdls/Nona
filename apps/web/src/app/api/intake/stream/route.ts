@@ -103,16 +103,14 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
     switch (name) {
       case 'identify_dog': {
         const desc = String(input.description ?? '')
-        const lower = desc.toLowerCase()
-        let breed = 'cão'
-        if (lower.includes('labrador')) breed = 'labrador'
-        else if (lower.includes('pastor')) breed = 'pastor'
-        else if (lower.includes('poodle') || lower.includes('caniche')) breed = 'poodle'
-        else if (lower.includes('chihuahua')) breed = 'chihuahua'
-        else if (lower.includes('golden')) breed = 'golden retriever'
+        const mode = String(input.mode ?? 'lost')
         return {
-          code: 'vision.identify_breed(description)',
-          result: `${breed} identificado · confiança estimada`,
+          code: 'identify_dog(description)',
+          result: JSON.stringify({
+            raw_description: desc,
+            mode,
+            note: 'Analisa a descrição e extrai: raça/tipo provável, tamanho, cor principal, marcas distintivas. Se informação insuficiente, pergunta ao utilizador antes de prosseguir.',
+          }),
           status: 'ok',
         }
       }
@@ -250,7 +248,8 @@ export async function POST(req: NextRequest) {
         ]
 
         let iterations = 0
-        const maxIterations = 5
+        const maxIterations = 6
+        const calledTools = new Set<string>()
 
         while (iterations < maxIterations) {
           iterations++
@@ -307,7 +306,21 @@ export async function POST(req: NextRequest) {
             for (const tu of toolUses) {
               let input: Record<string, unknown> = {}
               try { input = JSON.parse(tu.inputJson || '{}') } catch { /* ignore */ }
+
+              // Gate: normalize_location must be called before create_case
+              if (tu.name === 'create_case' && !calledTools.has('normalize_location')) {
+                send({ type: 'tool_result', tool: tu.name, code: 'gate.check()', result: 'Rejeitado: normalizar localização primeiro', status: 'ok' })
+                toolResults.push({
+                  type: 'tool_result' as const,
+                  tool_use_id: tu.id,
+                  content: 'Rejected: normalize_location must be called before create_case. Call normalize_location first, then retry create_case.',
+                  is_error: true,
+                })
+                continue
+              }
+
               const result = await executeTool(tu.name, input)
+              calledTools.add(tu.name)
               send({
                 type: 'tool_result',
                 tool: tu.name,

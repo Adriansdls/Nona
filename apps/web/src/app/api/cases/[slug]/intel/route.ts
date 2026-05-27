@@ -1,129 +1,107 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
-import Anthropic from '@anthropic-ai/sdk'
+import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
 
-const client = new Anthropic()
+// ─── Shared types (imported by CasePageClient) ────────────────────────────
+
+export interface EvidenceRef {
+  source: string
+  url?: string | null
+  detail: string
+}
 
 export interface IntelZone {
   title: string
-  radius: string
+  radius_km: number
   color: 'rose' | 'amber' | 'blue'
   instruction: string
   checkpoints: string[]
+  evidence: EvidenceRef[]
 }
 
 export interface IntelHazard {
   label: string
   note: string
   severity: 'critical' | 'high' | 'medium'
+  evidence: EvidenceRef
+}
+
+export interface MovementAnalysis {
+  sightings_used: number
+  direction: string
+  speed_estimate: string | null
+  pattern: string
+  evidence: EvidenceRef[]
 }
 
 export interface SearchIntel {
+  breed_category: string
+  behavioral_phase: 'panic' | 'survival' | 'recovery'
+  confidence: 'high' | 'medium' | 'low'
   brief: string
+  brief_sources: EvidenceRef[]
   zones: IntelZone[]
   hazards: IntelHazard[]
-  movement: string | null
+  movement: MovementAnalysis | null
+  warnings: string[]
 }
 
+export interface InsufficientData {
+  reason: string
+  what_was_tried: string[]
+  what_was_missing: string[]
+  partial_context: string | null
+  breed_category: string | null
+}
+
+export type IntelResult = SearchIntel | InsufficientData
+
+function isInsufficientData(r: IntelResult): r is InsufficientData {
+  return 'what_was_tried' in r
+}
+
+// ─── Fallback (shown when service unavailable) ────────────────────────────
+
 const FALLBACK: SearchIntel = {
-  brief: 'Cão perdido activo. Iniciar busca sistemática em círculos a partir do último ponto conhecido.',
+  breed_category: 'unknown',
+  behavioral_phase: 'panic',
+  confidence: 'low',
+  brief: 'Serviço de análise temporariamente indisponível. Iniciar busca sistemática em raios concêntricos a partir do último ponto conhecido.',
+  brief_sources: [],
   zones: [
     {
       title: 'Zona quente',
-      radius: '0 – 1 km',
+      radius_km: 1,
       color: 'rose',
-      instruction: 'Cães perdidos permanecem tipicamente próximos do ponto inicial nas primeiras horas. Busca activa com voz baixa e familiar.',
+      instruction: 'Cães perdidos permanecem tipicamente próximos do ponto inicial nas primeiras horas.',
       checkpoints: ['Último ponto visto', 'Arredores imediatos'],
+      evidence: [],
     },
     {
       title: 'Zona morna',
-      radius: '1 – 3 km',
+      radius_km: 3,
       color: 'amber',
       instruction: 'Expandir busca para parques, zonas de sombra e água.',
       checkpoints: ['Parques', 'Estações', 'Mercados'],
+      evidence: [],
     },
   ],
-  hazards: [
-    { label: 'Estradas principais', note: 'trânsito intenso', severity: 'high' },
-    { label: 'Linha do comboio', note: 'verificar mapa', severity: 'high' },
-  ],
+  hazards: [],
   movement: null,
+  warnings: [],
 }
 
-function buildPrompt(params: {
-  dogName: string | null
-  breed: string
-  sex: string
-  size: string
-  primaryColor: string
-  secondaryColor: string | null
-  ageEstimate: string | null
-  type: string
-  lastSeenAt: string
-  lastSeenMunicipality: string
-  lastSeenZoneApprox: string
-  hoursElapsed: number
-  description: string
-  sightings: Array<{ seenAt: string; zoneApprox: string; municipality: string; direction: string | null; description: string | null; hoursAgo: number }>
-}): string {
-  const name = params.dogName ?? params.breed
-  const typePt = params.type === 'perdido' ? 'perdido' : 'encontrado'
-  const hoursStr = params.hoursElapsed < 1 ? 'menos de 1 hora' : `${Math.round(params.hoursElapsed)} horas`
+// ─── Coord parser ─────────────────────────────────────────────────────────
 
-  const sightingsBlock = params.sightings.length > 0
-    ? `\nAVISTAMENTOS CONFIRMADOS (${params.sightings.length}):\n` + params.sightings.map((s, i) =>
-        `${i + 1}. há ${s.hoursAgo < 1 ? 'menos de 1h' : `${Math.round(s.hoursAgo)}h`} — ${s.zoneApprox}, ${s.municipality}${s.direction ? ` (direção: ${s.direction})` : ''}${s.description ? ` — "${s.description}"` : ''}`
-      ).join('\n')
-    : '\nSem avistamentos confirmados ainda.'
-
-  return `És um coordenador especialista em busca de cães desaparecidos no Algarve, Portugal. Tens profundo conhecimento do terreno algarvio: poços abandonados em quintas, EN125, IC1/A22, linha ferroviária do Sul, ribeiras, eucaliptais, serras, urbanizações turísticas, pomares de laranjeiras e amendoeiras.
-
-CASO:
-- Cão ${typePt}: ${name}
-- Raça: ${params.breed} | Tamanho: ${params.size} | Sexo: ${params.sex}
-- Cor: ${params.primaryColor}${params.secondaryColor ? ` + ${params.secondaryColor}` : ''}${params.ageEstimate ? ` | Idade estimada: ${params.ageEstimate}` : ''}
-- Município: ${params.lastSeenMunicipality}
-- Zona: ${params.lastSeenZoneApprox}
-- Há quanto tempo: ${hoursStr}
-- Contexto: ${params.description || 'sem informação adicional'}
-${sightingsBlock}
-
-Conhecimento comportamental chave por raça/tamanho:
-- Cães pequenos (< 10kg): tendem a esconder-se, raramente se afastam > 1,5km nas primeiras 24h
-- Cães grandes: podem correr até 5km+; a maioria regressa a zonas com cheiros familiares
-- Podencos/galgo: velocidade alta, podem cobrir 10+ km, procurar zonas abertas
-- Terriers: instinto de terra, podem entrar em buracos/poços
-- Comportamento sob stress: fuga > 2km em linha reta frequente na primeira hora; depois circular
-- Água e sombra são magnetos especialmente no Verão algarvio
-
-Responde APENAS com JSON válido (sem texto extra, sem markdown, sem blocos de código), seguindo EXACTAMENTE este schema:
-
-{
-  "brief": "2-3 frases em português: avaliação da situação + acção mais urgente agora",
-  "zones": [
-    {
-      "title": "Zona quente",
-      "radius": "0 – 1 km",
-      "color": "rose",
-      "instruction": "instrução concreta e específica para esta zona baseada no terreno e raça",
-      "checkpoints": ["local específico 1", "local específico 2", "local específico 3"]
-    },
-    {
-      "title": "Zona morna",
-      "radius": "1 – 3 km",
-      "color": "amber",
-      "instruction": "instrução concreta para zona mais ampla",
-      "checkpoints": ["local específico 1", "local específico 2"]
-    }
-  ],
-  "hazards": [
-    { "label": "nome do risco", "note": "detalhe curto", "severity": "critical|high|medium" }
-  ],
-  "movement": "análise de padrão de movimento baseada em avistamentos (null se sem avistamentos)"
+function parsePoint(raw: string | null | undefined): { lat: number; lng: number } | null {
+  if (!raw) return null
+  const m = raw.match(/\(([^,]+),([^)]+)\)/)
+  if (!m) return null
+  // PostGIS stores as (lng,lat)
+  return { lng: parseFloat(m[1]!), lat: parseFloat(m[2]!) }
 }
 
-Checkpoints devem ser ESPECÍFICOS para ${params.lastSeenMunicipality}/${params.lastSeenZoneApprox} — ruas reais, pontos de referência, zonas conhecidas. Hazards devem reflectir riscos REAIS do Algarve (poços em quintas agrícolas, estradas nacionais, caminho-de-ferro, ribeiras). Sé específico e útil — vidas dependem disso.`
-}
+// ─── Route ────────────────────────────────────────────────────────────────
 
 export async function GET(
   _req: NextRequest,
@@ -134,7 +112,7 @@ export async function GET(
 
   const { data: caseRow } = await supabase
     .from('cases')
-    .select('id, type, dog_name, breed, sex, size, primary_color, secondary_color, age_estimate, last_seen_at, last_seen_municipality, last_seen_zone_approx, description')
+    .select('id, type, dog_name, breed, sex, size, primary_color, secondary_color, age_estimate, last_seen_at, last_seen_municipality, last_seen_zone_approx, last_seen_coords_approx, description, suspected_theft')
     .eq('slug', slug)
     .eq('sensitivity', 'publico')
     .single()
@@ -149,49 +127,67 @@ export async function GET(
     .order('seen_at', { ascending: false })
     .limit(10)
 
+  const rawCoords = parsePoint(caseRow.last_seen_coords_approx as string | null)
+  const coords =
+    rawCoords ??
+    MUNICIPALITY_CENTROIDS[caseRow.last_seen_municipality as string] ??
+    { lat: 37.0194, lng: -7.9304 }
+  const coordQuality = rawCoords ? 'geocoded' : 'centroid_fallback'
+
   const hoursElapsed = (Date.now() - new Date(caseRow.last_seen_at as string).getTime()) / 3600000
 
-  const sightingsForPrompt = (sightings ?? []).map((s) => ({
-    seenAt: s.seen_at as string,
-    zoneApprox: s.zone_approx as string,
-    municipality: s.municipality as string,
-    direction: s.direction as string | null,
-    description: s.description as string | null,
-    hoursAgo: (Date.now() - new Date(s.seen_at as string).getTime()) / 3600000,
-  }))
+  const intelUrl = process.env['INTEL_SERVICE_URL']
+  const internalToken = process.env['INTERNAL_API_TOKEN']
 
-  const prompt = buildPrompt({
-    dogName: caseRow.dog_name as string | null,
-    breed: caseRow.breed as string,
-    sex: caseRow.sex as string,
-    size: caseRow.size as string,
-    primaryColor: caseRow.primary_color as string,
-    secondaryColor: caseRow.secondary_color as string | null,
-    ageEstimate: caseRow.age_estimate as string | null,
-    type: caseRow.type as string,
-    lastSeenAt: caseRow.last_seen_at as string,
-    lastSeenMunicipality: caseRow.last_seen_municipality as string,
-    lastSeenZoneApprox: caseRow.last_seen_zone_approx as string,
-    hoursElapsed,
-    description: caseRow.description as string,
-    sightings: sightingsForPrompt,
-  })
+  if (intelUrl && internalToken) {
+    try {
+      const body = {
+        case_id: caseRow.id,
+        slug,
+        breed: caseRow.breed,
+        size: caseRow.size,
+        type: caseRow.type,
+        suspected_theft: (caseRow as Record<string, unknown>).suspected_theft ?? false,
+        last_seen_at: caseRow.last_seen_at,
+        lat: coords.lat,
+        lng: coords.lng,
+        municipality: caseRow.last_seen_municipality,
+        zone_approx: caseRow.last_seen_zone_approx,
+        description: caseRow.description,
+        hours_elapsed: hoursElapsed,
+        coord_quality: coordQuality,
+        sightings: (sightings ?? []).map((s) => ({
+          lat: coords.lat,
+          lng: coords.lng,
+          zone: s.zone_approx,
+          seen_at: s.seen_at,
+          direction: s.direction ?? null,
+          description: s.description ?? null,
+          hours_ago: (Date.now() - new Date(s.seen_at as string).getTime()) / 3600000,
+          municipality: s.municipality,
+        })),
+      }
 
-  try {
-    const message = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: prompt }],
-    })
+      const res = await fetch(`${intelUrl}/intel`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${internalToken}`,
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(35_000),
+      })
 
-    const raw = message.content[0]?.type === 'text' ? message.content[0].text.trim() : ''
-    const intel = JSON.parse(raw) as SearchIntel
-
-    return NextResponse.json({ data: intel }, {
-      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60' },
-    })
-  } catch (e) {
-    console.error('Intel generation failed:', e)
-    return NextResponse.json({ data: FALLBACK })
+      if (res.ok) {
+        const payload = await res.json() as { data: IntelResult }
+        return NextResponse.json(payload, {
+          headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60' },
+        })
+      }
+    } catch (e) {
+      console.error('Intel service error:', e)
+    }
   }
+
+  return NextResponse.json({ data: FALLBACK })
 }
