@@ -355,21 +355,57 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
         </header>
 
-        {/* Thread */}
-        <div ref={chatRef} style={{ flex: 1, width: '100%', maxWidth: 640, padding: '80px 28px 0', overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          {messages[0] && (
-            <div style={{ marginBottom: 24, paddingLeft: 12, borderLeft: `2px solid ${N.ink}`, animation: 'nn-fadeUp .55s ease both' }}>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
-                <span style={{ width: 20, height: 20, borderRadius: '50%', background: N.surface, color: N.ink, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10.5, fontWeight: 600, fontFamily: N.mono }}>U</span>
-                <span style={{ fontSize: 12, fontWeight: 600, color: N.ink }}>tu</span>
-                <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>· {messages[0].time}</span>
-              </div>
-              <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.55, letterSpacing: '-0.005em' }}>{messages[0].text}</p>
+        {/* Thread — completed history first, then ongoing streaming at bottom */}
+        <div ref={chatRef} style={{ flex: 1, width: '100%', maxWidth: panelIn ? 680 : 760, padding: '80px 36px 16px', overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+
+          {/* All completed messages in chronological order */}
+          {messages.map((msg, i) => (
+            <div key={i} style={{ marginBottom: 28 }}>
+              {msg.from === 'user' ? (
+                // User message: left-border quote style (no black bubbles)
+                <div style={{ paddingLeft: 14, borderLeft: `2px solid ${N.ink}`, animation: 'nn-fadeUp .4s ease both' }}>
+                  <div style={{ display: 'flex', gap: 7, alignItems: 'center', marginBottom: 5 }}>
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: N.surface, color: N.ink2, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 9.5, fontWeight: 700, fontFamily: N.mono }}>U</span>
+                    <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.05em' }}>tu · {msg.time}</span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.55, letterSpacing: '-0.005em' }}>{msg.text}</p>
+                </div>
+              ) : (
+                // Nona message: free text with logo label
+                <div style={{ animation: 'nn-fadeUp .4s ease both' }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
+                    <Logo size={12}/>
+                    <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>nona · {msg.time}</span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>{renderMarkdown(msg.text)}</p>
+                  {msg.quickReplies && (
+                    <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {msg.quickReplies.map(r => <button key={r} onClick={() => setInputValue(r)} style={{ padding: '8px 14px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: N.sans }}>{r}</button>)}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Case created CTA */}
+          {caseSlug && (
+            <div style={{ marginBottom: 16, padding: '12px 16px', background: N.emeraldBg, border: `1px solid ${N.emerald}22`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 13.5, color: N.emeraldDeep, fontWeight: 500 }}>Caso criado</span>
+              <a href={`/${locale}/caso/${caseSlug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, background: N.emerald, color: N.white, fontSize: 12.5, fontWeight: 500, textDecoration: 'none', fontFamily: N.sans }}>Ver caso <Icon name="arrow" size={12} color={N.white}/></a>
             </div>
           )}
 
+          {/* Quick replies (last agent turn) */}
+          {quickReplies.length > 0 && !streaming && (
+            <div style={{ marginBottom: 16, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {quickReplies.map(r => <button key={r} onClick={() => setInputValue(r)} style={{ padding: '8px 14px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: N.sans }}>{r}</button>)}
+            </div>
+          )}
+
+          {/* Ongoing: thinking indicator */}
           {phase === 3 && (
-            <div style={{ marginBottom: 24, animation: 'nn-fadeUp .5s ease both' }}>
+            <div style={{ marginBottom: 24, animation: 'nn-fadeUp .4s ease both' }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
                 <Logo size={12}/>
                 <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>nona · a ouvir</span>
@@ -383,14 +419,15 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             </div>
           )}
 
+          {/* Ongoing: streaming response (always at bottom) */}
           {phase >= 4 && (nonaText || nonaActions.length > 0) && (
-            <div style={{ marginBottom: 24, animation: 'nn-fadeUp .55s ease both' }}>
+            <div style={{ marginBottom: 24, animation: 'nn-fadeUp .4s ease both' }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Logo size={12}/>
                 <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>nona</span>
               </div>
               {nonaText && (
-                <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.6, letterSpacing: '-0.005em' }}>
+                <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>
                   {renderMarkdown(nonaText)}
                   {streaming && <span style={{ display: 'inline-block', width: '0.5em', height: '1em', verticalAlign: '-.15em', background: N.ink, marginLeft: 2, animation: 'nn-blink 1.1s steps(1) infinite' }}/>}
                 </p>
@@ -398,41 +435,10 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               {nonaActions.length > 0 && <InlineActionList items={nonaActions}/>}
             </div>
           )}
-
-          {messages.slice(1).map((msg, i) => (
-            <div key={i + 1} style={{ marginBottom: 22 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
-                {msg.from === 'agent' && <Logo size={11}/>}
-                <span>{msg.from === 'user' ? 'tu' : 'nona'}</span>
-                <span style={{ color: N.ink4 }}>· {msg.time}</span>
-              </div>
-              <div style={{ maxWidth: '88%', padding: msg.from === 'user' ? '12px 16px' : '0', borderRadius: msg.from === 'user' ? 14 : 0, background: msg.from === 'user' ? N.ink : 'transparent', color: msg.from === 'user' ? N.paper : N.ink, fontSize: 15.5, lineHeight: 1.5, letterSpacing: '-0.005em', marginLeft: msg.from === 'user' ? 'auto' : 0 }}>
-                <p style={{ margin: 0 }}>{msg.from === 'agent' ? renderMarkdown(msg.text) : msg.text}</p>
-              </div>
-              {msg.quickReplies && (
-                <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {msg.quickReplies.map(r => <button key={r} onClick={() => setInputValue(r)} style={{ padding: '8px 14px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: N.sans }}>{r}</button>)}
-                </div>
-              )}
-            </div>
-          ))}
-
-          {quickReplies.length > 0 && !streaming && (
-            <div style={{ marginBottom: 12, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {quickReplies.map(r => <button key={r} onClick={() => setInputValue(r)} style={{ padding: '8px 14px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: N.sans }}>{r}</button>)}
-            </div>
-          )}
-
-          {caseSlug && (
-            <div style={{ marginBottom: 12, padding: '12px 16px', background: N.emeraldBg, border: `1px solid ${N.emerald}22`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 13.5, color: N.emeraldDeep, fontWeight: 500 }}>Caso criado</span>
-              <a href={`/${locale}/caso/${caseSlug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, background: N.emerald, color: N.white, fontSize: 12.5, fontWeight: 500, textDecoration: 'none', fontFamily: N.sans }}>Ver caso <Icon name="arrow" size={12} color={N.white}/></a>
-            </div>
-          )}
         </div>
 
         {/* Reply input */}
-        <div style={{ width: '100%', maxWidth: 640, padding: '0 28px' }}>
+        <div style={{ width: '100%', maxWidth: panelIn ? 680 : 760, padding: '0 36px' }}>
           <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, padding: '14px 16px 12px', boxShadow: '0 1px 0 rgba(11,12,16,.02), 0 8px 24px -8px rgba(11,12,16,.10)' }}>
             <AutoTextarea value={inputValue} onChange={setInputValue} onSubmit={handleSubmit} placeholder="responde à nona…" minHeight={22} fontSize={14.5} disabled={streaming || !inChat}/>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 6 }}>
