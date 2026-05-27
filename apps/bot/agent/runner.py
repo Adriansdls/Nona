@@ -1,10 +1,11 @@
 """
-PI Agent runner — Supabase Realtime subscriber + 6h escalation sweep.
+PI Agent runner — Supabase Realtime subscriber + escalation/cold/nightly jobs.
 
 Started alongside the Telegram bot and Intel FastAPI server in main.py.
-Two concurrent coroutines:
-  _realtime_listener — reacts to cases/sightings INSERT events
-  _escalation_loop   — sweeps active cases every 6h
+Three concurrent coroutines:
+  _realtime_listener    — reacts to cases/sightings INSERT events
+  _escalation_loop      — sweeps active cases every 6h; checks cold case transitions
+  _nightly_rematch_loop — attribute-based perdido ↔ encontrado matching at 2am UTC
 """
 from __future__ import annotations
 
@@ -13,6 +14,7 @@ import logging
 import os
 import pathlib
 import sys
+from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
@@ -25,9 +27,50 @@ log = logging.getLogger(__name__)
 _ESCALATION_INTERVAL_H = 6
 _ACTIVE_STATES = ["new", "active", "planning"]
 
+UTC = timezone.utc
+
+
+async def _cold_case_check(db_url: str, db_key: str) -> None:
+    """
+    Transition cases to 'cold' when 7d+ elapsed with zero sightings.
+    Triggers PI agent with cold_case trigger to run recovery playbook.
+    """
+    try:
+        db = create_client(db_url, db_key)
+        rows = (
+            db.table("cases")
+            .select("id,last_seen_at,agent_state")
+            .in_("agent_state", ["active", "escalated"])
+            .neq("status", "resolvido")
+            .execute()
+        )
+        for row in rows.data or []:
+            last_seen = datetime.fromisoformat(row["last_seen_at"])
+            if last_seen.tzinfo is None:
+                last_seen = last_seen.replace(tzinfo=UTC)
+            hours = (datetime.now(UTC) - last_seen).total_seconds() / 3600
+            if hours < 168:  # < 7 days
+                continue
+
+            scount = (
+                db.table("sightings")
+                .select("id", count="exact", head=True)
+                .eq("case_id", row["id"])
+                .execute()
+            )
+            if (scount.count or 0) > 0:
+                continue
+
+            db.table("cases").update({"agent_state": "cold"}).eq("id", row["id"]).execute()
+            log.info("Case transitioned to cold", case_id=row["id"], hours=hours)
+            await run_case_agent(row["id"], db, trigger="cold_case")
+
+    except Exception as exc:
+        log.error("Cold case check failed", error=str(exc))
+
 
 async def _escalation_loop(db_url: str, db_key: str) -> None:
-    """Every 6h: re-run PI agent for all non-resolved, non-cold cases."""
+    """Every 6h: re-run PI agent for active cases + check cold case transitions."""
     while True:
         await asyncio.sleep(_ESCALATION_INTERVAL_H * 3600)
         try:
@@ -46,11 +89,31 @@ async def _escalation_loop(db_url: str, db_key: str) -> None:
         except Exception as exc:
             log.error("Escalation sweep failed", error=str(exc))
 
+        # Also check for cases that should transition to cold
+        await _cold_case_check(db_url, db_key)
+
+
+async def _nightly_rematch_loop(db_url: str, db_key: str) -> None:
+    """Run attribute-based re-matching at 2am UTC every day."""
+    from jobs.matching import run_nightly_rematch
+
+    while True:
+        now = datetime.now(UTC)
+        # Next 2am UTC
+        target = (now + timedelta(days=1)).replace(hour=2, minute=0, second=0, microsecond=0)
+        await asyncio.sleep((target - now).total_seconds())
+        try:
+            db = create_client(db_url, db_key)
+            count = await run_nightly_rematch(db)
+            log.info("Nightly re-match done", new_matches=count)
+        except Exception as exc:
+            log.error("Nightly re-match failed", error=str(exc))
+
 
 async def _realtime_listener(db_url: str, db_key: str) -> None:
     """
     Subscribe to Supabase Realtime INSERT events on cases + sightings.
-    On each event, trigger a PI agent run for the affected case.
+    On sighting INSERT: also triggers neighboring case agents (geo intelligence).
     """
     from realtime import AsyncRealtimeClient
 
@@ -69,10 +132,32 @@ async def _realtime_listener(db_url: str, db_key: str) -> None:
             asyncio.create_task(run_case_agent(case_id, db, trigger="case_created"))
 
     def on_sighting_added(payload: dict) -> None:
-        case_id = (payload.get("record") or {}).get("case_id")
+        record = payload.get("record") or {}
+        case_id = record.get("case_id")
+        municipality = record.get("municipality")
+
         if case_id:
             log.info("Realtime: new sighting", case_id=case_id)
             asyncio.create_task(run_case_agent(case_id, db, trigger="sighting_added"))
+
+        # Cross-case geo intelligence: alert other active cases in same zone
+        if municipality:
+            try:
+                nearby = (
+                    db.table("cases")
+                    .select("id")
+                    .eq("status", "ativo")
+                    .ilike("last_seen_municipality", f"%{municipality}%")
+                    .not_.eq("id", case_id or "")
+                    .limit(5)
+                    .execute()
+                )
+                for row in nearby.data or []:
+                    asyncio.create_task(
+                        run_case_agent(row["id"], db, trigger="geo_sighting_nearby")
+                    )
+            except Exception as exc:
+                log.warning("Geo sighting cross-check failed", error=str(exc))
 
     ch_cases = client.channel("pi-cases")
     ch_cases.on_postgres_changes(
@@ -103,7 +188,7 @@ async def _realtime_listener(db_url: str, db_key: str) -> None:
 
 
 async def start_runner() -> None:
-    """Start both the realtime listener and escalation loop."""
+    """Start realtime listener, escalation loop, and nightly re-match."""
     db_url = os.environ["SUPABASE_URL"]
     db_key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
 
@@ -111,4 +196,5 @@ async def start_runner() -> None:
     await asyncio.gather(
         _realtime_listener(db_url, db_key),
         _escalation_loop(db_url, db_key),
+        _nightly_rematch_loop(db_url, db_key),
     )

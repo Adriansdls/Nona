@@ -115,6 +115,8 @@ async def run_case_agent(
         "case_created": "TRIGGER: Caso acabou de ser criado. Este é o ciclo do Dia 1. Age agora.",
         "sighting_added": "TRIGGER: Novo avistamento registado. Re-analisa e ajusta o plano.",
         "escalation_sweep": "TRIGGER: Verificação de escalada periódica. Avalia progresso e age se necessário.",
+        "cold_case": "TRIGGER: Caso entrou em fase COLD (7d+ sem avistamentos). Executa cold_case_assessment e expand_shelter_radius. Não desistas — cães em recuperação continuam a ser encontrados.",
+        "geo_sighting_nearby": "TRIGGER: Novo avistamento noutra caso na mesma zona. Verifica se é relevante para este caso (mesma raça/cor?) e age em conformidade.",
         "manual": "TRIGGER: Ciclo manual.",
     }.get(trigger, f"TRIGGER: {trigger}")
 

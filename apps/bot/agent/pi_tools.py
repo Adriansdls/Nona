@@ -158,6 +158,91 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
             "required": ["assessment", "actions_taken", "next_planned"],
         },
     },
+    {
+        "name": "cold_case_assessment",
+        "description": (
+            "Run cold case evaluation for cases 7d+ with no sightings. "
+            "Sends owner a non-defeat update with specific next steps. "
+            "Use in recovery phase or on cold_case trigger."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "hours_elapsed": {"type": "number", "description": "Hours since dog was lost"},
+                "summary": {"type": "string", "description": "Brief situation summary in PT"},
+            },
+            "required": ["hours_elapsed"],
+        },
+    },
+    {
+        "name": "expand_shelter_radius",
+        "description": (
+            "Notify canils in neighboring Algarve municipalities — not just the local one. "
+            "Use at 7d+ (recovery phase) when local search has not returned results."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "municipality": {"type": "string", "description": "Case municipality — neighbors auto-determined"},
+            },
+            "required": ["municipality"],
+        },
+    },
+    {
+        "name": "feeding_station_guidance",
+        "description": (
+            "Send feeding station setup instructions to owner. "
+            "Keeps foraging dog localized — do NOT chase. Use in survival phase. "
+            "Source: Albrecht/MAR 2018 IAABC."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+        },
+    },
+    {
+        "name": "trap_guidance",
+        "description": (
+            "Send humane trap (jaula) deployment instructions to owner. "
+            "Use after feeding station confirms dog activity in area. Survival/recovery phase. "
+            "Source: Albrecht/MAR 2018 IAABC."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+        },
+    },
+    {
+        "name": "schedule_shelter_visit_reminder",
+        "description": (
+            "Queue reminder for owner to visit canil in person in 24-48h. "
+            "Physical visit has 2.1× higher recovery rate vs phone call (Lord 2007 JAVMA). "
+            "Includes specific canil name and phone from KB."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "municipality": {"type": "string"},
+            },
+            "required": ["municipality"],
+        },
+    },
+    {
+        "name": "cross_post_regional",
+        "description": (
+            "Post to all Algarve-wide community channels not yet reached for this case. "
+            "Use in recovery phase to widen digital reach beyond local groups."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "post_content": {"type": "string", "description": "Post text in PT"},
+            },
+            "required": [],
+        },
+    },
 ]
 
 
@@ -417,5 +502,239 @@ async def execute_pi_tool(
             "confidence": inputs.get("confidence", "medium"),
         }).execute()
         return json.dumps({"saved": True})
+
+    if name == "cold_case_assessment":
+        action = "cold_case_assessment"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        hours = int(inputs.get("hours_elapsed", 0)) or int(harness._hours_elapsed())
+        scount = (
+            db.table("sightings")
+            .select("id", count="exact", head=True)  # type: ignore[arg-type]
+            .eq("case_id", case_id)
+            .execute()
+        )
+        n_sightings = scount.count or 0
+        dog_name = harness.case.get("dog_name") or "o seu cão"
+        municipality = harness.case.get("last_seen_municipality", "")
+        owner_token = harness.case.get("owner_token", "")
+
+        owner_msg = (
+            f"⚠️ Actualização — {dog_name} está desaparecido há {hours // 24} dias.\n\n"
+            f"Não desista. Cães são encontrados semanas e meses depois. "
+            f"O mais importante agora:\n"
+            f"1. Visite pessoalmente o Canil Municipal de {municipality} (não ligue — vá em pessoa)\n"
+            f"2. Verifique registos de adopção dos últimos 30 dias no canil\n"
+            f"3. Re-publique nos grupos Facebook da zona\n"
+            f"4. Mantenha a estação de alimentação activa\n\n"
+            f"Lord 2007 JAVMA: cães são encontrados 2.1× mais quando o dono vai pessoalmente ao canil.\n"
+            f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
+        )
+
+        telegram_id = harness.case.get("reporter_telegram_id")
+        db.table("case_notifications").insert({
+            "case_id": case_id,
+            "channel": "telegram" if telegram_id else "log",
+            "telegram_id": int(telegram_id) if telegram_id else None,
+            "message": owner_msg,
+            "phase": harness.phase.value,
+        }).execute()
+
+        harness.log_action(
+            action, name,
+            f"Cold case assessment: {hours}h elapsed, {n_sightings} sightings. Owner notified."
+        )
+        return json.dumps({"assessed": True, "hours": hours, "sightings": n_sightings})
+
+    if name == "expand_shelter_radius":
+        action = "expand_shelter_radius"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        from jobs.matching import MUNICIPALITY_ADJACENCY
+        from agent.email import send_canil_notification
+
+        municipality = str(inputs.get("municipality", "") or harness.case.get("last_seen_municipality", ""))
+        neighbors = MUNICIPALITY_ADJACENCY.get(municipality, set())
+        notified: list[str] = []
+
+        for nb in sorted(neighbors):
+            canils = (
+                db.table("kb_canils")
+                .select("name,email,phone")
+                .ilike("municipality", f"%{nb}%")
+                .limit(1)
+                .execute()
+            )
+            for c in canils.data or []:
+                email = c.get("email")
+                if email:
+                    send_canil_notification(str(email), str(c.get("name", "")), harness.case)
+                    notified.append(f"{c.get('name')} ({nb})")
+
+        harness.log_action(
+            action, name,
+            f"Expanded to {len(neighbors)} neighbors of {municipality}. Notified: {', '.join(notified) or 'none with email'}"
+        )
+        return json.dumps({"expanded_to": sorted(neighbors), "notified": notified})
+
+    if name == "feeding_station_guidance":
+        action = "guidance_feeding_station"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        owner_token = harness.case.get("owner_token", "")
+        instructions = (
+            "🍖 ESTAÇÃO DE ALIMENTAÇÃO — instale hoje:\n\n"
+            "• Tigela funda com comida húmida (atum, frango enlatado) + água fresca\n"
+            "• No local exato onde o cão foi visto pela última vez\n"
+            "• Visite às 6h e às 22h — horários de maior actividade canina\n"
+            "• Coloque câmara de movimento (telemóvel em suporte serve)\n"
+            "• NÃO espere junto à tigela — deixe a comida e afaste-se\n"
+            "• Comida consumida = cão confirmado na zona\n\n"
+            "Fonte: Albrecht/MAR 2018 IAABC — alimentação mantém cão localizado.\n\n"
+            f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
+        )
+
+        telegram_id = harness.case.get("reporter_telegram_id")
+        db.table("case_notifications").insert({
+            "case_id": case_id,
+            "channel": "telegram" if telegram_id else "log",
+            "telegram_id": int(telegram_id) if telegram_id else None,
+            "message": instructions,
+            "phase": harness.phase.value,
+        }).execute()
+
+        harness.log_action(action, name, "Feeding station guidance sent to owner")
+        return json.dumps({"sent": True})
+
+    if name == "trap_guidance":
+        action = "guidance_humane_trap"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        owner_token = harness.case.get("owner_token", "")
+        instructions = (
+            "🪤 ARMADILHA HUMANITÁRIA — próximo passo após actividade na estação:\n\n"
+            "• Use jaula metálica tipo 'live trap' (aluguel em lojas agrícolas ou câmara municipal)\n"
+            "• Coloque junto à estação de alimentação, coberta com pano para parecer abrigo\n"
+            "• Isca: comida do cão + t-shirt usada do dono no fundo\n"
+            "• Verifique de 2 em 2h — NÃO deixe o cão preso mais de 2h\n"
+            "• Ao capturar: não grite nem gesticule — aproxime-se devagar, fale baixo\n"
+            "• Contacte o médico veterinário imediatamente após captura\n\n"
+            "Fonte: Albrecht/MAR 2018 IAABC — armadilha é o método mais eficaz em cães assustados.\n\n"
+            f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
+        )
+
+        telegram_id = harness.case.get("reporter_telegram_id")
+        db.table("case_notifications").insert({
+            "case_id": case_id,
+            "channel": "telegram" if telegram_id else "log",
+            "telegram_id": int(telegram_id) if telegram_id else None,
+            "message": instructions,
+            "phase": harness.phase.value,
+        }).execute()
+
+        harness.log_action(action, name, "Humane trap guidance sent to owner")
+        return json.dumps({"sent": True})
+
+    if name == "schedule_shelter_visit_reminder":
+        action = "reminder_shelter_visit"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        municipality = str(inputs.get("municipality", "") or harness.case.get("last_seen_municipality", ""))
+        owner_token = harness.case.get("owner_token", "")
+
+        canils = (
+            db.table("kb_canils")
+            .select("name,phone,hours")
+            .ilike("municipality", f"%{municipality}%")
+            .limit(1)
+            .execute()
+        )
+        canil_info = ""
+        if canils.data:
+            c = canils.data[0]
+            canil_info = f"\n• {c.get('name')} — Tel: {c.get('phone', '?')} · {c.get('hours', 'Seg-Sex 9h-17h')}"
+
+        reminder = (
+            f"📋 LEMBRETE — visite o canil pessoalmente nas próximas 24h:{canil_info}\n\n"
+            f"Não ligue — vá em pessoa. Mostre a foto do cão. Deixe o seu número.\n"
+            f"Lord 2007 JAVMA: visita pessoal tem 2.1× maior taxa de recuperação vs telefonema.\n\n"
+            f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
+        )
+
+        telegram_id = harness.case.get("reporter_telegram_id")
+        db.table("case_notifications").insert({
+            "case_id": case_id,
+            "channel": "telegram" if telegram_id else "log",
+            "telegram_id": int(telegram_id) if telegram_id else None,
+            "message": reminder,
+            "phase": harness.phase.value,
+        }).execute()
+
+        harness.log_action(action, name, f"Shelter visit reminder sent for {municipality}")
+        return json.dumps({"sent": True, "municipality": municipality})
+
+    if name == "cross_post_regional":
+        action = "cross_post_regional"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        from agent.broadcast import format_broadcast_post, make_facebook_share_url, make_whatsapp_share_url
+
+        post_content = str(inputs.get("post_content", "")) or format_broadcast_post(harness.case, "Algarve")
+        case_url = f"{web_url}/pt/caso/{slug}"
+
+        # Target Algarve-wide channels not yet posted to
+        regional_channels = (
+            db.table("kb_channels")
+            .select("name,channel_type,url")
+            .ilike("municipality", "%Algarve%")
+            .execute()
+        )
+
+        done_posts = {a for a in harness._done_actions if a.startswith("posted_channel_")}
+        posted: list[str] = []
+
+        for ch in regional_channels.data or []:
+            ch_name = str(ch.get("name", ""))
+            ch_action = f"posted_channel_{ch_name.lower().replace(' ', '_')[:30]}"
+            if ch_action in done_posts:
+                continue
+
+            ch_type = str(ch.get("channel_type", ""))
+            ch_url = ch.get("url")
+
+            if ch_type == "telegram" and ch_url:
+                from agent.broadcast import post_to_telegram_channel
+                post_to_telegram_channel(str(ch_url), post_content)
+                posted.append(ch_name)
+            elif ch_type == "facebook_group":
+                share_url = make_facebook_share_url(post_content, case_url)
+                telegram_id = harness.case.get("reporter_telegram_id")
+                owner_token = harness.case.get("owner_token", "")
+                msg = (
+                    f"📣 Partilha no grupo «{ch_name}»:\n{post_content}\n\n"
+                    f"Toca aqui: {share_url}\n"
+                    f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
+                )
+                db.table("case_notifications").insert({
+                    "case_id": case_id,
+                    "channel": "telegram" if telegram_id else "log",
+                    "telegram_id": int(telegram_id) if telegram_id else None,
+                    "message": msg,
+                    "phase": harness.phase.value,
+                }).execute()
+                posted.append(ch_name)
+
+            # Mark as done so escalation doesn't re-post
+            harness._done_actions.add(ch_action)
+            db.table("kb_channels").update({"last_posted_at": "now()"}).ilike("name", f"%{ch_name}%").execute()
+
+        harness.log_action(action, name, f"Cross-posted to regional channels: {', '.join(posted) or 'none'}")
+        return json.dumps({"posted_to": posted})
 
     return json.dumps({"error": f"unknown tool: {name}"})
