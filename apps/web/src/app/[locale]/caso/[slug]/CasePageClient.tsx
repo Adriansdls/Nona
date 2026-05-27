@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { N } from '@/components/nona/tokens'
@@ -11,6 +11,7 @@ import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
 import { AgentFeed, LIFETIME_EVENTS, type AgentEvent } from '@/components/nona/AgentFeed'
 import { QRTile } from '@/components/nona/QRTile'
 import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
+import type { SearchIntel, IntelZone, IntelHazard } from '@/app/api/cases/[slug]/intel/route'
 
 const SearchMap = dynamic(
   () => import('@/components/nona/SearchMap').then((m) => ({ default: m.SearchMap })),
@@ -57,6 +58,8 @@ function LiveStat({ icon, n, label, sub, accent = N.ink3, pulsing }: {
   )
 }
 
+const ZONE_COLORS: Record<string, string> = { rose: N.rose, amber: N.amber, blue: N.indigo }
+
 function ZoneCard({ title, ring, radius, instruct, checkpoints }: {
   title: string; ring: string; radius: string; instruct: string; checkpoints: string[]
 }) {
@@ -72,6 +75,23 @@ function ZoneCard({ title, ring, radius, instruct, checkpoints }: {
         {checkpoints.map(c => (
           <span key={c} style={{ padding: '3px 8px', borderRadius: 6, background: N.surface, fontFamily: N.mono, fontSize: 10.5, color: N.ink2 }}>{c}</span>
         ))}
+      </div>
+    </div>
+  )
+}
+
+function ZoneCardSkeleton() {
+  return (
+    <div style={{ padding: '14px 16px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10 }}>
+        <div style={{ width: 12, height: 12, borderRadius: '50%', background: N.surface }}/>
+        <div style={{ height: 14, width: 100, borderRadius: 4, background: N.surface }}/>
+        <div style={{ marginLeft: 'auto', height: 11, width: 60, borderRadius: 4, background: N.surface }}/>
+      </div>
+      <div style={{ height: 11, width: '90%', borderRadius: 4, background: N.surface, marginBottom: 6 }}/>
+      <div style={{ height: 11, width: '70%', borderRadius: 4, background: N.surface, marginBottom: 10 }}/>
+      <div style={{ display: 'flex', gap: 5 }}>
+        {[80, 60, 90].map(w => <div key={w} style={{ height: 22, width: w, borderRadius: 6, background: N.surface }}/>)}
       </div>
     </div>
   )
@@ -134,6 +154,14 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const { case: c, sightings, stats } = data
   const [selectedImg, setSelectedImg] = useState(0)
   const [copied, setCopied] = useState(false)
+  const [intel, setIntel] = useState<SearchIntel | null>(null)
+
+  useEffect(() => {
+    fetch(`/api/cases/${c.slug}/intel`)
+      .then((r) => r.json())
+      .then((body: { data: SearchIntel }) => setIntel(body.data))
+      .catch(() => {})
+  }, [c.slug])
 
   const images = c.case_images.sort((a, b) => (b.is_primary ? 1 : 0) - (a.is_primary ? 1 : 0))
   const primaryImg = images[0]
@@ -281,16 +309,33 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         </div>
       </section>
 
-      {/* SEARCH MAP */}
+      {/* SEARCH MAP + INTEL */}
       <section style={{ padding: '12px 32px 28px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
           <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
             Onde procurar.
           </h2>
-          <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
-            zonas calculadas com base em hora, terreno, avistamentos
+          <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+            {!intel && <span style={{ display: 'inline-block', width: 7, height: 7, borderRadius: '50%', background: N.amber, animation: 'nn-pulse 1.2s ease-in-out infinite' }}/>}
+            {intel ? 'análise IA · terreno e avistamentos' : 'a calcular zonas…'}
           </span>
         </div>
+
+        {/* Brief panel — shown when intel loads */}
+        {intel?.brief && (
+          <div style={{ marginBottom: 14, padding: '12px 16px', background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 12, fontSize: 13.5, color: N.indigoDeep, lineHeight: 1.55 }}>
+            {intel.brief}
+          </div>
+        )}
+
+        {/* Movement analysis — shown when sightings enable triangulation */}
+        {intel?.movement && (
+          <div style={{ marginBottom: 14, padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, fontSize: 13, color: '#15803d', lineHeight: 1.55 }}>
+            <strong style={{ fontFamily: N.mono, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Análise de movimento</strong>
+            {intel.movement}
+          </div>
+        )}
+
         <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, alignItems: 'stretch' }}>
           <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${N.rule}` }}>
             <SearchMap
@@ -311,36 +356,43 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <ZoneCard
-              title="Zona quente"
-              ring={N.rose}
-              radius="0 – 1 km"
-              instruct="Cães perdidos andam normalmente em círculos próximos do ponto inicial nos primeiros 60 min."
-              checkpoints={[c.last_seen_zone_approx, c.last_seen_municipality, 'arredores imediatos'].filter(Boolean)}
-            />
-            <ZoneCard
-              title="Zona morna"
-              ring={N.amber}
-              radius="1 – 3 km"
-              instruct="Expandir para parques e zonas com sombra. Levar água."
-              checkpoints={['Parques', 'Estações', 'Mercados']}
-            />
+            {intel
+              ? intel.zones.map((z: IntelZone) => (
+                  <ZoneCard
+                    key={z.title}
+                    title={z.title}
+                    ring={ZONE_COLORS[z.color] ?? N.amber}
+                    radius={z.radius}
+                    instruct={z.instruction}
+                    checkpoints={z.checkpoints}
+                  />
+                ))
+              : [1, 2].map(i => <ZoneCardSkeleton key={i} />)
+            }
             <div style={{ padding: '14px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <span style={{ width: 16, height: 16, borderRadius: 4, background: '#1f2937', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: N.mono, fontSize: 10, fontWeight: 700 }}>!</span>
                 <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em' }}>Riscos imediatos</span>
               </div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
-                {[
-                  { label: 'Estradas principais', note: 'trânsito intenso' },
-                  { label: 'Linha do comboio', note: 'verificar mapa' },
-                ].map((it, i) => (
-                  <li key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
-                    <span style={{ color: N.ink, fontWeight: 500 }}>{it.label}</span>
-                    <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>{it.note}</span>
-                  </li>
-                ))}
-              </ul>
+              {intel
+                ? (
+                  <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
+                    {intel.hazards.map((h: IntelHazard, i: number) => (
+                      <li key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
+                        <span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span>
+                        <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>{h.note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )
+                : (
+                  <div style={{ display: 'grid', gap: 5 }}>
+                    {[1, 2].map(i => (
+                      <div key={i} style={{ height: 14, borderRadius: 4, background: '#fed7aa' }}/>
+                    ))}
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
