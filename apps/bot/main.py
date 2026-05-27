@@ -51,6 +51,7 @@ async def _main_async() -> None:
 
     from channels.telegram import build_application
     from intel.server import create_intel_app
+    from agent.runner import start_runner
     import uvicorn
 
     bot_app = build_application()
@@ -61,7 +62,7 @@ async def _main_async() -> None:
     server = uvicorn.Server(config)
 
     log.info(
-        "SalvaCão bot + intel service starting",
+        "SalvaCão bot + intel service + PI agent runner starting",
         web_app_url=os.environ.get("WEB_APP_URL", "http://localhost:3001"),
         intel_port=port,
     )
@@ -72,7 +73,10 @@ async def _main_async() -> None:
             allowed_updates=["message", "callback_query"],
         )
         await bot_app.start()
-        await server.serve()  # blocks until SIGINT/SIGTERM
+        await asyncio.gather(
+            server.serve(),   # Intel FastAPI — blocks until SIGINT/SIGTERM
+            start_runner(),   # PI Agent realtime + escalation loop
+        )
         await bot_app.updater.stop()  # type: ignore[union-attr]
         await bot_app.stop()
 

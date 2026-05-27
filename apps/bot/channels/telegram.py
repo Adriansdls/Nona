@@ -335,6 +335,34 @@ async def handle_resolve_callback(update: Update, context: ContextTypes.DEFAULT_
 # Application builder
 # ---------------------------------------------------------------------------
 
+async def _flush_notifications(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Job: flush pending PI agent owner messages via Telegram."""
+    try:
+        from storage import get_supabase
+        db = get_supabase()
+        pending = (
+            db.table("case_notifications")
+            .select("*")
+            .is_("sent_at", "null")
+            .eq("channel", "telegram")
+            .limit(10)
+            .execute()
+        )
+        for notif in (pending.data or []):
+            tid = notif.get("telegram_id")
+            if not tid:
+                continue
+            try:
+                await context.bot.send_message(chat_id=tid, text=notif["message"])
+                db.table("case_notifications").update(
+                    {"sent_at": "now()"}
+                ).eq("id", notif["id"]).execute()
+            except Exception as exc:
+                logger.error("Telegram notify failed", notif_id=notif["id"], error=str(exc))
+    except Exception as exc:
+        logger.error("flush_notifications error", error=str(exc))
+
+
 def build_application() -> Application:
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     app = Application.builder().token(token).build()
@@ -350,5 +378,9 @@ def build_application() -> Application:
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+
+    # Flush PI agent owner notifications every 60s
+    if app.job_queue:
+        app.job_queue.run_repeating(_flush_notifications, interval=60, first=15)
 
     return app
