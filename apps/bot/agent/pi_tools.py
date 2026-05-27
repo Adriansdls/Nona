@@ -252,17 +252,87 @@ async def execute_pi_tool(
 
     if name == "post_to_channel":
         channel_name = str(inputs.get("channel_name", ""))
+        channel_type = str(inputs.get("channel_type", ""))
         post_content = str(inputs.get("post_content", ""))
         action = f"posted_channel_{channel_name.lower().replace(' ', '_')[:30]}"
 
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already posted"})
 
-        harness.log_action(
-            action, name,
-            f"[STUB] Would post to {channel_name}: {post_content[:120]}"
+        from agent.broadcast import (
+            post_to_telegram_channel,
+            make_facebook_share_url,
+            make_whatsapp_share_url,
+            format_broadcast_post,
         )
-        return json.dumps({"logged": True, "channel": channel_name, "real_send": "wired in WP5"})
+
+        # Look up channel URL/chat_id from KB
+        rows = db.table("kb_channels") \
+            .select("url,channel_type") \
+            .ilike("name", f"%{channel_name}%") \
+            .limit(1).execute()
+        channel_url = (rows.data[0].get("url") if rows.data else None)  # type: ignore[index]
+        # Use KB channel_type if agent didn't specify
+        if not channel_type and rows.data:
+            channel_type = str(rows.data[0].get("channel_type", ""))  # type: ignore[index]
+
+        formatted = post_content or format_broadcast_post(harness.case, channel_name)
+        case_url = f"{web_url}/pt/caso/{slug}"
+        sent = False
+        owner_msg: str | None = None
+        outcome = ""
+
+        if channel_type == "telegram" and channel_url:
+            sent = post_to_telegram_channel(str(channel_url), formatted)
+            outcome = (
+                f"Posted to Telegram channel {channel_name} ({channel_url})"
+                if sent else
+                f"Telegram post failed for {channel_name} ({channel_url})"
+            )
+
+        elif channel_type == "facebook_group":
+            share_url = make_facebook_share_url(formatted, case_url)
+            owner_msg = (
+                f"📣 Por favor partilha no grupo Facebook «{channel_name}»:\n\n"
+                f"{formatted}\n\n"
+                f"Toca aqui para abrir o Facebook com o conteúdo pronto:\n{share_url}"
+            )
+            outcome = f"Facebook share URL generated for {channel_name} — owner notified"
+            sent = True
+
+        elif channel_type == "whatsapp":
+            share_url = make_whatsapp_share_url(formatted, case_url)
+            owner_msg = (
+                f"📲 Por favor partilha no grupo WhatsApp «{channel_name}»:\n\n"
+                f"{formatted}\n\n"
+                f"Ou toca aqui:\n{share_url}"
+            )
+            outcome = f"WhatsApp share URL generated for {channel_name} — owner notified"
+            sent = True
+
+        else:
+            outcome = f"[UNSUPPORTED] channel_type={channel_type!r} for {channel_name}"
+
+        # Queue owner notification (Facebook/WhatsApp require owner to tap share)
+        if owner_msg:
+            telegram_id = harness.case.get("reporter_telegram_id")
+            db.table("case_notifications").insert({
+                "case_id": case_id,
+                "channel": "telegram" if telegram_id else "log",
+                "telegram_id": int(telegram_id) if telegram_id else None,
+                "message": owner_msg,
+                "phase": harness.phase.value,
+            }).execute()
+
+        # Update last_posted_at so agent doesn't re-post too soon
+        if sent and rows.data:
+            db.table("kb_channels") \
+                .update({"last_posted_at": "now()"}) \
+                .ilike("name", f"%{channel_name}%") \
+                .execute()
+
+        harness.log_action(action, name, outcome)
+        return json.dumps({"sent": sent, "channel": channel_name, "type": channel_type})
 
     if name == "record_owner_guidance":
         guidance_type = str(inputs.get("guidance_type", ""))

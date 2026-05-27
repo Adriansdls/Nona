@@ -22,7 +22,7 @@ from supabase import Client
 
 from intel.models import BehavioralPhase  # noqa: E402
 from intel.tools import compute_behavioral_phase  # noqa: E402
-from agent.kb import lookup_canils, lookup_vets, record_discovery  # noqa: E402
+from agent.kb import lookup_canils, lookup_vets, lookup_channels, record_discovery  # noqa: E402
 
 UTC = timezone.utc
 
@@ -138,6 +138,17 @@ class CaseHarness:
             for v in vets[:3]
         ) or 'none in KB'
 
+        # Breed-specific channels (sighthound, etc.) + general local channels
+        breed_cat = self.case.get('breed_category')
+        channels = lookup_channels(self._db, municipality, str(breed_cat) if breed_cat else None)
+        # Also include Algarve-wide channels
+        algarve_channels = lookup_channels(self._db, 'Algarve', str(breed_cat) if breed_cat else None)
+        all_channels = {c['name']: c for c in (channels + algarve_channels)}.values()
+        channels_str = '; '.join(
+            f"{c['name']} ({c.get('channel_type', '?')})"
+            for c in list(all_channels)[:5]
+        ) or 'none in KB'
+
         # Case flags — prompt PI agent to act on theft/chip status
         flag_lines: list[str] = []
         if self.case.get('suspected_theft'):
@@ -161,6 +172,7 @@ class CaseHarness:
             f"ACTIONS ALREADY TAKEN: {', '.join(tried)}\n"
             f"LOCAL CANILS IN KB: {canils_str}\n"
             f"LOCAL VETS IN KB: {vets_str}\n"
+            f"LOCAL CHANNELS IN KB: {channels_str}\n"
             f"CASE FLAGS: {flags_str}\n"
             f"AVAILABLE TOOLS THIS PHASE: {', '.join(self.tool_palette())}"
             f"{escalation_note}"
