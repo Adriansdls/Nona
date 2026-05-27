@@ -46,22 +46,39 @@ def _check_env() -> None:
         )
 
 
-def main() -> None:
+async def _main_async() -> None:
     _check_env()
 
     from channels.telegram import build_application
+    from intel.server import create_intel_app
+    import uvicorn
 
-    app = build_application()
+    bot_app = build_application()
+    fastapi_app = create_intel_app()
+
+    port = int(os.environ.get("INTEL_PORT", "8080"))
+    config = uvicorn.Config(fastapi_app, host="0.0.0.0", port=port, log_level="info")
+    server = uvicorn.Server(config)
 
     log.info(
-        "SalvaCão bot starting",
+        "SalvaCão bot + intel service starting",
         web_app_url=os.environ.get("WEB_APP_URL", "http://localhost:3001"),
+        intel_port=port,
     )
 
-    app.run_polling(
-        drop_pending_updates=True,  # ignore backlog from while bot was offline
-        allowed_updates=["message", "callback_query"],
-    )
+    async with bot_app:
+        await bot_app.updater.start_polling(  # type: ignore[union-attr]
+            drop_pending_updates=True,
+            allowed_updates=["message", "callback_query"],
+        )
+        await bot_app.start()
+        await server.serve()  # blocks until SIGINT/SIGTERM
+        await bot_app.updater.stop()  # type: ignore[union-attr]
+        await bot_app.stop()
+
+
+def main() -> None:
+    asyncio.run(_main_async())
 
 
 if __name__ == "__main__":

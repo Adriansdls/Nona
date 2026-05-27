@@ -3,13 +3,16 @@ primary_region = "fra"
 
 [build]
 
-# Bot is a long-running polling process, not an HTTP server
-# No [http_service] — Fly keeps it running as a worker
 [[processes]]
   name = "bot"
   cmd = "python main.py"
 
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+
 [[vm]]
-  memory = "256mb"
+  memory = "512mb"
   cpu_kind = "shared"
   cpus = 1
