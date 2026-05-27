@@ -1,21 +1,7 @@
 import { sendAdminVisualMatch, sendReporterVisualMatch } from '@/lib/email/send'
+import { sendTelegramMessage } from '@/lib/notifications/telegram'
 
 const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
-
-async function sendTelegramMessage(chatId: string, text: string): Promise<void> {
-  const token = process.env['TELEGRAM_BOT_TOKEN']
-  if (!token || !chatId) return
-  try {
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' }),
-      signal: AbortSignal.timeout(5_000),
-    })
-  } catch {
-    // non-fatal
-  }
-}
 
 export interface VisualMatchNotifyParams {
   caseASlug: string

@@ -25,6 +25,7 @@ interface CaseRow {
   last_seen_at: string
   last_seen_municipality: string
   last_seen_zone_approx: string
+  last_seen_coords_approx: string | null
   description: string
   context: string | null
   reporter_contact_public: string | null
@@ -43,6 +44,7 @@ interface SightingRow {
   id: string
   seen_at: string
   zone_approx: string
+  coords_approx: string | null
   description: string | null
   is_public: boolean
 }
@@ -56,7 +58,7 @@ async function getCaseData(slug: string) {
       id, slug, type, status, dog_name, breed, sex, size,
       primary_color, secondary_color, distinctive_marks, age_estimate,
       has_chip, chip_last_3,
-      last_seen_at, last_seen_municipality, last_seen_zone_approx,
+      last_seen_at, last_seen_municipality, last_seen_zone_approx, last_seen_coords_approx,
       description, context, reporter_contact_public,
       created_at, resolved_at,
       case_images (id, public_url, is_primary, quality_score)
@@ -70,7 +72,7 @@ async function getCaseData(slug: string) {
   // Public sightings only
   const { data: sightings } = await supabase
     .from('sightings')
-    .select('id, seen_at, zone_approx, description, is_public')
+    .select('id, seen_at, zone_approx, coords_approx, description, is_public')
     .eq('case_id', caseData.id)
     .eq('is_public', true)
     .order('seen_at', { ascending: false })

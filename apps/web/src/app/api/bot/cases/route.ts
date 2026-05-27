@@ -8,6 +8,8 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { generateSlug } from '@/lib/slug'
 import { sendCaseConfirmation } from '@/lib/email/send'
 import { notifyVisualMatch } from '@/lib/notifications/visual-match'
+import { geocodeZone } from '@/lib/geo/geocode'
+import { postCaseToMeta } from '@/lib/social/meta'
 
 function checkInternalToken(req: NextRequest): boolean {
   const token = req.headers.get('x-internal-token')
@@ -53,6 +55,12 @@ export async function POST(req: NextRequest) {
     if (encrypted) chipNumberEncrypted = encrypted as string
   }
 
+  // Geocode location
+  const coords = await geocodeZone(
+    body['lastSeenZoneApprox'] as string,
+    body['lastSeenMunicipality'] as string,
+  )
+
   // Insert case
   const { data: caseRow, error: caseError } = await supabase
     .from('cases')
@@ -74,6 +82,7 @@ export async function POST(req: NextRequest) {
       last_seen_at: body['lastSeenAt'],
       last_seen_municipality: body['lastSeenMunicipality'],
       last_seen_zone_approx: body['lastSeenZoneApprox'],
+      last_seen_coords_approx: coords ? `(${coords.lng},${coords.lat})` : null,
       description: body['description'] ?? 'Reportado via Telegram.',
       context: body['context'] ?? null,
       suspected_theft: body['suspectedTheft'] ?? false,
@@ -126,6 +135,10 @@ export async function POST(req: NextRequest) {
         reporterName: caseRow.reporter_name as string,
         reporterEmail: caseRow.reporter_email as string,
         reporterTelegramId: (caseRow.reporter_telegram_id as string | null) ?? null,
+        dogName: (body['dogName'] as string | null) ?? null,
+        type: body['type'] as string,
+        municipality: body['lastSeenMunicipality'] as string,
+        isPrimary: i === 0,
       })
     }
   }
@@ -150,6 +163,10 @@ interface CaseReporterInfo {
   reporterName: string
   reporterEmail: string
   reporterTelegramId: string | null
+  dogName: string | null
+  type: string
+  municipality: string
+  isPrimary: boolean
 }
 
 async function triggerMLProcessing(caseId: string, imageId: string, storagePath: string, caseA: CaseReporterInfo) {
@@ -183,6 +200,17 @@ async function triggerMLProcessing(caseId: string, imageId: string, storagePath:
       quality_score: result.quality_score,
       processed_at: new Date().toISOString(),
     }).eq('id', imageId)
+
+    // Post to Facebook + Instagram once primary image is ready
+    if (caseA.isPrimary) {
+      void postCaseToMeta({
+        slug: caseA.slug,
+        dogName: caseA.dogName,
+        type: caseA.type as 'perdido' | 'encontrado',
+        municipality: caseA.municipality,
+        imageUrl: publicUrl,
+      }).catch((e) => console.warn('Meta post failed:', e))
+    }
 
     // Visual match search
     const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()

@@ -16,6 +16,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ChatAction, ParseMode
 from telegram.ext import (
     Application,
+    CallbackQueryHandler,
     CommandHandler,
     MessageHandler,
     ContextTypes,
@@ -144,6 +145,7 @@ async def cmd_ajuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "• Adicionar um *avistamento* a um caso existente\n\n"
         "Comandos:\n"
         "/start — Começar\n"
+        "/encontrado — O meu cão foi encontrado! 🎉\n"
         "/cancelar — Cancelar a conversa atual\n"
         "/ajuda — Esta mensagem\n\n"
         f"Website: {WEB_APP_URL}"
@@ -241,6 +243,95 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 # ---------------------------------------------------------------------------
+# /encontrado — owner self-service mark case as resolved
+# ---------------------------------------------------------------------------
+
+async def cmd_encontrado(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Owner marks their lost dog as found."""
+    from storage import get_supabase
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+
+    sb = get_supabase()
+    result = sb.table("cases").select(
+        "id, slug, dog_name, breed, last_seen_municipality"
+    ).eq("reporter_telegram_id", str(telegram_id)).eq("status", "ativo").execute()
+
+    cases = result.data or []
+
+    if not cases:
+        await _reply(update, "Não encontrei casos ativos associados a esta conta.")
+        return
+
+    if len(cases) == 1:
+        c = cases[0]
+        name = c.get("dog_name") or c.get("breed") or "cão"
+        keyboard = InlineKeyboardMarkup([[
+            InlineKeyboardButton(f"✅ Sim, o {name} foi encontrado!", callback_data=f"resolve:{c['slug']}"),
+            InlineKeyboardButton("❌ Cancelar", callback_data="resolve:cancel"),
+        ]])
+        if update.message:
+            await update.message.reply_text(
+                f"Quer marcar o caso do *{name}* ({c['last_seen_municipality']}) como resolvido? 🎉",
+                reply_markup=keyboard,
+                parse_mode=ParseMode.MARKDOWN,
+            )
+    else:
+        buttons = [[InlineKeyboardButton(
+            f"{c.get('dog_name') or c.get('breed')} · {c['last_seen_municipality']}",
+            callback_data=f"resolve:{c['slug']}",
+        )] for c in cases]
+        buttons.append([InlineKeyboardButton("❌ Cancelar", callback_data="resolve:cancel")])
+        if update.message:
+            await update.message.reply_text(
+                "Qual dos casos quer marcar como resolvido?",
+                reply_markup=InlineKeyboardMarkup(buttons),
+            )
+
+
+async def handle_resolve_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle inline button press for case resolution."""
+    query = update.callback_query
+    if not query:
+        return
+    await query.answer()
+
+    if query.data == "resolve:cancel":
+        await query.edit_message_text("Cancelado.")
+        return
+
+    slug = (query.data or "").split(":", 1)[1]
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                f"{WEB_APP_URL}/api/bot/cases/{slug}/resolve",
+                json={"telegram_id": str(telegram_id)},
+                headers={"x-internal-token": INTERNAL_TOKEN},
+            )
+
+        if resp.status_code == 200:
+            data = resp.json().get("data", {})
+            name = data.get("dog_name") or "O cão"
+            already = data.get("already", False)
+            if already:
+                await query.edit_message_text(f"O caso do {name} já estava marcado como resolvido. 🎉")
+            else:
+                await query.edit_message_text(
+                    f"🎉 *{name} foi encontrado!*\n\nObrigado por usar o SalvaCão. "
+                    f"Que alegria para toda a comunidade! 💙",
+                    parse_mode=ParseMode.MARKDOWN,
+                )
+        elif resp.status_code == 403:
+            await query.edit_message_text("Este caso não está associado à sua conta.")
+        else:
+            await query.edit_message_text("Erro ao marcar o caso. Tente novamente ou contacte a equipa.")
+    except Exception:
+        logger.exception("resolve callback failed for slug %s", slug)
+        await query.edit_message_text("Erro de ligação. Tente novamente.")
+
+
+# ---------------------------------------------------------------------------
 # Application builder
 # ---------------------------------------------------------------------------
 
@@ -252,6 +343,9 @@ def build_application() -> Application:
     app.add_handler(CommandHandler("cancelar", cmd_cancelar))
     app.add_handler(CommandHandler("ajuda", cmd_ajuda))
     app.add_handler(CommandHandler("help", cmd_ajuda))
+
+    app.add_handler(CommandHandler("encontrado", cmd_encontrado))
+    app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
 
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))

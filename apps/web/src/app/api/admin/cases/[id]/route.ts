@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { sendCaseResolved } from '@/lib/email/send'
+import { sendTelegramMessage } from '@/lib/notifications/telegram'
 
 async function getAuthRole() {
   const cookieStore = await cookies()
@@ -60,7 +61,7 @@ export async function PATCH(
   // Fetch old status to detect resolution
   const { data: old } = await supabase
     .from('cases')
-    .select('status, reporter_email, reporter_name, dog_name, slug')
+    .select('status, reporter_email, reporter_name, dog_name, slug, reporter_telegram_id')
     .eq('id', id)
     .single()
 
@@ -85,6 +86,10 @@ export async function PATCH(
     } catch (e) {
       console.warn('Resolved email failed:', e)
     }
+    void sendTelegramMessage(
+      old?.reporter_telegram_id as string | null,
+      `🎉 *${old?.dog_name ?? 'O cão'} foi encontrado!*\n\nA equipa SalvaCão marcou o caso como resolvido. Obrigado a todos que ajudaram! 💙`,
+    ).catch(() => {})
   }
 
   return NextResponse.json({ data, error: null })

@@ -5,6 +5,8 @@ import { generateSlug } from '@/lib/slug'
 import { sendCaseConfirmation } from '@/lib/email/send'
 import { stripPrivateFields } from '@/lib/privacy'
 import { notifyVisualMatch } from '@/lib/notifications/visual-match'
+import { geocodeZone } from '@/lib/geo/geocode'
+import { postCaseToMeta } from '@/lib/social/meta'
 import type { CaseCreateInput } from '@salvacao/types'
 
 /** List cases — used by bot search and public case list. */
@@ -64,6 +66,9 @@ export async function POST(req: NextRequest) {
     if (!encErr) chipNumberEncrypted = encrypted as string
   }
 
+  // Geocode location
+  const coords = await geocodeZone(data.lastSeenZoneApprox, data.lastSeenMunicipality)
+
   // Insert case
   const { data: caseRow, error: caseError } = await supabase
     .from('cases')
@@ -87,6 +92,7 @@ export async function POST(req: NextRequest) {
       last_seen_at: data.lastSeenAt,
       last_seen_municipality: data.lastSeenMunicipality,
       last_seen_zone_approx: data.lastSeenZoneApprox,
+      last_seen_coords_approx: coords ? `(${coords.lng},${coords.lat})` : null,
       description: data.description,
       context: data.context ?? null,
       reporter_name: data.reporterName,
@@ -138,6 +144,10 @@ export async function POST(req: NextRequest) {
         reporterName: caseRow.reporter_name as string,
         reporterEmail: caseRow.reporter_email as string,
         reporterTelegramId: (caseRow.reporter_telegram_id as string | null) ?? null,
+        dogName: data.dogName ?? null,
+        type: data.type,
+        municipality: data.lastSeenMunicipality,
+        isPrimary: i === 0,
       })
     }
   }
@@ -161,6 +171,10 @@ interface CaseReporterInfo {
   reporterName: string
   reporterEmail: string
   reporterTelegramId: string | null
+  dogName: string | null
+  type: string
+  municipality: string
+  isPrimary: boolean
 }
 
 async function triggerMLProcessing(caseId: string, imageId: string, storagePath: string, caseA: CaseReporterInfo) {
@@ -199,6 +213,17 @@ async function triggerMLProcessing(caseId: string, imageId: string, storagePath:
       quality_score: result.quality_score,
       processed_at: new Date().toISOString(),
     }).eq('id', imageId)
+
+    // Post to Facebook + Instagram once primary image is ready
+    if (caseA.isPrimary) {
+      void postCaseToMeta({
+        slug: caseA.slug,
+        dogName: caseA.dogName,
+        type: caseA.type as 'perdido' | 'encontrado',
+        municipality: caseA.municipality,
+        imageUrl: publicUrl,
+      }).catch((e) => console.warn('Meta post failed:', e))
+    }
 
     await runVisualMatchSearch(caseId, result.embedding, caseA)
   } catch (e) {

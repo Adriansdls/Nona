@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { N } from '@/components/nona/tokens'
 import { NonaNav } from '@/components/nona/NonaNav'
@@ -8,8 +9,21 @@ import { Pill } from '@/components/nona/Pill'
 import { Btn } from '@/components/nona/Btn'
 import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
 import { AgentFeed, LIFETIME_EVENTS, type AgentEvent } from '@/components/nona/AgentFeed'
-import { SearchMap } from '@/components/nona/SearchMap'
 import { QRTile } from '@/components/nona/QRTile'
+import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
+
+const SearchMap = dynamic(
+  () => import('@/components/nona/SearchMap').then((m) => ({ default: m.SearchMap })),
+  { ssr: false, loading: () => <div style={{ width: '100%', height: 380, background: '#F4F0E8', borderRadius: 14 }} /> },
+)
+
+function parsePoint(raw: string | null | undefined): { lat: number; lng: number } | null {
+  if (!raw) return null
+  const m = raw.match(/\(([^,]+),([^)]+)\)/)
+  if (!m) return null
+  // stored as (lng,lat) per geocode.ts write pattern
+  return { lng: parseFloat(m[1]!), lat: parseFloat(m[2]!) }
+}
 
 // ─── Sub-components ─────────────────────────────────────────────────
 function MetaRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
@@ -75,6 +89,7 @@ interface SightingRow {
   id: string
   seen_at: string
   zone_approx: string
+  coords_approx: string | null
   description: string | null
   is_public: boolean
 }
@@ -97,6 +112,7 @@ interface CaseRow {
   last_seen_at: string
   last_seen_municipality: string
   last_seen_zone_approx: string
+  last_seen_coords_approx: string | null
   description: string
   context: string | null
   reporter_contact_public: string | null
@@ -124,7 +140,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const dogName = c.dog_name ?? c.breed
 
   const kindPill = c.type === 'perdido' ? 'lost' : 'found'
-  const statusPill = c.status === 'reunido' ? 'resolved' : kindPill
+  const statusPill = c.status === 'resolvido' ? 'resolved' : kindPill
 
   const chipDisplay = c.has_chip && c.chip_last_3 ? `·· ·· ${c.chip_last_3}` : c.has_chip ? '· com chip' : null
 
@@ -279,14 +295,19 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${N.rule}` }}>
             <SearchMap
               height={380}
+              center={parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }}
               lastSeenLabel={c.last_seen_zone_approx || 'Última vez visto'}
-              sightings={sightings.map((s, i) => ({
-                label: s.zone_approx,
-                sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
-                x: `${40 + i * 15}%`,
-                y: `${45 + (i % 2) * 20}%`,
-                fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
-              }))}
+              sightings={sightings.flatMap((s) => {
+                const coords = parsePoint(s.coords_approx)
+                if (!coords) return []
+                return [{
+                  lat: coords.lat,
+                  lng: coords.lng,
+                  label: s.zone_approx,
+                  sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
+                  fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
+                }]
+              })}
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
