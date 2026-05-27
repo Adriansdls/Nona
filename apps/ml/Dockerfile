@@ -13,15 +13,15 @@ RUN pip install --no-cache-dir uv
 # Copy dependency manifest first (layer cache)
 COPY pyproject.toml .
 
-# Install CPU-only PyTorch explicitly before the rest to keep image size down
-# (~800MB vs ~4GB for CUDA build)
+# Install CPU-only PyTorch + timm + SAM2 (force CPU wheels to keep image ~1.5GB not ~4GB)
 RUN uv pip install --system \
-    torch torchvision --index-url https://download.pytorch.org/whl/cpu
+    torch torchvision timm sam2 \
+    --index-url https://download.pytorch.org/whl/cpu
 
 # Install remaining dependencies
 RUN uv pip install --system \
     "fastapi>=0.115" "uvicorn[standard]>=0.32" \
-    "ultralytics>=8.3" "transformers>=4.46" \
+    "ultralytics>=8.3" \
     "Pillow>=10" "numpy>=1.26" "opencv-python-headless" \
     "httpx>=0.27" "supabase>=2.9" "python-dotenv>=1.0"
 

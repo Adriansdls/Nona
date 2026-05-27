@@ -116,6 +116,73 @@ export async function sendCaseResolved({
   })
 }
 
+export async function sendAdminVisualMatch({
+  adminEmail,
+  caseASlug,
+  caseBSlug,
+  score,
+}: {
+  adminEmail: string
+  caseASlug: string
+  caseBSlug: string
+  score: number
+}) {
+  const urlA = `${APP_URL}/pt/caso/${caseASlug}`
+  const urlB = `${APP_URL}/pt/caso/${caseBSlug}`
+  const pct = Math.round(score * 100)
+  await getTransport().sendMail({
+    from: FROM,
+    to: adminEmail,
+    subject: `[SalvaCão] Coincidência visual ${pct}% — ${caseASlug} ↔ ${caseBSlug}`,
+    html: `
+      <p>Foi detectada uma coincidência visual de <strong>${pct}%</strong> entre dois casos.</p>
+      <p>Caso A (novo): <a href="${urlA}">${caseASlug}</a></p>
+      <p>Caso B (existente): <a href="${urlB}">${caseBSlug}</a></p>
+      <p><a href="${APP_URL}/pt/admin/coincidencias">Rever no painel de administração</a></p>
+      <hr/>
+      <p style="font-size:12px;color:#666">SalvaCão</p>
+    `,
+  })
+}
+
+export async function sendReporterVisualMatch({
+  to,
+  reporterName,
+  yourCaseSlug,
+  matchedCaseSlug,
+  score,
+  isNewCase,
+  locale = 'pt',
+}: {
+  to: string
+  reporterName: string
+  yourCaseSlug: string
+  matchedCaseSlug: string
+  score: number
+  isNewCase: boolean
+  locale?: string
+}) {
+  const matchedUrl = `${APP_URL}/${locale}/caso/${matchedCaseSlug}`
+  const pct = Math.round(score * 100)
+  const subject = `Possível coincidência encontrada — SalvaCão`
+  const body = isNewCase
+    ? `Encontrámos um caso já existente que pode corresponder ao cão que reportou (${pct}% de semelhança visual).`
+    : `Alguém reportou um cão que pode ser o seu (${pct}% de semelhança visual).`
+  await getTransport().sendMail({
+    from: FROM,
+    to,
+    subject,
+    html: `
+      <p>Olá ${reporterName},</p>
+      <p>${body}</p>
+      <p><a href="${matchedUrl}">Ver caso correspondente</a></p>
+      <p style="font-size:12px;color:#888">Esta é uma correspondência automática — confirme visualmente antes de agir.</p>
+      <hr/>
+      <p style="font-size:12px;color:#666">SalvaCão</p>
+    `,
+  })
+}
+
 export async function sendAdminInvite({
   to,
   inviterName,

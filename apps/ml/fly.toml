@@ -2,12 +2,13 @@ app = "salvacao-ml"
 primary_region = "fra"
 
 [build]
+  dockerfile = "Dockerfile"
 
 [env]
   PORT = "8000"
   PYTORCH_ENABLE_MPS_FALLBACK = "1"
 
-# Persistent volume for model weights (~2GB: DINOv2-large + YOLO)
+# Persistent volume for model weights (~1.5GB: MegaDescriptor-L + SAM2-Tiny + YOLO)
 # Created once: flyctl volumes create salvacao_ml_cache --region mad --size 5
 [[mounts]]
   source = "salvacao_ml_cache"
@@ -26,6 +27,6 @@ primary_region = "fra"
     soft_limit = 1
 
 [[vm]]
-  memory = "2gb"
+  memory = "4gb"
   cpu_kind = "shared"
   cpus = 2

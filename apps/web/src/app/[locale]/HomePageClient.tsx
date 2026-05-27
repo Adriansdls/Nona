@@ -19,7 +19,7 @@ interface ChatMessage {
 }
 interface ActionItem { label: string; detail?: string; live?: boolean }
 interface RecentReunido {
-  id: string; dog_name: string | null; breed: string
+  id: string; slug: string; type: string; status: string; dog_name: string | null; breed: string
   last_seen_municipality: string; resolved_at: string | null
   case_images: Array<{ public_url: string | null; is_primary: boolean }>
 }
@@ -204,8 +204,8 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
       {/* ══ CHROME — home nav, hero, reunidos, footer ══ */}
       {/* Chrome includes the "real" hero input the user types into.           */}
       {/* When phase≥1 it fades away while the canvas expands over it.         */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 10, opacity: phase === 0 ? 1 : 0, transition: 'opacity .45s ease', pointerEvents: phase === 0 ? 'auto' : 'none' }}>
-        <header style={{ position: 'absolute', top: 0, left: 0, right: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 32px', background: N.paper, borderBottom: `1px solid ${N.rule}` }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 10, opacity: phase === 0 ? 1 : 0, transition: 'opacity .45s ease', pointerEvents: phase === 0 ? 'auto' : 'none', overflowY: 'auto' }}>
+        <header style={{ position: 'sticky', top: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 32px', background: N.paper, borderBottom: `1px solid ${N.rule}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
             <Logo size={18}/>
             <nav style={{ display: 'flex', gap: 22 }}>
@@ -227,11 +227,12 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
         </header>
 
-        <div style={{ position: 'absolute', top: '13%', left: '50%', transform: 'translateX(-50%)', width: 720, textAlign: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '6vh 0 0' }}>
+        <div style={{ width: 720, maxWidth: '90vw' }}>
           <p style={{ margin: 0, fontFamily: N.mono, fontSize: 11.5, color: N.ink3, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
             agente para cães perdidos · algarve
           </p>
-          <h1 style={{ margin: '20px 0 0', fontFamily: N.display, fontWeight: 400, fontSize: 86, letterSpacing: '-0.025em', lineHeight: 0.98, color: N.ink } as React.CSSProperties}>
+          <h1 style={{ margin: '14px 0 0', fontFamily: N.display, fontWeight: 400, fontSize: 76, letterSpacing: '-0.025em', lineHeight: 0.98, color: N.ink } as React.CSSProperties}>
             Diz-me o que se passou.<br/><span style={{ fontStyle: 'italic' }}>Eu trato de tudo.</span>
           </h1>
           <p style={{ margin: '20px auto 0', maxWidth: 480, fontSize: 15.5, color: N.ink2, lineHeight: 1.55 }}>
@@ -272,9 +273,11 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             <a href="https://t.me/salvacao_bot" style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a>
             {' '}·{' '}<span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>whatsapp</span>
           </p>
-        </div>
+        </div>{/* end width-720 */}
+        </div>{/* end hero center */}
 
-        <div style={{ position: 'absolute', bottom: 64, left: '50%', transform: 'translateX(-50%)', width: 900 }}>
+        <div style={{ padding: '48px 32px 0' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
             <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>reunidos esta semana · {reunidosCount}</span>
             <a href={`/${locale}/casos`} style={{ fontSize: 12, color: N.ink2, textDecoration: 'none' }}>ver todos →</a>
@@ -283,19 +286,32 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             {(recentReunidos.length > 0 ? recentReunidos : Array.from({ length: 7 })).map((d, i) => {
               const c = d as RecentReunido | undefined
               const tone = TONES[i % TONES.length] ?? 'cocoa'
-              const img = c?.case_images?.find(x => x.is_primary)
-              const daysAgo = c?.resolved_at ? Math.floor((Date.now() - new Date(c.resolved_at).getTime()) / 86400000) : null
+              const img = c?.case_images?.find(x => x.is_primary) ?? c?.case_images?.[0]
+              const isReunido = c?.status === 'reunido'
+              const dotColor = isReunido ? N.emerald : c?.type === 'perdido' ? N.rose : N.amber
               return (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {img?.public_url ? <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1' }}><img src={img.public_url} alt={c?.dog_name ?? ''} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/></div> : <PhotoPlaceholder tone={tone} radius={10} ratio="1/1"/>}
-                  {c && <><div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}><span style={{ fontFamily: N.display, fontSize: 16, letterSpacing: '-0.015em' }}>{c.dog_name ?? c.breed}</span>{daysAgo !== null && <span style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3 }}>{daysAgo}d</span>}</div><span style={{ fontSize: 11, color: N.ink3 }}>{c.last_seen_municipality}</span></>}
-                </div>
+                <a key={i} href={c ? `/${locale}/caso/${c.slug}` : undefined}
+                  style={{ display: 'flex', flexDirection: 'column', gap: 5, textDecoration: 'none', color: 'inherit', cursor: c ? 'pointer' : 'default' }}>
+                  <div style={{ position: 'relative' }}>
+                    {img?.public_url
+                      ? <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1' }}><img src={img.public_url} alt={c?.dog_name ?? ''} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/></div>
+                      : <PhotoPlaceholder tone={tone} radius={10} ratio="1/1"/>}
+                    {c && <span style={{ position: 'absolute', top: 7, left: 7, width: 7, height: 7, borderRadius: '50%', background: dotColor, boxShadow: '0 0 0 2px rgba(255,255,255,.8)' }}/>}
+                  </div>
+                  {c && (
+                    <div style={{ paddingBottom: 2 }}>
+                      <div style={{ fontFamily: N.display, fontSize: 14, letterSpacing: '-0.015em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.dog_name ?? c.breed}</div>
+                      <div style={{ fontSize: 10.5, color: N.ink3, fontFamily: N.mono }}>{c.last_seen_municipality}</div>
+                    </div>
+                  )}
+                </a>
               )
             })}
           </div>
-        </div>
+        </div>{/* end maxWidth 900 */}
+        </div>{/* end cases padding */}
 
-        <footer style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px 32px', borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
+        <footer style={{ marginTop: 48, padding: '16px 32px', borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
           <span>nona · open source · made in algarve · 2026</span>
           <span style={{ display: 'flex', gap: 18 }}><span>privacidade</span><span>como funciona</span><span>parceiros</span></span>
         </footer>

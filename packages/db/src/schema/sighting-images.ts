@@ -7,7 +7,7 @@ export const sightingImages = pgTable('sighting_images', {
   sightingId: uuid('sighting_id').notNull().references(() => sightings.id, { onDelete: 'cascade' }),
   storagePathPublic: text('storage_path_public').notNull(),
   publicUrl: text('public_url').notNull(),
-  embedding: vector('embedding', { dimensions: 768 }),
+  embedding: vector('embedding', { dimensions: 1536 }),
 })
 
 export type SightingImage = typeof sightingImages.$inferSelect

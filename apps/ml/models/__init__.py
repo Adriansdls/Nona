@@ -1,32 +1,34 @@
 from dataclasses import dataclass
 import torch
+import timm
 from ultralytics import YOLO
-from transformers import AutoImageProcessor, AutoModel
+from sam2.build_sam import build_sam2_hf
+from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
 @dataclass
 class AppModels:
     yolo: YOLO
-    dinov2: AutoModel
-    processor: AutoImageProcessor
+    megadescriptor: torch.nn.Module
+    sam2: SAM2ImagePredictor
     device: torch.device
 
     @classmethod
     def load(cls, device: torch.device) -> "AppModels":
-        # YOLOv11s — auto-downloads on first run (~20MB)
-        # Keep on CPU: fast enough for detection, avoids MPS quirks
+        # YOLOv11s — dog/person detection (~20MB, CPU)
         yolo = YOLO("yolo11s.pt")
 
-        # DINOv2-large — auto-downloads on first run (~1.3GB)
-        # float32 required: float16 has correctness issues on MPS
-        processor = AutoImageProcessor.from_pretrained("facebook/dinov2-large")
-        dinov2 = (
-            AutoModel.from_pretrained(
-                "facebook/dinov2-large",
-                torch_dtype=torch.float32,
-            )
-            .to(device)
-            .eval()
-        )
+        # MegaDescriptor-L-384 — SOTA individual animal re-ID (~1.3GB)
+        # ViT-L/14 fine-tuned on wildlife + domestic animal re-ID datasets
+        megadescriptor = timm.create_model(
+            "hf-hub:BVRA/MegaDescriptor-L-384",
+            pretrained=True,
+            num_classes=0,  # feature extraction mode, output dim=1024
+        ).to(device).eval()
 
-        return cls(yolo=yolo, dinov2=dinov2, processor=processor, device=device)
+        # SAM2-Tiny — precise dog segmentation (~40MB)
+        # build_sam2_hf downloads config + weights from HuggingFace automatically
+        sam2_model = build_sam2_hf("facebook/sam2-hiera-tiny", device=str(device))
+        sam2 = SAM2ImagePredictor(sam2_model)
+
+        return cls(yolo=yolo, megadescriptor=megadescriptor, sam2=sam2, device=device)

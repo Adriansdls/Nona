@@ -26,6 +26,7 @@ class ConvState:
     history: list[dict] = field(default_factory=list)
     locale: str = "pt"
     created_case_slug: str | None = None
+    telegram_id: int | None = None
 
     @classmethod
     def from_json(cls, data: dict) -> "ConvState":
@@ -36,6 +37,7 @@ class ConvState:
             history=data.get("history", []),
             locale=data.get("locale", "pt"),
             created_case_slug=data.get("created_case_slug"),
+            telegram_id=data.get("telegram_id"),
         )
 
     def to_json(self) -> dict:
@@ -46,6 +48,7 @@ class ConvState:
             "history": self.history,
             "locale": self.locale,
             "created_case_slug": self.created_case_slug,
+            "telegram_id": self.telegram_id,
         }
 
 
@@ -322,6 +325,7 @@ async def _create_case(
         "reporterEmail": draft["reporter_email"],
         "reporterPhone": draft.get("reporter_phone"),
         "reporterContactPublic": draft.get("reporter_contact_public"),
+        "reporterTelegramId": str(state.telegram_id) if state.telegram_id else None,
         "stagedPhotos": state.staged_photos,
         "privacyAccepted": True,
         "photoPermission": True,

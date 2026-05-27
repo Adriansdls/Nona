@@ -34,6 +34,7 @@ export const cases = pgTable('cases', {
   reporterEmail: text('reporter_email').notNull(),
   reporterPhone: text('reporter_phone'),
   reporterContactPublic: text('reporter_contact_public'),
+  reporterTelegramId: text('reporter_telegram_id'),
   adminNotes: text('admin_notes'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),

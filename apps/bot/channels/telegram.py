@@ -5,9 +5,12 @@ Converts Telegram updates into brain.run() calls and sends replies.
 """
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
 from io import BytesIO
+
+import httpx
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ChatAction, ParseMode
@@ -33,11 +36,22 @@ logger = logging.getLogger(__name__)
 
 WEB_APP_URL = os.environ.get("WEB_APP_URL", "http://localhost:3001")
 INTERNAL_TOKEN = os.environ.get("INTERNAL_API_TOKEN", "")
+ML_SERVICE_URL = os.environ.get("ML_SERVICE_URL", "")
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+async def _warmup_ml() -> None:
+    if not ML_SERVICE_URL:
+        return
+    try:
+        async with httpx.AsyncClient(timeout=3.0) as client:
+            await client.get(f"{ML_SERVICE_URL}/health")
+    except Exception:
+        pass
+
 
 async def _get_state(telegram_id: int) -> ConvState:
     raw = await load_conversation(telegram_id)
@@ -146,6 +160,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     telegram_id = update.effective_user.id  # type: ignore[union-attr]
     text = update.message.text or ""  # type: ignore[union-attr]
     state = await _get_state(telegram_id)
+    state.telegram_id = telegram_id
     await _run_brain(update, state, text)
 
 
@@ -182,6 +197,7 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await update.message.reply_text(f"_(Ouvi: {transcribed})_", parse_mode=ParseMode.MARKDOWN)
 
     state = await _get_state(telegram_id)
+    state.telegram_id = telegram_id
     await _run_brain(update, state, transcribed)
 
 
@@ -194,6 +210,8 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     if update.message:
         await update.message.chat.send_action(ChatAction.UPLOAD_PHOTO)
+
+    asyncio.create_task(_warmup_ml())
 
     # Take highest resolution photo
     best_photo = max(photos, key=lambda p: p.file_size or 0)
@@ -212,6 +230,7 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     # Add to state
     state = await _get_state(telegram_id)
+    state.telegram_id = telegram_id
     state.staged_photos.append(staging_path)
 
     # Get caption as text if provided, otherwise describe the upload

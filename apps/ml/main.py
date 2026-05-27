@@ -16,6 +16,7 @@ load_dotenv("../../.env.local")
 
 from models import AppModels
 from pipeline.detect import detect_dog
+from pipeline.segment import segment_dog
 from pipeline.blur import blur_pii
 from pipeline.quality import compute_quality
 from pipeline.embed import compute_embedding
@@ -23,7 +24,7 @@ from clients.supabase import download_original, upload_public
 
 DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
-# Limit concurrent ML inference — MPS is not safe for concurrent GPU ops
+# SAM2 + MegaDescriptor are not safe for concurrent GPU ops
 INFERENCE_SEMAPHORE = asyncio.Semaphore(2)
 
 
@@ -35,7 +36,7 @@ async def lifespan(app: FastAPI):
     del app.state.models
 
 
-app = FastAPI(title="SalvaCão ML Service", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="SalvaCão ML Service", version="0.2.0", lifespan=lifespan)
 
 
 class ProcessImageRequest(BaseModel):
@@ -68,10 +69,11 @@ def _process_sync(storage_path: str, models: AppModels) -> dict:
     raw = download_original(storage_path)
     image = Image.open(io.BytesIO(raw)).convert("RGB")
 
-    dog_crop, bbox = detect_dog(image, models.yolo)
+    dog_crop_bbox, bbox = detect_dog(image, models.yolo)
+    dog_crop = segment_dog(image, bbox, models.sam2)
     blurred = blur_pii(image, models.yolo)
     quality = compute_quality(dog_crop)
-    embedding = compute_embedding(dog_crop, models.dinov2, models.processor, models.device)
+    embedding = compute_embedding(dog_crop, models.megadescriptor, models.device)
     public_path = upload_public(blurred, storage_path)
 
     return {
@@ -109,9 +111,10 @@ async def embed_only(req: EmbedOnlyRequest):
 def _embed_only_sync(storage_path: str, models: AppModels) -> dict:
     raw = download_original(storage_path)
     image = Image.open(io.BytesIO(raw)).convert("RGB")
-    dog_crop, _ = detect_dog(image, models.yolo)
+    _, bbox = detect_dog(image, models.yolo)
+    dog_crop = segment_dog(image, bbox, models.sam2)
     quality = compute_quality(dog_crop)
-    embedding = compute_embedding(dog_crop, models.dinov2, models.processor, models.device)
+    embedding = compute_embedding(dog_crop, models.megadescriptor, models.device)
     return {"embedding": embedding.tolist(), "quality_score": quality}
 
 

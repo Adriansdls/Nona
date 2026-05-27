@@ -4,6 +4,7 @@ import { caseCreateSchema } from '@/lib/validation/case.schema'
 import { generateSlug } from '@/lib/slug'
 import { sendCaseConfirmation } from '@/lib/email/send'
 import { stripPrivateFields } from '@/lib/privacy'
+import { notifyVisualMatch } from '@/lib/notifications/visual-match'
 import type { CaseCreateInput } from '@salvacao/types'
 
 /** List cases — used by bot search and public case list. */
@@ -93,7 +94,7 @@ export async function POST(req: NextRequest) {
       reporter_phone: data.reporterPhone ?? null,
       reporter_contact_public: data.reporterContactPublic ?? null,
     })
-    .select('id, slug')
+    .select('id, slug, reporter_name, reporter_email, reporter_telegram_id')
     .single()
 
   if (caseError) {
@@ -132,7 +133,12 @@ export async function POST(req: NextRequest) {
 
     if (imageRow) {
       // Fire-and-forget — does not block the response
-      void triggerMLProcessing(caseRow.id, imageRow.id, storagePath)
+      void triggerMLProcessing(caseRow.id, imageRow.id, storagePath, {
+        slug: caseRow.slug,
+        reporterName: caseRow.reporter_name as string,
+        reporterEmail: caseRow.reporter_email as string,
+        reporterTelegramId: (caseRow.reporter_telegram_id as string | null) ?? null,
+      })
     }
   }
 
@@ -150,7 +156,14 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ data: { slug: caseRow.slug } }, { status: 201 })
 }
 
-async function triggerMLProcessing(caseId: string, imageId: string, storagePath: string) {
+interface CaseReporterInfo {
+  slug: string
+  reporterName: string
+  reporterEmail: string
+  reporterTelegramId: string | null
+}
+
+async function triggerMLProcessing(caseId: string, imageId: string, storagePath: string, caseA: CaseReporterInfo) {
   const mlUrl = process.env['ML_SERVICE_URL']
   if (!mlUrl) return
 
@@ -187,13 +200,13 @@ async function triggerMLProcessing(caseId: string, imageId: string, storagePath:
       processed_at: new Date().toISOString(),
     }).eq('id', imageId)
 
-    await runVisualMatchSearch(caseId, result.embedding)
+    await runVisualMatchSearch(caseId, result.embedding, caseA)
   } catch (e) {
     console.error('ML processing failed (non-fatal):', e)
   }
 }
 
-async function runVisualMatchSearch(caseId: string, embedding: number[]) {
+async function runVisualMatchSearch(caseId: string, embedding: number[], caseA: CaseReporterInfo) {
   const supabase = createServiceClient()
   const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()
   const embeddingStr = `[${embedding.join(',')}]`
@@ -207,7 +220,8 @@ async function runVisualMatchSearch(caseId: string, embedding: number[]) {
 
   if (!candidates?.length) return
 
-  const matches = (candidates as Array<{ case_id: string; score: number }>)
+  const scored = candidates as Array<{ case_id: string; score: number }>
+  const matches = scored
     .filter((c) => c.score > 0.6)
     .map((c) => ({
       case_a_id: caseId,
@@ -218,5 +232,27 @@ async function runVisualMatchSearch(caseId: string, embedding: number[]) {
 
   if (matches.length > 0) {
     await supabase.from('visual_matches').insert(matches)
+  }
+
+  // Notify for high-confidence matches only
+  const highScore = scored.filter((c) => c.score > 0.75)
+  for (const match of highScore) {
+    const { data: caseB } = await supabase
+      .from('cases')
+      .select('slug, reporter_name, reporter_email, reporter_telegram_id')
+      .eq('id', match.case_id)
+      .single()
+    if (!caseB) continue
+    void notifyVisualMatch({
+      caseASlug: caseA.slug,
+      caseAReporterName: caseA.reporterName,
+      caseAReporterEmail: caseA.reporterEmail,
+      caseAReporterTelegramId: caseA.reporterTelegramId,
+      caseBSlug: caseB.slug as string,
+      caseBReporterName: caseB.reporter_name as string,
+      caseBReporterEmail: caseB.reporter_email as string,
+      caseBReporterTelegramId: (caseB.reporter_telegram_id as string | null) ?? null,
+      score: match.score,
+    }).catch((e) => console.error('notifyVisualMatch failed:', e))
   }
 }

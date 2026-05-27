@@ -23,13 +23,25 @@ async function getReunidosCount(): Promise<number> {
 async function getRecentReunidos() {
   try {
     const supabase = createServiceClient()
-    const { data } = await supabase
+    // Prefer reunited cases (success stories). Fall back to recent active cases.
+    const { data: reunidos } = await supabase
       .from('cases')
-      .select('id, dog_name, breed, last_seen_municipality, resolved_at, case_images(public_url, is_primary)')
+      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, case_images(public_url, is_primary)')
       .eq('status', 'reunido')
+      .eq('sensitivity', 'publico')
       .order('resolved_at', { ascending: false })
       .limit(7)
-    return data ?? []
+    if (reunidos && reunidos.length >= 4) return reunidos
+
+    // Not enough reunidos — fill with recent active cases
+    const { data: active } = await supabase
+      .from('cases')
+      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, case_images(public_url, is_primary)')
+      .eq('status', 'ativo')
+      .eq('sensitivity', 'publico')
+      .order('created_at', { ascending: false })
+      .limit(7)
+    return active ?? []
   } catch {
     return []
   }

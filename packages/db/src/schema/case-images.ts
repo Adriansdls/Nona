@@ -11,7 +11,7 @@ export const caseImages = pgTable('case_images', {
   publicUrl: text('public_url'),
   isPrimary: boolean('is_primary').default(false),
   imageType: imageTypeEnum('image_type').notNull().default('referencia'),
-  embedding: vector('embedding', { dimensions: 768 }),
+  embedding: vector('embedding', { dimensions: 1536 }),
   qualityScore: real('quality_score'),
   processedAt: timestamp('processed_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),

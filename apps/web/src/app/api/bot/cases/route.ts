@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { generateSlug } from '@/lib/slug'
 import { sendCaseConfirmation } from '@/lib/email/send'
+import { notifyVisualMatch } from '@/lib/notifications/visual-match'
 
 function checkInternalToken(req: NextRequest): boolean {
   const token = req.headers.get('x-internal-token')
@@ -80,8 +81,9 @@ export async function POST(req: NextRequest) {
       reporter_email: body['reporterEmail'],
       reporter_phone: body['reporterPhone'] ?? null,
       reporter_contact_public: body['reporterContactPublic'] ?? null,
+      reporter_telegram_id: (body['reporterTelegramId'] as string | undefined) ?? null,
     })
-    .select('id, slug')
+    .select('id, slug, reporter_name, reporter_email, reporter_telegram_id')
     .single()
 
   if (caseError || !caseRow) {
@@ -119,7 +121,12 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (imageRow) {
-      void triggerMLProcessing(caseRow.id, imageRow.id, destPath)
+      void triggerMLProcessing(caseRow.id, imageRow.id, destPath, {
+        slug: caseRow.slug,
+        reporterName: caseRow.reporter_name as string,
+        reporterEmail: caseRow.reporter_email as string,
+        reporterTelegramId: (caseRow.reporter_telegram_id as string | null) ?? null,
+      })
     }
   }
 
@@ -138,7 +145,14 @@ export async function POST(req: NextRequest) {
 }
 
 
-async function triggerMLProcessing(caseId: string, imageId: string, storagePath: string) {
+interface CaseReporterInfo {
+  slug: string
+  reporterName: string
+  reporterEmail: string
+  reporterTelegramId: string | null
+}
+
+async function triggerMLProcessing(caseId: string, imageId: string, storagePath: string, caseA: CaseReporterInfo) {
   const mlUrl = process.env['ML_SERVICE_URL']
   if (!mlUrl) return
 
@@ -179,10 +193,33 @@ async function triggerMLProcessing(caseId: string, imageId: string, storagePath:
       limit_count: 20,
     })
     if (candidates?.length) {
-      const matches = (candidates as Array<{ case_id: string; score: number }>)
+      const scored = candidates as Array<{ case_id: string; score: number }>
+      const matches = scored
         .filter((c) => c.score > 0.6)
         .map((c) => ({ case_a_id: caseId, case_b_id: c.case_id, similarity_score: c.score, status: 'pendente' }))
       if (matches.length > 0) await supabase.from('visual_matches').insert(matches)
+
+      // Notify for high-confidence matches only
+      const highScore = scored.filter((c) => c.score > 0.75)
+      for (const match of highScore) {
+        const { data: caseB } = await supabase
+          .from('cases')
+          .select('slug, reporter_name, reporter_email, reporter_telegram_id')
+          .eq('id', match.case_id)
+          .single()
+        if (!caseB) continue
+        void notifyVisualMatch({
+          caseASlug: caseA.slug,
+          caseAReporterName: caseA.reporterName,
+          caseAReporterEmail: caseA.reporterEmail,
+          caseAReporterTelegramId: caseA.reporterTelegramId,
+          caseBSlug: caseB.slug as string,
+          caseBReporterName: caseB.reporter_name as string,
+          caseBReporterEmail: caseB.reporter_email as string,
+          caseBReporterTelegramId: (caseB.reporter_telegram_id as string | null) ?? null,
+          score: match.score,
+        }).catch((e) => console.error('notifyVisualMatch failed:', e))
+      }
     }
   } catch (e) {
     console.error('ML processing failed:', e)
