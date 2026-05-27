@@ -1,0 +1,27 @@
+export const N = {
+  paper:      '#fafaf7',
+  white:      '#ffffff',
+  surface:    '#f4f4f1',
+  ink:        '#0b0c10',
+  ink2:       '#3a3d45',
+  ink3:       '#6b6e78',
+  ink4:       '#9a9da6',
+  rule:       '#e6e6e1',
+  ruleSoft:   '#eeeeea',
+  indigo:     '#4f46e5',
+  indigoBg:   '#eef2ff',
+  indigoDeep: '#3730a3',
+  rose:       '#e11d48',
+  roseBg:     '#fff1f2',
+  roseDeep:   '#9f1239',
+  emerald:    '#059669',
+  emeraldBg:  '#ecfdf5',
+  emeraldDeep:'#065f46',
+  amber:      '#d97706',
+  amberBg:    '#fffbeb',
+  display: 'var(--font-instrument-serif), "GT Sectra", Georgia, serif',
+  sans:    'var(--font-inter-tight), "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+  mono:    'var(--font-jetbrains-mono), "SF Mono", ui-monospace, monospace',
+} as const
+
+export type TokenKey = keyof typeof N

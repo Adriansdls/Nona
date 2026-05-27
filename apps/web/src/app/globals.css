@@ -39,3 +39,43 @@
   * { @apply border-border; }
   body { @apply bg-background text-foreground; }
 }
+
+/* ─── Nona design system — base styles ─────────────────────────── */
+.nn {
+  font-family: var(--font-inter-tight), "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  color: #0b0c10;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv11" on, "ss01" on;
+  letter-spacing: -0.011em;
+}
+.nn h1, .nn h2, .nn h3, .nn .display {
+  font-family: var(--font-instrument-serif), "GT Sectra", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.018em;
+}
+.nn .display-italic { font-style: italic; }
+.nn .mono {
+  font-family: var(--font-jetbrains-mono), "SF Mono", ui-monospace, monospace;
+  font-feature-settings: "ss01" on, "cv11" on, "zero" on;
+}
+.nn button { font-family: inherit; cursor: pointer; }
+.nn ::selection { background: #4f46e5; color: white; }
+.nn input, .nn textarea, .nn button { font-family: inherit; }
+.nn .tabnum { font-variant-numeric: tabular-nums; }
+
+/* ─── Nona animations ──────────────────────────────────────────── */
+@keyframes nn-pulse  { 0%,100%{opacity:1} 50%{opacity:.35} }
+@keyframes nn-ping   { 0%{transform:scale(1);opacity:.6} 100%{transform:scale(2.6);opacity:0} }
+@keyframes nn-tick   { 0%{transform:scale(.5);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+@keyframes nn-spin   { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+@keyframes nn-fadeUp { from{opacity:0; transform: translateY(6px)} to{opacity:1; transform: none} }
+@keyframes nn-blink  { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+.nn .caret::after {
+  content: '';
+  display: inline-block;
+  width: .5em; height: 1em;
+  vertical-align: -.15em;
+  background: currentColor;
+  margin-left: 2px;
+  animation: nn-blink 1.1s steps(1) infinite;
+}

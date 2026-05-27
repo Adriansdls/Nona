@@ -29,7 +29,7 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
   const isAdmin = profile.role === 'admin'
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
+    <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-56 border-r bg-muted/20 p-4 flex flex-col gap-1 shrink-0">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">

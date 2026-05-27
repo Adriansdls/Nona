@@ -1,25 +1,48 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+})
+
+const interTight = Inter_Tight({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter-tight',
+  display: 'swap',
+})
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
-    default: 'SalvaCão — Cada cão merece voltar a casa',
-    template: '%s | SalvaCão',
+    default: 'Nona — Cada cão merece voltar a casa',
+    template: '%s | Nona',
   },
-  description: 'Tecnologia gratuita ao serviço das redes que já salvam cães no Algarve',
+  description: 'Agente de IA para cães perdidos no Algarve. Cartaz, redes sociais, voluntários — em segundos.',
   openGraph: {
-    siteName: 'SalvaCão',
+    siteName: 'Nona',
     type: 'website',
   },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html suppressHydrationWarning>
-      <body className={inter.className}>{children}</body>
+    <html
+      suppressHydrationWarning
+      className={`${instrumentSerif.variable} ${interTight.variable} ${jetBrainsMono.variable}`}
+    >
+      <body className="nn">{children}</body>
     </html>
   )
 }
