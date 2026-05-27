@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
-import { sendCaseResolved } from '@/lib/email/send'
+import { sendCaseResolved, sendResolutionCelebration } from '@/lib/email/send'
 import { sendTelegramMessage } from '@/lib/notifications/telegram'
 
 const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
@@ -65,6 +65,14 @@ export async function POST(
     caseSlug: slug,
     dogName: caseRow.dog_name as string | null,
   }).catch((e) => console.warn('Resolved email failed:', e))
+
+  // Resolution celebration (warmer email)
+  void sendResolutionCelebration({
+    to: caseRow.reporter_email as string,
+    reporterName: caseRow.reporter_name as string,
+    caseSlug: slug,
+    dogName: caseRow.dog_name as string | null,
+  }).catch((e) => console.warn('Celebration email failed:', e))
 
   // Telegram confirmation
   void sendTelegramMessage(

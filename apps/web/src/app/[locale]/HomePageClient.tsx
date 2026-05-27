@@ -98,6 +98,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
   const [nonaActions, setNonaActions] = useState<ActionItem[]>([])
   const [quickReplies, setQuickReplies] = useState<string[]>([])
   const [caseSlug, setCaseSlug] = useState<string | null>(null)
+  const [ownerToken, setOwnerToken] = useState<string | null>(null)
   const [streaming, setStreaming] = useState(false)
   const chatRef = useRef<HTMLDivElement>(null)
 
@@ -181,6 +182,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               setAgentEvents([...events]); setNonaActions([...actions])
             } else if (evt['type'] === 'case_created') {
               setCaseSlug(String(evt['slug'] ?? ''))
+              if (evt['ownerToken']) setOwnerToken(String(evt['ownerToken']))
             } else if (evt['type'] === 'quick_replies') {
               setQuickReplies(Array.isArray(evt['replies']) ? evt['replies'] as string[] : [])
             } else if (evt['type'] === 'done') {
@@ -409,9 +411,16 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
 
           {/* Case created CTA */}
           {caseSlug && (
-            <div style={{ marginBottom: 16, padding: '12px 16px', background: N.emeraldBg, border: `1px solid ${N.emerald}22`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 13.5, color: N.emeraldDeep, fontWeight: 500 }}>Caso criado</span>
-              <a href={`/${locale}/caso/${caseSlug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, background: N.emerald, color: N.white, fontSize: 12.5, fontWeight: 500, textDecoration: 'none', fontFamily: N.sans }}>Ver caso <Icon name="arrow" size={12} color={N.white}/></a>
+            <div style={{ marginBottom: 16, padding: '12px 16px', background: N.emeraldBg, border: `1px solid ${N.emerald}22`, borderRadius: 12, display: 'grid', gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 13.5, color: N.emeraldDeep, fontWeight: 500 }}>Caso criado</span>
+                <a href={`/${locale}/caso/${caseSlug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, background: N.emerald, color: N.white, fontSize: 12.5, fontWeight: 500, textDecoration: 'none', fontFamily: N.sans }}>Ver caso <Icon name="arrow" size={12} color={N.white}/></a>
+              </div>
+              {ownerToken && (
+                <a href={`/${locale}/meu-caso/${ownerToken}`} style={{ fontSize: 12.5, color: N.emeraldDeep, textDecoration: 'none', fontWeight: 500 }}>
+                  → Painel do dono (privado)
+                </a>
+              )}
             </div>
           )}
 

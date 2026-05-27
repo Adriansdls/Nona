@@ -176,6 +176,12 @@ async def execute_pi_tool(
         message = str(inputs.get("message", ""))
         guidance_type = str(inputs.get("guidance_type", "daily_update"))
         telegram_id = case.get("reporter_telegram_id")
+        owner_token = case.get("owner_token")
+
+        # Append dashboard link to every owner message
+        if owner_token:
+            dashboard_url = f"{web_url}/pt/meu-caso/{owner_token}"
+            message = f"{message}\n\n🔗 Painel: {dashboard_url}"
 
         db.table("case_notifications").insert({
             "case_id": case_id,

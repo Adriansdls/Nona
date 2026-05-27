@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import { randomBytes } from 'crypto'
 import Anthropic from '@anthropic-ai/sdk'
 import type { MessageParam, ToolResultBlockParam } from '@anthropic-ai/sdk/resources/messages/messages'
 import { createServiceClient } from '@/lib/supabase/service'
@@ -103,7 +104,7 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
   },
 ]
 
-async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<{ result: string; code?: string; status?: 'live' | 'ok'; caseSlug?: string }> {
+async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<{ result: string; code?: string; status?: 'live' | 'ok'; caseSlug?: string; ownerToken?: string }> {
   try {
     switch (name) {
       case 'identify_dog': {
@@ -157,6 +158,7 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           lastSeenMunicipality: String(input.last_seen_municipality ?? 'algarve'),
           lastSeenAt: new Date().toISOString(),
         } as Parameters<typeof generateSlug>[0])
+        const ownerToken = randomBytes(16).toString('hex')
 
         const { error } = await supabase.from('cases').insert({
           slug,
@@ -176,6 +178,7 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           reporter_email: String(input.reporter_email ?? 'noreply@nona.pt'),
           reporter_name: String(input.reporter_name ?? 'Anónimo'),
           agent_name: agentName ?? null,
+          owner_token: ownerToken,
         })
 
         if (error) {
@@ -186,6 +189,7 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           result: `nona.pt/caso/${slug}`,
           status: 'ok',
           caseSlug: slug,
+          ownerToken,
         }
       }
 
@@ -336,7 +340,7 @@ export async function POST(req: NextRequest) {
                 status: result.status ?? 'ok',
               })
               if (result.caseSlug) {
-                send({ type: 'case_created', slug: result.caseSlug })
+                send({ type: 'case_created', slug: result.caseSlug, ownerToken: result.ownerToken ?? null })
               }
               toolResults.push({
                 type: 'tool_result',

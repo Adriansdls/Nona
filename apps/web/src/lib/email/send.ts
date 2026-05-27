@@ -28,14 +28,17 @@ export async function sendCaseConfirmation({
   to,
   caseSlug,
   reporterName,
+  ownerToken,
   locale = 'pt',
 }: {
   to: string
   caseSlug: string
   reporterName: string
+  ownerToken?: string | null
   locale?: string
 }) {
   const caseUrl = `${APP_URL}/${locale}/caso/${caseSlug}`
+  const dashboardUrl = ownerToken ? `${APP_URL}/${locale}/meu-caso/${ownerToken}` : null
   const subject =
     locale === 'en' ? 'Case registered — SalvaCão' : 'Caso registado — SalvaCão'
 
@@ -47,6 +50,13 @@ export async function sendCaseConfirmation({
       <p>Olá ${reporterName},</p>
       <p>O seu caso foi registado com sucesso.</p>
       <p><a href="${caseUrl}">Ver caso: ${caseUrl}</a></p>
+      ${dashboardUrl ? `
+      <p style="margin-top:16px;padding:12px 16px;background:#f4f4f1;border-radius:8px;">
+        <strong>O seu painel pessoal (privado):</strong><br/>
+        <a href="${dashboardUrl}">${dashboardUrl}</a><br/>
+        <small style="color:#666">Aqui pode acompanhar o que o investigador está a fazer, ver avistamentos e marcar o cão como encontrado.</small>
+      </p>
+      ` : ''}
       <p>Irá receber uma notificação quando alguém reportar um avistamento.</p>
       <hr/>
       <p style="font-size:12px;color:#666">SalvaCão — tecnologia gratuita para salvar cães no Algarve</p>
@@ -112,6 +122,36 @@ export async function sendCaseResolved({
       <p><a href="${caseUrl}">Ver caso resolvido</a></p>
       <hr/>
       <p style="font-size:12px;color:#666">SalvaCão</p>
+    `,
+  })
+}
+
+export async function sendResolutionCelebration({
+  to,
+  reporterName,
+  caseSlug,
+  dogName,
+  locale = 'pt',
+}: {
+  to: string
+  reporterName: string
+  caseSlug: string
+  dogName: string | null
+  locale?: string
+}) {
+  const dogLabel = dogName ?? 'O seu cão'
+  const caseUrl = `${APP_URL}/${locale}/caso/${caseSlug}`
+  await getTransport().sendMail({
+    from: FROM,
+    to,
+    subject: `🎉 ${dogLabel} foi encontrado! — SalvaCão`,
+    html: `
+      <p>Olá ${reporterName},</p>
+      <p>Que notícia maravilhosa — <strong>${dogLabel} foi encontrado!</strong></p>
+      <p>Obrigado por usar o SalvaCão. A vossa história faz parte do que motiva toda a equipa a continuar.</p>
+      <p><a href="${caseUrl}">Ver caso resolvido</a></p>
+      <hr/>
+      <p style="font-size:12px;color:#666">SalvaCão — tecnologia gratuita para salvar cães no Algarve</p>
     `,
   })
 }
