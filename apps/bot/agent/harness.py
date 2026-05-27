@@ -22,7 +22,7 @@ from supabase import Client
 
 from intel.models import BehavioralPhase  # noqa: E402
 from intel.tools import compute_behavioral_phase  # noqa: E402
-from agent.kb import lookup_canils, record_discovery  # noqa: E402
+from agent.kb import lookup_canils, lookup_vets, record_discovery  # noqa: E402
 
 UTC = timezone.utc
 
@@ -132,6 +132,23 @@ class CaseHarness:
             for c in canils[:3]
         ) or 'none in KB'
 
+        vets = lookup_vets(self._db, municipality)
+        vets_str = '; '.join(
+            f"{v['name']} ({v.get('phone') or '?'})"
+            for v in vets[:3]
+        ) or 'none in KB'
+
+        # Case flags — prompt PI agent to act on theft/chip status
+        flag_lines: list[str] = []
+        if self.case.get('suspected_theft'):
+            flag_lines.append('SUSPECTED_THEFT=true — trigger gnr_report guidance immediately')
+        has_chip = self.case.get('has_chip')
+        if has_chip is False:
+            flag_lines.append('HAS_CHIP=false — trigger chip_check guidance (SICAFE registration)')
+        elif has_chip is None:
+            flag_lines.append('HAS_CHIP=unknown — confirm chip status with owner')
+        flags_str = '; '.join(flag_lines) or 'none'
+
         escalation_note = ''
         if self.should_escalate():
             escalation_note = '\nESCALATION: 48h+ elapsed, no sightings — widen radius, add channels.\n'
@@ -143,6 +160,8 @@ class CaseHarness:
             f"PHASE: {self.phase.value.upper()} — {_PHASE_IMPLICATIONS[self.phase]}\n"
             f"ACTIONS ALREADY TAKEN: {', '.join(tried)}\n"
             f"LOCAL CANILS IN KB: {canils_str}\n"
+            f"LOCAL VETS IN KB: {vets_str}\n"
+            f"CASE FLAGS: {flags_str}\n"
             f"AVAILABLE TOOLS THIS PHASE: {', '.join(self.tool_palette())}"
             f"{escalation_note}"
         )

@@ -198,33 +198,57 @@ async def execute_pi_tool(
     if name == "notify_canil":
         municipality = str(inputs.get("municipality", ""))
         canil_name = str(inputs.get("canil_name", ""))
-        dog_desc = str(inputs.get("dog_description", ""))
         action = f"notified_canil_{canil_name.lower().replace(' ', '_')[:30]}"
 
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already notified"})
 
-        harness.log_action(
-            action, name,
-            f"[STUB] Would notify {canil_name} ({municipality}): {dog_desc[:100]} — "
-            f"caso: {web_url}/caso/{slug}"
+        # Look up email from KB
+        rows = db.table("kb_canils") \
+            .select("email,phone") \
+            .ilike("name", f"%{canil_name}%") \
+            .limit(1).execute()
+        canil_email = (rows.data[0].get("email") if rows.data else None)  # type: ignore[index]
+
+        sent = False
+        if canil_email:
+            from agent.email import send_canil_notification
+            sent = send_canil_notification(str(canil_email), canil_name, harness.case)
+
+        outcome = (
+            f"Email sent to {canil_name} ({canil_email}): {web_url}/caso/{slug}"
+            if sent else
+            f"[NO EMAIL] {canil_name} has no email in KB — phone: {inputs.get('canil_phone', '?')}"
         )
-        return json.dumps({"logged": True, "canil": canil_name, "real_send": "wired in WP4"})
+        harness.log_action(action, name, outcome)
+        return json.dumps({"sent": sent, "canil": canil_name, "email": canil_email})
 
     if name == "notify_vet":
         vet_name = str(inputs.get("vet_name", ""))
         municipality = str(inputs.get("municipality", ""))
-        dog_desc = str(inputs.get("dog_description", ""))
         action = f"notified_vet_{vet_name.lower().replace(' ', '_')[:30]}"
 
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already notified"})
 
-        harness.log_action(
-            action, name,
-            f"[STUB] Would notify {vet_name} ({municipality}): {dog_desc[:100]}"
+        rows = db.table("kb_vets") \
+            .select("email,phone") \
+            .ilike("name", f"%{vet_name}%") \
+            .limit(1).execute()
+        vet_email = (rows.data[0].get("email") if rows.data else None)  # type: ignore[index]
+
+        sent = False
+        if vet_email:
+            from agent.email import send_vet_notification
+            sent = send_vet_notification(str(vet_email), vet_name, harness.case)
+
+        outcome = (
+            f"Email sent to {vet_name} ({vet_email}): {web_url}/caso/{slug}"
+            if sent else
+            f"[NO EMAIL] {vet_name} has no email in KB — phone: {inputs.get('vet_phone', '?')}"
         )
-        return json.dumps({"logged": True, "vet": vet_name, "real_send": "wired in WP4"})
+        harness.log_action(action, name, outcome)
+        return json.dumps({"sent": sent, "vet": vet_name, "email": vet_email})
 
     if name == "post_to_channel":
         channel_name = str(inputs.get("channel_name", ""))
@@ -256,17 +280,53 @@ async def execute_pi_tool(
 
     if name == "request_volunteer_alert":
         municipality = str(inputs.get("municipality", "?"))
+        radius_km = inputs.get("radius_km", 8)
+        urgency = str(inputs.get("urgency", "normal"))
         action = f"volunteer_alert_{municipality.lower()}"
 
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already alerted"})
 
+        # Municipality-based volunteer query (geo-fenced radius in WP6)
+        volunteers = (
+            db.table("user_profiles")
+            .select("telegram_id,municipality")
+            .eq("role", "voluntario")
+            .ilike("municipality", f"%{municipality}%")
+            .execute()
+        )
+
+        dog_name = harness.case.get("dog_name") or "Cão"
+        breed = harness.case.get("breed", "")
+        color = harness.case.get("primary_color", "")
+        zone = harness.case.get("last_seen_zone_approx", municipality)
+        case_url = f"{web_url}/pt/caso/{slug}"
+        prefix = "🚨 URGENTE" if urgency == "immediate" else "🐕 Alerta voluntário"
+
+        message = (
+            f"{prefix} — {dog_name} ({breed}, {color}) perdido em {zone}.\n"
+            f"Zona: {municipality} · raio ~{radius_km}km\n"
+            f"Ver caso: {case_url}"
+        )
+
+        count = 0
+        for vol in (volunteers.data or []):
+            tid = vol.get("telegram_id")
+            if tid:
+                db.table("case_notifications").insert({
+                    "case_id": case_id,
+                    "channel": "telegram",
+                    "telegram_id": int(tid),
+                    "message": message,
+                    "phase": harness.phase.value,
+                }).execute()
+                count += 1
+
         harness.log_action(
             action, name,
-            f"[STUB] Would alert volunteers: {municipality} "
-            f"radius={inputs.get('radius_km')}km"
+            f"Queued volunteer alerts: {count} volunteers in {municipality}"
         )
-        return json.dumps({"logged": True, "real_send": "wired in WP4"})
+        return json.dumps({"queued": count, "municipality": municipality})
 
     if name == "update_case_assessment":
         harness.log_action(
