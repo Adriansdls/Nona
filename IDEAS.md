@@ -67,6 +67,11 @@ Generated from: platform audit + research synthesis (Lord 2007, Albrecht MAR, HA
 52. Supabase realtime subscription — agent wakes on new sighting event
 53. Scheduled jobs (nightly re-matching, daily case agent run, 48h shelter cycling)
 
+### UX / Agent identity
+54. Agent random name pool — cada agente tem nome próprio aleatório (não "Nona"). Muitos agentes, nomes únicos por caso. Nunca reusar o nome da plataforma. Ex: pool de nomes pt: "Beatriz", "Rui", "Margarida", "Tiago", etc.
+55. "Agente atribuído" UI moment — quando o utilizador começa a conversa, mini-animação que mostra agentes disponíveis e "atribui" um ao caso. Pode ser simulado (fake) inicialmente, mas cria sentimento de dedicação pessoal. Nome do agente persiste no caso.
+56. Live agent status strip — mostrar quantos agentes ativos existem agora na plataforma (pode ser estático/fake na v1). Cria sensação de sistema vivo e em operação.
+
 ---
 
 ## GROUPED BY CATEGORY

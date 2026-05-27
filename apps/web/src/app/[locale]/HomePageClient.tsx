@@ -85,7 +85,10 @@ interface HomePageClientProps {
 // Card dimensions for the canvas before expansion (matches hero input card position)
 interface CardRect { left: number; top: number; width: number; height: number }
 
+const _AGENT_NAMES = ["Beatriz","Rui","Margarida","Tiago","Catarina","João","Sofia","Marta","Pedro","Inês","Gonçalo","Carolina","Diogo","Rita","André","Matilde","Nuno","Raquel","Miguel","Lara"]
+
 export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePageClientProps) {
+  const [agentName] = useState(() => _AGENT_NAMES[Math.floor(Math.random() * _AGENT_NAMES.length)]!)
   const [mode, setMode] = useState<Mode>('lost')
   const [phase, setPhase] = useState<Phase>(0)
   const [inputValue, setInputValue] = useState('')
@@ -142,7 +145,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
       const history = messages.map(m => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text }))
       const res = await fetch('/api/intake/stream', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, mode, history }),
+        body: JSON.stringify({ message: text, mode, history, agentName }),
       })
       if (!res.ok || !res.body) throw new Error('stream failed')
 
@@ -391,7 +394,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                 <div style={{ animation: 'nn-fadeUp .4s ease both' }}>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
                     <Logo size={12}/>
-                    <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>nona · {msg.time}</span>
+                    <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{agentName} · {msg.time}</span>
                   </div>
                   <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>{renderMarkdown(msg.text)}</p>
                   {msg.quickReplies && (

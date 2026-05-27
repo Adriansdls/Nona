@@ -130,6 +130,13 @@ class SearchIntel(BaseModel):
             "Include stolen-dog warning (Lord 2007) if suspected_theft=true."
         )
     )
+    action_resources: "ActionResources | None" = Field(  # noqa: F821 — defined below
+        default=None,
+        description=(
+            "Specific canils, vets, and channels for this case municipality. "
+            "Populated by lookup_local_resources tool. null if tool was not called or KB was empty."
+        )
+    )
 
     @model_validator(mode="after")
     def validate_confidence_coherence(self) -> "SearchIntel":
@@ -155,6 +162,12 @@ class InsufficientData(BaseModel):
         default=None,
         description="Include if breed was classifiable — radius is still actionable even without terrain"
     )
+
+
+class ActionResources(BaseModel):
+    canils: list[dict] = Field(default_factory=list, description="Canils to call, from KB")
+    vets: list[dict] = Field(default_factory=list, description="Vets to notify, from KB")
+    channels: list[dict] = Field(default_factory=list, description="Channels to post in, from KB")
 
 
 class SightingPoint(BaseModel):

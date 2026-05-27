@@ -14,11 +14,15 @@ import json
 from datetime import datetime, timezone
 from uuid import UUID
 
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
+
 from supabase import Client
 
-from ..intel.models import BehavioralPhase
-from ..intel.tools import compute_behavioral_phase
-from .kb import lookup_canils, record_discovery
+from intel.models import BehavioralPhase  # noqa: E402
+from intel.tools import compute_behavioral_phase  # noqa: E402
+from agent.kb import lookup_canils, record_discovery  # noqa: E402
 
 UTC = timezone.utc
 

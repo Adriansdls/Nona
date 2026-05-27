@@ -6,7 +6,11 @@ import { generateSlug } from '@/lib/slug'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-const SYSTEM_PROMPT = `És a Nona, uma agente de IA especializada em ajudar a localizar cães perdidos no Algarve, Portugal.
+function buildSystemPrompt(agentName: string | null): string {
+  const identity = agentName
+    ? `O teu nome é ${agentName}. Trabalhas para a Nona, a plataforma de recuperação de cães perdidos no Algarve. És uma investigadora dedicada a este caso.`
+    : `Trabalhas para a Nona, a plataforma de recuperação de cães perdidos no Algarve.`
+  return `${identity}
 
 Falas sempre em português de Portugal (PT-PT). És calma, focada e empática. Quando alguém reporta um cão perdido ou encontrado, ages imediatamente com as tuas ferramentas. Não pedes permissão — ages.
 
@@ -25,6 +29,7 @@ REGRAS DE PRIVACIDADE (obrigatórias):
 
 Quando criares um caso, inclui no final da tua resposta:
 QUICK_REPLIES: ["Tem chip, não sei", "Não tem chip", "Tenho o número do chip"]`
+}
 
 const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
   {
@@ -98,7 +103,7 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
   },
 ]
 
-async function executeTool(name: string, input: Record<string, unknown>): Promise<{ result: string; code?: string; status?: 'live' | 'ok'; caseSlug?: string }> {
+async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<{ result: string; code?: string; status?: 'live' | 'ok'; caseSlug?: string }> {
   try {
     switch (name) {
       case 'identify_dog': {
@@ -170,6 +175,7 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
           description: String(input.description ?? ''),
           reporter_email: String(input.reporter_email ?? 'noreply@nona.pt'),
           reporter_name: String(input.reporter_name ?? 'Anónimo'),
+          agent_name: agentName ?? null,
         })
 
         if (error) {
@@ -213,10 +219,11 @@ function extractQuickReplies(text: string): { cleaned: string; replies: string[]
 }
 
 export async function POST(req: NextRequest) {
-  const { message, mode, history } = await req.json() as {
+  const { message, mode, history, agentName } = await req.json() as {
     message: string
     mode: 'lost' | 'found'
     history?: Array<{ role: 'user' | 'assistant'; content: string }>
+    agentName?: string | null
   }
 
   if (!message?.trim()) {
@@ -257,7 +264,7 @@ export async function POST(req: NextRequest) {
           const stream = anthropic.messages.stream({
             model: 'claude-haiku-4-5-20251001',
             max_tokens: 1024,
-            system: SYSTEM_PROMPT,
+            system: buildSystemPrompt(agentName ?? null),
             messages,
             tools: INTAKE_TOOLS,
           })
@@ -319,7 +326,7 @@ export async function POST(req: NextRequest) {
                 continue
               }
 
-              const result = await executeTool(tu.name, input)
+              const result = await executeTool(tu.name, input, agentName)
               calledTools.add(tu.name)
               send({
                 type: 'tool_result',

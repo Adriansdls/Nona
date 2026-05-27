@@ -30,10 +30,12 @@ SYSTEM_PROMPT = """És um agente especialista em busca de cães desaparecidos no
 Chama as ferramentas NESTA ORDEM antes de submeter:
 1. classify_breed(breed, size) — determina raio de busca e comportamento por raça
 2. get_municipality_profile(municipality) — obtém riscos de terreno documentados pelos Bombeiros
-3. query_terrain(lat, lng, radius_km, feature_types=["wells","waterways"]) — dados OSM de água
-4. query_terrain(lat, lng, radius_km, feature_types=["railway","primary_roads"]) — dados OSM de estradas
-5. get_weather_context(lat, lng) — temperatura e condições actuais
-6. submit_intel(...) OU submit_insufficient_data(...)
+3. lookup_local_resources(municipality) — canils e vets reais na zona (base de dados viva)
+4. query_terrain(lat, lng, radius_km, feature_types=["wells","waterways"]) — dados OSM de água
+5. query_terrain(lat, lng, radius_km, feature_types=["railway","primary_roads"]) — dados OSM de estradas
+6. get_weather_context(lat, lng) — temperatura e condições actuais
+7. [Opcional] discover_resources(municipality, "vet", lat, lng) — só se lookup_local_resources retornou vets vazios
+8. submit_intel(...) OU submit_insufficient_data(...)
 
 NÃO saltes passos. NÃO inventes dados de terreno.
 
@@ -163,7 +165,7 @@ FALLBACK_INSUFFICIENT = InsufficientData(
 )
 
 
-MANDATORY_TOOLS = {"classify_breed", "get_municipality_profile", "query_terrain", "get_weather_context"}
+MANDATORY_TOOLS = {"classify_breed", "get_municipality_profile", "lookup_local_resources", "query_terrain", "get_weather_context"}
 
 
 async def run_intel_agent(request: IntelRequest) -> SearchIntel | InsufficientData:

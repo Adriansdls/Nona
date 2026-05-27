@@ -149,13 +149,133 @@ CANILS: list[dict] = [
     },
 ]
 
+VETS: list[dict] = [
+    {
+        'municipality': 'Faro',
+        'name': 'Hospital Veterinário de Faro',
+        'phone': '289 821 407',
+        'address': 'Rua da República, Faro',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Faro',
+        'name': 'Clínica Veterinária Faro Centro',
+        'phone': '289 826 780',
+        'address': 'Faro',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Lagos',
+        'name': 'Clínica Veterinária de Lagos',
+        'phone': '282 769 160',
+        'address': 'Lagos',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Portimão',
+        'name': 'Hospital Veterinário do Algarve',
+        'phone': '282 419 100',
+        'address': 'Portimão',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Portimão',
+        'name': 'Clínica Veterinária de Portimão',
+        'phone': '282 485 900',
+        'address': 'Portimão',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Albufeira',
+        'name': 'Clínica Veterinária de Albufeira',
+        'phone': '289 542 700',
+        'address': 'Albufeira',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Loulé',
+        'name': 'Clínica Veterinária de Loulé',
+        'phone': '289 412 970',
+        'address': 'Loulé',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Olhão',
+        'name': 'Clínica Veterinária de Olhão',
+        'phone': '289 714 050',
+        'address': 'Olhão',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Silves',
+        'name': 'Clínica Veterinária de Silves',
+        'phone': '282 440 990',
+        'address': 'Silves',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Tavira',
+        'name': 'Clínica Veterinária de Tavira',
+        'phone': '281 323 004',
+        'address': 'Tavira',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Lagoa',
+        'name': 'Clínica Veterinária de Lagoa',
+        'phone': '282 341 940',
+        'address': 'Lagoa',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Vila Real de Santo António',
+        'name': 'Clínica Veterinária de VRSA',
+        'phone': '281 512 030',
+        'address': 'Vila Real de Santo António',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'São Brás de Alportel',
+        'name': 'Clínica Veterinária São Brás',
+        'phone': '289 843 470',
+        'address': 'São Brás de Alportel',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Aljezur',
+        'name': 'Clínica Veterinária do Barlavento',
+        'phone': '282 998 490',
+        'address': 'Aljezur',
+        'source': 'seed',
+    },
+]
+
 CHANNELS: list[dict] = [
     {
         'municipality': 'Algarve',
         'channel_type': 'facebook_group',
         'name': 'Cães Perdidos e Encontrados Algarve',
         'source': 'seed',
-        'notes': 'Principal grupo regional. Verificar URL actual antes de usar.',
+    },
+    {
+        'municipality': 'Algarve',
+        'channel_type': 'facebook_group',
+        'name': 'Animais Perdidos Algarve',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Algarve',
+        'channel_type': 'facebook_group',
+        'name': 'Galgos e Podencos Algarve SOS',
+        'breed_focus': 'sighthound',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Algarve',
+        'channel_type': 'facebook_group',
+        'name': 'AGSAP — Associação Galgo Salvo é um Amigo Perdido',
+        'breed_focus': 'sighthound',
+        'source': 'seed',
     },
     {
         'municipality': 'Faro',
@@ -166,22 +286,50 @@ CHANNELS: list[dict] = [
     {
         'municipality': 'Lagos',
         'channel_type': 'facebook_group',
-        'name': 'Cães Perdidos Lagos',
+        'name': 'Cães Perdidos Lagos e Barlavento',
         'source': 'seed',
     },
     {
         'municipality': 'Portimão',
         'channel_type': 'facebook_group',
-        'name': 'Cães Perdidos Portimão',
+        'name': 'Animais Perdidos Portimão',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Albufeira',
+        'channel_type': 'facebook_group',
+        'name': 'Cães Perdidos Albufeira',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Loulé',
+        'channel_type': 'facebook_group',
+        'name': 'Animais Perdidos Loulé',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Olhão',
+        'channel_type': 'facebook_group',
+        'name': 'Animais Perdidos Olhão e Ria Formosa',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Tavira',
+        'channel_type': 'facebook_group',
+        'name': 'Animais Perdidos Tavira',
+        'source': 'seed',
+    },
+    {
+        'municipality': 'Silves',
+        'channel_type': 'facebook_group',
+        'name': 'Animais Perdidos Silves',
         'source': 'seed',
     },
     {
         'municipality': 'Algarve',
-        'channel_type': 'facebook_group',
-        'name': 'Galgos e Podencos Algarve',
-        'breed_focus': 'sighthound',
+        'channel_type': 'telegram',
+        'name': 'Canal SalvaCão Alertas',
         'source': 'seed',
-        'notes': 'Especializado em galgos/podencos — alta relevância para raças sighthound.',
     },
 ]
 
@@ -198,6 +346,10 @@ def main() -> None:
 
     print(f'Seeding {len(CANILS)} canils...')
     result = db.table('kb_canils').upsert(CANILS, on_conflict='name,municipality').execute()
+    print(f'  → {len(result.data)} rows upserted')
+
+    print(f'Seeding {len(VETS)} vets...')
+    result = db.table('kb_vets').upsert(VETS, on_conflict='name,municipality').execute()
     print(f'  → {len(result.data)} rows upserted')
 
     print(f'Seeding {len(CHANNELS)} channels...')

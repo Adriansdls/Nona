@@ -8,12 +8,26 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from typing import Any
 
 import httpx
 
 from .knowledge import classify_breed_with_size, get_municipality_profile as _get_muni_profile
 from .models import BreedCategory, BehavioralPhase
+
+_supabase_client: Any = None
+
+
+def _get_supabase() -> Any:
+    global _supabase_client
+    if _supabase_client is None:
+        from supabase import create_client
+        _supabase_client = create_client(
+            os.environ["SUPABASE_URL"],
+            os.environ["SUPABASE_SERVICE_ROLE_KEY"],
+        )
+    return _supabase_client
 
 OVERPASS_URLS = [
     "https://overpass.private.coffee/api/interpreter",
@@ -116,6 +130,39 @@ INTEL_TOOL_DEFINITIONS: list[dict[str, Any]] = [
                 "lng": {"type": "number"},
             },
             "required": ["lat", "lng"],
+        },
+    },
+    {
+        "name": "lookup_local_resources",
+        "description": (
+            "Query the live KB for canils and vets in the case municipality. "
+            "Call after get_municipality_profile. Results go into action_resources in submit_intel. "
+            "If results are empty, call discover_resources to find vets via Google Places."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "municipality": {"type": "string", "description": "Algarve municipality name"},
+            },
+            "required": ["municipality"],
+        },
+    },
+    {
+        "name": "discover_resources",
+        "description": (
+            "When lookup_local_resources returns empty vets: query Google Places API for vet clinics "
+            "near the case coordinates. Results are written to KB permanently. "
+            "Only call if lookup_local_resources returned empty vets AND lat/lng are available."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "municipality": {"type": "string"},
+                "resource_type": {"type": "string", "enum": ["vet", "canil"]},
+                "lat": {"type": "number"},
+                "lng": {"type": "number"},
+            },
+            "required": ["municipality", "resource_type", "lat", "lng"],
         },
     },
     {
@@ -288,6 +335,10 @@ INTEL_TOOL_DEFINITIONS: list[dict[str, Any]] = [
 async def execute_intel_tool(name: str, inputs: dict[str, Any]) -> str:
     """Dispatch tool call to async executor. Returns JSON string."""
     try:
+        if name == "lookup_local_resources":
+            return await _exec_lookup_local_resources(inputs)
+        if name == "discover_resources":
+            return await _exec_discover_resources(inputs)
         if name == "classify_breed":
             return await _exec_classify_breed(inputs)
         if name == "get_municipality_profile":
@@ -533,3 +584,75 @@ async def _exec_weather(inputs: dict[str, Any]) -> str:
             "error": str(exc),
             "note": "Weather unavailable — proceed without temperature context.",
         })
+
+
+async def _exec_lookup_local_resources(inputs: dict[str, Any]) -> str:
+    municipality = str(inputs.get("municipality", ""))
+    try:
+        db = _get_supabase()
+        canils = db.table("kb_canils").select("name,phone,hours").ilike(
+            "municipality", f"%{municipality}%"
+        ).limit(3).execute()
+        vets = db.table("kb_vets").select("name,phone,address").ilike(
+            "municipality", f"%{municipality}%"
+        ).limit(3).execute()
+        return json.dumps({
+            "municipality": municipality,
+            "canils": canils.data or [],
+            "vets": vets.data or [],
+            "note": "If vets list is empty, call discover_resources with lat/lng to query Google Places.",
+        })
+    except Exception as exc:
+        return json.dumps({"error": str(exc), "municipality": municipality, "canils": [], "vets": []})
+
+
+async def _exec_discover_resources(inputs: dict[str, Any]) -> str:
+    municipality = str(inputs.get("municipality", ""))
+    resource_type = str(inputs.get("resource_type", "vet"))
+    lat = inputs.get("lat")
+    lng = inputs.get("lng")
+
+    api_key = os.environ.get("GOOGLE_MAPS_API_KEY")
+    if not api_key:
+        return json.dumps({
+            "error": "GOOGLE_MAPS_API_KEY not configured",
+            "results": [],
+            "note": "Set GOOGLE_MAPS_API_KEY in Fly.io secrets to enable dynamic discovery.",
+        })
+
+    keyword_map = {"vet": "veterinário clínica", "canil": "canil abrigo animais"}
+    keyword = keyword_map.get(resource_type, "veterinário")
+
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.get(
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
+                params={
+                    "location": f"{lat},{lng}",
+                    "radius": 15000,
+                    "keyword": keyword,
+                    "language": "pt-PT",
+                    "key": api_key,
+                },
+            )
+            data = resp.json()
+
+        table = "kb_vets" if resource_type == "vet" else "kb_canils"
+        db = _get_supabase()
+        results = []
+        for place in data.get("results", [])[:5]:
+            entry: dict[str, Any] = {
+                "name": place.get("name"),
+                "address": place.get("vicinity"),
+                "municipality": municipality,
+                "lat": place["geometry"]["location"]["lat"],
+                "lng": place["geometry"]["location"]["lng"],
+                "source": "google_places",
+            }
+            results.append(entry)
+            db.table(table).upsert(entry, on_conflict="name,municipality").execute()
+
+        return json.dumps({"results": results, "count": len(results), "written_to_kb": True})
+
+    except Exception as exc:
+        return json.dumps({"error": str(exc), "results": []})
