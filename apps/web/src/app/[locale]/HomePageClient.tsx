@@ -194,11 +194,6 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
   const inChat = phase >= 1
   const panelIn = phase >= 4
 
-  // Canvas animates from the hero input card rect → full viewport
-  const canvasAnim = inChat || !cardRect
-    ? { left: 0, top: 0, width: viewport.w, height: viewport.h, borderRadius: 0 }
-    : { left: cardRect.left, top: cardRect.top, width: cardRect.width, height: cardRect.height, borderRadius: 18 }
-
   return (
     <div className="nn" style={{ position: 'fixed', inset: 0, background: N.paper, overflow: 'hidden' }}>
 
@@ -302,14 +297,22 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         </footer>
       </div>
 
-      {/* ══ CHAT CANVAS — Framer Motion spring expansion from hero input ══ */}
-      {/* Phase 0: positioned exactly over the hero input card (white on white = invisible seam) */}
-      {/* Phase 1+: spring-expands to fill the entire viewport                                  */}
-      {/* z-index jumps above chrome at phase 1 so the expanding white covers the fading chrome */}
+      {/* ══ CHAT CANVAS — only mounts on submit, springs from hero card rect → full viewport ══ */}
+      {inChat && (
       <motion.div
-        initial={false}
+        initial={{
+          left: cardRect?.left ?? 0,
+          top: cardRect?.top ?? 0,
+          width: cardRect?.width ?? viewport.w,
+          height: cardRect?.height ?? viewport.h,
+          borderRadius: 18,
+        }}
         animate={{
-          ...canvasAnim,
+          left: 0,
+          top: 0,
+          width: viewport.w,
+          height: viewport.h,
+          borderRadius: 0,
           paddingRight: panelIn ? 360 : 0,
         }}
         transition={{
@@ -317,26 +320,22 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           stiffness: 260,
           damping: 28,
           mass: 1,
-          paddingRight: { type: 'spring', stiffness: 260, damping: 28 },
         }}
         style={{
           position: 'fixed',
           background: N.white,
-          zIndex: inChat ? 15 : 8,
+          zIndex: 15,
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-end',
           paddingTop: 48,
-          paddingBottom: 32,
-          // border/shadow snap instantly (no animation needed — canvas is "hidden" behind chrome at phase 0)
-          border: phase === 0 ? `1px solid ${N.rule}` : 'none',
-          boxShadow: phase === 0 ? '0 1px 0 rgba(11,12,16,.02), 0 14px 36px -10px rgba(11,12,16,.10)' : 'none',
+          paddingBottom: 56,
         }}
       >
         {/* Compact nav — absolute inside canvas */}
-        <header style={{ position: 'absolute', top: 0, left: 0, right: panelIn ? 360 : 0, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px', borderBottom: `1px solid ${N.rule}`, background: N.white, opacity: inChat ? 1 : 0, transition: 'opacity .3s ease .3s' }}>
+        <header style={{ position: 'absolute', top: 0, left: 0, right: panelIn ? 360 : 0, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px', borderBottom: `1px solid ${N.rule}`, background: N.white }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <Logo size={18}/>
             {caseSlug && (<>
@@ -353,7 +352,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         </header>
 
         {/* Thread */}
-        <div ref={chatRef} style={{ flex: 1, width: '100%', maxWidth: 640, padding: '80px 28px 0', overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', opacity: inChat ? 1 : 0, transition: 'opacity .25s ease .4s' }}>
+        <div ref={chatRef} style={{ flex: 1, width: '100%', maxWidth: 640, padding: '80px 28px 0', overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
           {messages[0] && (
             <div style={{ marginBottom: 24, paddingLeft: 12, borderLeft: `2px solid ${N.ink}`, animation: 'nn-fadeUp .55s ease both' }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
@@ -429,7 +428,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         </div>
 
         {/* Reply input */}
-        <div style={{ width: '100%', maxWidth: 640, padding: '0 28px', opacity: inChat ? 1 : 0, transition: 'opacity .25s ease .4s' }}>
+        <div style={{ width: '100%', maxWidth: 640, padding: '0 28px' }}>
           <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, padding: '14px 16px 12px', boxShadow: '0 1px 0 rgba(11,12,16,.02), 0 8px 24px -8px rgba(11,12,16,.10)' }}>
             <AutoTextarea value={inputValue} onChange={setInputValue} onSubmit={handleSubmit} placeholder="responde à nona…" minHeight={22} fontSize={14.5} disabled={streaming || !inChat}/>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 6 }}>
@@ -445,6 +444,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
         </div>
       </motion.div>
+      )}
 
       {/* ══ ACTIVITY PANEL ══ */}
       <motion.div
