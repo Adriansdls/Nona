@@ -11,6 +11,7 @@ primary_region = "fra"
   internal_port = 8080
   force_https = true
   auto_stop_machines = false
+  processes = ["bot"]
 
 [[vm]]
   memory = "512mb"
