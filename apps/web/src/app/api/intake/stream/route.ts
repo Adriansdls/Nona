@@ -211,7 +211,11 @@ function extractQuickReplies(text: string): { cleaned: string; replies: string[]
 }
 
 export async function POST(req: NextRequest) {
-  const { message, mode } = await req.json() as { message: string; mode: 'lost' | 'found' }
+  const { message, mode, history } = await req.json() as {
+    message: string
+    mode: 'lost' | 'found'
+    history?: Array<{ role: 'user' | 'assistant'; content: string }>
+  }
 
   if (!message?.trim()) {
     return new Response('{"error":"message required"}', { status: 400 })
@@ -226,10 +230,20 @@ export async function POST(req: NextRequest) {
 
       try {
         const modeLabel = mode === 'lost' ? 'perdido' : 'encontrado'
-        const messages: MessageParam[] = [{
-          role: 'user',
-          content: `[modo: ${modeLabel}]\n\n${message}`,
-        }]
+
+        // Build messages: prior history + current user message
+        const priorMessages: MessageParam[] = (history ?? []).map(h => ({
+          role: h.role,
+          content: h.content,
+        }))
+
+        const messages: MessageParam[] = [
+          // Inject mode label only in the very first user turn
+          ...(priorMessages.length === 0
+            ? [{ role: 'user' as const, content: `[modo: ${modeLabel}]\n\n${message}` }]
+            : [...priorMessages, { role: 'user' as const, content: message }]
+          ),
+        ]
 
         let iterations = 0
         const maxIterations = 5

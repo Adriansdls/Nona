@@ -124,7 +124,9 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     const text = inputValue.trim()
     if (!text) return
 
-    setMessages([{ from: 'user', text, time: formatTime() }])
+    const userMsg: ChatMessage = { from: 'user', text, time: formatTime() }
+    // Append, never replace — preserves full conversation history in UI
+    setMessages(prev => [...prev, userMsg])
     setInputValue('')
     setPhase(2)
     setTimeout(() => setPhase(3), 400)
@@ -136,9 +138,11 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     const actions: ActionItem[] = []
 
     try {
+      // Pass existing messages as history so Claude maintains context across turns
+      const history = messages.map(m => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text }))
       const res = await fetch('/api/intake/stream', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, mode }),
+        body: JSON.stringify({ message: text, mode, history }),
       })
       if (!res.ok || !res.body) throw new Error('stream failed')
 
@@ -189,7 +193,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     } finally {
       setStreaming(false); scrollChat()
     }
-  }, [inputValue, mode, scrollChat])
+  }, [inputValue, mode, messages, scrollChat])
 
   const inChat = phase >= 1
   const panelIn = phase >= 4
@@ -303,15 +307,15 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         initial={{
           left: cardRect?.left ?? 0,
           top: cardRect?.top ?? 0,
-          width: cardRect?.width ?? viewport.w,
-          height: cardRect?.height ?? viewport.h,
+          right: cardRect ? viewport.w - cardRect.left - cardRect.width : 0,
+          bottom: cardRect ? viewport.h - cardRect.top - cardRect.height : 0,
           borderRadius: 18,
         }}
         animate={{
           left: 0,
           top: 0,
-          width: viewport.w,
-          height: viewport.h,
+          right: 0,
+          bottom: 0,
           borderRadius: 0,
           paddingRight: panelIn ? 360 : 0,
         }}
