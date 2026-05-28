@@ -16,6 +16,7 @@ import httpx
 log = logging.getLogger(__name__)
 
 _APP_URL = os.environ.get("WEB_APP_URL", "https://salvacao.pt")
+_SIM_MODE = os.environ.get("SIMULATION_MODE", "").lower() in ("1", "true", "yes")
 
 
 def post_to_telegram_channel(chat_id: str, text: str) -> bool:
@@ -24,6 +25,10 @@ def post_to_telegram_channel(chat_id: str, text: str) -> bool:
     chat_id: @channelname or numeric -100XXXX stored in kb_channels.url.
     Bot must be admin of the channel.
     """
+    if _SIM_MODE:
+        log.info("[SIM] Telegram channel post suppressed", chat_id=chat_id, text_preview=text[:120])
+        return True
+
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     if not token:
         log.warning("TELEGRAM_BOT_TOKEN not set — Telegram channel post skipped")

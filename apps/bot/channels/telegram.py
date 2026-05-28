@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 WEB_APP_URL = os.environ.get("WEB_APP_URL", "http://localhost:3001")
 INTERNAL_TOKEN = os.environ.get("INTERNAL_API_TOKEN", "")
 ML_SERVICE_URL = os.environ.get("ML_SERVICE_URL", "")
+SIM_MODE = os.environ.get("SIMULATION_MODE", "").lower() in ("1", "true", "yes")
 
 
 # ---------------------------------------------------------------------------
@@ -353,7 +354,10 @@ async def _flush_notifications(context: ContextTypes.DEFAULT_TYPE) -> None:
             if not tid:
                 continue
             try:
-                await context.bot.send_message(chat_id=tid, text=notif["message"])
+                if SIM_MODE:
+                    logger.info("[SIM] Telegram notify suppressed", notif_id=notif["id"], tid=tid, preview=notif["message"][:120])
+                else:
+                    await context.bot.send_message(chat_id=tid, text=notif["message"])
                 db.table("case_notifications").update(
                     {"sent_at": "now()"}
                 ).eq("id", notif["id"]).execute()

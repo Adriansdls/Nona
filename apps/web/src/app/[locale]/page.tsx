@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import { HomePageClient } from './HomePageClient'
 
 export const metadata: Metadata = {
-  title: 'Nona — Cada cão merece voltar a casa',
-  description: 'Agente de IA para cães perdidos no Algarve. Cartaz, redes sociais, voluntários — em segundos.',
+  title: 'Nona — Investigador privado para cães perdidos no Algarve',
+  description: 'Um investigador IA atribuído ao teu caso. Protocolo científico, contacto a canils e veterinários, monitorização 24/7. Grátis para proprietários de animais no Algarve.',
 }
 
 async function getReunidosCount(): Promise<number> {

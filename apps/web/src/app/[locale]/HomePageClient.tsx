@@ -369,13 +369,13 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '6vh 0 0' }}>
         <div style={{ width: 720, maxWidth: '90vw' }}>
           <p style={{ margin: 0, fontFamily: N.mono, fontSize: 11.5, color: N.ink3, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-            agente para cães perdidos · algarve
+            investigador privado para cães perdidos · algarve
           </p>
           <h1 style={{ margin: '14px 0 0', fontFamily: N.display, fontWeight: 400, fontSize: 76, letterSpacing: '-0.025em', lineHeight: 0.98, color: N.ink } as React.CSSProperties}>
-            Diz-me o que se passou.<br/><span style={{ fontStyle: 'italic' }}>Eu trato de tudo.</span>
+            Diz-me o que se passou.<br/><span style={{ fontStyle: 'italic' }}>Eu trato do resto.</span>
           </h1>
-          <p style={{ margin: '20px auto 0', maxWidth: 480, fontSize: 15.5, color: N.ink2, lineHeight: 1.55 }}>
-            Cartaz, redes sociais, voluntários, monitorização de avistamentos. Em segundos, sem formulários.
+          <p style={{ margin: '20px auto 0', maxWidth: 520, fontSize: 15.5, color: N.ink2, lineHeight: 1.55 }}>
+            Um investigador privado fica atribuído ao teu caso. Protocolo científico: o que fazer e o que nunca fazer. Contacta canils, veterinários e voluntários. Monitorização 24/7 até ao regresso.
           </p>
           <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             <span style={{ position: 'relative', display: 'inline-block', width: 7, height: 7 }}>
@@ -383,7 +383,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald, animation: 'nn-ping 2.2s cubic-bezier(0,0,.2,1) infinite' }}/>
             </span>
             <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
-              {activeAgentsCount} investigadores disponíveis agora
+              {activeAgentsCount} casos em monitorização activa
             </span>
           </div>
           <div style={{ display: 'inline-flex', marginTop: 16, padding: 3, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 999, gap: 2 }}>
@@ -427,7 +427,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         <div style={{ padding: '48px 32px 0' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>reunidos esta semana · {reunidosCount}</span>
+            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>reunidos com família · {reunidosCount}</span>
             <a href={`/${locale}/casos`} style={{ fontSize: 12, color: N.ink2, textDecoration: 'none' }}>ver todos →</a>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10 }}>
@@ -460,7 +460,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         </div>{/* end cases padding */}
 
         <footer style={{ marginTop: 48, padding: '16px 32px', borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
-          <span>nona · open source · made in algarve · 2026</span>
+          <span>nona · investigador privado gratuito · algarve · 2026</span>
           <span style={{ display: 'flex', gap: 18 }}><span>privacidade</span><span>como funciona</span><span>parceiros</span></span>
         </footer>
       </div>
@@ -514,7 +514,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
             <Icon name="sparkle" size={11} color={N.indigo}/>
-            <span>nona · claude-haiku-4.5</span>
+            <span>nona · investigador IA</span>
             {streaming && <><span style={{ color: N.ink4 }}>·</span><Pill kind="live" size="xs"/></>}
           </div>
         </header>

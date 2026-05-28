@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/adriandelasierra/Nona/.claude/hooks/research_postprocess.py"
+            "command": "python3 /Users/asdls/Documents/save-dogs/.claude/hooks/research_postprocess.py"
           }
         ]
       }

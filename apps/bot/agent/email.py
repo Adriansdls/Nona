@@ -19,6 +19,8 @@ log = logging.getLogger(__name__)
 
 _FROM = os.environ.get("EMAIL_FROM", "nona@salvacao.pt")
 _APP_URL = os.environ.get("WEB_APP_URL", "https://salvacao.pt")
+_SIM_MODE = os.environ.get("SIMULATION_MODE", "").lower() in ("1", "true", "yes")
+_SIM_TO = "adrian.s.delasierra@gmail.com"
 
 
 def _init() -> bool:
@@ -44,11 +46,14 @@ def send_canil_notification(canil_email: str, canil_name: str, case: dict) -> bo
     description = case.get("description", "")
     case_url = f"{_APP_URL}/pt/caso/{slug}"
 
+    actual_to = _SIM_TO if _SIM_MODE else canil_email
+    sim_prefix = f"[SIM → {canil_email}] " if _SIM_MODE else ""
+
     try:
         _resend.Emails.send({
             "from": _FROM,
-            "to": canil_email,
-            "subject": f"[SalvaCão] Cão perdido em {municipality} — por favor consulte animais recebidos",
+            "to": actual_to,
+            "subject": f"{sim_prefix}[SalvaCão] Cão perdido em {municipality} — por favor consulte animais recebidos",
             "html": f"""
 <p>Olá equipa do <strong>{canil_name}</strong>,</p>
 <p>Foi reportado um cão perdido na vossa área. Pedimos que verifiquem se o animal foi recolhido recentemente.</p>
@@ -65,7 +70,7 @@ def send_canil_notification(canil_email: str, canil_name: str, case: dict) -> bo
 <p style="font-size:11px;color:#999">SalvaCão — tecnologia gratuita para salvar cães no Algarve</p>
 """,
         })
-        log.info("Canil email sent", canil=canil_name, to=canil_email)
+        log.info("Canil email sent", canil=canil_name, to=actual_to, sim=_SIM_MODE)
         return True
     except Exception as exc:
         log.error("Canil email failed", canil=canil_name, error=str(exc))
@@ -85,11 +90,14 @@ def send_vet_notification(vet_email: str, vet_name: str, case: dict) -> bool:
     zone = case.get("last_seen_zone_approx", "")
     case_url = f"{_APP_URL}/pt/caso/{slug}"
 
+    actual_to = _SIM_TO if _SIM_MODE else vet_email
+    sim_prefix = f"[SIM → {vet_email}] " if _SIM_MODE else ""
+
     try:
         _resend.Emails.send({
             "from": _FROM,
-            "to": vet_email,
-            "subject": f"[SalvaCão] Cão perdido em {municipality} — alerta clínica veterinária",
+            "to": actual_to,
+            "subject": f"{sim_prefix}[SalvaCão] Cão perdido em {municipality} — alerta clínica veterinária",
             "html": f"""
 <p>Olá equipa da <strong>{vet_name}</strong>,</p>
 <p>Um cão perdido foi reportado na vossa área. Se o animal aparecer na clínica — encontrado por alguém ou trazido para tratamento — pedimos que contactem o dono pelo caso abaixo.</p>
@@ -104,7 +112,7 @@ def send_vet_notification(vet_email: str, vet_name: str, case: dict) -> bool:
 <p style="font-size:11px;color:#999">SalvaCão — tecnologia gratuita para salvar cães no Algarve</p>
 """,
         })
-        log.info("Vet email sent", vet=vet_name, to=vet_email)
+        log.info("Vet email sent", vet=vet_name, to=actual_to, sim=_SIM_MODE)
         return True
     except Exception as exc:
         log.error("Vet email failed", vet=vet_name, error=str(exc))
