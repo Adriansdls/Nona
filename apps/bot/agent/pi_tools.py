@@ -11,7 +11,10 @@ import json
 import os
 import pathlib
 import sys
+from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
+
+import httpx
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
@@ -239,6 +242,99 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
             "type": "object",
             "properties": {
                 "post_content": {"type": "string", "description": "Post text in PT"},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "send_field_guide",
+        "description": (
+            "WP12: Send time-indexed protocol to owner based on current hour bucket since dog was lost. "
+            "Use on case_created (h0_6), and on every phase transition. "
+            "is_hard_case=True adds galgo/xenophobic/blind_panic passive-only additions."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "hour_bucket": {
+                    "type": "string",
+                    "enum": ["h0_6", "h6_24", "d2_4", "d5_10", "d10_plus"],
+                    "description": "Current time window since dog was lost",
+                },
+                "is_hard_case": {
+                    "type": "boolean",
+                    "description": "True for galgo, podenco, xenophobic, blind_panic. Adds passive-only protocol.",
+                },
+            },
+            "required": ["hour_bucket"],
+        },
+    },
+    {
+        "name": "score_sighting_wp12",
+        "description": (
+            "WP12: Score a sighting on 5 factors (0-15 points total). "
+            "≥10 → move camera within 6h. 7-9 → log and monitor. <7 → log only. "
+            "Call after any new sighting to determine urgency of response."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "sighting_id": {"type": "string"},
+                "observer_familiarity": {
+                    "type": "integer", "minimum": 0, "maximum": 3,
+                    "description": "3=owner/handler, 2=volunteer who knows dog, 1=civilian stranger",
+                },
+                "description_specificity": {
+                    "type": "integer", "minimum": 0, "maximum": 3,
+                    "description": "3=breed+color+distinctive mark, 2=breed+general color, 1=vague",
+                },
+                "behavioral_match": {
+                    "type": "integer", "minimum": 0, "maximum": 3,
+                    "description": "3=matches known behavior exactly, 2=plausible, 1=unlikely/unknown",
+                },
+                "location_plausibility": {
+                    "type": "integer", "minimum": 0, "maximum": 3,
+                    "description": "3=<2km from last known, 2=2-10km, 1=>10km or geographically implausible",
+                },
+                "observation_conditions": {
+                    "type": "integer", "minimum": 0, "maximum": 3,
+                    "description": "3=daylight+calm+close range, 2=dusk/partial/distant, 1=night/crowd/moving vehicle",
+                },
+            },
+            "required": ["sighting_id", "observer_familiarity", "description_specificity",
+                         "behavioral_match", "location_plausibility", "observation_conditions"],
+        },
+    },
+    {
+        "name": "send_environment_advisory",
+        "description": (
+            "WP10: Send physical environment advisory to owner at case_created. "
+            "Covers: activity windows (dawn/dusk/dead zone), scent station Nortada orientation, "
+            "search radius, transport risk, water urgency from day 2, heatstroke flag. "
+            "Call ONCE at case_created — skip if already done."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+        },
+    },
+    {
+        "name": "query_geography",
+        "description": (
+            "WP13: Query territorial intelligence for a municipality: zone type, A22 barrier side, "
+            "terrain permeability and search radius modifier, water source type, food availability, "
+            "goatherd zones, static fire risk band. If fire season (June-Oct), also returns live "
+            "IPMA fire danger level for the Faro district. Use to verify or cross-reference a "
+            "neighbouring municipality when planning search expansion."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "municipality": {
+                    "type": "string",
+                    "description": "Municipality to query. Leave empty to use case municipality.",
+                },
             },
             "required": [],
         },
@@ -633,15 +729,42 @@ async def execute_pi_tool(
             return json.dumps({"skipped": True})
 
         owner_token = harness.case.get("owner_token", "")
+        bp = harness.case.get("behavioral_profile") or {}
+        ag = bp.get("action_gate") or {}
+        is_hard = (
+            bp.get("breed_category") in ("galgo", "podenco") or
+            bp.get("temperament") == "xenophobic" or
+            ag.get("crowd_response_blocked", False)
+        )
+
         instructions = (
             "🍖 ESTAÇÃO DE ALIMENTAÇÃO — instale hoje:\n\n"
-            "• Tigela funda com comida húmida (atum, frango enlatado) + água fresca\n"
-            "• No local exato onde o cão foi visto pela última vez\n"
-            "• Visite às 6h e às 22h — horários de maior actividade canina\n"
-            "• Coloque câmara de movimento (telemóvel em suporte serve)\n"
-            "• NÃO espere junto à tigela — deixe a comida e afaste-se\n"
-            "• Comida consumida = cão confirmado na zona\n\n"
-            "Fonte: Albrecht/MAR 2018 IAABC — alimentação mantém cão localizado.\n\n"
+            "LOCALIZAÇÃO E MONTAGEM:\n"
+            "• No ponto exacto do último avistamento (ou fuga)\n"
+            "• Tigela funda com comida húmida: hot dogs, frango BBQ, ou atum\n"
+            "  (liquid smoke / fumo líquido na terra em volta = isca extra)\n"
+            "• Água fresca em tigela separada\n"
+            "• Roupa usada do dono dobrada ao lado da tigela\n\n"
+            "CÂMARA DE MOVIMENTO (obrigatório):\n"
+            "• Mínimo 2 câmaras (Evans & Mortelliti 2019: +22-400% detecção)\n"
+            "• Altura: 15-20cm p/ cão pequeno · 30-50cm p/ cão médio/grande\n"
+            "• Ângulo: 30-45° para cima, a cobrir 3m em frente à tigela\n"
+        )
+        if is_hard:
+            instructions += (
+                "• NÃO troque SD card — visite remotamente ou use câmara celular\n"
+                "  Uma visita física pode afugentar o cão permanentemente\n"
+            )
+        else:
+            instructions += "• Troque SD ou verifique remotamente às 6h e 22h\n"
+        instructions += (
+            "\nHORÁRIOS:\n"
+            "• Pico de actividade: 22:00-06:00\n"
+            "• Visite para reabastecer às 6h e às 22h APENAS\n"
+            "• NÃO visite fora deste horário — não espere junto à tigela\n\n"
+            "Comida consumida = cão confirmado na zona — não mova a estação.\n"
+            "Mantenha mínimo 14 dias após último avistamento.\n\n"
+            "Fonte: Evans & Mortelliti 2019 · Albrecht/MAR 2018 IAABC\n\n"
             f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
         )
 
@@ -663,14 +786,33 @@ async def execute_pi_tool(
             return json.dumps({"skipped": True})
 
         owner_token = harness.case.get("owner_token", "")
+        hours = harness._hours_elapsed()
+        days_missing = int(hours // 24)
+
         instructions = (
-            "🪤 ARMADILHA HUMANITÁRIA — próximo passo após actividade na estação:\n\n"
-            "• Use jaula metálica tipo 'live trap' (aluguel em lojas agrícolas ou câmara municipal)\n"
-            "• Coloque junto à estação de alimentação, coberta com pano para parecer abrigo\n"
-            "• Isca: comida do cão + t-shirt usada do dono no fundo\n"
-            "• Verifique de 2 em 2h — NÃO deixe o cão preso mais de 2h\n"
-            "• Ao capturar: não grite nem gesticule — aproxime-se devagar, fale baixo\n"
-            "• Contacte o médico veterinário imediatamente após captura\n\n"
+            "🪤 ARMADILHA HUMANITÁRIA — após câmara confirmar actividade:\n\n"
+            "MONTAGEM:\n"
+            "• Jaula metálica 'live trap' (aluguel em lojas agrícolas ou câmara municipal)\n"
+            "• Coloque junto à estação de alimentação, coberta com pano (parece abrigo)\n"
+            "• Isca no fundo: comida favorita + t-shirt usada do dono (sem lavar)\n"
+            "• Fase de habituação: 2-3 dias com jaula aberta antes de activar o mecanismo\n\n"
+            "OPERAÇÃO:\n"
+            "• Verifique de 2 em 2h — NUNCA deixe o cão preso mais de 2h\n"
+            "• Câmara aponta para entrada da jaula (alerta imediato)\n"
+            "• Ao capturar: não grite, não corra — aproxime-se lateral, fale baixo\n"
+            "• Cubra a jaula com manta imediatamente (reduz stress)\n\n"
+        )
+        if days_missing >= 5:
+            instructions += (
+                "⚠️ ATENÇÃO — SÍNDROME DE REALIMENTAÇÃO (CRÍTICO):\n"
+                f"O cão está desaparecido há ~{days_missing} dias. Após jejum prolongado,\n"
+                "alimentação rápida pode causar síndrome de realimentação — fatal.\n"
+                "• NÃO ofereça comida imediatamente após captura\n"
+                "• Ligue ao veterinário ANTES de alimentar\n"
+                "• Rehidratação controlada tem prioridade sobre alimentação\n"
+                "Fonte: Marks 1994 — refeeding syndrome in canines\n\n"
+            )
+        instructions += (
             "Fonte: Albrecht/MAR 2018 IAABC — armadilha é o método mais eficaz em cães assustados.\n\n"
             f"🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
         )
@@ -785,6 +927,243 @@ async def execute_pi_tool(
         harness.log_action(action, name, f"Cross-posted to regional channels: {', '.join(posted) or 'none'}")
         return json.dumps({"posted_to": posted})
 
+    if name == "send_field_guide":
+        bucket = str(inputs.get("hour_bucket", "h0_6"))
+        action = f"field_guide_{bucket}"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        is_hard = bool(inputs.get("is_hard_case", False))
+        owner_token = harness.case.get("owner_token", "")
+        dog_name = harness.case.get("dog_name") or "o seu cão"
+
+        BUCKET_GUIDES: dict[str, str] = {
+            "h0_6": (
+                f"📋 PROTOCOLO PRIMEIRAS 6H — {dog_name}\n\n"
+                "FAÇA AGORA:\n"
+                "• Roupa usada (sem perfume) no ponto exacto de desaparecimento\n"
+                "• Cartaz A4 com foto nas 10 lojas/paragens mais próximas\n"
+                "• Notifique canil municipal e 3 clínicas veterinárias próximas\n"
+                "• Publique no grupo Facebook local com cruzamento mais próximo (não GPS)\n"
+                "• Estação de alimentação: tigela + água no local de desaparecimento\n\n"
+                "NÃO FAÇA:\n"
+                "• Não corra atrás — deslocação fatal\n"
+                "• Não repita o nome — condiciona fuga\n"
+                "• Não organize grupos de busca > 2 pessoas\n\n"
+                "Fonte: Weiss 2012 (n=1015) · Albrecht/MAR 2018 IAABC"
+            ),
+            "h6_24": (
+                f"📋 PROTOCOLO 6-24H — {dog_name}\n\n"
+                "PRIORIDADE:\n"
+                "• Visite pessoalmente o canil municipal (não ligue — vá em pessoa, mostre foto)\n"
+                "  Lord 2007 JAVMA: visita pessoal = 2.1× maior taxa de recuperação\n"
+                "• Verifique chip no SIAC (siac.vet.pt) — confirme dados actualizados\n"
+                "• Expanda cartazes a raio 5km + clínicas veterinárias da área\n"
+                "• Registe na GNR/PSP local\n\n"
+                "ESTAÇÃO:\n"
+                "• Visite às 6h e 22h APENAS — não mais\n"
+                "• Comida consumida = cão confirmado na zona\n"
+                "• Sem actividade em 24h → mova 100m em cada direcção\n\n"
+                "Fonte: Albrecht/MAR 2018 IAABC · Lord 2007 JAVMA"
+            ),
+            "d2_4": (
+                f"📋 PROTOCOLO DIAS 2-4 — {dog_name}\n\n"
+                "FASE DE SOBREVIVÊNCIA — protocolo passivo é crítico:\n\n"
+                "CÂMARA (se ainda não instalou):\n"
+                "• Mínimo 2 câmaras (+22-400% detecção — Evans & Mortelliti 2019)\n"
+                "• Altura: 15-20cm p/ cão pequeno · 30-50cm p/ médio\n"
+                "• Isca: hot dogs, frango BBQ, liquid smoke NO chão\n"
+                "  NÃO use urina — repele cães assustados\n"
+                "• Pico de actividade: 22:00-06:00\n"
+                "• Verifique remotamente — NÃO visite o local entre reabastecimentos\n\n"
+                "ESTAÇÃO: NÃO mova. NÃO altere. Consistência é chave.\n"
+                "CANIL: Visita pessoal cada 48h. Mostre novas fotos.\n\n"
+                "Fonte: Evans & Mortelliti 2019 · Albrecht/MAR 2018 IAABC"
+            ),
+            "d5_10": (
+                f"📋 PROTOCOLO DIAS 5-10 — {dog_name}\n\n"
+                "Território estabelecido (raio ~2-3km da última localização).\n\n"
+                "ARMADILHA — activar se câmara confirmar actividade:\n"
+                "• Jaula coberta com pano (parece abrigo)\n"
+                "• Isca: roupas do dono + comida favorita\n"
+                "• Verifique de 2 em 2h — NUNCA preso mais de 2h\n\n"
+                "⚠️ CAPTURA após >5 dias: risco de síndrome de realimentação.\n"
+                "NÃO alimente em excesso. Contacte veterinário ANTES de alimentar.\n\n"
+                "EXPANSÃO:\n"
+                "• Verifique canils nos concelhos vizinhos\n"
+                "• Publique em grupos Algarve regionais\n\n"
+                "Fonte: Albrecht/MAR 2018 IAABC · Marks 1994"
+            ),
+            "d10_plus": (
+                f"📋 PROTOCOLO DIA 10+ — {dog_name}\n\n"
+                "Cães são encontrados semanas e meses depois. Não desista.\n\n"
+                "ACÇÕES PRIORITÁRIAS:\n"
+                "• Visite TODOS os canils num raio de 60km — pessoalmente\n"
+                "• Verifique adopções recentes (últimos 30 dias) — o cão pode estar\n"
+                "  com outra família que o encontrou\n"
+                "• Contacte AMAL, APPA, associações locais de resgate\n"
+                "• Reponha cartazes — os antigos desbotam\n"
+                "• Mantenha estação de alimentação activa — mínimo 14 dias\n"
+                "  sem avistamento (cães em recuperação desaparecem 3-5 dias antes)\n\n"
+                "⚠️ CAPTURA após longa ausência: síndrome de realimentação.\n"
+                "Contacte veterinário ANTES de alimentar.\n\n"
+                "Fonte: Weiss 2012 · Lord 2007 JAVMA · Marks 1994"
+            ),
+        }
+        HARD_ADDITIONS: dict[str, str] = {
+            "h0_6": "\n🔴 PERFIL PASSIVO: Estação de alimentação AGORA. Não procure activamente.",
+            "h6_24": "\n🔴 PERFIL PASSIVO: Máximo 1 pessoa silenciosa para verificar estação.",
+            "d2_4": "\n🔴 PERFIL PASSIVO: Câmara substitui visitas ao local. Nenhuma pessoa na área.",
+            "d5_10": "\n🔴 PERFIL PASSIVO: Armadilha com isca familiar. Zero abordagem directa.",
+            "d10_plus": "\n🔴 PERFIL PASSIVO: Câmara 24/7. Armadilha com isca familiar. Sem grupos.",
+        }
+
+        message = BUCKET_GUIDES.get(bucket, BUCKET_GUIDES["h0_6"])
+        if is_hard:
+            message += HARD_ADDITIONS.get(bucket, "")
+        message += f"\n\n🔗 Painel: {web_url}/pt/meu-caso/{owner_token}"
+
+        telegram_id = harness.case.get("reporter_telegram_id")
+        db.table("case_notifications").insert({
+            "case_id": case_id,
+            "channel": "telegram" if telegram_id else "log",
+            "telegram_id": int(telegram_id) if telegram_id else None,
+            "message": message,
+            "phase": harness.phase.value,
+        }).execute()
+
+        harness.log_action(action, name, f"Field guide {bucket} sent (hard_case={is_hard})")
+        return json.dumps({"sent": True, "bucket": bucket, "is_hard_case": is_hard})
+
+    if name == "score_sighting_wp12":
+        sighting_id = str(inputs.get("sighting_id", ""))
+        of_ = int(inputs.get("observer_familiarity", 1))
+        ds_ = int(inputs.get("description_specificity", 1))
+        bm_ = int(inputs.get("behavioral_match", 1))
+        lp_ = int(inputs.get("location_plausibility", 1))
+        oc_ = int(inputs.get("observation_conditions", 1))
+        total = of_ + ds_ + bm_ + lp_ + oc_
+
+        if total >= 10:
+            rec = "move_camera_within_6h"
+            rec_text = "Mova câmara para zona do avistamento nas próximas 6h."
+        elif total >= 7:
+            rec = "log_and_monitor"
+            rec_text = "Registe e monitore. Aguarde confirmação antes de mover recursos."
+        else:
+            rec = "log_only"
+            rec_text = "Baixa fiabilidade. Registe apenas — não mova recursos."
+
+        if sighting_id:
+            try:
+                db.table("sightings").update({
+                    "reliability_score": total,
+                    "action_recommendation": rec,
+                }).eq("id", sighting_id).execute()
+            except Exception:
+                pass
+
+        action = f"sighting_scored_{sighting_id[:8] if sighting_id else 'unknown'}"
+        harness.log_action(action, name, f"Sighting scored {total}/15 → {rec}")
+        return json.dumps({
+            "sighting_id": sighting_id,
+            "total_score": total,
+            "breakdown": {
+                "observer_familiarity": of_,
+                "description_specificity": ds_,
+                "behavioral_match": bm_,
+                "location_plausibility": lp_,
+                "observation_conditions": oc_,
+            },
+            "action_recommendation": rec,
+            "recommendation_text": rec_text,
+        })
+
+    if name == "send_environment_advisory":
+        action = "environment_advisory_sent"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True})
+
+        from agent.harness import compute_environment_context
+        import datetime as _dt
+
+        ec = compute_environment_context(harness.case, _dt.datetime.now(_dt.timezone.utc).month)
+        owner_token = harness.case.get("owner_token", "")
+        dog_name = harness.case.get("dog_name") or "o seu cão"
+
+        aw = ec.get("activity_windows", {})
+        dawn = aw.get("dawn", "?")
+        dusk = aw.get("dusk", "?")
+        dead = aw.get("dead_zone")
+
+        lines: list[str] = [
+            f"🌍 CONTEXTO AMBIENTAL — {dog_name}\n",
+            "JANELAS DE ACTIVIDADE:",
+            f"• Amanhecer: {dawn} — melhor janela para buscas em terreno",
+            f"• Crepúsculo: {dusk} — segunda janela activa",
+        ]
+        if dead:
+            lines.append(f"• ❌ {dead}: cão praticamente imóvel — NÃO envie voluntários")
+
+        if ec.get("nortada_station_hint"):
+            lines += [
+                "\nESTAÇÃO DE ALIMENTAÇÃO (orientação Nortada):",
+                "• Coloque roupa/estação a NORTE/NOROESTE da zona do cão",
+                "• Vento Nortada (NNW) leva o odor para sul, em direcção ao cão",
+                "• Estação a sul do cão = inútil neste regime de vento",
+            ]
+
+        water_day = ec.get("water_urgency_day", 3)
+        lines += [
+            f"\nURGÊNCIA DE ÁGUA (a partir do dia {water_day}):",
+            "• Cão provavelmente estacionário junto a fonte de água",
+            "• Prioridade: reservatórios agrícolas, campos de golfe, bebedouros",
+            "• Câmara + armadilha junto à água = melhor colocação após dia 2",
+            "• NÃO envie buscadores — instale câmara e jaula",
+        ]
+
+        tr = ec.get("transport_risk", "low")
+        if tr == "high":
+            lines += [
+                "\n🚗 RISCO DE TRANSPORTE ALTO:",
+                "• Cão sociável — provavelmente apanhado por alguém nas primeiras horas",
+                "• Todos os canils do Algarve já foram alertados",
+                "• Publique em inglês e alemão para turistas (zona N125/Vilamoura/Albufeira)",
+            ]
+
+        if ec.get("heatstroke_risk_flag"):
+            lines += [
+                "\n⚠️ RISCO DE GOLPE DE CALOR (raça braquicéfala / cão grande):",
+                "• Buscas APENAS ao amanhecer e ao crepúsculo — nunca a meio do dia",
+                "• Se capturado com dificuldade respiratória ou incapacidade de andar: emergência veterinária imediata",
+            ]
+
+        lines.append(f"\n🔗 Painel: {web_url}/pt/meu-caso/{owner_token}")
+        message = "\n".join(lines)
+
+        telegram_id = harness.case.get("reporter_telegram_id")
+        db.table("case_notifications").insert({
+            "case_id": case_id,
+            "channel": "telegram" if telegram_id else "log",
+            "telegram_id": int(telegram_id) if telegram_id else None,
+            "message": message,
+            "phase": harness.phase.value,
+        }).execute()
+
+        # Persist environment_profile to case
+        try:
+            db.table("cases").update({"environment_profile": ec}).eq("id", case_id).execute()
+            harness.case["environment_profile"] = ec
+        except Exception:
+            pass
+
+        harness.log_action(
+            action, name,
+            f"Environment advisory sent (transport={tr}, nortada={ec.get('is_nortada_season')}, "
+            f"heat={ec.get('is_summer_heat')}, water_day={water_day})"
+        )
+        return json.dumps({"sent": True, "transport_risk": tr, "search_radius_km": ec.get("search_radius_km")})
+
     if name == "update_behavioral_assessment":
         from agent.harness import (
             compute_phase, compute_action_gate, update_belief_from_sighting
@@ -862,5 +1241,54 @@ async def execute_pi_tool(
             },
             "changed_fields": changed_fields,
         })
+
+    if name == "query_geography":
+        municipality = str(inputs.get("municipality") or harness.case.get("last_seen_municipality", ""))
+        if not municipality:
+            return json.dumps({"error": "no municipality"})
+
+        res = (
+            db.table("kb_geography")
+            .select("*")
+            .eq("municipality", municipality)
+            .maybe_single()
+            .execute()
+        )
+        geo = dict(res.data or {})
+        if not geo:
+            return json.dumps({"error": f"municipality '{municipality}' not in kb_geography"})
+
+        current_month = datetime.now(timezone.utc).month
+        if 6 <= current_month <= 10:
+            try:
+                async with httpx.AsyncClient(timeout=5.0) as client:
+                    r = await client.get(
+                        "https://api.ipma.pt/open-data/forecast/warnings/warnings_www.json"
+                    )
+                    r.raise_for_status()
+                    warnings_list = r.json()
+                fire_warnings = [
+                    w for w in warnings_list
+                    if w.get("idAreaAviso", "").startswith("FAR")
+                    and "fire" in w.get("awarenessTypeName", "").lower()
+                ]
+                if fire_warnings:
+                    top = max(fire_warnings, key=lambda w: w.get("awarenessLevel", ""))
+                    geo["ipma_fire_danger_live"] = {
+                        "level": top.get("awarenessLevel"),
+                        "text": top.get("awarenessTypeName"),
+                        "valid_until": top.get("endTime"),
+                    }
+                else:
+                    geo["ipma_fire_danger_live"] = "no_active_warning"
+            except Exception as exc:
+                geo["ipma_fire_danger_live"] = f"unavailable: {exc}"
+
+        harness.log_action(
+            f"geo_queried_{municipality.lower().replace(' ', '_')[:30]}",
+            name,
+            f"Queried kb_geography for {municipality}",
+        )
+        return json.dumps(geo)
 
     return json.dumps({"error": f"unknown tool: {name}"})

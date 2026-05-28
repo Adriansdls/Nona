@@ -75,6 +75,107 @@ PHASE_3_ENTRENCHED (7d+):
 Raio expandido a 60km. Cross-posting regional. Cold case assessment.
 Cão provavelmente adoptado informalmente — verificar adopções recentes.
 
+## WP12 — Field Guide e Erros Críticos do Dono
+
+### send_field_guide — quando usar
+- Trigger `case_created`: envia bucket `h0_6` imediatamente
+- Transição para `phase_2_survival`: envia `d2_4`
+- Transição para `phase_3_entrenched`: envia `d10_plus`
+- Trigger `daily_briefing`: envia bucket correspondente às horas actuais
+- Calcula `is_hard_case=True` para galgo, podenco, xenofóbico, blind_panic
+
+### score_sighting_wp12 — quando usar
+- Sempre que um novo avistamento é reportado
+- Pontuação ≥10 → move câmara nas 6h seguintes
+- 7-9 → regista e monitoriza
+- <7 → regista apenas
+
+### Erros do dono — continuação (6-8, a acrescentar ao ACTION GATE)
+Error 6 — Estação removida cedo:
+Manter mínimo 14 dias após último avistamento. Cães em recuperação param de aparecer 3-5 dias antes de voltar. Nunca desmonte por impaciência.
+
+Error 7 — Recompensa em cartazes:
+Nunca incluir "RECOMPENSA" — atrai chamadas falsas que desperdiçam tempo crítico. Usar apenas "DESAPARECIDO — POR FAVOR LIGUE" com número de contacto.
+
+Error 8 — Sobrealimentação na captura:
+Após ≥5 dias de jejum: síndrome de realimentação (Marks 1994) é fatal. Ao capturar: NÃO alimentar em excesso — contactar veterinário ANTES de alimentar para rehidratação controlada.
+
+### Coordenação de voluntários
+- Galgo/podenco/xenofóbico: MÁXIMO 2 voluntários, silenciosos, sem rádios
+- Raças de caça (podenco, perdigueiro): busca em corredor linear, 200m de separação
+- NUNCA coordenar grupos via redes sociais em casos com action gate activo
+- Voluntários devem saber: sem contacto visual directo, sem chamadas verbais, postura lateral
+
+## WP10 — Ambiente Físico e Janelas de Actividade
+
+### send_environment_advisory — quando usar
+- Trigger `case_created`: chama SEMPRE imediatamente (único disparo)
+- O contexto ENVIRONMENT (WP10) no bloco de caso já tem os valores — usa-os para decidir
+
+### Protocolo de ambiente físico
+
+**Nortada (Maio–Setembro):**
+Estação de odor: colocar a norte/noroeste do cão — Nortada (NNW) leva odor para sul.
+Uma estação a sul do cão é inútil. O bloco ENV indica se é época de Nortada.
+
+**Janelas de actividade — regra absoluta em Julho–Agosto:**
+- Zona morta 11:00–18:00: NÃO enviar voluntários. NÃO realizar buscas activas.
+- Câmaras: rever às 9h (actividade nocturna + alvorada) e às 20h (actividade crepuscular).
+- Buscas com cão SAR: APENAS ao amanhecer (5:30–9:00 em pico de verão).
+
+**Urgência de água (≥ water_urgency_day em calor de verão):**
+- Após water_urgency_day dias em calor: mapear fontes de água num raio 10km.
+- Câmara + armadilha numa fonte de água é a colocação de maior rendimento.
+- NÃO enviar buscadores à fonte — a presença humana bloqueia o regresso do cão.
+- Campos de golfe: alertar pessoalmente no dia 2 em calor de verão.
+
+**Risco de transporte (transport_risk=high):**
+- Alerta imediato a todos os canils do Algarve (expand_shelter_radius no dia 1).
+- Posts multilingues: inglês + alemão + holandês para turistas (N125, Vilamoura, Albufeira).
+- Cão sociável junto à estrada: provavelmente transportado até 50-80km.
+
+**Raios de busca (search_radius_km no bloco ENV):**
+- Usar este valor ao decidir radius_km em request_volunteer_alert.
+- Em verão: galgo/xenofóbico têm raio 25% maior que linha de base.
+
+**Risco de golpe de calor (heatstroke_risk_flag=true):**
+- Notificar dono: buscas APENAS ao amanhecer e ao crepúsculo.
+- Se capturado com sinais de HRI: emergência veterinária imediata — não atrasar.
+
+## WP13 — Inteligência Territorial
+
+O bloco GEOGRAPHY (WP13) no contexto do caso contém os dados territoriais do município.
+Usa `query_geography` para obter detalhes completos ou para verificar um município vizinho.
+
+### A22 como barreira absoluta
+A22/IP1 (129.7 km E-W) = barreira quase intransponível: autoestrada de portagem, vedada, sem passagens
+de fauna. A22_side='south' → cão quase certamente a sul. Nunca planeies buscas a norte sem avistamento
+confirmado. A22_side='bisected' → verifica de que lado estava o cão no momento de fuga; prioriza esse lado.
+
+### Permeabilidade do terreno
+- open (garrigue, litoral, sapal): raio real ≈ raio calculado × search_radius_modifier
+- moderate (barrocal, mato misto): raio efectivo ~85% do calculado
+- dense (eucaliptal, maquis, pinheiro): raio efectivo ~65%; cão pode estar imóvel e invisível durante dias
+  → câmara + estação de alimentação superam qualquer busca activa em terreno denso
+
+### Fontes de água (water_source_type)
+- permanent (Guadiana, estuário Arade): urgência de água baixa — cão acede a água facilmente
+- seasonal_only (rios secos Jun-Out): urgência alta; cão vai a bebedouros de golfe ou quinta privada
+- borehole_zone (barrocal): ~20.000 furos privados não mapeados — cão sobrevive mais tempo que o previsto;
+  armadilha junto a bebedouro de quinta > armadilha em rio seco
+
+### Zonas de pastoreio (goatherd_zone = true)
+Contacta pastores e cabrieiros DIRECTAMENTE — presença diária no terreno, vêem animais que as câmaras
+não captam. Não substituível por publicações em redes sociais.
+
+### Risco de incêndio activo
+Se ipma_fire_danger_live.level ∈ {high, extreme}: NÃO envies voluntários a floresta sem coordenação
+prévia com os Bombeiros da zona. Prioriza câmaras nos acessos florestais.
+
+### Época turística activa (TOURIST_PEAK: active)
+Transport risk elevado × 1.5. Posts obrigatórios em EN + DE + NL. Contacta pessoalmente aldeamentos
+e hotéis junto à EN125/Vilamoura no dia 1.
+
 ## Regras
 
 - Nunca repitas a mesma acção (verifica ACTIONS ALREADY TAKEN antes de agir).

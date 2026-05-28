@@ -34,6 +34,20 @@ interface CaseRow {
   behavioral_profile?: Record<string, unknown> | null
 }
 
+interface GeoRow {
+  municipality: string
+  zone_type: string
+  a22_side: string
+  terrain_permeability: string
+  water_source_type: string
+  food_availability: string
+  human_density: string
+  tourist_peak_months: number[]
+  goatherd_zone: boolean
+  fire_risk_band: string
+  search_radius_modifier: number
+}
+
 interface CaseImage {
   id: string
   public_url: string | null
@@ -79,10 +93,15 @@ async function getCaseData(slug: string) {
     .order('seen_at', { ascending: false })
     .limit(10)
 
-  // Stats
-  const [{ count: sightingCount }, { count: totalSightings }] = await Promise.all([
+  // Stats + WP13 geo lookup
+  const [
+    { count: sightingCount },
+    { count: totalSightings },
+    { data: geoData },
+  ] = await Promise.all([
     supabase.from('sightings').select('*', { count: 'exact', head: true }).eq('case_id', caseData.id).eq('is_public', true),
     supabase.from('sightings').select('*', { count: 'exact', head: true }).eq('case_id', caseData.id),
+    supabase.from('kb_geography').select('*').eq('municipality', caseData.last_seen_municipality).maybeSingle(),
   ])
 
   return {
@@ -92,6 +111,7 @@ async function getCaseData(slug: string) {
       publicSightings: sightingCount ?? 0,
       totalSightings: totalSightings ?? 0,
     },
+    geo: (geoData ?? null) as GeoRow | null,
   }
 }
 

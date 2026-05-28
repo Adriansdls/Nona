@@ -108,6 +108,20 @@ function ZoneCardSkeleton() {
 }
 
 // ─── Types ───────────────────────────────────────────────────────────
+interface GeoRow {
+  municipality: string
+  zone_type: string
+  a22_side: string
+  terrain_permeability: string
+  water_source_type: string
+  food_availability: string
+  human_density: string
+  tourist_peak_months: number[]
+  goatherd_zone: boolean
+  fire_risk_band: string
+  search_radius_modifier: number
+}
+
 interface ProbabilityScenario {
   title: string
   probability: number
@@ -194,11 +208,12 @@ interface CasePageClientProps {
     case: CaseRow
     sightings: SightingRow[]
     stats: { publicSightings: number; totalSightings: number }
+    geo: GeoRow | null
   }
 }
 
 export function CasePageClient({ locale, data }: CasePageClientProps) {
-  const { case: c, sightings, stats } = data
+  const { case: c, sightings, stats, geo } = data
   const [selectedImg, setSelectedImg] = useState(0)
   const [copied, setCopied] = useState(false)
   const [intel, setIntel] = useState<SearchIntel | null>(null)
@@ -541,6 +556,270 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           )
         })()
       )}
+
+      {/* WP12 FIELD GUIDE — time-indexed protocol */}
+      {(() => {
+        const msSinceLoss = Date.now() - new Date(c.last_seen_at).getTime()
+        const hoursLost = msSinceLoss / 3600000
+        const bp = c.behavioral_profile
+        const ag = bp?.action_gate
+        const isHard = (
+          bp?.breed_category === 'galgo' || bp?.breed_category === 'podenco' ||
+          bp?.temperament === 'xenophobic' || bp?.escape_trigger === 'blind_panic' ||
+          ag?.crowd_response_blocked === true
+        )
+
+        type Bucket = { label: string; items: string[]; warning?: string | undefined }
+        let bucket: Bucket
+
+        if (hoursLost < 6) {
+          bucket = {
+            label: 'Primeiras 6 horas',
+            items: [
+              'Roupa usada (sem perfume) no ponto exacto de desaparecimento',
+              'Cartaz A4 com foto nas 10 lojas/paragens mais próximas',
+              'Notifique canil municipal e 3 clínicas veterinárias próximas',
+              'Grupo Facebook local: cruzamento mais próximo (não GPS)',
+              'Estação de alimentação: tigela + água no local de fuga',
+            ],
+          }
+        } else if (hoursLost < 24) {
+          bucket = {
+            label: '6-24 horas',
+            items: [
+              'Visite pessoalmente o canil municipal — não ligue, vá em pessoa (Lord 2007: 2.1× recuperação)',
+              'Verifique chip no SIAC (siac.vet.pt)',
+              'Expanda cartazes a raio 5km + clínicas veterinárias da área',
+              'Registe na GNR/PSP local',
+              'Estação: reabastecimento às 6h e 22h apenas',
+            ],
+          }
+        } else if (hoursLost < 96) {
+          bucket = {
+            label: 'Dias 2-4 — fase de sobrevivência',
+            items: [
+              'Câmara de movimento: mín. 2 câmaras, altura 15-50cm, isca = hot dogs / frango BBQ',
+              'Pico de actividade: 22:00-06:00 — verifique câmara remotamente',
+              'Estação: NÃO mova, NÃO altere — consistência é chave',
+              'Canil: visita pessoal cada 48h, mostre novas fotos',
+            ],
+            warning: isHard ? 'Perfil passivo: câmara substitui visitas ao local' : undefined,
+          }
+        } else if (hoursLost < 240) {
+          bucket = {
+            label: 'Dias 5-10',
+            items: [
+              'Câmara confirma actividade → active armadilha humanitária (jaula coberta)',
+              'Verifique canils nos concelhos vizinhos pessoalmente',
+              'Publique em grupos Algarve regionais (não só locais)',
+              'Mantenha estação activa — mínimo 14 dias',
+            ],
+            warning: 'Captura após >5 dias: risco de síndrome de realimentação — não alimente sem veterinário',
+          }
+        } else {
+          bucket = {
+            label: 'Dia 10+',
+            items: [
+              'Visite TODOS os canils num raio 60km — pessoalmente',
+              'Verifique adopções recentes (últimos 30 dias) no canil',
+              'Contacte AMAL, APPA, associações locais de resgate',
+              'Reponha cartazes — os antigos desbotam',
+              'Mantenha estação activa — cães são encontrados meses depois',
+            ],
+            warning: 'Captura após longa ausência: contacte veterinário ANTES de alimentar',
+          }
+        }
+
+        return (
+          <section style={{ padding: '0 32px 20px' }}>
+            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '16px 18px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
+                <span style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>protocolo activo</span>
+                <span style={{ fontFamily: N.display, fontSize: 15, fontWeight: 400, letterSpacing: '-0.01em', color: N.ink }}>{bucket.label}</span>
+              </div>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 6 }}>
+                {bucket.items.map((item, i) => (
+                  <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
+                    <span style={{ color: '#16A34A', fontSize: 10, marginTop: 3, flexShrink: 0 }}>✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              {bucket.warning && (
+                <div style={{ marginTop: 10, padding: '8px 12px', background: '#FEF9C3', border: '1px solid #FDE047', borderRadius: 8, fontSize: 12, color: '#713F12', lineHeight: 1.45 }}>
+                  ⚠️ {bucket.warning}
+                </div>
+              )}
+            </div>
+          </section>
+        )
+      })()}
+
+      {/* WP10 ENVIRONMENT PANEL — activity windows + physical context */}
+      {(() => {
+        const currentMonth = new Date().getMonth() + 1
+        const isPeakSummer = currentMonth >= 7 && currentMonth <= 8
+        const isSummer = currentMonth >= 6 && currentMonth <= 9
+        const isNortada = currentMonth >= 5 && currentMonth <= 9
+
+        type Windows = { dawn: string; dusk: string; deadZone?: string }
+        const windows: Windows = isPeakSummer
+          ? { dawn: '05:30–09:00', dusk: '19:30–21:30', deadZone: '11:00–18:00' }
+          : isSummer
+          ? { dawn: '06:00–09:30', dusk: '19:00–21:00', deadZone: '12:00–17:00' }
+          : isNortada
+          ? { dawn: '06:30–09:30', dusk: '18:30–20:30', deadZone: '12:00–16:00' }
+          : { dawn: '07:00–09:30', dusk: '17:00–19:00' }
+
+        const msSinceLoss = Date.now() - new Date(c.last_seen_at).getTime()
+        const daysLost = msSinceLoss / 86400000
+        const waterUrgencyDay = isSummer ? 2 : 3
+        const waterUrgent = daysLost >= waterUrgencyDay
+
+        const BRACHY = ['bulldog', 'pug', 'boxer', 'shih tzu', 'french', 'boston', 'cavalier', 'pekinese', 'shar pei', 'chow']
+        const breedLower = c.breed.toLowerCase()
+        const isBrachy = BRACHY.some(b => breedLower.includes(b))
+        const isLarge = c.size === 'grande'
+        const heatstrokeRisk = isSummer && (isBrachy || isLarge)
+
+        const temperament = c.behavioral_profile?.temperament
+        const escTrigger = c.behavioral_profile?.escape_trigger
+        const transportRisk = (temperament === 'gregarious' || escTrigger === 'opportunistic')
+          ? 'high' : temperament === 'xenophobic' ? 'very_low' : 'moderate'
+
+        return (
+          <section style={{ padding: '0 32px 20px' }}>
+            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
+              <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                janelas de actividade · ambiente físico
+              </div>
+
+              {/* Dawn/dusk/dead zone row */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF9C3', border: '1px solid #FDE047', fontFamily: N.mono, fontSize: 11.5, color: '#713F12' }}>
+                  🌅 Amanhecer · {windows.dawn}
+                </span>
+                <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF9C3', border: '1px solid #FDE047', fontFamily: N.mono, fontSize: 11.5, color: '#713F12' }}>
+                  🌆 Crepúsculo · {windows.dusk}
+                </span>
+                {windows.deadZone && (
+                  <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF2F2', border: '1px solid #FECACA', fontFamily: N.mono, fontSize: 11.5, color: '#991B1B' }}>
+                    ❌ Zona morta · {windows.deadZone}
+                  </span>
+                )}
+              </div>
+
+              {/* Contextual alerts */}
+              <div style={{ display: 'grid', gap: 5 }}>
+                {isNortada && (
+                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
+                    🧭 <strong>Nortada activa</strong> — coloque estação de odor a norte/noroeste da zona do cão. O vento leva o odor para sul, em direcção ao cão.
+                  </div>
+                )}
+                {waterUrgent && (
+                  <div style={{ fontSize: 12, color: '#92400E', lineHeight: 1.45, padding: '7px 10px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 7 }}>
+                    💧 <strong>Urgência de água</strong> (dia {Math.floor(daysLost)}+) — mapear fontes a 10km: reservatórios, campos de golfe, bebedouros. Câmara + armadilha junto à água é a colocação de maior rendimento.
+                  </div>
+                )}
+                {heatstrokeRisk && (
+                  <div style={{ fontSize: 12, color: '#991B1B', lineHeight: 1.45, padding: '7px 10px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 7 }}>
+                    🌡️ <strong>Risco de golpe de calor</strong> — buscas apenas ao amanhecer e ao crepúsculo. Se capturado com dificuldade respiratória: emergência veterinária imediata.
+                  </div>
+                )}
+                {transportRisk === 'high' && (
+                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
+                    🚗 <strong>Risco de transporte alto</strong> — cão sociável pode ter sido apanhado por alguém. Verifique todos os canils do Algarve.
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )
+      })()}
+
+      {/* WP13 GEOGRAPHY PANEL — zone type, A22 barrier, terrain, fire risk */}
+      {geo && (() => {
+        const currentMonth = new Date().getMonth() + 1
+        const isFireSeason = currentMonth >= 6 && currentMonth <= 10
+        const isTouristPeak = (geo.tourist_peak_months ?? []).includes(currentMonth)
+
+        const zoneColors: Record<string, { bg: string; border: string; color: string }> = {
+          litoral:          { bg: '#EFF6FF', border: '#BFDBFE', color: '#1D4ED8' },
+          barrocal:         { bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' },
+          serra_caldeirae:  { bg: '#F0FDF4', border: '#BBF7D0', color: '#166534' },
+          serra_monchique:  { bg: '#DCFCE7', border: '#86EFAC', color: '#15803D' },
+          sapal:            { bg: '#F0FDFA', border: '#99F6E4', color: '#0F766E' },
+          litoral_fluvial:  { bg: '#ECFEFF', border: '#A5F3FC', color: '#0E7490' },
+        }
+        const fireColors: Record<string, { bg: string; border: string; color: string }> = {
+          extreme:  { bg: '#FEF2F2', border: '#FECACA', color: '#991B1B' },
+          high:     { bg: '#FFF7ED', border: '#FED7AA', color: '#9A3412' },
+          moderate: { bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' },
+          low:      { bg: '#F0FDF4', border: '#BBF7D0', color: '#166534' },
+        }
+
+        const zc = zoneColors[geo.zone_type] ?? { bg: N.surface, border: N.rule, color: N.ink2 }
+
+        const chips: { text: string; bg: string; border: string; color: string }[] = [
+          { text: geo.zone_type.replace(/_/g, ' '), ...zc },
+        ]
+        if (geo.a22_side === 'bisected') {
+          chips.push({ text: 'A22 atravessa', bg: '#FFF7ED', border: '#FED7AA', color: '#9A3412' })
+        } else if (geo.a22_side === 'north') {
+          chips.push({ text: 'a norte da A22', bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' })
+        }
+        if (geo.terrain_permeability === 'dense') {
+          chips.push({ text: 'terreno denso', bg: '#FEF2F2', border: '#FECACA', color: '#991B1B' })
+        }
+        if (isFireSeason && geo.fire_risk_band !== 'low') {
+          const fc = fireColors[geo.fire_risk_band] ?? fireColors['moderate']!
+          chips.push({ text: `incêndio ${geo.fire_risk_band}`, ...fc })
+        }
+        if (geo.goatherd_zone) {
+          chips.push({ text: 'zona de pastoreio', bg: '#F7FEE7', border: '#D9F99D', color: '#3F6212' })
+        }
+        if (isTouristPeak) {
+          chips.push({ text: 'época turística', bg: '#FAF5FF', border: '#E9D5FF', color: '#7E22CE' })
+        }
+
+        return (
+          <section style={{ padding: '0 32px 20px' }}>
+            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
+              <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                inteligência territorial · {geo.municipality.toLowerCase()}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {chips.map((chip, i) => (
+                  <span key={i} style={{
+                    padding: '4px 10px', borderRadius: 7,
+                    background: chip.bg, border: `1px solid ${chip.border}`,
+                    fontFamily: N.mono, fontSize: 11.5, color: chip.color,
+                  }}>
+                    {chip.text}
+                  </span>
+                ))}
+              </div>
+              <div style={{ display: 'grid', gap: 5 }}>
+                {geo.water_source_type === 'borehole_zone' && (
+                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
+                    💧 <strong>Zona de furos</strong> — ~20.000 furos privados no barrocal. O cão tem acesso a água escondida; armadilha junto a bebedouro de quinta privada tem maior rendimento que rio seco.
+                  </div>
+                )}
+                {geo.terrain_permeability === 'dense' && (
+                  <div style={{ fontSize: 12, color: '#991B1B', lineHeight: 1.45, padding: '7px 10px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 7 }}>
+                    🌲 <strong>Terreno denso</strong> — eucaliptal/maquis. Câmara + estação superam busca activa. Raio efectivo ~65% do calculado.
+                  </div>
+                )}
+                {geo.goatherd_zone && (
+                  <div style={{ fontSize: 12, color: '#3F6212', lineHeight: 1.45 }}>
+                    🐐 <strong>Zona de pastoreio</strong> — contacte pastores e cabrieiros locais directamente. Presença diária no terreno, vêem animais que as câmaras não captam.
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )
+      })()}
 
       {/* BEHAVIORAL SCENARIOS */}
       {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (

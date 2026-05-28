@@ -191,38 +191,132 @@ def update_belief_from_sighting(
     profile["belief_distribution"] = bd
     return profile
 
-_PHASE_TOOL_PALETTE: dict[BehavioralPhase, list[str]] = {
-    BehavioralPhase.panic: [
-        'notify_canils',
-        'notify_vets',
-        'post_channel',
+# ---------------------------------------------------------------------------
+# WP10: Physical Environment Layer — pure compute function
+# ---------------------------------------------------------------------------
+
+_BRACHY_BREEDS = (
+    "bulldog", "pug", "boxer", "shih tzu", "french", "boston",
+    "cavalier", "pekinese", "pekingese", "shar pei", "chow",
+)
+
+
+def compute_environment_context(case: dict, month: int) -> dict[str, Any]:
+    """
+    WP10: Compute physical environment context from case row + current month.
+    No DB calls — pure function.
+    """
+    bp = case.get("behavioral_profile") or {}
+    breed_category = (bp.get("breed_category") or "").lower()
+    escape_trigger = (bp.get("escape_trigger") or "opportunistic").lower()
+    temperament = (bp.get("temperament") or "aloof").lower()
+    breed = (case.get("breed") or "").lower()
+    size = (case.get("size") or "").lower()
+
+    is_nortada_season = month in (5, 6, 7, 8, 9)
+    is_summer_heat = month in (6, 7, 8, 9)
+    is_peak_summer = month in (7, 8)
+
+    # Search radius — breed/temperament table from Albrecht + dry-season modifier
+    if breed_category == "galgo" or (breed_category == "podenco" and escape_trigger == "prey_drive"):
+        base_km = 15.0
+    elif temperament == "xenophobic" or escape_trigger == "blind_panic":
+        base_km = 12.0
+    elif temperament == "aloof":
+        base_km = 5.0
+    else:
+        base_km = 2.0
+
+    if is_peak_summer and temperament in ("xenophobic", "aloof"):
+        base_km = round(base_km * 1.25, 1)
+
+    # Transport risk — gregarious/opportunistic dogs near roads get picked up
+    if temperament == "gregarious" or escape_trigger == "opportunistic":
+        transport_risk = "high"
+    elif temperament == "xenophobic" or breed_category in ("galgo", "podenco"):
+        transport_risk = "very_low"
+    elif temperament == "aloof":
+        transport_risk = "moderate"
+    else:
+        transport_risk = "low"
+
+    # Activity windows (crepuscular peaks shift with season/heat)
+    if is_peak_summer:
+        activity_windows = {"dawn": "05:30-09:00", "dusk": "19:30-21:30", "dead_zone": "11:00-18:00"}
+    elif is_summer_heat:
+        activity_windows = {"dawn": "06:00-09:30", "dusk": "19:00-21:00", "dead_zone": "12:00-17:00"}
+    elif is_nortada_season:
+        activity_windows = {"dawn": "06:30-09:30", "dusk": "18:30-20:30", "dead_zone": "12:00-16:00"}
+    else:
+        activity_windows = {"dawn": "07:00-09:30", "dusk": "17:00-19:00"}
+
+    # Heatstroke risk: brachycephalic or large dog in summer
+    is_brachycephalic = any(b in breed for b in _BRACHY_BREEDS)
+    is_large = size == "grande"
+    heatstroke_risk_flag = is_summer_heat and (is_brachycephalic or is_large)
+
+    # Water urgency: day 2 in summer heat (48h), day 3 otherwise
+    water_urgency_day = 2 if is_summer_heat else 3
+
+    nortada_station_hint = (
+        "coloque estação a norte/noroeste da zona do cão — Nortada (NNW) leva odor para sul em direcção ao cão"
+        if is_nortada_season else None
+    )
+
+    return {
+        "search_radius_km": base_km,
+        "is_nortada_season": is_nortada_season,
+        "is_summer_heat": is_summer_heat,
+        "transport_risk": transport_risk,
+        "activity_windows": activity_windows,
+        "heatstroke_risk_flag": heatstroke_risk_flag,
+        "water_urgency_day": water_urgency_day,
+        "nortada_station_hint": nortada_station_hint,
+        "computed_at": datetime.now(UTC).isoformat(),
+    }
+
+
+_WP9_TOOL_PALETTE: dict[str, list[str]] = {
+    "phase_1_acute": [
+        'notify_canil',
+        'notify_vet',
+        'post_to_channel',
         'send_owner_brief',
-        'geo_alert_volunteers',
-        'create_poster',
-        'update_behavioral_assessment',  # WP9: always available
+        'request_volunteer_alert',
+        'send_field_guide',
+        'send_environment_advisory',
+        'score_sighting_wp12',
+        'update_behavioral_assessment',
+        'query_geography',
     ],
-    BehavioralPhase.survival: [
-        'notify_canils',
-        'notify_vets',
-        'post_channel',
+    "phase_2_survival": [
+        'notify_canil',
+        'notify_vet',
+        'post_to_channel',
         'send_owner_brief',
-        'geo_alert_volunteers',
+        'request_volunteer_alert',
         'feeding_station_guidance',
         'trap_guidance',
-        'create_poster',
         'schedule_shelter_visit_reminder',
-        'update_behavioral_assessment',  # WP9: always available
+        'send_field_guide',
+        'send_environment_advisory',
+        'score_sighting_wp12',
+        'update_behavioral_assessment',
+        'query_geography',
     ],
-    BehavioralPhase.recovery: [
-        'notify_canils',
-        'notify_vets',
-        'post_channel',
+    "phase_3_entrenched": [
+        'notify_canil',
+        'notify_vet',
+        'post_to_channel',
         'send_owner_brief',
         'cross_post_regional',
         'expand_shelter_radius',
         'cold_case_assessment',
-        'create_poster',
-        'update_behavioral_assessment',  # WP9: always available
+        'send_field_guide',
+        'send_environment_advisory',
+        'score_sighting_wp12',
+        'update_behavioral_assessment',
+        'query_geography',
     ],
 }
 
@@ -253,10 +347,28 @@ class CaseHarness:
         self._done_actions: set[str] = self._load_done_actions()
         # WP9: recalculate behavioral phase and action gate on every init
         self._wp9_phase, self._wp9_action_gate = self._recalculate_behavioral_engine()
+        # WP10: physical environment context (pure compute, no DB)
+        self._env_context = compute_environment_context(self.case, datetime.now(UTC).month)
+        # WP13: territorial intelligence from kb_geography (DB lookup, cached)
+        self._geo_context = self._load_geo_context()
 
     # ------------------------------------------------------------------
     # Internals
     # ------------------------------------------------------------------
+
+    def _load_geo_context(self) -> dict[str, Any]:
+        """WP13: Load territorial intelligence from kb_geography for case municipality."""
+        municipality = self.case.get("last_seen_municipality", "")
+        if not municipality:
+            return {}
+        res = (
+            self._db.table("kb_geography")
+            .select("*")
+            .eq("municipality", municipality)
+            .maybe_single()
+            .execute()
+        )
+        return res.data or {}
 
     def _recalculate_behavioral_engine(self) -> tuple[str, dict]:
         """
@@ -350,8 +462,8 @@ class CaseHarness:
         return action in self._done_actions
 
     def tool_palette(self) -> list[str]:
-        """Tool names appropriate for current behavioral phase."""
-        return _PHASE_TOOL_PALETTE[self.phase]
+        """Tool names appropriate for current WP9 behavioral phase."""
+        return _WP9_TOOL_PALETTE.get(self._wp9_phase, _WP9_TOOL_PALETTE["phase_1_acute"])
 
     def build_context_block(self) -> str:
         """
@@ -416,6 +528,47 @@ class CaseHarness:
             gate_lines.append(f"SIGHTING_BROADCAST: {broadcast.upper()} — avistamentos para coordenador apenas")
         gate_str = '\n'.join(gate_lines) or 'standard (active search permitted)'
 
+        # WP10: environment context block
+        ec = self._env_context
+        aw = ec.get("activity_windows", {})
+        env_lines: list[str] = [
+            f"  Activity windows: dawn={aw.get('dawn','?')} | dusk={aw.get('dusk','?')}"
+            + (f" | dead_zone={aw['dead_zone']} (NO field ops)" if "dead_zone" in aw else ""),
+            f"  Search radius: {ec.get('search_radius_km','?')}km | Transport risk: {ec.get('transport_risk','?').upper()}",
+        ]
+        if ec.get("nortada_station_hint"):
+            env_lines.append(f"  Nortada: {ec['nortada_station_hint']}")
+        if ec.get("heatstroke_risk_flag"):
+            env_lines.append("  ⚠️ HEATSTROKE RISK: brachycephalic/large dog in summer — buscas apenas amanhecer/crepúsculo")
+        env_lines.append(f"  Water urgency: activates at {ec.get('water_urgency_day','?')} days — map water sources, camera at trough")
+        env_str = "\n".join(env_lines)
+
+        # WP13: geography context block
+        geo_lines: list[str] = []
+        if self._geo_context:
+            gc = self._geo_context
+            geo_lines.append(
+                f"  zone={gc['zone_type']}  permeability={gc['terrain_permeability']}"
+                f"  radius_modifier={gc['search_radius_modifier']}"
+            )
+            geo_lines.append(
+                f"  A22_side={gc['a22_side']}  water={gc['water_source_type']}"
+                f"  food={gc['food_availability']}"
+            )
+            geo_lines.append(
+                f"  human_density={gc['human_density']}  fire_risk={gc['fire_risk_band']}"
+            )
+            if gc.get("goatherd_zone"):
+                geo_lines.append(
+                    "  GOATHERD_ZONE: yes — contact local shepherds, natural food attractor"
+                )
+            peak: list[int] = gc.get("tourist_peak_months") or []
+            if datetime.now(UTC).month in peak:
+                geo_lines.append(
+                    "  TOURIST_PEAK: active — elevated transport risk, multilingual posts warranted"
+                )
+        geo_str = "\n".join(geo_lines) if geo_lines else "  not available (municipality not in KB)"
+
         return (
             f"CASE: {self.case['slug']} | {self.case.get('breed', '?')} | "
             f"{self.case.get('primary_color', '?')} | {municipality}\n"
@@ -424,6 +577,8 @@ class CaseHarness:
             f"legacy={self.phase.value.upper()} — {_PHASE_IMPLICATIONS[self.phase]}\n"
             f"ACTION GATE:\n{gate_str}\n"
             f"ACTION GATE RATIONALE: {ag.get('gate_rationale', 'n/a')}\n"
+            f"ENVIRONMENT (WP10):\n{env_str}\n"
+            f"GEOGRAPHY (WP13):\n{geo_str}\n"
             f"ACTIONS ALREADY TAKEN: {', '.join(tried)}\n"
             f"LOCAL CANILS IN KB: {canils_str}\n"
             f"LOCAL VETS IN KB: {vets_str}\n"
