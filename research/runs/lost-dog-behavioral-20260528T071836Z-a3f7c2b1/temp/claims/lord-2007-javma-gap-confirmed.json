@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Lord et al. 2007 (JAVMA 230:211-216) found that 132 of 187 lost dogs (71%) were recovered, with a median time to recovery of 2 days (range 0.5–21 days); recovery was primarily through animal agency contact (34.8%), dog license tag (18.2%), and posted neighborhood signs (15.2%).",
+    "stance": "supports",
+    "stance_target": "temporal recovery window — validates early-phase (days 1-3) as highest-yield search window",
+    "evidence_type": "empirical",
+    "scope_conditions": "187 lost dogs, Montgomery County Ohio, June-September 2005; telephone survey; 71% recovery rate",
+    "quoted_support": "132 of the 187 (71%) dogs were recovered; median time to recovery was 2 days (range, 0.5 to 21 days). Dogs were recovered primarily through a call or visit to an animal agency (46 [34.8%]), a dog license tag (24 [18.2%]), and posting of neighborhood signs (20 [15.2%]).",
+    "numbers": ["71% recovery rate", "median 2 days", "range 0.5-21 days", "n=187 dogs", "34.8% via animal agency"],
+    "entities": ["Lord LK", "Wittum TE", "Ferketich AK", "Funk JA", "Rajala-Schultz PJ", "JAVMA", "Montgomery County Ohio"],
+    "time_period": "June–September 2005",
+    "region": "Montgomery County, Ohio, USA",
+    "confidence": "high",
+    "source_note_id": "lord-2007-javma-gap-confirmed"
+  },
+  {
+    "claim": "Lord 2007 established that owners with identification on their dog (ID tag, dog license, rabies tag, or microchip) had higher recovery likelihood; 48% of lost dogs had some identification at the time of loss.",
+    "stance": "supports",
+    "stance_target": "identification as a recovery factor — relevant to intake triage priority",
+    "evidence_type": "empirical",
+    "scope_conditions": "187 lost dogs, Ohio, 2005; hazard ratio analysis",
+    "quoted_support": "Eighty-nine (48%) dogs had some type of identification at the time they were lost. Owners had a higher likelihood of recovery when they called an animal agency (hazard ratio, 2.1), visited an animal agency (1.8), and posted neighborhood signs.",
+    "numbers": ["48% dogs had identification", "HR 2.1 for calling agency", "HR 1.8 for visiting agency"],
+    "entities": ["Lord et al. 2007", "JAVMA"],
+    "time_period": "2005",
+    "region": "Ohio, USA",
+    "confidence": "high",
+    "source_note_id": "lord-2007-javma-gap-confirmed"
+  },
+  {
+    "claim": "NOTE — full text of Lord 2007 JAVMA is paywalled (403 on AVMA journals); data reported here is from web-search synthesis of published abstracts and secondary citations, not directly from the primary PDF.",
+    "stance": "neutral",
+    "stance_target": "source quality flag for Lord 2007 data",
+    "evidence_type": "historical",
+    "scope_conditions": "Fetcher access limitations",
+    "quoted_support": "N/A — data from abstract-level web search synthesis.",
+    "numbers": [],
+    "entities": ["Lord et al. 2007", "JAVMA 230:211-216"],
+    "time_period": "2007",
+    "region": "N/A",
+    "confidence": "medium",
+    "source_note_id": "lord-2007-javma-gap-confirmed"
+  }
+]

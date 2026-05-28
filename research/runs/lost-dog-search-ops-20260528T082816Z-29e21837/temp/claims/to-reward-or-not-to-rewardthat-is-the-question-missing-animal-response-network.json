@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "NIH MRI studies show monetary incentives and altruistic motivation are processed in two different, mutually exclusive brain regions — the nucleus accumbens (pleasure/reward) and the posterior superior temporal sulcus (altruism) — and only one can be active at a time.",
+    "stance": "supports",
+    "stance_target": "Reward language on lost pet materials suppresses cooperative altruistic behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "Neuroscience finding; applicable to any community mobilization context including lost dog recovery",
+    "quoted_support": "The National Institutes of Health (NIH) has pinpointed the neurophysiology behind this... the NIH conducted MRI's to monitor brain activity and discovered that there are two very different areas of the brain that process thoughts of either seeking financial compensation or of being charitable... these two areas of the brain can NOT operate at the same time.",
+    "numbers": [],
+    "entities": ["NIH", "Kat Albrecht", "MAR", "Sway (Brafman & Brafman)"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "to-reward-or-not-to-rewardthat-is-the-question-missing-animal-response-network"
+  },
+  {
+    "claim": "Swiss toxic-waste-dump study showed ~50% initial community approval dropped when monetary compensation was offered — demonstrating that adding money reverses prosocial behavior rather than reinforcing it.",
+    "stance": "supports",
+    "stance_target": "Reward-based appeals for community help in lost pet cases can reduce effective cooperation rates",
+    "evidence_type": "empirical",
+    "scope_conditions": "Swiss community study cited in 'Sway'; analogical evidence for lost pet reward framing",
+    "quoted_support": "over half of the townspeople were willing to approve this measure because... 'the right thing to do'... But the builders... offered to compensate all community members with a few thousand dollars a year. Surprisingly, when offered this perk nearly everyone changed their minds and voted against the dump.",
+    "numbers": [],
+    "entities": ["Sway (Brafman & Brafman)", "Kat Albrecht", "MAR"],
+    "time_period": "Swiss study (date unspecified); cited 2014 approx.",
+    "region": "Switzerland (study); generalized",
+    "confidence": "medium",
+    "source_note_id": "to-reward-or-not-to-rewardthat-is-the-question-missing-animal-response-network"
+  },
+  {
+    "claim": "MAR protocol change: posters changed from 'REWARD OFFERED' to 'PLEASE HELP FIND' after multiple documented cases where reward-seeking volunteers chased sighted dogs into traffic, resulting in deaths.",
+    "stance": "supports",
+    "stance_target": "Lost dog platform must enforce 'no reward language' rule as a safety-critical protocol",
+    "evidence_type": "empirical",
+    "scope_conditions": "High-visibility lost dog cases with active social media; reward language cases",
+    "quoted_support": "volunteer teams had been working to capture a skittish lost dog through passive means such as Calming Signals or feeding station, wildlife cameras, and humane dog traps, only to have that lost dog chased out of the search area. And worse yet, some dogs have been chased into traffic, struck by a car, and killed.",
+    "numbers": [],
+    "entities": ["MAR", "Kat Albrecht"],
+    "time_period": "Post-2010 (Facebook era)",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "to-reward-or-not-to-rewardthat-is-the-question-missing-animal-response-network"
+  }
+]

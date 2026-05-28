@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Survival mode is physiologically driven by acute stress causing serotonin depletion, which impairs short-term memory — explaining why lost dogs fail to recognize their owner or respond to trained commands.",
+    "stance": "supports",
+    "stance_target": "Neurological mechanism behind owner non-recognition in survival-mode dogs",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Proposed mechanism; note this is a lay popularization — the serotonin claim is not sourced to peer-reviewed literature",
+    "quoted_support": "Serotonin is a hormone responsible for a number of bodily functions including depression, sleep, sensory perception and short-term memory. When serotonin is suddenly depleted, i.e., due to stress, short-term memory is compromised. A-ha! Stress and the resulting short-term memory loss is the perfect storm for your dog to go into survival mode.",
+    "numbers": [],
+    "entities": ["Holiday Barn"],
+    "time_period": "Published January 2018",
+    "region": "Virginia, USA",
+    "confidence": "low",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "Onset of survival mode is highly variable — some dogs enter it almost immediately, others not for a week or more — depending on temperament, breed, past experiences, and circumstances.",
+    "stance": "supports",
+    "stance_target": "Non-binary survival mode onset model; no fixed time threshold for phase transition",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All lost dogs",
+    "quoted_support": "Some dogs go into survival mode almost immediately when separated from their owner. Some do not go into survival mode for a week or more. It depends on the dog, his past experiences, his breed, and the circumstances surrounding him being lost.",
+    "numbers": ["almost immediately", "a week or more"],
+    "entities": ["Holiday Barn"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "Once a survival-mode dog is captured, it returns to its normal personality with very little lasting change — the transformation is temporary and reversible.",
+    "stance": "supports",
+    "stance_target": "Post-recovery prognosis; allays owner fear that feral behavior is permanent",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Dogs recovered after survival mode period",
+    "quoted_support": "But do not fear. Survival mode is only temporary. Once your dog is captured, he will return to normal with very little change in personality.",
+    "numbers": [],
+    "entities": ["Holiday Barn"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "Cage traps set where the dog was last sighted should be monitored at least every 2 hours in extreme weather conditions to prevent injury or other animals being trapped.",
+    "stance": "supports",
+    "stance_target": "Trap monitoring frequency protocol",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Extreme cold or hot weather conditions",
+    "quoted_support": "Once in place, the trap should be checked often, at least every 2 hours in very cold or very hot weather, and to make sure another animal has not been trapped instead.",
+    "numbers": ["every 2 hours in extreme weather"],
+    "entities": ["Holiday Barn"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  }
+]

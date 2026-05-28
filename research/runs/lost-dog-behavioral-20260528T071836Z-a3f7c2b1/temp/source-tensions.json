@@ -1,0 +1,100 @@
+{
+  "tensions": [
+    {
+      "name": "Phase-1 duration: universal 72h vs. breed/trigger collapse",
+      "side_a": {
+        "position": "Phase 1 (0–72h) is a universal window when direct approach by the owner is viable for lost dogs; breed modifies it by only ±48h.",
+        "evidence": "Practitioner consensus across 3,000+ recoveries (Lost Dogs Illinois 13-year database; MAR/Kat Albrecht field experience); Lord 2007b median recovery = 2 days; most gregarious dogs found in first 24–48h before survival mode deepens. The 0-24h/24h-7d model is the explicit MAR framework published in their Lost Dog Behavior page.",
+        "proponents": ["lost-dog-behavior-kat-albrecht-missing-animal-response-network", "lost-dog-behavior-tips-lost-dogs-illinois", "lost-pet-statistics-lost-pet-research-and-recovery"]
+      },
+      "side_b": {
+        "position": "Phase 1 duration is breed, temperament, and escape-trigger dependent — for galgo, effective Phase 1 = ~0h (approach_success_rate day 1 = 0.02); for podenco prey-drive escape, Phase 1 window collapses to ~4h.",
+        "evidence": "Normando 2024 (n=410): galgos show significantly higher stranger-fear than other rescue dogs (p=0.009) — galgo approach-avoidance starts at trauma-baseline before being lost, so Phase 1 'direct approach viable' never applies. For podencos: McLennan predatory sequence (Consume 8%) + 5-15 km movement in 24-48h — dog is in active high-arousal state, unapproachable, during the Phase 1 window. The ±48h breed modifier from the phase-threshold model is structurally insufficient to capture these collapses.",
+        "proponents": ["prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from", "prey-drive-in-podencos", "arousal-and-predatory-motor-patterns", "interim-report-dog-phase-transition-thresholds", "interim-report-podenco-lost-movement-pattern"]
+      },
+      "resolution": "Side B has stronger empirical backing for breed-specific cases. The 72h Phase 1 baseline holds for gregarious/opportunistic-escape dogs — the population Albrecht and Lord 2007 primarily measured. For galgo (any escape type) and podenco (prey-drive escape), Phase 1 effective duration is near-zero or very short (≤4h). The practical encoding must add a fourth dimension to the phase model: escape_trigger type. Three escape profiles: (1) opportunistic/wanderlust → standard 72h Phase 1; (2) blind panic/trauma → Phase 1 shortened to 0-24h, immediately survival mode; (3) prey-drive escape (podenco-specific) → Phase 1 = 0-4h, then high-arousal active-ranging. Breed is a modulating input, not a mere ±48h adjustment.",
+      "origin": "comparisons",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Lost-dog distance: 1-mile all-population vs. 14-mile hard-case population",
+      "side_a": {
+        "position": "70–71% of lost dogs are found within 1 mile of home; 42% within 400 feet — the 1-mile radius is the primary search zone.",
+        "evidence": "Kremer 2021 (n=30,609 Dallas strays; geodesic distance; empirical): 70% within 1 mile, 42% within 400ft. Lord 2007b (n=187 Ohio): 71% within 1 mile, median 2 days. Fi GPS data (HASS 2025): 95th percentile = 1.8 miles. Three independent data points converging on the same finding.",
+        "proponents": ["frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis", "lost-pet-statistics-lost-pet-research-and-recovery", "most-lost-dogs-are-just-around-the-corner-literally-hass"]
+      },
+      "side_b": {
+        "position": "Hard-to-recover dogs (xenophobic, panicked, sighthounds) travel far beyond 1 mile — mixed-breed dogs averaged 14 miles before pickup; xenophobic dogs travel far and fast; blind-panic cases cover miles in hours.",
+        "evidence": "Albrecht 1999 (n=254, informal survey): mixed-breed 14 miles avg vs. purebred 2 miles. Winnie case: 7 miles in 1 hour from single crowd-at-sighting event. Pet FBI behavioral guide: 5-10 mile radius for panicked/skittish dogs. Albrecht MAR framework: 'travel far, travel fast... most difficult to catch.' Rural density modifier (Kremer 2021): 1.5-2.5 miles in low-density vs. 0-0.5 miles in dense urban.",
+        "proponents": ["what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal", "dog-befriends-a-fox-while-lost-in-blizzard", "lost-dog-behavior-pet-fbi-pets-found-by-internet", "lost-dog-behavior-kat-albrecht-missing-animal-response-network"]
+      },
+      "resolution": "Scope mismatch, not genuine contradiction. Kremer and Lord sample ALL lost dogs including the majority that are gregarious and self-resolve quickly (found by neighbor, returned home, shelter pickup within miles). Albrecht samples specifically the hard cases that professional recovery services handle — exactly the population Nona is designed for. Nona will disproportionately encounter hard cases because easy cases are resolved before platform engagement. The calibration for Nona must use a bimodal model: gregarious/opportunistic-escape → 1-mile radius as 70th percentile; xenophobic/panic/prey-drive/sighthound → long-tail extending to 10+ km with no clear upper bound. Encoding both as 'the' distance prior is the mistake; encoding the temperament × escape-trigger conditional distribution is correct.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Food lure: universal passive-capture tool vs. arousal-state-dependent failure",
+      "side_a": {
+        "position": "High-value food lures (food stations, rotisserie chicken, sardines) are the primary passive recovery tool for all lost dogs including xenophobic and survival-mode animals.",
+        "evidence": "MAR doctrine (Kat Albrecht, primary source): 'passive lure + calming signals' is the foundational recovery protocol. Winnie case: scent station (liquid smoke + BBQ + hot dogs) confirmed in 69-day recovery. Pet FBI trapping guide: food-baited humane traps are primary capture method. Multiple case studies (Lucy, Lacey, KoKo — Albrecht) resolved via food station + patience.",
+        "proponents": ["lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network", "when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network", "dog-befriends-a-fox-while-lost-in-blizzard", "never-call-a-lost-dog-missing-animal-response-network"]
+      },
+      "side_b": {
+        "position": "Food lures fail for dogs in high arousal states (active prey-drive, full flight mode, peak cortisol) — specifically unreliable for podencos whose predatory motivation is intrinsic (Consume = 8%) and for survival-mode dogs experiencing olfactory shutdown.",
+        "evidence": "McLennan (Applied Animal Behaviour Science): Podencos score Consume 8% — prey chase is self-reinforcing regardless of capture/food outcome. Arousal research (McLennan 2024): high-prey-drive sniffing RAISES arousal; food lures fail mid-chase. Buddha Dog: survival-mode dogs experience sensory flood — shaking food containers listed as flight-triggering stimulus. MAR's own 'don't call' doctrine: olfactory shutdown during peak cortisol means owner's scent and food smells alike fail.",
+        "proponents": ["prey-drive-in-podencos", "arousal-and-predatory-motor-patterns", "survival-mode-buddha-dog-rescue-recovery", "dont-call-your-dog-missing-animal-response-network"]
+      },
+      "resolution": "Both are right, conditioned on arousal state. Food lures work when the dog has settled (parasympathetic reengagement, arousal reduced) — which is when food station + trail camera + trap sequence is deployed. Food lures fail during active arousal: active prey-pursuit (podenco within first hours), peak flight state (any breed immediately post-escape), and crowd-triggered panic. The resolution is a protocol gate: food station is deployed as Phase 2 intervention (after the dog has stopped moving and settled into a pattern), never as Phase 1 immediate-chase intervention. For podencos, scent anchoring (familiar home smells) may supplement food because scent-following is primary. The critical encoding: food_lure_protocol requires arousal_state = settled as a precondition.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "medium"
+    },
+    {
+      "name": "Galgo spatial prior: greyhound chase transfer vs. galgo-specific trauma",
+      "side_a": {
+        "position": "English greyhound chase research (OR=8.34 for last-known-location fixation post-prey-disappearance) transfers directly to galgo prey-triggered displacement priors, providing the best available quantitative spatial anchor.",
+        "evidence": "PMC7760772 (peer-reviewed): OR=8.34 (95% CI: 1.72-42.38, p=0.009) for fixation at last-known-location vs. ongoing-visible-prey. Galgo and greyhound share centuries-long sighthound sight-hunting selective breeding history. Normando 2025 sighthound survey (n=768) shows predatory drive differs significantly WITHIN sighthound group by breed (p<0.001) but galgo is not separated from greyhound as a distinct predatory cluster in that study.",
+        "proponents": ["effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc", "source-analysis-effects-of-lure-type-on-chase-behaviour-in-greyhounds", "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"]
+      },
+      "side_b": {
+        "position": "Galgos have a categorically different trauma baseline from English racing greyhounds — the approach-avoidance system is distinct, and galgo's systematically elevated stranger-fear (p=0.009, Normando 2024) means the fear/recovery behavioral model cannot use greyhound data.",
+        "evidence": "Normando 2024 (n=410): galgos show higher fear of non-cohabiting adult people vs. other rescue dogs (p=0.009). Racing greyhounds: professionally handled from birth, graduated socialization via racing kennels. Rescue galgos: 'almost universally' experienced maltreatment; chips removed by hunters; abandoned en masse. SOS Galgos: 'hide-in-corner' at intake, 'active flight from all human approach.' These behavioral signatures are absent in the greyhound literature.",
+        "proponents": ["prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from", "sos-galgos-adopt-a-survivor", "galgo-espaol-animal-corner", "galgos-and-podencos-as-pets-kent-greyhound-rescue"]
+      },
+      "resolution": "Dual-prior model is the correct resolution. The two sides are describing DIFFERENT behavioral systems: predatory motor sequence (chase, fixation at prey terminus) vs. trauma-fear system (approach-avoidance, stranger response). Greyhound data applies to the first system — how the galgo moves when prey-triggered — because predatory motor sequence is phylogenetically conserved across sighthound types. Galgo-specific data applies to the second system — how the galgo responds to humans and stressors — because this is trauma-conditioned, not breed-genetic. The OR=8.34 spatial prior (search near prey-loss terminus) is valid for galgo in Algarve rabbit habitat; the 72h-minimum passive approach-avoidance protocol must use galgo-specific evidence, not greyhound racing data.",
+      "origin": "comparisons",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Active search vs. passive monitoring: Lord 2007 empirical vs. MAR practitioner doctrine",
+      "side_a": {
+        "position": "Active searching (calling animal agencies, neighborhood search, posting signs) is empirically associated with higher recovery probability; 49% of dog recoveries are via neighborhood search.",
+        "evidence": "Lord 2007b (n=187): owners significantly more likely to recover dogs when they called animal agencies, visited, and posted signs. Weiss 2012 (n=1,015 US households): 49% of dog guardians found dog via neighborhood search. These are the only peer-reviewed studies on recovery methods with defined samples.",
+        "proponents": ["lost-pet-statistics-lost-pet-research-and-recovery", "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"]
+      },
+      "side_b": {
+        "position": "Active group searching triggers flight response in survival-mode dogs, pushing them out of safe areas and into traffic — the top three death causes (car, train, drowning) from thousands of cases are directly attributable to search pressure.",
+        "evidence": "Lost Dogs of America (database of thousands of cases over 13 years): top 3 causes of death among lost dogs = car strike, train, drowning, all directly caused by search pressure. MAR doctrine: 'Every person added to the search = another predator the dog must evade.' Winnie case: 7-mile displacement in 1 hour from crowd convergence. Princess Borzoi: fatal vehicle strike after repeated crowd events. Conditioning mechanism documented (MAR named cases: Lucy 10-264, Lacey 10-267): calling dog's name after prior approach attempts becomes an adrenaline-conditioned flight trigger.",
+        "proponents": ["never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america", "stay-out-of-the-woods-missing-animal-response-network", "dont-call-your-dog-missing-animal-response-network", "dog-befriends-a-fox-while-lost-in-blizzard"]
+      },
+      "resolution": "The apparent contradiction resolves entirely through temperament-gating. Lord 2007 and Weiss 2012 measured recovery methods WITHOUT controlling for temperament — their 'neighborhood search' success rate is dominated by gregarious dogs (the majority) who actively approach humans and benefit from searchers being in the right area. MAR doctrine is derived from the specific hard-case population that professional recovery handles: xenophobic, survival-mode, fear-conditioned dogs. Both are correct for their populations. Nona must encode: temperament × phase → search_intensity_recommendation. Gregarious+exploratory → active search is appropriate; any dog in survival mode OR temperament=xenophobic → passive monitoring mandatory, group search contraindicated. Lord 2007's 'calling animal agencies' (not group searching, but official notification) remains universally recommended for all temperament types.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Survival mode onset: category-predictable vs. individually unpredictable",
+      "side_a": {
+        "position": "Survival mode onset is predictable from temperament category — xenophobic dogs enter it immediately upon blind-panic escape; three trigger categories (temperament, loud noise, traumatic incident) reliably predict onset.",
+        "evidence": "Albrecht MAR framework: 'Three primary reasons' for blind panic (xenophobic temperament, loud noises, traumatic incident), each producing immediate survival mode. MAR 3-category taxonomy predicts distance traveled and recovery difficulty by category — implicit prediction of survival mode probability. Lost Dogs Illinois (13-year database): 'after 3-4 days, owner perceived as predator' — implicit day threshold by elapsed time regardless of individual history.",
+        "proponents": ["lost-dog-behavior-kat-albrecht-missing-animal-response-network", "lost-dog-behavior-tips-lost-dogs-illinois"]
+      },
+      "side_b": {
+        "position": "There is very little correlation between prior behavior/life history and survival mode onset — any well-adjusted, well-trained dog can enter it instantly; onset timing ranges from immediate to a week or more with no individual predictability.",
+        "evidence": "Buddha Dog (Petsearchers Canada): 'Very little correlation with previous behavior/life history to regression into this mode... a well-adjusted, well-trained, well-loved dog can turn skittish in a heartbeat.' Holiday Barn survival mode article: 'It's important to note that the point in time where a dog enters Survival Mode is different for every dog. For some — it is instantaneous. For others — it can take days or a week or more.' Explicitly contradicts the category-based prediction model.",
+        "proponents": ["survival-mode-buddha-dog-rescue-recovery", "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"]
+      },
+      "resolution": "Both right at different levels of analysis. Category-level prediction is valid and encodable: xenophobic/fearful temperament = high probability of immediate survival mode onset; gregarious = low probability. The population-level category means differ significantly. Individual-level timing WITHIN a category is genuinely unpredictable: even a gregarious dog can instantly enter survival mode given severe enough trauma trigger. Resolution: encode survival mode risk as a probability (high/medium/low) conditioned on temperament category and escape trigger, NOT as a binary state or deterministic outcome. The probability distribution has wide variance — uncertainty is the honest encoding, not a point estimate. This has a practical implication: never assume a dog that was 'friendly yesterday' cannot be in survival mode today.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "medium"
+    }
+  ]
+}

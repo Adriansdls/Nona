@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Frightened dogs enter 'survival mode' and run away from their name being called and from pursuit, rather than toward the caller — especially dogs that went missing due to fear.",
+    "stance": "supports",
+    "stance_target": "Calling a dog's name is counterproductive for fear-based disappearances",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs in fear-based disappearances; high applicability to skittish profiles and traumatized dogs",
+    "quoted_support": "Many dogs become terrified and go into a 'survival' mode when they go missing. This is especially true if they went missing because they were frightened by something. Therefore, when people yell out or call for their dog, or chase after a dog more often than not, will cause the dog to run in the other direction.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "The first few hours after a dog goes missing is the best window for locating it; waiting to see if the dog returns on its own ('wait and see') wastes critical search time.",
+    "stance": "supports",
+    "stance_target": "Immediate action in the 0-6h window is the highest-leverage phase of recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All lost dog cases",
+    "quoted_support": "it is important to understand the first few hours when a dog goes missing is the best opportune time to be able to locate the dog, or to find someone who may have seen the dog.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "Publicly posting sighting locations online causes well-meaning people to flood the area and call the dog's name, which scares the dog further away and can end a sighting pattern.",
+    "stance": "supports",
+    "stance_target": "Sighting location management is operationally critical — public disclosure is harmful",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Social media and Facebook lost pet groups; applies to all sighting management",
+    "quoted_support": "Many times people who think they are being 'helpful' may flood the area looking for this missing dog, often calling out the name, unaware that they could actually be scaring the dog even more, and more than likely pushing the dog out of the area.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "Large, brightly colored neon posters placed at strategic intersections are significantly more effective than small white flyers on poles, which are unreadable to passing drivers.",
+    "stance": "supports",
+    "stance_target": "Poster format (neon, large) is an operational variable with direct impact on sighting rates",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Roadside poster placement for lost dog marketing",
+    "quoted_support": "Creating effective extra large brightly colored posters that are placed in strategic locations can significantly increase the chance of recovering lost dogs. DGR does NOT recommend using small flyers as posters. The majority of these flyers are not readable by the people who drive by them.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "Door-to-door canvassing with neighbors makes the search personal and often surfaces sightings that neighbors had not thought to report unprompted.",
+    "stance": "supports",
+    "stance_target": "Personal canvassing of immediate neighborhood is a high-value early-phase action",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Immediate neighborhood within first days of disappearance",
+    "quoted_support": "talking with neighbors the lost dog owner may discover someone has seen your dog, and they may not have thought more about it until they were asked about it.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The first critical rule when a dog gets loose is to NOT call or chase the dog — instead sit down, look away, and offer treats; chasing triggers flight instinct.",
+    "stance": "supports",
+    "stance_target": "no-chase protocol as immediate first-response rule for any escaped dog",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "any dog that has not immediately returned; especially socialized dogs that may still be caught in the immediate window",
+    "quoted_support": "If your dog gets loose and does not come back to you quickly, DO NOT CALL OR CHASE THE DOG! Try sitting down and looking away, and offering treats if you have any with you.",
+    "numbers": [],
+    "entities": ["Operation Paws for Homes", "OPH Lost Dog Team"],
+    "time_period": "current",
+    "region": "Virginia/DC/Maryland, USA",
+    "confidence": "high",
+    "source_note_id": "operation-paws-for-homes-tips-for-finding-lost-pets"
+  },
+  {
+    "claim": "Flyers should be posted within a 1-mile radius of the last-seen point immediately — on street signs, in apartment complexes, distributed to all neighbors, and shared on local social media (lost dog Facebook pages, NextDoor, Ring).",
+    "stance": "supports",
+    "stance_target": "immediate 1-mile radius flyer campaign as early-phase priority action",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "first 24 hours; 1-mile radius is the minimum — sightings may require expansion",
+    "quoted_support": "Make a flyer immediately and put up flyers in a one-mile radius around where the pet was lost.",
+    "numbers": ["1-mile radius"],
+    "entities": ["Operation Paws for Homes"],
+    "time_period": "current",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "operation-paws-for-homes-tips-for-finding-lost-pets"
+  },
+  {
+    "claim": "Feeding stations should use highly aromatic food (rotisserie chicken deboned, tuna, sardines, canned cat food, kielbasa, hot dogs) monitored by camera — camera confirmation of who ate the food is emphasized as best practice.",
+    "stance": "supports",
+    "stance_target": "aromatic food types and camera monitoring as feeding station protocol",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "near last-seen point; cellular trail cameras are preferred for remote monitoring",
+    "quoted_support": "Set up one or more feeding stations close to where pet was lost. Use food with a strong smell, like rotisserie chicken (de-boned), Royal Farms chicken, tuna fish, sardines, canned cat food, kielbasa, hotdogs. It's best to monitor the food with a camera so you know if the dog or another animal ate the food.",
+    "numbers": [],
+    "entities": ["Operation Paws for Homes"],
+    "time_period": "current",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "operation-paws-for-homes-tips-for-finding-lost-pets"
+  }
+]

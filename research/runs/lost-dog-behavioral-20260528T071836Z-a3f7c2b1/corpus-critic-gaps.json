@@ -1,0 +1,64 @@
+{
+  "gaps": [
+    {
+      "type": "strengthening",
+      "target_position": "Phase 1 (0–72h) and Phase 2 (72h–7d) behavioral phase boundaries — the '3–4 day' survival-mode threshold rests on practitioner heuristics with zero dog-specific empirical anchors",
+      "search_queries": [
+        "Beerda Schilder van Oord shelter dog cortisol urinary stress indicators longitudinal days",
+        "Hennessy Davis Woodward cortisol sheltered dogs day-1 day-3 day-5 behavioral state",
+        "dog displacement stress HPA axis adaptation shelter behavior longitudinal week cortisol"
+      ],
+      "source_type": "academic",
+      "priority": "critical",
+      "rationale": "The phase-threshold investigator explicitly named Hennessy 2002 and Beerda et al. 1997–2001 as the almost-certainly-existing source of dog-specific longitudinal cortisol and behavioral state data under shelter/displacement conditions — but could not access them (paywalled). These papers would provide day-1 vs. day-3 vs. day-5 cortisol measurements in sheltered dogs: the only empirical bridge between the general HPA-axis physiology (from StatPearls, human-derived) and the practitioner '3–4 day' behavioral cliff (case-series doctrine, never peer-reviewed). If Beerda or Hennessy show cortisol normalizing by day 2 in most dogs, the Phase 1/2 boundary compresses to 48h; if they show sustained HPA activation through day 5+, the boundary extends or validates. Either finding would shift Nona's urgency-decay curve. The phase model is currently encoded at medium confidence on its most critical parameter with no dog-specific empirical anchor whatsoever."
+    },
+    {
+      "type": "overturning",
+      "target_position": "OR=8.34 greyhound prey-fixation transfers to galgo chase displacement prior — galgo falls within the sighthound cluster on chase dimensions",
+      "search_queries": [
+        "Normando Mukhambetova sighthound C-BARQ predatory behavior galgo greyhound 2025 full text PDF",
+        "galgo español predatory drive chase score C-BARQ comparison breed sighthound inter-breed",
+        "sighthound breed predatory motor sequence inter-breed difference galgo lurcher greyhound field study"
+      ],
+      "source_type": "academic",
+      "priority": "critical",
+      "rationale": "The galgo-vs-greyhound interim report explicitly flagged that Normando 2025 (Dog Behavior journal, vol 11 no 1, n=768 C-BARQ) 'was cited as a companion paper but could not be accessed within budget.' This paper is already in the vault (note ID: behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha) but only as a 567-word abstract — the full text and breed-level data tables were never fetched. This paper is the single most targeted source for the OR=8.34 transfer question: it measures predatory drive variation within 10 sighthound breeds using C-BARQ, with Kruskal-Wallis p<0.001 inter-breed differences. The abstract reports Saluki and Cirneco show highest chasing; it does not say where galgo falls. If galgo predatory-drive scores cluster with greyhound scores on chase dimensions, the transfer strengthens. If galgo scores are significantly lower than greyhound scores, the OR=8.34 applied to galgo is a significant overestimate. The vault note must be upgraded from abstract to full text before the draft commits to the dual-prior model's spatial component."
+    },
+    {
+      "type": "overturning",
+      "target_position": "Crowd response to sightings is categorically harmful for fearful dogs — no counterexample exists in documented cases",
+      "search_queries": [
+        "lost dog crowd sighting response successful recovery fearful shy xenophobic documented outcome",
+        "lost dog group organized search fearful dog recovery success rate study",
+        "missing dog recovery controlled intervention study active passive comparison outcome fearful temperament"
+      ],
+      "source_type": "investigative",
+      "priority": "high",
+      "rationale": "The convergence finding across Loci 4 and 5 — crowd response to sightings is categorically harmful for fearful dogs — rests on two named case studies (Winnie, Princess Borzoi) and MAR practitioner doctrine from a single source lineage (Albrecht). The redundancy audit confirms the 8-source 'strong agreement' cluster traces to only 2 independent frameworks: MAR and Lost Dogs of America. No controlled study or systematic case-series exists. The vault search for 'crowd response sighting beneficial fearful dog documented success' returned zero results. If any documented successful crowd response to a fearful-dog sighting exists anywhere in the recovery practitioner literature, the action-gate's absolute prohibition must be softened to a probabilistic caution. The draft currently treats 'never crowd-respond to fearful dog sighting' as close to settled; that needs to either be confirmed by absence of counterexample or qualified as a doctrine-without-falsification-attempt."
+    },
+    {
+      "type": "strengthening",
+      "target_position": "Podenco 5–15 km displacement in 24–48h in Algarve scrubland — radius is mechanistically derived, zero GPS telemetry data exists",
+      "search_queries": [
+        "hunting dog GPS collar home range Portugal Spain Iberian Peninsula field tracking perdigueiro podenco",
+        "scent hound free roaming GPS telemetry lost displacement distance hunting season Mediterranean scrubland",
+        "Ibizan hound Podenco Ibicenco movement ecology field tracking rabbits terrain range"
+      ],
+      "source_type": "academic",
+      "priority": "high",
+      "rationale": "The podenco movement position states medium confidence (70%) explicitly because zero GPS telemetry data exists for lost Podencos anywhere in the literature — confirmed by an OpenAlex search returning no relevant results during depth investigation. The 5–15 km estimate is derived entirely from Broseghini 2024 ethogram + McLennan prey-drive data, with no empirical movement measurement. Hunting dog GPS tracking studies for Spanish or Portuguese field hunting dogs (perdigueiros, podencos) in their working context may exist in regional veterinary or wildlife management journals. Even a working-context GPS study showing 2–3 km range during a 4-hour hunt would significantly constrain the 5–15 km estimate downward. A study showing 10–20 km working range would validate it. This matters operationally because search area scales as π×r² — a 5 km vs. 15 km radius is a 9x difference in area and resource allocation."
+    },
+    {
+      "type": "overturning",
+      "target_position": "The 'holding-back-the-genes' review — limitations of breed behavioral genetics — may undermine the Normando 2024 galgo stranger-fear finding (p=0.009) used as the basis for the breed prior",
+      "search_queries": [
+        "dog behavioral genetics breed limitations rescue selection bias C-BARQ validity review",
+        "holding back genes limitations canine behavioural genetics breed heritability rescue dogs",
+        "breed behavioral genetics confounders owner report rescue dog selection bias Mediterranean primitive breeds"
+      ],
+      "source_type": "academic",
+      "priority": "high",
+      "rationale": "The claims directory contains a note 'holding-back-the-genes-limitations-of-research-into-canine-behavioural-genetics' that was never read in depth by any investigator. This source is specifically about methodological limitations of breed behavioral genetics research. The galgo breed prior (stranger_approach_success_day1 = 0.02) rests critically on Normando 2024 (p=0.009, n=198 galgos vs. 212 'other rescue dogs'). A review identifying confounders specific to rescue-dog breed comparison studies — e.g., rescue org selection bias (galgo rescue orgs specifically select traumatized dogs for study enrollment), C-BARQ validation gaps for Mediterranean primitive breeds, or owner expectation effects — could weaken the Normando finding from 'galgo stranger-fear is elevated' to 'galgo owners recruited by galgo rescue orgs report elevated stranger-fear.' This would not eliminate the breed prior but would compress its weight closer to the Morrill 2022 individual-level null result. The note is already in the vault; it needs a full read before the draft treats the Morrill vs. Normando synthesis as resolved."
+    }
+  ]
+}

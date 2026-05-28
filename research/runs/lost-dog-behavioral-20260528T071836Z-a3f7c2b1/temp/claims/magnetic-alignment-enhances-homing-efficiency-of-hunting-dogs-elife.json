@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Scent hounds (hunting dogs) are selectively bred to detect and pursue game tracks and then return to their owner, often over distances of hundreds to thousands of meters — making their 'lost' behavioral profile fundamentally different from companion dog breeds.",
+    "stance": "supports",
+    "stance_target": "breed-specific behavioral priors: podenco/galgo/hunting hound displacement behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "Hunting dogs, particularly scent hounds; Czech Republic field trials; 27 dogs from 10 breeds; 622 trials",
+    "quoted_support": "Hunting dogs, particularly the so-called scent hounds, have been selected over generations to detect and pursue tracks of game animals and, if not followed by the hunter, to return to the place where the pursuit started, often over distances of hundreds or thousands of meters.",
+    "numbers": ["27 dogs", "10 breeds", "622 trials", "62 locations", "Sept 2014 – Dec 2017"],
+    "entities": ["Benediktová et al.", "eLife 2020", "scent hounds", "Czech University of Life Sciences Prague"],
+    "time_period": "September 2014 – December 2017",
+    "region": "Czech Republic",
+    "confidence": "high",
+    "source_note_id": "magnetic-alignment-enhances-homing-efficiency-of-hunting-dogs-elife"
+  },
+  {
+    "claim": "Hunting dogs use two primary homing strategies: tracking (retracing outbound scent trail, 59.4% of cases) and scouting (novel route, 33.2% of cases), with 8.0% combining both; scouting is significantly faster than tracking.",
+    "stance": "supports",
+    "stance_target": "hunting hound breed-specific movement behavior after displacement",
+    "evidence_type": "empirical",
+    "scope_conditions": "27 scent hound dogs, GPS + action cam, forested areas Czech Republic",
+    "quoted_support": "In 399 cases (59.4%), dogs homed by following their outbound track (tracking strategy), and in 223 cases (33.2%), dogs homed using novel route (scouting strategy). In 50 cases (8.0%), dogs combined both strategies during a single return.",
+    "numbers": ["59.4% tracking", "33.2% scouting", "8.0% combined", "399 tracking cases", "223 scouting cases"],
+    "entities": ["Benediktová et al. 2020", "eLife"],
+    "time_period": "2014-2017",
+    "region": "Czech Republic",
+    "confidence": "high",
+    "source_note_id": "magnetic-alignment-enhances-homing-efficiency-of-hunting-dogs-elife"
+  },
+  {
+    "claim": "Scouting dogs initiate their homeward return with a ~20-meter 'compass run' aligned to the north-south geomagnetic axis regardless of the actual homeward direction, suggesting magnetic field orientation during displacement.",
+    "stance": "supports",
+    "stance_target": "hunting hound navigation mechanism; why scent hounds may be found far from escape point yet return independently",
+    "evidence_type": "empirical",
+    "scope_conditions": "23.2% of hunting dog trials using scouting strategy in Czech forest",
+    "quoted_support": "The inbound track during scouting started mostly with a short (about 20 m) run along the north-south geomagnetic axis, irrespective of the actual direction homewards. Performing such a 'compass run' significantly increased homing efficiency.",
+    "numbers": ["~20 m compass run", "N-S geomagnetic axis"],
+    "entities": ["Benediktová et al. 2020", "Hynek Burda", "University of Duisberg-Essen"],
+    "time_period": "2014-2017",
+    "region": "Czech Republic",
+    "confidence": "high",
+    "source_note_id": "magnetic-alignment-enhances-homing-efficiency-of-hunting-dogs-elife"
+  },
+  {
+    "claim": "Modern pet dogs are less likely to have homing experience due to strong human-directed attachment bonds, creating a fundamentally different displacement response from working/hunting dogs.",
+    "stance": "supports",
+    "stance_target": "breed-specific behavioral prior: pet dog panic/freeze vs. hunting hound active navigation after displacement",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General canine behavioral ecology; modern dog breeds",
+    "quoted_support": "Most dogs do not have the possibilities to learn, get experience, or to practice homing from distant, unfamiliar places. Dogs raised with humans can form bonds to humans that are similar to child-parent attachments, and a key aspect of this kind of bond is a strong motivation to seek reunion when separated.",
+    "numbers": [],
+    "entities": ["Hynek Burda", "Monique Udell", "Oregon State University"],
+    "time_period": "2020-2024",
+    "region": "N/A",
+    "confidence": "medium",
+    "source_note_id": "magnetic-alignment-enhances-homing-efficiency-of-hunting-dogs-elife"
+  }
+]

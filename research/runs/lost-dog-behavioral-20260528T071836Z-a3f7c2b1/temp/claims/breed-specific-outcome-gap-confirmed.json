@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "There is no peer-reviewed academic study providing breed-specific lost dog recovery rates, distances traveled, or outcome comparisons across defined breed types — this is a confirmed gap as of 2024.",
+    "stance": "neutral",
+    "stance_target": "breed-specific behavioral priors gap — confirms absence of controlled study for this parameter",
+    "evidence_type": "historical",
+    "scope_conditions": "As of Kat Albrecht's 2018 IAABC article; gap still present per 2024 searches",
+    "quoted_support": "We hope to learn many things from this study, including determining if there are any specific patterns in the distances that dogs travel based on factors such as the size, breed, or temperament of the dog.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Animal Response Network", "IAABC Foundation Journal 2018"],
+    "time_period": "2018-2024",
+    "region": "N/A",
+    "confidence": "high",
+    "source_note_id": "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+  },
+  {
+    "claim": "Albrecht's informal 1999 study (n=254 dog owners) found pointing breeds more likely to travel farther than retrieving breeds, mixed-breed dogs traveled average 14 miles before pickup vs. 2 miles for purebreds, and toy breeds were least likely to travel >0.75 miles — but this is non-peer-reviewed and 25+ years old.",
+    "stance": "supports",
+    "stance_target": "breed-type as a prior for lost dog distance in behavioral engine (with low confidence)",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "n=254 dog owners interviewed 1999 by Kat Albrecht; non-scientific methodology; US context",
+    "quoted_support": "Mixed-breed dogs were allowed to travel an average of 14 miles before they were picked up, whereas purebred dogs were allowed to travel only an average of 2 miles before they were picked up. Toy breeds were the least likely to travel more than three-quarters of a mile from where they were last seen. Breed and size seemed to have an effect on the distance traveled — pointing breeds were more likely to travel farther than retrieving breeds.",
+    "numbers": ["14 miles average for mixed breeds", "2 miles average for purebreds", "<0.75 miles for toy breeds", "n=254"],
+    "entities": ["Kat Albrecht", "Missing Animal Response Network"],
+    "time_period": "1999",
+    "region": "United States",
+    "confidence": "low",
+    "source_note_id": "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+  },
+  {
+    "claim": "Sighthound/pointing breed behavioral characteristics — high prey drive, endurance, speed, low body fat — create a specific lost dog risk profile: rapid initial displacement over long distances before dehydration/exhaustion onset, and low likelihood of approaching strangers for food.",
+    "stance": "supports",
+    "stance_target": "breed-specific behavioral prior for podenco/galgo/sighthound in Nona rescue OS",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Derived from breed behavior literature; not from controlled lost dog study",
+    "quoted_support": "Pointing breeds were more likely to travel farther than retrieving breeds.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "podenco", "galgo", "greyhound", "sighthound"],
+    "time_period": "1999-2024",
+    "region": "N/A",
+    "confidence": "medium",
+    "source_note_id": "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+  }
+]

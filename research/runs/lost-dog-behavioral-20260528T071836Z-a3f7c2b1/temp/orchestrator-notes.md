@@ -8,6 +8,22 @@
 - Never delete scaffold, coverage matrix, search plan, scored-urls, etc.
 - All files in research/notes/, research/runs/, and .hyperresearch/ are permanent
 
+## Step 10 synthesis plan
+
+**Draft A** (7,689 words): Broadest coverage. Core thesis: four-axis probabilistic system (time × breed/temperament × trigger × sighting-history) with decoupled spatial belief map + discrete action gate. Strongest beat: fear escalation as monotonic state machine with 3 trigger conditions.
+
+**Draft B** (7,742 words): Deepest on tensions. Core thesis: separate belief update from action gate architecturally; encode breed as two layered priors (spatial + capture-method); name gaps explicitly. Strongest beat: galgo dual-prior model (chase prior from greyhound OR=8.34 / approach-avoidance from Normando 2024).
+
+**Draft C** (5,130 words): Most practical encoding. Core thesis: action gate and probability score are structurally separate functions; breed governs action gate at full weight. Strongest beat: update_posterior() and action_gate() as two sequential never-merged functions.
+
+**Synthesis direction:**
+- Lead with the four-section structure (required headings)
+- Section 2 (Breed Priors): pull the dual-prior model from B, quantitative calibration from A, decision tree from C
+- Section 1 (Phases): pull Hennessy physiological anchors from B, calibration numbers from A, encoding rules from C
+- Section 3 (Bayesian Sightings): pull action-gate architecture from B+C, λ weights from all three
+- Section 4 (Fear Escalation): pull three-trigger state machine from A, case studies from B, decision rules from C
+- Key unique contributions per draft to preserve in synthesis: A's product reframe ("preventing escalation not finding"), B's dual-prior galgo model, C's pseudocode-style parameter tables
+
 ## Step 2 summary (complete)
 - 85 notes in vault tagged lost-dog-behavioral
 - 80 claims files in temp/claims/

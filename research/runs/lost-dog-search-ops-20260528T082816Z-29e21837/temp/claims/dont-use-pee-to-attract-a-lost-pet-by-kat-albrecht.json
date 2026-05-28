@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Spraying human urine to attract a lost dog is ineffective because owner scent is already deposited in the search area through skin cell shedding during normal search activity — no additional urine is needed.",
+    "stance": "refutes",
+    "stance_target": "urine scent luring as a valid lost dog recovery technique",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "any lost dog scenario; Kat Albrecht (MAR founder) explicitly refuting a widespread social media recommendation",
+    "quoted_support": "it is unnecessary to spray your urine scent in the area because, if you are walking around in search of your lost dog (or cat), your scent is already being 'deposited' in the area! When you walk anywhere, you end up depositing your scent through the shedding of skin cells coming off your body and the shedding of cells from your lungs. That is why bloodhounds and other SAR dogs are able to find people...because the human scent is deposited when you walk.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MAR Network"],
+    "time_period": "2024",
+    "region": "USA/general",
+    "confidence": "high",
+    "source_note_id": "dont-use-pee-to-attract-a-lost-pet-by-kat-albrecht"
+  },
+  {
+    "claim": "Fear suppresses olfactory processing in skittish dogs — scent luring techniques (including territorial urine scent) do not work for dogs in acute flight/fear mode because the brain region that processes olfactory cues does not function normally.",
+    "stance": "supports",
+    "stance_target": "fear state as a blocker to scent-based attraction techniques for traumatized/shy dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "skittish or traumatized dogs in fear state; sociable dogs less affected",
+    "quoted_support": "many dogs escape and are not going to even CARE whether their owner's scent is present. This, of course, depends on the dog's temperament and the reason for the escape. When fear is present in a skittish dog or cat, the area of the brain that processes olfactory cues just does not function.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MAR Network"],
+    "time_period": "2024",
+    "region": "USA/general",
+    "confidence": "high",
+    "source_note_id": "dont-use-pee-to-attract-a-lost-pet-by-kat-albrecht"
+  },
+  {
+    "claim": "Food-based scent luring (BBQ chicken, liquid smoke, tuna juice) is effective because it appeals to hunger via a different brain pathway than territorial/familiar scent — food hunger can override fear suppression of olfaction.",
+    "stance": "supports",
+    "stance_target": "food-based scent stations as the correct scent luring method for lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs that have been loose long enough to be hungry; most effective days 2+ when initial adrenaline subsides",
+    "quoted_support": "we DO recommend 'scent luring' for missing dogs and cats when we set up what are called 'feeding stations.' This is where we might coach a dog owner whose dog ran into the woods to go there and BBQ some boneless chicken and sit down and let that scent float in the area and attract the dog to come back. Or we might use a spray bottle filled with water and liquid smoke to spray and saturate an area with food smells as we place a plate of dog food down (with a game camera pointed at it). This type of scent luring appeals to the pet's growing hunger and is reaching a different part of the animals brain that urine scent does.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MAR Network"],
+    "time_period": "2024",
+    "region": "USA/general",
+    "confidence": "high",
+    "source_note_id": "dont-use-pee-to-attract-a-lost-pet-by-kat-albrecht"
+  },
+  {
+    "claim": "Placing a dirty litter box on the porch to attract a lost cat is a passive approach that is less effective than aggressive physical neighborhood search or camera-monitored food stations.",
+    "stance": "refutes",
+    "stance_target": "passive scent objects as effective lost cat recovery tools",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "lost cats; territorial scent marking in fear state is ineffective for same reasons as urine luring",
+    "quoted_support": "Cat owners would have a higher chance of recovering their missing cat by conducting an aggressive, physical search of their yard and their neighbor's yards or by setting up game cameras with food in their neighborhood.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MAR Network"],
+    "time_period": "2024",
+    "region": "USA/general",
+    "confidence": "high",
+    "source_note_id": "dont-use-pee-to-attract-a-lost-pet-by-kat-albrecht"
+  }
+]

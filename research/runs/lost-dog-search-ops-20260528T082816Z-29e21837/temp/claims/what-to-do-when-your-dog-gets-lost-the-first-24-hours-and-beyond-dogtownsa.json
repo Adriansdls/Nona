@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Approximately 1.22 million dogs were reported lost in the United States in 2024 (72% of 1.7 million total lost pets), with 63% of lost dogs recovered — and an estimated 1-in-3 dogs will go missing at some point in their lifetime.",
+    "stance": "neutral",
+    "stance_target": "Baseline lost dog incidence statistics for risk calibration",
+    "evidence_type": "statistical",
+    "scope_conditions": "United States, 2024 data",
+    "quoted_support": "Approximately 1.22 million dogs were reported lost in the United States in 2024, making up about 72% of the more than 1.7 million lost pets nationwide that year. The good news is that the vast majority (63%) are found. Overall, it is estimated that around one in three dogs will go missing at some point in their lifetime.",
+    "numbers": ["1.22 million dogs lost in 2024", "72% of 1.7 million lost pets", "63% recovery rate", "1-in-3 lifetime probability"],
+    "entities": ["DogTownSA"],
+    "time_period": "2024",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "what-to-do-when-your-dog-gets-lost-the-first-24-hours-and-beyond-dogtownsa"
+  },
+  {
+    "claim": "Dogs that have gone missing may wander but then return to previously visited familiar spaces such as parks or specific routes — making revisiting previously searched locations a valuable tactic after day 7.",
+    "stance": "supports",
+    "stance_target": "Phase-2+ search protocol: revisit previously searched familiar locations, not just expand radius",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs missing for more than a week",
+    "quoted_support": "Consider revisiting previously visited locations. Dogs may wander but return to spaces they have frequented in the past, such as parks or malls.",
+    "numbers": [],
+    "entities": ["DogTownSA"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "what-to-do-when-your-dog-gets-lost-the-first-24-hours-and-beyond-dogtownsa"
+  },
+  {
+    "claim": "Professional pet detectives use scent-tracking dogs, drones, motion-activated cameras, night vision equipment, GPS tracking, and digital/social media database strategies — suggesting these form the evidence-based toolkit for systematic lost dog recovery.",
+    "stance": "supports",
+    "stance_target": "Technology toolkit for professional search operations",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Month+ recovery cases; applicable earlier for hard cases",
+    "quoted_support": "Seasoned detectives typically have scent-tracking dogs that have proven successful in finding lost pets. They may also use surveillance equipment (including drones, motion-activated cameras, night vision equipment, and GPS tracking) to monitor areas where your pet may be present. Pet detectives also typically specialize in digital strategies, and they are adept at using social media, online forums, and lost pet databases to spread awareness and gather tips on potential sightings.",
+    "numbers": [],
+    "entities": ["DogTownSA"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "what-to-do-when-your-dog-gets-lost-the-first-24-hours-and-beyond-dogtownsa"
+  }
+]

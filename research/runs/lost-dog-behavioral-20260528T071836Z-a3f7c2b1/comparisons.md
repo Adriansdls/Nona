@@ -1,5 +1,12 @@
 # Cross-locus comparisons
 
+> **Corpus critic update (step 8):** Key confidence adjustments after targeted fetch wave:
+> - Phase 1 (72h boundary): **medium → medium-high** — Hennessy cortisol arc (days 1-3 peak, 4-9 declining, 9+ plateau) validates the direction from conference-level summary.
+> - Action-gate prohibition for fearful dogs: **medium-high → high** — adversarial search for counterexamples returned zero results.
+> - Galgo OR=8.34 spatial prior magnitude: **unchanged medium** — Normando 2025 full text (galgo predatory drive vs. greyhound) not accessible; dual-prior structure confirmed, magnitude uncertain.
+> - Podenco 5-15km radius: **unchanged medium (70%)** — farm-dog GPS data (2.72-3.38km working context) doesn't directly bound lost/prey-chase scenario; adds Benediktová 2020 navigation mode (magnetic compass scouting on return).
+>
+
 ## Tension 1: Phase 1 "direct approach viable" — but for whom?
 
 - **Locus: dog-phase-transition-thresholds** ([[interim-report-dog-phase-transition-thresholds]]) commits: Phase 1 (0–72h) is the window when direct approach by owner is viable. Phase 2 begins at 48–96h with mandatory passive-only protocol. The 72h boundary reflects practitioner consensus across 3,000+ recovery cases.

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The 'Five + Five + Fifty-Five Rule' governs poster design: at a typical intersection, owners have only 5 seconds and 5 words to communicate to drivers passing at 55 mph — standard 8.5x11 white flyers violate all three constraints and are effectively invisible.",
+    "stance": "supports",
+    "stance_target": "Poster format is an operational decision with direct impact on sighting rates — small flyers are ineffective",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Roadside lost pet marketing at intersections; applies globally wherever driving culture exists",
+    "quoted_support": "At any typical intersection, you only have five seconds and five words to get your message across to drivers who are passing through the area where your pet is missing.",
+    "numbers": ["5 seconds", "5 words", "55 mph", "8.5 x 11 inches is too small"],
+    "entities": ["Kat Albrecht", "MAR Network"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "neon-posters-missing-animal-response-network"
+  },
+  {
+    "claim": "Inattentional blindness — the neuropsychological finding that there is no perception without attention — explains why small or standard-color posters are invisible to passing drivers even when they are physically present.",
+    "stance": "supports",
+    "stance_target": "Giant fluorescent posters are required to overcome inattentional blindness in drivers",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Applies to any roadside visual communication in high-traffic contexts",
+    "quoted_support": "Researchers who've studied the human attention span have discovered a particular behavior called 'Inattentional Blindness' and the hypothesis is that there is NO PERCEPTION without attention. What this means is that if something does NOT capture your attention, you will not even perceive it.",
+    "numbers": [],
+    "entities": ["MAR Network", "Kat Albrecht"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "neon-posters-missing-animal-response-network"
+  },
+  {
+    "claim": "MAR Network has reversed its historical recommendation to offer rewards, now advocating 'PLEASE HELP FIND' poster language because reward offers trigger reward-seeking behavior that has caused dogs to be chased into traffic and killed.",
+    "stance": "supports",
+    "stance_target": "Reward language on posters is an operational risk factor that must be controlled",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lost dog cases with active social media presence and community sightings",
+    "quoted_support": "we've recently discovered new information that indicates that putting out a message that there's a 'REWARD' for your missing pet might NOT be the best idea! Several volunteer lost pet Facebook groups have reported that reward-motivated bystanders rushed to sightings and chased dogs, some into traffic.",
+    "numbers": [],
+    "entities": ["MAR Network", "Kat Albrecht"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "neon-posters-missing-animal-response-network"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Free-roaming domestic dogs across four countries (Chad, Guatemala, Indonesia, Uganda) have core home ranges of 0.2–2.9 ha (median ~0.4 ha) under normal conditions, establishing the baseline spatial constraint for lost dog distance comparisons.",
+    "stance": "supports",
+    "stance_target": "movement ecology baseline confirming that dogs traveling >1 km after escape are outside normal ranging behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "46 GPS-collared free-roaming domestic dogs across 4 countries; 19-85 recorded days each; GPS interval 15 min",
+    "quoted_support": "The core HR size ranged between 0.2 and 1.2 hectares (ha) (median 0.4) in Chad (10 dogs), 0.2 and 0.9 ha (0.4 ha) in Guatemala (12 dogs), 0.3 and 2.9 ha (0.4 ha) in Indonesia (10 dogs) and 0.3 and 1.5 ha (0.4 ha) in Uganda (14 dogs).",
+    "numbers": ["core HR median 0.4 ha across all countries", "core HR range 0.2–2.9 ha", "extended HR 1.7–1,110.7 ha"],
+    "entities": ["Warembourg et al.", "Scientific Reports 2023", "Chad", "Guatemala", "Indonesia", "Uganda"],
+    "time_period": "January 2018 – March 2019",
+    "region": "Chad, Guatemala, Indonesia, Uganda",
+    "confidence": "high",
+    "source_note_id": "investigation-of-optimized-observation-periods-for-estimating-a-representative-h"
+  },
+  {
+    "claim": "For 75% of tracked free-roaming dogs, 26 days of GPS observation was sufficient to capture a stable extended home range (95% isopleth), but individual dogs required anywhere from 2 to 53 days — confirming high individual variation.",
+    "stance": "neutral",
+    "stance_target": "minimum tracking duration for movement characterization; individual variation in ranging behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "46 GPS-collared free-roaming dogs; BRB (Biased Random Bridge) HR estimation method",
+    "quoted_support": "For 75% of the dogs, 7 and 2 days were enough to reach a daily maximum of 10% and 20% change for the core HR, whereas 26 and 13 days were required for the extended HR.",
+    "numbers": ["7 days for 75% of dogs to stabilize core HR (10% threshold)", "26 days for 75% of dogs to stabilize extended HR (10% threshold)", "range 2–53 days for extended HR"],
+    "entities": ["Warembourg et al.", "Scientific Reports 2023"],
+    "time_period": "2018-2019",
+    "region": "Multi-country",
+    "confidence": "high",
+    "source_note_id": "investigation-of-optimized-observation-periods-for-estimating-a-representative-h"
+  }
+]

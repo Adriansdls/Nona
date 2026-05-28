@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "MARN's operational protocol for lost dogs is built on SAR (search and rescue) methodology — specifically search probability theory, area search dogs, scent trailing dogs, and forensics — applied to lost pet scenarios.",
+    "stance": "supports",
+    "stance_target": "SAR probability theory is the academic and operational foundation for lost dog search protocol",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MARN network operations; founded by former search-and-rescue manager",
+    "quoted_support": "the foundation for our missing animal response (MAR) training program is based on the existing techniques used in search and rescue or SAR, and we've been very successful in recovering missing pets by using SAR techniques like search probability theory, area search dogs, scent trailing dogs, and forensics.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "Current (founded 2017)",
+    "region": "International",
+    "confidence": "high",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  },
+  {
+    "claim": "Do NOT call a loose dog by name — this triggers flight response; lure rather than chase; set traps only after trail camera confirms consistent eating at a specific location.",
+    "stance": "supports",
+    "stance_target": "Three-stage passive capture protocol: no calling → passive luring → trap only when feeding pattern confirmed",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All skittish lost dogs; especially relevant after day 2-3 when dog has established a residence area",
+    "quoted_support": "do NOT call a loose dog (triggers flight response); lure rather than chase; set traps only after trail camera confirms eating in a specific location.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  },
+  {
+    "claim": "Scent-tracking dogs narrow the search area by establishing where a lost dog has been recently traveling, providing directional evidence unavailable through witness sightings alone.",
+    "stance": "supports",
+    "stance_target": "Scent trailing dogs are a high-value search tool that complements probabilistic zoning",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Cases with trained MAR scent tracking dogs; requires professional handler",
+    "quoted_support": "scent tracking dogs narrow search area. Testimony from cases shows scent tracking dogs narrow search area.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  }
+]

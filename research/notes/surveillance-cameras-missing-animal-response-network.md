@@ -1,78 +1,83 @@
 ---
-title: When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
-id: when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network
+title: Surveillance Cameras - Missing Animal Response Network
+id: surveillance-cameras-missing-animal-response-network
 tags:
-- lost-dog-behavioral
-- trapping
-- food-station
-- trail-camera
-- recovery-protocol
-created: '2026-05-28T07:29:52.032876Z'
-updated: '2026-05-28T07:32:19.546811Z'
-source: https://www.missinganimalresponse.com/lost-pet-tips/when-do-you-set-a-trap-for-a-lost-dog/
+- lost-dog-search-ops
+- camera-trap
+- lost-dog
+- feeding-station
+created: '2026-05-28T08:34:09.102633Z'
+updated: '2026-05-28T08:41:33.667711Z'
+source: https://www.missinganimalresponse.com/surveillance-cameras/
 source_domain: www.missinganimalresponse.com
-fetched_at: '2026-05-28T07:29:52.032711Z'
+fetched_at: '2026-05-28T08:34:09.102472Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
-summary: 'MAR Network trap protocol for lost dogs. Core rule: never set a trap until
-  the dog has been confirmed eating at a specific food station on trail camera. Rationale:
-  dog won''t travel long distances to reach a trap, supplies are costly, and a triggered
-  trap at wrong location wastes time. Not all dogs need trapping — gregarious dogs
-  can be lured without traps. Trapping sequence: (1) establish food station with familiar
-  scent article near escape point; (2) confirm dog eating on trail camera; (3) obtain
-  landowner permission if off-property; (4) set humane trap monitored every 1-3 hours
-  (or via cellular game camera sending real-time photos). Trap must be monitored —
-  animal should not be inside trap more than 30 minutes. Overnight: refresh food and
-  tie trap door open (bungee cord) so dog can enter, eat, and build comfort with the
-  trap. Never open trap in field to remove captured dog — take whole trap to enclosed
-  space (garage) first, to prevent escape. ''When the dog is eating regularly on camera
-  at a specific location'' is the operationally precise trigger for trap deployment.'
+summary: 'MAR Network guide on wildlife camera use for lost pet recovery — nearly
+  identical to using-cameras-for-lost-pets note (same source material). Confirms:
+  standard deer hunting height of 24–36 inches is too high for cats/small dogs; cameras
+  must have infrared flash for night operation with date/time stamp; Browning Dark
+  Ops Elite recommended for adaptive flash (avoids whiteout); Reconyx cameras are
+  highest quality. Baby monitors, driveway alarms, and wireless security cameras useful
+  for home-adjacent trapping. Primary function: confirm dog presence in area and whether
+  it will enter a humane trap.'
 ---
 
-*Suggested by [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]] — MAR primary source on trap timing for lost dogs — addresses when and how to deploy humane traps*
+*Suggested by [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]] — MAR primary source on surveillance camera use for lost pet recovery — directly addresses camera trap placement optimization*
 
-When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
+Surveillance Cameras - Missing Animal Response Network
 Skip to main content
 Skip to footer
-You are here:
-Home
-/
-Lost Pet Tips
-/
-When Do You Set A Trap For A Lost Dog?
-So, when do you set a trap for a lost dog? The short and simple answer is when you have the dog eating on a trail camera in a specific location.
-Starting from the moment they escape or get loose; you need to remain calm. We know losing a pet can be one of the most stressful times in your life. If your dog is still in sight, we encourage people to
-LURE them back, DO NOT CHASE after them
-. If they completely run out of sight, let them go, do not go after them.  The downside of chasing them, you are pushing them away from the location they were lost. This will further delay their return home.
-Once you lose sight of them, please find a way to place a bowl of canned wet dog food out for them. Dog food with gravy, like ALPO, is a great example. You want to use something that has a heavy scent. Other great options are smelly deli meats, liquid smoke or barbecue sauce. It is also a good idea to place a scent item out that is familiar to the dog, like their bed or some of your dirty clothes that will still have your scent on them.
-At MARN we get requests all the time from lost pet owners, asking if we could bring a trap for a dog that has just gotten loose. Now you must understand, not every dog needs to be trapped. What we mean is that trapping a dog using a humane trap is safe but can be startling to a skittish dog. If you have a very friendly dog most of the time, they can be lured using
-calming signals
-instead of being trapped. This method is the least stressful but should be performed by a trained individual. Our pet detectives are trained in ways to capture your dog without trapping, but if a trap must be set then they are ready for that as well.
-Why you don’t just throw a trap up for lost or stray dog:
-There is no guarantee the dog will come back to that location.
-When setting a trap all the food, straw if used, batteries for cameras and data plans for WIFI cameras cost money and the food specifically doesn’t last long and must be thrown out. Those that volunteer their time or even those charging for their services cannot afford to waste supplies by not being sure they have the best spot to start trapping your lost pet.
-The dog will not travel long distances just because you set a trap in a specific place. The location of a trap must be carefully thought out based on the behavior and where you can get the dog eating.
-You also must be aware of other animals and dangers, such as highways and high traffic roads. It is not a good idea to lure a dog near a road unless you have ABSOLUTELY no other choice. No other choice meaning that is the only spot you can get the dog to eat.
-When it is time to set a trap for a lost dog? When you have already done the following:
-You have placed a familiar scent article near the place of escape.
-You have set up a food station with a trail camera. Then you have confirmed your dog was there eating the food.
-If not on your property you have asked permission to trap on said property or location.
-Traps Should Always be Monitored
-It is critical that all humane traps be monitored in some way to assure that an animal does not become overly stressed or injured when trapped. Traps can occasionally malfunction, so being nearby to prevent any accident is important. Monitoring can be accomplished either by visually watching the trap from a safe distance (i.e. while sitting inside a parked car), by monitoring the trap while using a sound monitoring device (i.e. a driveway alarm that audibly beeps when something enters the trap), or by using a cellular game camera that texts you a photograph of the trap in real-time. You should always be able to arrive at the triggered trap within minutes of the trap being triggered or assign this to a volunteer or even a neighbor who lives near the trapping location.
-How Often Should I Check My Trap?
-Traps should be checked every 1-3 hours if you are not placing a wireless camera to watch the trap remotely. Now if you are using a wireless game camera that sends you images or videos you don’t have to be at the trap as often, but you still want to be nearby if something goes into the trap. Ideally, you don’t want any animal in a trap for over 30 minutes if possible. Keeping the animals calm and getting them out of the trap safely as soon as possible is key.
-When To Tie The Trap Open?
-If you cannot stay and monitor the trap overnight, for example, we recommend refreshing the smelly food in the trap and then tying the door with a bungee cord or rope.  This will allow the lost pet to get some food and to see the trap is less threatening for when it is set to go off again.
-Never Open a Trap In the Field To Remove a Lost Pet
-There are a number of things that can go wrong, but the main thing is we don’t want that pet to escape. We recommend taking the whole trap into a garage, enclosed area, or vehicle if the trap is small enough and remove the pet then so they cannot escape before getting them secured. If you are using a kennel trap or missy trap, make sure to have someone hold the door shut until you have the lost dog on a leash or in a transport kennel. We know how much work goes into rescuing lost pets, so we would hate to see the pet escape after being successfully trapped.
-Pet owners these days treat their pets like children or at least consider them part of the family. We want to make sure you have all the information needed to make the best decisions possible when looking for your lost pet. We understand the entire process can be overwhelming, but we are here to help. Visit the
-LOST PET HELP
-section of our website for other great information. If you need someone in your area trained to help, please visit our
-PET DETECTIVE DIRECTORY
+Using some method of surveillance can drastically increase the success of locating and catching your missing pet when using feeding stations and/or trapping.
+Wildlife Cameras
+Bushnell Trophy Cam in security box
+Wildlife cameras (also called trail, game, scouting, motion-sensitive, surveillance or remote cameras) can be highly effective tools for helping locate and recover displaced cats (including escaped indoor-only cats) and skittish lost dogs.  They can help provide evidence that the lost pet is in the area and whether s/he will enter a humane trap if one is set up.  For an example, see Kat Albrecht’s blog article
+“Catching Bill.”
+However, the effectiveness of the camera is dependent on several factors including the quality of the camera and where/how it is set up.
+Selecting a Wildlife Camera
+Selecting a trail camera can be a daunting task.  There are so many brands available, none of them are particularly cheap, and they all seem to have some technical issues.  The
+TrailCamPro.com
+website provides some very useful information for making this decision.  They have a
+“First Time” Trail Camera Buyer’s Guide
+that covers many important aspects of selecting a camera including:
+Trigger Time
+Detection Zone
+Recovery Time
+Picture Quality
+Type of Flash
+Battery Life
+Security Options
+If you don’t want to do a lot of reading and decision making, then one of the best pages to view on their site is the “
+Popular Trail Cameras and Our Favorite TrailCams
+” page.  On the other hand, if you are really serious about learning all the features and how different brand cameras compare, then you should also check out the TrailCamPro.com
+Trail Camera Tests
+including trigger speed, detection zone, recovery time, and flash range tests.  Both TrailCamPro.com and
+Chasing Game
+also provide in-depth reviews of many different trail cameras.
+Setting Up a Wildlife Camera
+Whichever camera you select, you can improve your success by setting up the camera effectively because even a great camera won’t get a single picture of a lost pet if set up poorly.  TrailCamPro.com provides a useful
+Trail Camera Checklist
+.  Since their website is aimed primarily at deer hunters, the height that they suggest placing the camera (24”-36”) is too high for cats and small dogs, but most of the information is applicable to setting up a camera to locate missing pets.  Chasing Game also has some useful set-up information under the
+“Getting Started”
+tab.  In addition, they cover the topics of camera camouflage and security, which TrailCamPro.com does not cover on their checklist.
+If you want even more in-depth information or are seeking answers to a particular question, there are many forums and discussion groups online.  Among the hunting forums, I found the
+Chasing Game forum
+particularly user-friendly and informative.  Besides hunters, wildlife biologists are the other heavy users of trail cameras, which they generally refer to as “camera traps.”  The
+Yahoo! Camera Trap Group
+is another good source for information and questions on camera selection and set-up.
+My Recommendations
+My current favorite camera is the Browning Dark Ops Elite.  The Browning has a feature that adjusts the strength of the flash based on how close the animal is to the camera.  A too bright flash that whites out the animal in the photo is a common problem with many wildlife cameras.
+If you can afford them, Reconyx supposedly sells the best quality trail cameras on the market.  They also have a high resale value on Ebay or Amazon.com, so you could resell yours after you get your lost dog or cat back home.
+Motion Alarms and Security Cameras
+Baby monitors (either audio or video), driveway alarms or wireless security cameras can also be used if you are trapping immediately around your home.   Be aware that the actual sensor range is usually half or less than the reported range.
+For more detailed information on selecting and using a wildlife camera or motion alarm, check out the
+Lost Pet Recovery Instructions
+and the
+Lost Pet Research Blog
 .
 Footer
 Testimonials

@@ -1,79 +1,94 @@
 ---
-title: When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
-id: when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network
+title: To REWARD or NOT to reward...That is the Question - Missing Animal Response
+  Network
+id: to-reward-or-not-to-rewardthat-is-the-question-missing-animal-response-network
 tags:
-- lost-dog-behavioral
-- trapping
-- food-station
-- trail-camera
-- recovery-protocol
-created: '2026-05-28T07:29:52.032876Z'
-updated: '2026-05-28T07:32:19.546811Z'
-source: https://www.missinganimalresponse.com/lost-pet-tips/when-do-you-set-a-trap-for-a-lost-dog/
+- lost-dog-search-ops
+- reward-strategy
+- owner-errors
+- neuroscience
+- sighting-management
+created: '2026-05-28T08:39:54.916674Z'
+updated: '2026-05-28T08:40:22.396861Z'
+source: https://www.missinganimalresponse.com/lost-pet-tips/to-reward-or-not-to-reward-that-is-the-question/
 source_domain: www.missinganimalresponse.com
-fetched_at: '2026-05-28T07:29:52.032711Z'
+fetched_at: '2026-05-28T08:39:54.916422Z'
 fetch_provider: builtin
 status: draft
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
-summary: 'MAR Network trap protocol for lost dogs. Core rule: never set a trap until
-  the dog has been confirmed eating at a specific food station on trail camera. Rationale:
-  dog won''t travel long distances to reach a trap, supplies are costly, and a triggered
-  trap at wrong location wastes time. Not all dogs need trapping — gregarious dogs
-  can be lured without traps. Trapping sequence: (1) establish food station with familiar
-  scent article near escape point; (2) confirm dog eating on trail camera; (3) obtain
-  landowner permission if off-property; (4) set humane trap monitored every 1-3 hours
-  (or via cellular game camera sending real-time photos). Trap must be monitored —
-  animal should not be inside trap more than 30 minutes. Overnight: refresh food and
-  tie trap door open (bungee cord) so dog can enter, eat, and build comfort with the
-  trap. Never open trap in field to remove captured dog — take whole trap to enclosed
-  space (garage) first, to prevent escape. ''When the dog is eating regularly on camera
-  at a specific location'' is the operationally precise trigger for trap deployment.'
+summary: 'Kat Albrecht''s evidence-based analysis of why offering monetary rewards
+  for lost dogs is counterproductive. Core argument: Swiss toxic-waste-dump study
+  showed ~50% community approval dropped when monetary compensation was offered —
+  money switches brain from altruism center (posterior superior temporal sulcus) to
+  pleasure/reward center (nucleus accumbens), and they cannot operate simultaneously.
+  NIH MRI studies confirm the two-system split. Practical consequence for lost dogs:
+  when ''REWARD OFFERED'' appears on posters, volunteers and bystanders shift from
+  altruistic helpers to reward-seekers — they rush to sightings, chase dogs, and have
+  caused deaths when dogs were chased into traffic. MAR changed protocol: posters
+  now say ''PLEASE HELP FIND'' not ''REWARD OFFERED.'' Supports if/then rule: IF reward
+  language is used → THEN increase sighting-management protocol, restrict sighting
+  disclosure, add warnings to volunteers about chasing risk.'
 ---
 
-*Suggested by [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]] — MAR primary source on trap timing for lost dogs — addresses when and how to deploy humane traps*
+*Suggested by [[what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal]] — Albrecht's article on neuroscience of reward vs. altruism appeals in lost pet searches*
 
-When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
+To REWARD or NOT to reward...That is the Question - Missing Animal Response Network
 Skip to main content
+Skip to primary sidebar
 Skip to footer
 You are here:
 Home
 /
-Lost Pet Tips
+Pet Detective Cases
 /
-When Do You Set A Trap For A Lost Dog?
-So, when do you set a trap for a lost dog? The short and simple answer is when you have the dog eating on a trail camera in a specific location.
-Starting from the moment they escape or get loose; you need to remain calm. We know losing a pet can be one of the most stressful times in your life. If your dog is still in sight, we encourage people to
-LURE them back, DO NOT CHASE after them
-. If they completely run out of sight, let them go, do not go after them.  The downside of chasing them, you are pushing them away from the location they were lost. This will further delay their return home.
-Once you lose sight of them, please find a way to place a bowl of canned wet dog food out for them. Dog food with gravy, like ALPO, is a great example. You want to use something that has a heavy scent. Other great options are smelly deli meats, liquid smoke or barbecue sauce. It is also a good idea to place a scent item out that is familiar to the dog, like their bed or some of your dirty clothes that will still have your scent on them.
-At MARN we get requests all the time from lost pet owners, asking if we could bring a trap for a dog that has just gotten loose. Now you must understand, not every dog needs to be trapped. What we mean is that trapping a dog using a humane trap is safe but can be startling to a skittish dog. If you have a very friendly dog most of the time, they can be lured using
-calming signals
-instead of being trapped. This method is the least stressful but should be performed by a trained individual. Our pet detectives are trained in ways to capture your dog without trapping, but if a trap must be set then they are ready for that as well.
-Why you don’t just throw a trap up for lost or stray dog:
-There is no guarantee the dog will come back to that location.
-When setting a trap all the food, straw if used, batteries for cameras and data plans for WIFI cameras cost money and the food specifically doesn’t last long and must be thrown out. Those that volunteer their time or even those charging for their services cannot afford to waste supplies by not being sure they have the best spot to start trapping your lost pet.
-The dog will not travel long distances just because you set a trap in a specific place. The location of a trap must be carefully thought out based on the behavior and where you can get the dog eating.
-You also must be aware of other animals and dangers, such as highways and high traffic roads. It is not a good idea to lure a dog near a road unless you have ABSOLUTELY no other choice. No other choice meaning that is the only spot you can get the dog to eat.
-When it is time to set a trap for a lost dog? When you have already done the following:
-You have placed a familiar scent article near the place of escape.
-You have set up a food station with a trail camera. Then you have confirmed your dog was there eating the food.
-If not on your property you have asked permission to trap on said property or location.
-Traps Should Always be Monitored
-It is critical that all humane traps be monitored in some way to assure that an animal does not become overly stressed or injured when trapped. Traps can occasionally malfunction, so being nearby to prevent any accident is important. Monitoring can be accomplished either by visually watching the trap from a safe distance (i.e. while sitting inside a parked car), by monitoring the trap while using a sound monitoring device (i.e. a driveway alarm that audibly beeps when something enters the trap), or by using a cellular game camera that texts you a photograph of the trap in real-time. You should always be able to arrive at the triggered trap within minutes of the trap being triggered or assign this to a volunteer or even a neighbor who lives near the trapping location.
-How Often Should I Check My Trap?
-Traps should be checked every 1-3 hours if you are not placing a wireless camera to watch the trap remotely. Now if you are using a wireless game camera that sends you images or videos you don’t have to be at the trap as often, but you still want to be nearby if something goes into the trap. Ideally, you don’t want any animal in a trap for over 30 minutes if possible. Keeping the animals calm and getting them out of the trap safely as soon as possible is key.
-When To Tie The Trap Open?
-If you cannot stay and monitor the trap overnight, for example, we recommend refreshing the smelly food in the trap and then tying the door with a bungee cord or rope.  This will allow the lost pet to get some food and to see the trap is less threatening for when it is set to go off again.
-Never Open a Trap In the Field To Remove a Lost Pet
-There are a number of things that can go wrong, but the main thing is we don’t want that pet to escape. We recommend taking the whole trap into a garage, enclosed area, or vehicle if the trap is small enough and remove the pet then so they cannot escape before getting them secured. If you are using a kennel trap or missy trap, make sure to have someone hold the door shut until you have the lost dog on a leash or in a transport kennel. We know how much work goes into rescuing lost pets, so we would hate to see the pet escape after being successfully trapped.
-Pet owners these days treat their pets like children or at least consider them part of the family. We want to make sure you have all the information needed to make the best decisions possible when looking for your lost pet. We understand the entire process can be overwhelming, but we are here to help. Visit the
-LOST PET HELP
-section of our website for other great information. If you need someone in your area trained to help, please visit our
-PET DETECTIVE DIRECTORY
+To REWARD or NOT to reward…That is the Question
+I can’t believe that it has been
+3 years
+since I’ve blogged. My absence has not been due to a lack of lost pet recovery content but rather due to a lack of TIME.
+However, the explosion in Facebook lost pet recovery teams as well as increased interest by animal shelters to develop lost pet recovery programs has led me to realize that more than ever, people NEED to be educated in what to do and what NOT to do when it comes to recovering a lost pet. The first topic I want to cover is the issue of whether or not pet owner / guardians should offer a REWARD for a lost pet.
+** Someone pointed out that the above photos should have a VISIBLE PHONE NUMBER which is absolutely correct! In the above poster(s), the phone number is below the text “Her Eyes” but is blurred out for this blog. The poster on the left actually helped recover the dog that was missing, a terrier named Shorty.  **
+It used to be that we advocated offering a reward (UPPER LEFT PHOTO) because, well, it just seemed to make sense. In our early days  (MPP was founded in 2001, long before Facebook was born)  we saw cases where a high dollar reward resulted in media attention and/or the person who’d found a missing pet came out of the woodwork in order to claim the reward and return the lost pet. However, as Facebook Lost & Found pages have developed in most communities, their administrators have seen a disturbing trend: in many cases where a lost dog has been sighted and a
+REWARD
+was offered, Joe-Blow-Citizens have rushed into “rescue” mode when they’ve heard of a sighting or they themselves spotted the dog. And what these people end up doing is CHASING the dog. We’ve heard of several cases where volunteer teams had been working to capture a skittish lost dog through passive means such as
+Calming Signals
+or feeding station, wildlife cameras, and humane dog traps, only to have that lost dog chased out of the search area. And worse yet, some dogs have been chased into traffic, struck by a car,
+and killed
 .
+So, after hearing enough opposition to the issue of offering a reward, I decided to do a bit research to see what science says about rewards. I was shocked at what I discovered! Many people (including myself)  have thought that using a reward would be a worthy motivator of people to get them to help call in a sighting of a lost pet. However, scientific research has actually shown that
+monetary incentives
+are NOT the best motivator at all! In one study in Switzerland, researchers discovered that in a case where a small community was faced with building a toxic waste dump outside their community, over half of the townspeople were willing to approve this measure because for the sake of a different nearby community it was “the right thing to do” for them to help out by having the dump by their own town. But the builders, in their attempt to gain even more votes, offered to compensate all community members with a few thousand dollars a year. Surprisingly, when offered this perk nearly everyone changed their minds and voted against the dump. Whereas initially almost half of the people were willing to live next to a toxic waste dump for free because it was “the right thing to do” they changed their minds when they were offered money. The National Institutes of Health (NIH) has pinpointed the neurophysiology behind this and behind the issue of offering a reward verses simply asking people for help. In one study, the NIH conducted MRI’s to monitor brain activity and discovered that there are two very different areas of the brain that process thoughts of either seeking financial compensation or of being charitable. There have also been other
+studies of the brain
+related to monetary incentives vs. alturism. These studies have shown that these two areas of the brain can NOT operate at the same time and that either one or the other kicks in when we are thinking.
+The
+nucleus accumbens
+is a primitive part of the brain that is a known as the “pleasure center” and it is where we respond to financial compensation. On the other hand, the
+posterior superior temporal sulcus
+is the area of our brain that responds to social interactions and is known as the “altruism center”. According the book
+Sway: The Irresistible Pull of Irrational Behavior
+by Ori Brafman and Rom Brafman, “the pleasure center and the altruism center cannot both function at the same time: either one or the other is in control.” The authors pointed out studies that prove that “we can approach a task either altruistically or from a self-interested perspective” and that these two different areas of the brain “run on different fuels and need different amounts of those fuels” to work. They pointed out cases, like the toxic dump case from Switzerland, where people were offered compensation that was apparently so low that it “offended” people. They gave the example that if you ask a friend to come spend eight hours of back-breaking work to help you move, most friends would willingly say “yes” (altruism center). However, if instead you offered that same friend just $10.00 to spend the same eight hours of back-breaking work to help you move, most friends would feel offended and might even suggest that you hire a professional moving company. The authors also pointed out that it does not take much to activate the altruism center. In
+Sway
+the authors pointed out that, “All you need is
+the sense that you’re helping someone or making a positive impact
+—but the pleasure center seems to need a lot more.”
+I have never been afraid to admit that I am wrong. We’re switching from suggesting posters with “REWARD” to instead say “PLEASE HELP” or “HELP FIND!” We’ve including information about “
+Inattentional Blindness
+” and the science behind WHY large, neon posters (verses tiny, white, 8 1/2 X 11 flyers) are a highly effective tool to recover a lost pet. This simple technique of learning how to create proper signs will even help change the way you make yard sale signs, like these ones I made last year!
+From now on, I personally will no longer suggest that pet owners offer a reward or advertise that they are offering a reward
+(the exception being
+LOST CAT cases
+–there is much less risk of people chasing after cats, most will duck and hide in or under something, and sightings of displaced cats are CRITICAL to knowing where to set up a wildlife camera and/or humane trap)
+, since doing so may encourage untrained people  interested
+only in financial compensation
+to chase after lost pets, leading to tragic consequences. At the very least, offering rewards can make a recovery by trained professionals and/or community volunteers very difficult when untrained community members become involved. Instead, use social media and community networking services (like NextDoor.com) to get your message out. When you consider that most communities have a Lost & Found Facebook page (check out
+Lost Dogs of America’s site
+) with volunteers who love animals and who REALLY want to HELP find your missing pet, there is no need to appeal to the “nucleus accumbens” reward-seeking-crowd in your community. Instead, find your local Lost & Found Facebook page, follow their instructions on posting your lost pet, and appeal to the
+animal loving-posterior superior temporal sulcus-crowd
+by creating a poster that says:
+PLEASE HELP!
+When you do that, you’ll have a better chance of getting just what you need….HELP!
 Footer
 Testimonials
 Bonnie is a godsend!

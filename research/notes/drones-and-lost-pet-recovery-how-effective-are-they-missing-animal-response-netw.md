@@ -1,79 +1,104 @@
 ---
-title: When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
-id: when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network
+title: 'Drones and Lost Pet Recovery: How Effective Are They? - Missing Animal Response
+  Network'
+id: drones-and-lost-pet-recovery-how-effective-are-they-missing-animal-response-netw
 tags:
-- lost-dog-behavioral
-- trapping
-- food-station
-- trail-camera
-- recovery-protocol
-created: '2026-05-28T07:29:52.032876Z'
-updated: '2026-05-28T07:32:19.546811Z'
-source: https://www.missinganimalresponse.com/lost-pet-tips/when-do-you-set-a-trap-for-a-lost-dog/
+- lost-dog-search-ops
+- drone
+- thermal-imaging
+- search-equipment
+created: '2026-05-28T08:34:26.330428Z'
+updated: '2026-05-28T08:35:13.623416Z'
+source: https://www.missinganimalresponse.com/lost-pet-tips/drones-and-lost-pet-recovery-how-effective-are-they/
 source_domain: www.missinganimalresponse.com
-fetched_at: '2026-05-28T07:29:52.032711Z'
+fetched_at: '2026-05-28T08:34:26.330242Z'
 fetch_provider: builtin
 status: draft
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
-summary: 'MAR Network trap protocol for lost dogs. Core rule: never set a trap until
-  the dog has been confirmed eating at a specific food station on trail camera. Rationale:
-  dog won''t travel long distances to reach a trap, supplies are costly, and a triggered
-  trap at wrong location wastes time. Not all dogs need trapping — gregarious dogs
-  can be lured without traps. Trapping sequence: (1) establish food station with familiar
-  scent article near escape point; (2) confirm dog eating on trail camera; (3) obtain
-  landowner permission if off-property; (4) set humane trap monitored every 1-3 hours
-  (or via cellular game camera sending real-time photos). Trap must be monitored —
-  animal should not be inside trap more than 30 minutes. Overnight: refresh food and
-  tie trap door open (bungee cord) so dog can enter, eat, and build comfort with the
-  trap. Never open trap in field to remove captured dog — take whole trap to enclosed
-  space (garage) first, to prevent escape. ''When the dog is eating regularly on camera
-  at a specific location'' is the operationally precise trigger for trap deployment.'
+summary: 'MAR interview with drone operator Ted Bachman on thermal UAV use for lost
+  pet recovery. Key findings: thermal drones work best in fall/winter (large Delta
+  T between animal body temp and cold ambient); heavily wooded areas in summer and
+  areas with junk/vehicles blocking ground view greatly reduce detection probability.
+  Appropriate uses: large open areas that are risky or inaccessible on foot, near-roadway
+  accident scenes, post-fire searches, property where owner refuses ground access.
+  Inappropriate: dense urban clutter, summer foliage, cat-colony areas where individual
+  ID impossible. Minimum crew: pilot + visual observer + 2 ground personnel for positive
+  ID. FAA Part 107 certificate required for compensated flights. Thermal drone cost
+  ~,500 (drone ~,500 + thermal camera ~,000). Critical MAR note: drones are NOT appropriate
+  for every case; noisy drones can spook skittish dogs further. Drone is a sighting
+  tool only — recovery requires separate ground team.'
 ---
 
-*Suggested by [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]] — MAR primary source on trap timing for lost dogs — addresses when and how to deploy humane traps*
-
-When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
+Drones and Lost Pet Recovery: How Effective Are They? - Missing Animal Response Network
 Skip to main content
+Skip to primary sidebar
 Skip to footer
 You are here:
 Home
 /
 Lost Pet Tips
 /
-When Do You Set A Trap For A Lost Dog?
-So, when do you set a trap for a lost dog? The short and simple answer is when you have the dog eating on a trail camera in a specific location.
-Starting from the moment they escape or get loose; you need to remain calm. We know losing a pet can be one of the most stressful times in your life. If your dog is still in sight, we encourage people to
-LURE them back, DO NOT CHASE after them
-. If they completely run out of sight, let them go, do not go after them.  The downside of chasing them, you are pushing them away from the location they were lost. This will further delay their return home.
-Once you lose sight of them, please find a way to place a bowl of canned wet dog food out for them. Dog food with gravy, like ALPO, is a great example. You want to use something that has a heavy scent. Other great options are smelly deli meats, liquid smoke or barbecue sauce. It is also a good idea to place a scent item out that is familiar to the dog, like their bed or some of your dirty clothes that will still have your scent on them.
-At MARN we get requests all the time from lost pet owners, asking if we could bring a trap for a dog that has just gotten loose. Now you must understand, not every dog needs to be trapped. What we mean is that trapping a dog using a humane trap is safe but can be startling to a skittish dog. If you have a very friendly dog most of the time, they can be lured using
-calming signals
-instead of being trapped. This method is the least stressful but should be performed by a trained individual. Our pet detectives are trained in ways to capture your dog without trapping, but if a trap must be set then they are ready for that as well.
-Why you don’t just throw a trap up for lost or stray dog:
-There is no guarantee the dog will come back to that location.
-When setting a trap all the food, straw if used, batteries for cameras and data plans for WIFI cameras cost money and the food specifically doesn’t last long and must be thrown out. Those that volunteer their time or even those charging for their services cannot afford to waste supplies by not being sure they have the best spot to start trapping your lost pet.
-The dog will not travel long distances just because you set a trap in a specific place. The location of a trap must be carefully thought out based on the behavior and where you can get the dog eating.
-You also must be aware of other animals and dangers, such as highways and high traffic roads. It is not a good idea to lure a dog near a road unless you have ABSOLUTELY no other choice. No other choice meaning that is the only spot you can get the dog to eat.
-When it is time to set a trap for a lost dog? When you have already done the following:
-You have placed a familiar scent article near the place of escape.
-You have set up a food station with a trail camera. Then you have confirmed your dog was there eating the food.
-If not on your property you have asked permission to trap on said property or location.
-Traps Should Always be Monitored
-It is critical that all humane traps be monitored in some way to assure that an animal does not become overly stressed or injured when trapped. Traps can occasionally malfunction, so being nearby to prevent any accident is important. Monitoring can be accomplished either by visually watching the trap from a safe distance (i.e. while sitting inside a parked car), by monitoring the trap while using a sound monitoring device (i.e. a driveway alarm that audibly beeps when something enters the trap), or by using a cellular game camera that texts you a photograph of the trap in real-time. You should always be able to arrive at the triggered trap within minutes of the trap being triggered or assign this to a volunteer or even a neighbor who lives near the trapping location.
-How Often Should I Check My Trap?
-Traps should be checked every 1-3 hours if you are not placing a wireless camera to watch the trap remotely. Now if you are using a wireless game camera that sends you images or videos you don’t have to be at the trap as often, but you still want to be nearby if something goes into the trap. Ideally, you don’t want any animal in a trap for over 30 minutes if possible. Keeping the animals calm and getting them out of the trap safely as soon as possible is key.
-When To Tie The Trap Open?
-If you cannot stay and monitor the trap overnight, for example, we recommend refreshing the smelly food in the trap and then tying the door with a bungee cord or rope.  This will allow the lost pet to get some food and to see the trap is less threatening for when it is set to go off again.
-Never Open a Trap In the Field To Remove a Lost Pet
-There are a number of things that can go wrong, but the main thing is we don’t want that pet to escape. We recommend taking the whole trap into a garage, enclosed area, or vehicle if the trap is small enough and remove the pet then so they cannot escape before getting them secured. If you are using a kennel trap or missy trap, make sure to have someone hold the door shut until you have the lost dog on a leash or in a transport kennel. We know how much work goes into rescuing lost pets, so we would hate to see the pet escape after being successfully trapped.
-Pet owners these days treat their pets like children or at least consider them part of the family. We want to make sure you have all the information needed to make the best decisions possible when looking for your lost pet. We understand the entire process can be overwhelming, but we are here to help. Visit the
-LOST PET HELP
-section of our website for other great information. If you need someone in your area trained to help, please visit our
-PET DETECTIVE DIRECTORY
+Drones and Lost Pet Recovery: How Effective Are They?
+The technology of
+UAV
+(unmanned aerial vehicle) drones has continued to advance over the past five years. Drones can provide crisp, clear photos of hard-to-reach places and can even detect heat signatures when combined with a thermal imaging camera. But are drones an effective tool to use for lost pet recovery? In this article, we interview
+MAR
+Technician Ted Bachman who utilizes thermal drones to aid in lost pet recovery work. We asked Ted to tell us the good, the bad, and the unknowns about using drones for lost pet searches.
+Kat:
+Ted, tell us how long you’ve been working with drones and how / why you got started in working with them.
+Ted:
+I’ve been using thermal imaging cameras to search for missing cats for about two years now with pretty good outcomes. It wasn’t until recently that I offered to help with missing dog searches in mountainous and wooded areas. I quickly learned that dogs run much further than cats in their travels. These areas were just too large and time-consuming to cover on foot, thus came the thermal drone. The service that I provide is sightings only, to assist the various pet rescue organizations in my area. I’ve only been using the drone for about a month, but what a busy month it’s been!
+Kat:
+It is common that pet owners ask for someone with a drone to come out and help them search for their lost pet, even in cases where a drone would be useless. What are some situations where a drone would NOT be appropriate to use when searching for a lost pet?
+Ted:
+Now that word has traveled that this resource is available, requests are quickly increasing. I haven’t received a request (yet) where a drone search would be totally useless. I feel that it’s just another tool to use when a large area needs to be searched quickly. A request that was borderline useless was when a woman’s outdoor access cat didn’t return for a couple of days, and she requested a search. As it turns out, within a two-block area of this missing cat’s home, there were two feral cat colonies with at least 30+ cats running around the area. It’s easy to identify the thermal signature of a cat but identifying a specific cat from the air, out of dozens, is difficult. Fortunately, her cat returned home shortly after our flight.
+Any case where a frightened animal is hunkered down in an area where there is junk and vehicles scattered throughout, greatly decreases the chance that they will be detected by a drone. The civilian-grade thermal systems cannot see through or under solid objects. Another hurdle to thermal drone searches is heavily wooded areas during the Summer and large pine trees. If you can’t see through to the ground from the air, the probability of detection is greatly reduced.
+Kat:
+So what are some situations where a drone WOULD BE an appropriate tool to use to search for a lost pet?
+Ted:
+I prioritize our aerial searches based upon risk to the pet. If there are animals that were separated due to auto accidents and are near busy roadways, these searches are given priority. Pets that are missing due to house fires are also prioritized.
+Searches of wooded areas, tree lines, heavy thorn bushes, rocky terrain, or other areas that put searchers at increased risk due to terrain are also a good use of the drone.
+Another good use for the drone is when the property owner will not give access to their property to allow for foot searches. An aerial search of this property can provide answers that would otherwise be unavailable.
+Recently, after a light snowfall, a trail of pawprints was followed with the drone and it led us to a cat in the area that one had gone missing. Unfortunately, it wasn’t the cat that we were looking for but being able to track the pawprints with the drone probably saved hours of hoofing it on foot.
+Kat:
+We recently saw a video where a drone with a long string attached to it carried a sausage to a dog that was trapped in a marshy area. They used it to entice the dog to follow the sausage out of the inaccessible area. After that, we saw hoards of people suggesting the use of drones on ALL lost dog cases. What are your thoughts on this?
+Ted:
+I saw that video and it caught my attention as well. I haven’t had a situation yet that would involve luring an animal. I’d have some concerns about my drone if the dog took the sausage and ran with it into the woods. Unfortunately, drones aren’t the answer to all cases, but a powerful tool to have available if the need for creativity arises.
+Kat:
+Tell us more about infrared technology. How accurate is it to pick up differences in temperatures?
+Ted: Today’s thermal imaging cameras have high resolution, are very sensitive, and can detect fractions of a degree of temperature differential. The larger the “Delta T” or difference in temperature between the ambient surroundings such as the ground, rocks, and trees, and the temperature of the animals, the easier it is to visually detect the animal in the drone controller display and video.
+One thing to take into consideration is that the ideal time for locating missing animals is in the Fall and Winter (in Northeast Pennsylvania) when the temperatures are low, and the tree leaf canopy and brush are minimal. As the temperatures increase and the ambient temperature becomes closer to the animal’s temperature, the Delta T decreases, and the animals will be harder to pick out on the video and photos.
+Kat:
+What type of training, licensing, and expenses are involved in owning and operating a drone?
+Ted:
+There are numerous companies that offer drone operation training, drone photography, and videography training and can be found on the internet. Also, training in drone Search and Rescue Operations will give the pilot additional information and skills that can be applied to searching for missing animals. In the US, drones weighing over 0.55 pounds need to be registered with the FAA, the registration fee is $5. If there is any type of compensation for your flying and you are not flying for recreational purposes, you need to have an FAA Part 107 Commercial Unmanned Pilot Certificate. The cost for this FAA certificate test is $150. Some of the other expenses are the drone itself, around $2500 for a thermal capable drone, and about $8,000 for the thermal camera. Additional costs are about $750 for liability insurance, $225 for each battery needing replacement, and about $500 for misc. maintenance costs.
+Kat:
+Are there any resources that you can recommend where people can learn more about drones?
+Ted:
+There is a wealth of information on the internet for those seeking information about drones and their operation. Both DJI drones and Autel drones have good information on their websites. There are a lot of videos on YouTube that can help in determining which, if any, drone would suit your needs. Please feel free to reach out to me if there is anything that I can do to assist.
+Kat:
+Is there anything that you’d like to add?
+Ted:
+Other than to just keep in mind that Drones are just another tool to help with sightings. And maybe now, used for luring?
+Also, there are times that being able to make an absolute identification of what type of animal you’ve sighted with the thermal or visual camera system isn’t possible without boots on the ground. If the animal is stationary, it’s difficult to tell what it is without observing its stride. Having personnel that is in communication with the pilot or observer will need to be directed to the animal’s location in order to make a positive identification. At a minimum, the crew needed will be a pilot, a visual observer for the pilot, and at least two people to trek into the woods for identifying the animal. This is the crew needed just to attempt to get a sighting.
+I think that a properly trained dog in conjunction with a thermal drone would make a perfect land and air search team.
+Kat:
+Is there anything that you’d like to add?
+Ted:
+Other than to just keep in mind that Drones are just another tool to help with sightings.
+(
+Kat:
+One final note about drones is that just like tracking dogs, drones are NOT the most appropriate tool for every lost dog case. There are sometimes legal limitations with where they can be operated, some locations (i.e. heavily forested areas) make detection impossible, and some drones can be so noisy that they scare a skittish dog.)
+Ted Bachman
+is a medical device test engineer for a worldwide company. He’s a former law enforcement officer, rescue chief, and public safety diver. Ted is an animal lover and advocate and donates his time to help pet search and rescue operations utilizing his drones. He can be reached at
+lvpetsearch.com
 .
+by
+Kat Albrecht-Thiessen
+and Ted Bachman
 Footer
 Testimonials
 Bonnie is a godsend!

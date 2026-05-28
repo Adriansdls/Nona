@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Free-roaming farm dogs have full home ranges of 2.72–3.38 km² with core areas of 0.54–0.89 km², demonstrating that dogs with open-access behavior remain geographically constrained under normal conditions.",
+    "stance": "supports",
+    "stance_target": "movement ecology baseline: normal dog ranging vs. displaced/panicked dog travel distances",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=3 working farm dogs, UK; GPS + accelerometer tracking; pilot study",
+    "quoted_support": "Dog 3 had the smallest core and full range size (0.54 km² and 2.72 km² respectively) compared to dog 1 (0.89 km² and 3.38 km² respectively) and dog 2 (0.77 km² and 3.06 km² respectively).",
+    "numbers": ["core HR 0.54–0.89 km²", "full HR 2.72–3.38 km²", "n=3 dogs"],
+    "entities": ["Chopra", "Enticott", "Codling", "Frontiers Vet Sci 2024", "University of Essex"],
+    "time_period": "September 2022 – March 2023",
+    "region": "United Kingdom",
+    "confidence": "low",
+    "source_note_id": "frontiers-where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-fa"
+  },
+  {
+    "claim": "Farm dogs spent 60–71% of their time within 25m of field boundaries, suggesting that free-roaming dogs preferentially follow structural landscape features — relevant to predicting lost dog movement near roads and fences.",
+    "stance": "supports",
+    "stance_target": "movement corridor hypothesis for lost dog search planning",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=3 farm dogs, UK; GPS tracking across farm terrain with defined boundary features",
+    "quoted_support": "The dogs were frequently located within close proximity to the field boundaries (71, 70 and 60% of time across the study duration for dogs 1, 2 and 3 respectively).",
+    "numbers": ["60-71% of time within 25m of field boundaries"],
+    "entities": ["Chopra", "Enticott", "Codling"],
+    "time_period": "2022-2023",
+    "region": "United Kingdom",
+    "confidence": "low",
+    "source_note_id": "frontiers-where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-fa"
+  },
+  {
+    "claim": "Individual dogs show highly variable day-to-day spatial overlap (Bhattacharyya coefficient 0.09–0.94), indicating that dog ranging patterns are not consistent and are influenced by temporal and situational factors rather than fixed routes.",
+    "stance": "neutral",
+    "stance_target": "predictability of lost dog movement patterns",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=3 farm dogs, UK; individual-level variation",
+    "quoted_support": "Dog 1 shows the least overlap in space utilization between days, with a mean BC of 0.27 (range of BC = 0.09 to 0.63) compared to dog 2 (mean BC of 0.67; range of BC = 0.13 to 0.94).",
+    "numbers": ["mean BC 0.27–0.67 across dogs", "range 0.09–0.94"],
+    "entities": ["Chopra", "Enticott", "Codling"],
+    "time_period": "2022-2023",
+    "region": "United Kingdom",
+    "confidence": "low",
+    "source_note_id": "frontiers-where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-fa"
+  }
+]

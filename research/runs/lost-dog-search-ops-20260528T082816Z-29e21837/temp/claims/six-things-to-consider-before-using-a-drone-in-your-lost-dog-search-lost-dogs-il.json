@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Ideal conditions for thermal drone searches are calm cloudy days; bright sunlight or sun-heated terrain eliminates the temperature contrast needed for detection, making drone hire under those conditions likely futile.",
+    "stance": "supports",
+    "stance_target": "Drone deployment should be time-of-day and weather conditional, not on-demand",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Thermal camera drones; particularly relevant in sunny Algarve where ambient ground temperature is high most of the year",
+    "quoted_support": "The best conditions to find a pet is a calm cloudy day. The thermal camera is effective only with a temperature contrast between the pet and the environment. It loses efficacy in bright sunlight or when the environment has been heated by the sun for an extended period.",
+    "numbers": [],
+    "entities": ["Lost Dogs Illinois"],
+    "time_period": "2024",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "six-things-to-consider-before-using-a-drone-in-your-lost-dog-search-lost-dogs-il"
+  },
+  {
+    "claim": "Hand-delivering flyers is the number-one way lost dogs are found, and a drone pilot represents only one set of eyes over a very limited area.",
+    "stance": "refutes",
+    "stance_target": "Drones are a high-priority or primary search tool",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog recovery in general; emphasizes community coverage over technological point-searches",
+    "quoted_support": "Hand delivering flyers is the number one way lost dogs are found. The best chance of success is to have as many sets of eyes looking for your dog over the largest area possible. A drone operator is one set of eyes within a very limited area.",
+    "numbers": [],
+    "entities": ["Lost Dogs Illinois"],
+    "time_period": "2024",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "six-things-to-consider-before-using-a-drone-in-your-lost-dog-search-lost-dogs-il"
+  },
+  {
+    "claim": "Drone operators conducting lost pet searches must have FAA Remote Pilot Certificate (Part 107); uncertified amateur pilots should not be used.",
+    "stance": "supports",
+    "stance_target": "Operational standard for drone-assisted searches",
+    "evidence_type": "legal",
+    "scope_conditions": "USA regulatory requirement; equivalent licensing requirements exist in EU/Portugal under EASA regulations",
+    "quoted_support": "The drone pilot must have a FAA Remote Pilot Certificate (Pt 107). Do not use an uncertified or amateur drone pilot.",
+    "numbers": [],
+    "entities": ["FAA", "Lost Dogs Illinois"],
+    "time_period": "2024",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "six-things-to-consider-before-using-a-drone-in-your-lost-dog-search-lost-dogs-il"
+  },
+  {
+    "claim": "Most drone pilots hired for lost pet searches are not experienced in dog recovery; a separate plan for how to physically recover the dog if sighted must exist before deployment.",
+    "stance": "supports",
+    "stance_target": "Drone is a sighting tool only; capture requires independent ground protocol",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General lost dog recovery operations",
+    "quoted_support": "Make sure you have a plan on how to recover your missing dog if there is a drone sighting. The majority of the drone pilots are not experienced in recovery of a lost dog. They can't do both.",
+    "numbers": [],
+    "entities": ["Lost Dogs Illinois"],
+    "time_period": "2024",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "six-things-to-consider-before-using-a-drone-in-your-lost-dog-search-lost-dogs-il"
+  }
+]

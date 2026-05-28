@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Shelter dogs show HPA-axis cortisol levels approximately 3x higher than pet dogs in their owners' homes on Day 1 of shelter confinement.",
+    "stance": "supports",
+    "stance_target": "physiological basis for lost-dog Phase 1 (acute stress/flight phase, days 1-3)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dogs entering public animal shelters; stray and relinquished dogs combined; US county shelter context",
+    "quoted_support": "Circulating levels of the primary stress hormone, cortisol, are about three times higher than observed in pet dogs sampled in their owner's homes.",
+    "numbers": ["~3x cortisol elevation vs. pet dogs at home", "Day 1 highest", "15 minutes human interaction sufficient to reduce response"],
+    "entities": ["Michael Hennessy", "SPARCS 2015", "HPA axis", "cortisol"],
+    "time_period": "2015 conference presentation; underlying studies 1997-2013",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "sparcs-2015-reducing-stress-of-dogs-in-shelters-with-michael-hennessy-phd-the-mo"
+  },
+  {
+    "claim": "Shelter dog cortisol follows a three-phase temporal pattern: elevated on days 1-3, intermediate on days 4-9, then adapts toward a lower plateau from day 9 onward.",
+    "stance": "supports",
+    "stance_target": "physiological anchors for temporal phase-transition thresholds in lost dog behavioral engine",
+    "evidence_type": "empirical",
+    "scope_conditions": "County animal shelters; cross-sectional and longitudinal Hennessy studies",
+    "quoted_support": "On entering the shelter, cortisol is higher on Day 1 than in pets at home. White blood cells are elevated on 1st day in shelter and continue to rise.",
+    "numbers": ["days 1-3: peak cortisol", "days 4-9: intermediate cortisol", "day 9+: plateau/adaptation"],
+    "entities": ["Michael Hennessy", "HPA axis", "cortisol"],
+    "time_period": "1997-2015",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "sparcs-2015-reducing-stress-of-dogs-in-shelters-with-michael-hennessy-phd-the-mo"
+  },
+  {
+    "claim": "Prolonged stress dysregulates the HPA axis, reducing cortisol responsiveness over time due to increased negative feedback — this is the physiological mechanism explaining behavioral 'calming' that is sometimes misread as recovery.",
+    "stance": "supports",
+    "stance_target": "physiological basis for behavioral phase transitions in lost dogs (acute -> shutdown)",
+    "evidence_type": "theoretical",
+    "scope_conditions": "General HPA axis physiology; applies to dogs and other mammals",
+    "quoted_support": "System can become dysregulated with prolonged exposure. Prolonged stressors are more likely to begin to alter the adaptation of the axis by increasing negative feedback of cortisol on brain structures controlling HPA activity, or reducing the sensitivity of the pituitary or adrenal to their stimulating hormones.",
+    "numbers": [],
+    "entities": ["HPA axis", "cortisol", "pituitary", "adrenal"],
+    "time_period": "general physiology",
+    "region": "N/A",
+    "confidence": "high",
+    "source_note_id": "sparcs-2015-reducing-stress-of-dogs-in-shelters-with-michael-hennessy-phd-the-mo"
+  },
+  {
+    "claim": "Stray dogs entering shelters show greater stress susceptibility than dogs relinquished by owners, suggesting prior social isolation amplifies the HPA stress response.",
+    "stance": "supports",
+    "stance_target": "lost dogs (strays by definition) are in the highest-stress physiological category, supporting aggressive early-phase search prioritization",
+    "evidence_type": "empirical",
+    "scope_conditions": "Public animal shelter context; stray vs. relinquished dog comparison",
+    "quoted_support": "Dogs entering the shelter as strays appeared more susceptible to stress than dogs released by their owners.",
+    "numbers": [],
+    "entities": ["Michael Hennessy", "stray dogs", "relinquished dogs"],
+    "time_period": "1997-2015",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "sparcs-2015-reducing-stress-of-dogs-in-shelters-with-michael-hennessy-phd-the-mo"
+  },
+  {
+    "claim": "As little as 15 minutes of human interaction can reduce the circulating cortisol stress response in shelter dogs, with multiple sessions producing cumulative effects.",
+    "stance": "supports",
+    "stance_target": "intervention design: short owner-scent/voice exposure may reduce physiological panic and improve trap/bait receptiveness",
+    "evidence_type": "empirical",
+    "scope_conditions": "Shelter dogs; human-dog interaction experiments",
+    "quoted_support": "As little as 15 minutes of interaction between humans and dogs can reduce the circulating cortisol response. Multiple sessions continued to produce effects.",
+    "numbers": ["15 minutes minimum effective duration"],
+    "entities": ["Michael Hennessy", "cortisol", "human-dog interaction"],
+    "time_period": "1997-2015",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "sparcs-2015-reducing-stress-of-dogs-in-shelters-with-michael-hennessy-phd-the-mo"
+  }
+]

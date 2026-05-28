@@ -1,79 +1,124 @@
 ---
-title: When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
-id: when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network
+title: Neon Posters - Missing Animal Response Network
+id: neon-posters-missing-animal-response-network
 tags:
-- lost-dog-behavioral
-- trapping
-- food-station
-- trail-camera
-- recovery-protocol
-created: '2026-05-28T07:29:52.032876Z'
-updated: '2026-05-28T07:32:19.546811Z'
-source: https://www.missinganimalresponse.com/lost-pet-tips/when-do-you-set-a-trap-for-a-lost-dog/
+- lost-dog-search-ops
+- poster-strategy
+- owner-errors
+- inattentional-blindness
+created: '2026-05-28T08:39:38.762956Z'
+updated: '2026-05-28T08:40:11.352016Z'
+source: https://www.missinganimalresponse.com/neon-posters/
 source_domain: www.missinganimalresponse.com
-fetched_at: '2026-05-28T07:29:52.032711Z'
+fetched_at: '2026-05-28T08:39:38.762777Z'
 fetch_provider: builtin
 status: draft
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
-summary: 'MAR Network trap protocol for lost dogs. Core rule: never set a trap until
-  the dog has been confirmed eating at a specific food station on trail camera. Rationale:
-  dog won''t travel long distances to reach a trap, supplies are costly, and a triggered
-  trap at wrong location wastes time. Not all dogs need trapping — gregarious dogs
-  can be lured without traps. Trapping sequence: (1) establish food station with familiar
-  scent article near escape point; (2) confirm dog eating on trail camera; (3) obtain
-  landowner permission if off-property; (4) set humane trap monitored every 1-3 hours
-  (or via cellular game camera sending real-time photos). Trap must be monitored —
-  animal should not be inside trap more than 30 minutes. Overnight: refresh food and
-  tie trap door open (bungee cord) so dog can enter, eat, and build comfort with the
-  trap. Never open trap in field to remove captured dog — take whole trap to enclosed
-  space (garage) first, to prevent escape. ''When the dog is eating regularly on camera
-  at a specific location'' is the operationally precise trigger for trap deployment.'
+summary: 'MAR Network''s ''Five + Five + Fifty-Five Rule'' for lost pet poster design:
+  at a typical intersection, owners have only 5 seconds and 5 words to communicate
+  to passing drivers at 55 mph. Posters must be GIANT, FLUORESCENT, placed at major
+  intersections near escape point and sighting areas, BRIEF, and convey a VISUAL IMAGE.
+  Standard 8.5x11 white flyers are effectively invisible — inattentional blindness
+  means if something doesn''t capture attention, it won''t be perceived at all. Correct
+  format: giant neon poster board with species + breed/color + short identifier (''LOST
+  DOG - YELLOW LAB'', ''LOST CAT - SIAMESE''). MAR has reversed its historical advice
+  on offering rewards — now advocates ''PLEASE HELP FIND'' framing over ''REWARD''
+  due to reward-chasing behavior that has led to deaths of dogs chased into traffic.
+  Scientific basis: monetary incentives activate different brain circuits than altruistic
+  appeals, and monetary reward motivation is not the best motivator in community-help
+  scenarios.'
 ---
 
-*Suggested by [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]] — MAR primary source on trap timing for lost dogs — addresses when and how to deploy humane traps*
+*Suggested by [[what-you-dont-know-about-lost-pets-can-hurt-them]] — Referenced as primary how-to guide for neon poster construction — cited as key recovery tool by MARN*
 
-When Do You Set A Trap For A Lost Dog? - Missing Animal Response Network
+Neon Posters - Missing Animal Response Network
 Skip to main content
 Skip to footer
-You are here:
-Home
-/
-Lost Pet Tips
-/
-When Do You Set A Trap For A Lost Dog?
-So, when do you set a trap for a lost dog? The short and simple answer is when you have the dog eating on a trail camera in a specific location.
-Starting from the moment they escape or get loose; you need to remain calm. We know losing a pet can be one of the most stressful times in your life. If your dog is still in sight, we encourage people to
-LURE them back, DO NOT CHASE after them
-. If they completely run out of sight, let them go, do not go after them.  The downside of chasing them, you are pushing them away from the location they were lost. This will further delay their return home.
-Once you lose sight of them, please find a way to place a bowl of canned wet dog food out for them. Dog food with gravy, like ALPO, is a great example. You want to use something that has a heavy scent. Other great options are smelly deli meats, liquid smoke or barbecue sauce. It is also a good idea to place a scent item out that is familiar to the dog, like their bed or some of your dirty clothes that will still have your scent on them.
-At MARN we get requests all the time from lost pet owners, asking if we could bring a trap for a dog that has just gotten loose. Now you must understand, not every dog needs to be trapped. What we mean is that trapping a dog using a humane trap is safe but can be startling to a skittish dog. If you have a very friendly dog most of the time, they can be lured using
-calming signals
-instead of being trapped. This method is the least stressful but should be performed by a trained individual. Our pet detectives are trained in ways to capture your dog without trapping, but if a trap must be set then they are ready for that as well.
-Why you don’t just throw a trap up for lost or stray dog:
-There is no guarantee the dog will come back to that location.
-When setting a trap all the food, straw if used, batteries for cameras and data plans for WIFI cameras cost money and the food specifically doesn’t last long and must be thrown out. Those that volunteer their time or even those charging for their services cannot afford to waste supplies by not being sure they have the best spot to start trapping your lost pet.
-The dog will not travel long distances just because you set a trap in a specific place. The location of a trap must be carefully thought out based on the behavior and where you can get the dog eating.
-You also must be aware of other animals and dangers, such as highways and high traffic roads. It is not a good idea to lure a dog near a road unless you have ABSOLUTELY no other choice. No other choice meaning that is the only spot you can get the dog to eat.
-When it is time to set a trap for a lost dog? When you have already done the following:
-You have placed a familiar scent article near the place of escape.
-You have set up a food station with a trail camera. Then you have confirmed your dog was there eating the food.
-If not on your property you have asked permission to trap on said property or location.
-Traps Should Always be Monitored
-It is critical that all humane traps be monitored in some way to assure that an animal does not become overly stressed or injured when trapped. Traps can occasionally malfunction, so being nearby to prevent any accident is important. Monitoring can be accomplished either by visually watching the trap from a safe distance (i.e. while sitting inside a parked car), by monitoring the trap while using a sound monitoring device (i.e. a driveway alarm that audibly beeps when something enters the trap), or by using a cellular game camera that texts you a photograph of the trap in real-time. You should always be able to arrive at the triggered trap within minutes of the trap being triggered or assign this to a volunteer or even a neighbor who lives near the trapping location.
-How Often Should I Check My Trap?
-Traps should be checked every 1-3 hours if you are not placing a wireless camera to watch the trap remotely. Now if you are using a wireless game camera that sends you images or videos you don’t have to be at the trap as often, but you still want to be nearby if something goes into the trap. Ideally, you don’t want any animal in a trap for over 30 minutes if possible. Keeping the animals calm and getting them out of the trap safely as soon as possible is key.
-When To Tie The Trap Open?
-If you cannot stay and monitor the trap overnight, for example, we recommend refreshing the smelly food in the trap and then tying the door with a bungee cord or rope.  This will allow the lost pet to get some food and to see the trap is less threatening for when it is set to go off again.
-Never Open a Trap In the Field To Remove a Lost Pet
-There are a number of things that can go wrong, but the main thing is we don’t want that pet to escape. We recommend taking the whole trap into a garage, enclosed area, or vehicle if the trap is small enough and remove the pet then so they cannot escape before getting them secured. If you are using a kennel trap or missy trap, make sure to have someone hold the door shut until you have the lost dog on a leash or in a transport kennel. We know how much work goes into rescuing lost pets, so we would hate to see the pet escape after being successfully trapped.
-Pet owners these days treat their pets like children or at least consider them part of the family. We want to make sure you have all the information needed to make the best decisions possible when looking for your lost pet. We understand the entire process can be overwhelming, but we are here to help. Visit the
-LOST PET HELP
-section of our website for other great information. If you need someone in your area trained to help, please visit our
-PET DETECTIVE DIRECTORY
-.
+Over the years, Kat Albrecht and her affiliates have discovered a creative and highly effective tool for recovering lost pets with a method that Kat named the “FIVE + FIVE + FIFTY-FIVE RULE.” Here’s how it works. At any typical intersection, you only have five seconds and five words to get your message across to drivers who are passing through the area where your pet is missing.
+Our Network has seen success in recovering lost pets
+several weeks
+after they’ve disappeared by helping people create posters using the following rules:
+Make them GIANT so that people driving by cannot miss them.
+Make them FLUORESCENT so that the color attracts the attention of everyone.
+Put them at major intersections near where you lost your pet (and in areas of sightings).
+Keep them BRIEF and to the point.
+Let them convey a VISUAL IMAGE of what you have lost.
+Most pet owners post lost pet FLYERS that are 8 1/2″ X 11″ white pieces of paper and the only message conveyed is LOST DOG or LOST CAT. These are too small and very few people passing by even notice these. Even if drivers did manage to see the words “LOST DOG” very few will pull over to read the description of the lost pet. If instead you create a highly visible poster that conveys the message “HELP FIND!! LOST DOG–YELLOW LAB” or “HELP FIND!! LOST CAT–SIAMESE” or “HELP FIND!! LOST DOG–TAN TERRIER RED COLLAR” that every person driving by could quickly read, you will increase your probability of developing leads that will help you find your pet!
+INATTENTION BLINDNESS
+There is a science involved in why giant, neon posters help recover lost pets. Researchers who’ve studied the human attention span have discovered a particular behavior called “Inattentional Blindness” and the hypothesis is that there is NO PERCEPTION without attention. What this means is that if something does NOT capture your attention, you will not even perceive it. If your posters are tiny (8 ½ X 11-sized sheets of paper) or a normal color, they will NOT be perceived and it will be like they are INVISIBLE! Watch
+this video
+which happens to show how people fail to pay attention to things (a lost dog!) in their environment, especially when they are talking on the phone, driving, or talking to another person. Even if you’ve plastered an area with flyers or small posters, REPLACE THEM with giant, neon posters and like many people you might get the “I think I have your lost dog” phone call that you’ve been praying for!
+SHOULD I OFFER A REWARD?
+While the MAR Network
+used
+to suggest offering a reward, we’ve recently discovered new information that indicates that putting out a message that there’s a “REWARD” for your missing pet might NOT be the best idea! Several volunteer lost pet Facebook groups have reported that when a “reward” is offered for a lost dog and a sighting of the missing dog is then posted on Facebook, well-meaning (but untrained) rescuers have rushed in and tried to capture the dog (presumably to get the reward) with tragic results. Some dogs have been literally chase into traffic and have been killed as a result of this or chased out of the area where trained resources were trying to set up a feeding station and humane dog trap. Although we HAVE seen some cases where offering an enormous reward (i.e. $5,000.00 or $10,000.00) resulted in news media coverage and the ultimate recovery of a missing pet, enormous rewards will likely result in scammers, chasing behaviors from money-hungry people, and invalid leads. Kat Albrecht and the MAR Network no longer recommends that you indicate “REWARD” on your poster but instead we suggest that you use the top space of posters with the words
+PLEASE HELP!!
+or
+HELP FIND!!
+It is understandable that people would think that using a reward would be the best motivator of people, but scientific research has actually shown that monetary incentives can actually backfire! The National Institutes of Health (NIH) have pinpointed the neurophysiology behind offering a reward verses simply asking for help. In one study they used an MRI machine and monitored brain activity and discovered that there are two very different areas of the brain that process thoughts of either seeking financial compensation or being charitable. The nucleus accumbens is a primitive part of the brain that is a known as the “pleasure center” and it is where we respond to financial compensation. On the other hand, the posterior superior temporal sulcus is the area of our brain that responds to social interactions and is known as the “altruism center”. According the book
+Sway: The Irresistible Pull of Irrational Behavior
+by researchers Ori Brafman and Rom Brafman, “the pleasure center and the altruism center cannot both function at the same time: either one or the other is in control.” The authors pointed out studies that prove that “we can approach a task either altruistically or from a self-interested perspective” and that these two different areas of the brain “run on different fuels and need different amounts of those fuels” to work. They also pointed out that it does not take much to activate the altruism center. The book states, “all you need is the sense that you’re helping someone or making a positive impact—but the pleasure center seems to need a lot more.”
+Offering rewards could encourage untrained people who’re only interested in financial compensation to chase after lost pets, leading to tragic consequences or at the very least, making a recovery by trained professionals and/or community volunteers very difficult. However, using social media and community marketing (like NextDoor.com) with large, neon posters that state “PLEASE HELP!!” may instead appeal to the “altruism center” of the brain of community members and animal lovers who are more interested in helping people and lost pets than in receiving a reward.
+Follow these steps for making effective Lost Pet Posters and Flyers
+In addition to handing out FLYERS (8 1/2″ X 11″ sheets of paper that have your pet’s photo, your contact info, and a few details – you will post flyers on bulletin boards and hand them out to people), you will also want to make highly visible giant, fluorescent POSTERS that will have two sheet protectors and two sheets of paper: 1 with a photograph of your pet and the other with only 5 words that describe your pet, plus your phone#. Fluorescent posters are highly visible, effective, and harder for people to tear down. They have proven to be highly successful in the recovery of lost pets, especially lost dogs. Your goal with these poster boards is to make them very big, very noticeable, and very brief.
+Items Needed:
+At least 10 giant (28″ X 22″) fluorescent orange poster boards; 2 large black permanent markers (do not buy water soluble markers); 20 sheet protectors; duct tape; and 10 flyers with
+color
+photo of your lost pet.
+Creating the Posters:
+Use giant (28″ X 22″) fluorescent orange poster board available at most office supply stores. The size and fluorescent color will attract the eye of everyone who drives by. This is your goal! You will hang this vertically (not horizontally). At the very top, in 5-inch black letters, print the words
+PLEASE HELP!!
+At the very bottom, in 5-inch black letters, print the words
+LOST DOG
+(or
+CAT
+or
+PARROT
+). In the center of the poster, use clear packing tape to secure a plastic sheet protector. This is where you will slip in your FLYER and then seal the top portion with more tape to protect it from weather.
+Creating Flyers For Your Posters:
+Next, you’ll need to create twenty special flyers (10 will be just a large color photo of your pet and 10 will contain the text describing your pet) to display side-by-side in the center of your fluorescent posters. You’ll want to use a very brief description of your pet at both the top and bottom of these ten flyers containing the text. Use the largest font that you can – such as size 80 or 90 in Arial or Verdana font. Your fluorescent poster will already announce “PLEASE HELP LOST DOG” or “PLEASE HELP LOST CAT” so you DO NOT need to write the words “lost dog” or “lost cat” again on these flyers. When you are finished, the biggest words on the white flyers should be the color and breed of your pet (e.g.. RED DOBERMAN or GREY & SILVER SILKY TERRIER or “GREY TABBY BLUE COLLAR”). If your poster combined with the flyer can convey in five words or less the message “LOST DOG–GREY & SILVER SILKY TERRIER” or “LOST CAT–GREY TABBY BLUE COLLAR” then every passerby will be able to VISUALIZE your lost pet and they’ll be a potential witness who may be able to lead you to your missing pet. Kat calls this the “Five words, five seconds rule.” That’s because you will only have five seconds and five words to get your message across to drivers who are passing through the area. Remember, many lost pets travel. They are often noticed by people who live and drive the same roadways every day. You have a good chance that if your pet was picked up by someone who pulled over to rescue him or her, that same person might drive by your poster and discover how to contact you. Get your fluorescent poster boards up as quickly as possible while witnesses still remember the day and time that they saw your pet.
+Creating Flyers As Handouts And To Post
+In addition to posters, you will want to create lost pet FLYERS – 8 1/2″ X 11″ sheets of paper to hand out to neighbors and place in key locations like veterinary offices, pet shops, groomers, post offices, and outside supermarkets in your area. You will need to make plenty of lost pet flyers (at least 75 to 100 initially). You’ll want to leave a few with your local shelter and find out how to mail or fax them to all of the local breed and nonbreed rescue groups in your area. If you’re not sure how to contact the rescue groups in your area, ask the staff at your local animal shelter as they typically keep in touch with these nonprofit organizations.
+When creating your handout flyers, always use the best picture of your pet, preferably a color photo showing the entire pet – the larger the photo, the better. Place the photo in the center of the flyer. Be sure your flyer includes details such as your pet’s breed, coloring, hair length, any distinctive markings, whether it was wearing a collar, and the location and date the pet was last seen.
+If your pet is timid, add that information to your flyer.
+Include a phone number where you can be reached in big, bold numbers and encourage calls anytime day or night.
+Be sure to change the recording on your home phone to refer people to another phone number such as your cell phone. The last thing you want is someone to call you at 12:00 noon to say they see your dog and you don’t get the message until 6:00 p.m.!
+When creating flyers and placing ads on Craig’s List, NextDoor, and Facebook it is important to withhold at least one identifying mark or characteristic of your lost pet, in case you need it later to verify that a person has actually found your pet and is not trying to scam you – it’s unfortunate, but it does happen. For safety considerations,
+DO NOT include your name, your address, or your pet’s name on your flyer!
+Whenever you go to claim your pet, be sure to take someone with you – and if you decide that you want to offer a reward (which we do not recommend) do not pay any reward until you actually have your pet back. If someone asks you to wire money because h or she found your pet but is now in a different city, DO NOT BELIEVE IT, as this is a common scam.
+Post Your Posters Where They Will Be Seen
+Post your giant fluorescent posters on telephone or street light poles at busy street corners – especially at the major intersections nearest where your pet escaped or was last seen. You will want to place your fluorescent posters at all the major intersections within a 2-to-5-mile radius of the escape point and at any locations where you’ve had possible sightings. Make sure they are as far above your head as possible for maximum visibility for drivers passing by. Use duct tape (on the back of the poster) to secure the poster to a post or pole.
+Do Not Post Flyers That People Can’t Read:
+Flyers that are scribbled with handwriting on lined paper are not readable from a distance. They also curl up and are not visible with the slightest moisture. To increase the odds that you will recover your lost pet, create giant fluorescent posters with the message PLEASE HELP!! LOST DOG (or CAT or PARROT) and use your white flyers to convey a very brief description of your pet (breed, size, and/or coat color).
+Don’t forget to examine your posters and flyers frequently and replace the ones that are missing or damaged.
+Use Sheet Protectors:
+For the flyers that you end up posting in public, use plastic sheet protectors (available at office supply stores) to keep them fresh and uncurled. Wind and moisture, even dew in the mornings, will cause flyers to curl and be invisible, thus defeating your efforts. When using sheet protectors on your neon posters, the opening should face downwards to prevent rain from getting in and ruining the text and photo of your lost pet.
+Handing Out Your Flyers:
+You’ll want to make up several smaller flyers that you will hand out to neighbors and people you encounter in your neighborhood. Post these flyers at local veterinary offices, pet stores, pet groomers, Laundromats, barber & beauty shops, grocery stores, churches, convenience stores, pizza parlors, and community bulletin boards in your area. Hand them out to your newspaper delivery person because they are out during the early morning hours and to your mail carrier because they are driving in your community all day long.
+CAUTION: do NOT place your flyers inside mailboxes as this is a federal violation! Contact your local police department (call them and send them a flyer) but understand that most larger police agencies will be too busy to deal with the issue of lost pets.
+Campaign Signs:
+Here’s one last suggestion. If you’re able to find them, duct tape your fluorescent posters to A-frame campaign signs and stick them in the ground near busy intersections. Because you won’t need to rely on finding a telephone or light pole, you can simply push the metal frame into soft dirt or grass.
+Be sure to duct tape the top of the campaign sign near the top of the fluorescent sign otherwise the wind can blow the top (“HELP FIND!) portion back making the sign hard to read. In the photo below, did you notice the second sign? It is on the opposite side of this six-lane road capturing attention of traffic heading in the opposite direction. Again, the fluorescent color and size of these signs along with the five-word description (PLEASE HELP!! LOST DOG WHITE POODLE) has resulted in the recovery of many lost pets!
+Lost Cat Posters / Lost Cat Tips
+Handing out lost cat flyers and posting giant fluorescent posters
+will not
+help you find your cat if he/she is trapped in a neighbor’s shed or if he/she is injured and hiding under a neighbor’s deck! Lost cat posters are simply a supplement to the primary method that you should be using to find your lost cat – conducting an aggressive, physical search of your cat’s territory (for an outdoor-access cat) or launching an aggressive humane trapping campaign (for indoor-only cats that escape outdoors and other displaced cats).
+Be sure to routinely check with your local animal shelter and also with any local rescue groups in your area. While some cats will end up in shelters the same day they vanished, others might not end up there for weeks or even months! Sometimes found cats end up being placed in feline rescue groups who place them in temporary foster homes until they can be adopted out to a new family. Your local shelter should have a listing of the organized feline groups in your area. In addition, many large pet stores hold weekend pet adoption events where “homeless” cats are adopted out to new families. It is possible that your cat could end up at one of these events. Find out when and where these adoptions take place and hand deliver a flyer of your lost cat to the staff. Also, contact any TNR (trap-neuter-return) groups or feral cat colony caretakers in your area (ask your shelter if they have a list) and send them a flyer of your cat. It is possible that your cat might show up at one of their “feeding stations” and they can be a great resource because they feed and care for stray cats on a routine basis.
+How Else To Search for Lost Dogs
+One of THE best ways to get the word out that your dog is lost is through social media. Even if you yourself are not active on Facebook a great majority of people are and you NEED to use Facebook and the lost pet pages in your community to get the word out that your dog is lost!
+Also, this is an obvious piece of advice but it needs to be emphasized: be sure to routinely check with your local animal shelter and also with any local rescue groups in your area. Sometimes lost dogs end up being placed in dog rescue groups who end up placing them in temporary foster homes until they can be adopted out to a new family. Your local shelter should have a listing of the organized groups in your area. In addition, many large pet stores hold weekend pet adoption events where “homeless, stray” dogs and cats adopted out to new families. It is possible that your dog or cat could end up at one of these events. Find out when and where these adoptions take place and hand deliver a flyer of your lost dog or cat to the staff. Finally, many rescue groups that end up taking care of “homeless, stray” dogs will post these dogs on
+www.petfinder.com
+. Be sure to check this website often in case your dog is ultimately listed there as an adoptable dog who is looking for a new home.
+One Last Thing: Do Not Give Up Hope!
+Physically, your pet is out there somewhere and you stand a good chance of bringing him/her back home if you remain focused, positive, and persistent in your efforts. Although family, friends, or coworkers might be unsupportive, YOU ARE NOT ALONE! Reach out and use the resources that are available to you through this website. The moment that you stop searching for your lost pet is the moment that your chances of a happy reunion plummet. Your biggest enemies will be discouragement and a lack of hope!
+Disclaimer:
+Initially posted on Missing Pet Partnership’s website (which was developed by MPP Founder Kat Albrecht), the following lost pet recovery advice is part of MAR Network’s
+8-week
+and 10-week Missing Animal Response (MAR) Course
+and is posted on this site both to help train volunteer and professional lost pet recovery resources and to benefit pet owners needing advice. Feel free to link to this page so that this info may be shared in order to educate pet owners in your community.
 Footer
 Testimonials
 Bonnie is a godsend!

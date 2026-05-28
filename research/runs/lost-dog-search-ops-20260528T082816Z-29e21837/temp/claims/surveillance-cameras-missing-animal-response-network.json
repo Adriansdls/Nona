@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Trail cameras are highly effective for locating and catching skittish lost dogs when used in combination with feeding stations, providing evidence both of the dog's presence and whether it will enter a humane trap.",
+    "stance": "supports",
+    "stance_target": "surveillance + feeding station combination as primary lost dog recovery strategy",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "skittish or displaced dogs; works for cats as well",
+    "quoted_support": "Wildlife cameras (also called trail, game, scouting, motion-sensitive, surveillance or remote cameras) can be highly effective tools for helping locate and recover displaced cats (including escaped indoor-only cats) and skittish lost dogs. They can help provide evidence that the lost pet is in the area and whether s/he will enter a humane trap if one is set up.",
+    "numbers": [],
+    "entities": ["MAR Network", "Kat Albrecht"],
+    "time_period": "current",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "surveillance-cameras-missing-animal-response-network"
+  },
+  {
+    "claim": "Standard deer-hunting camera height (24–36 inches) is too high for detecting cats and small dogs — cameras must be placed lower for lost pet recovery.",
+    "stance": "supports",
+    "stance_target": "species-appropriate camera height as critical placement variable",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "cats and small dogs; medium/large dogs less affected",
+    "quoted_support": "Since their website is aimed primarily at deer hunters, the height that they suggest placing the camera (24\"-36\") is too high for cats and small dogs, but most of the information is applicable to setting up a camera to locate missing pets.",
+    "numbers": ["24 inches", "36 inches"],
+    "entities": ["MAR Network"],
+    "time_period": "current",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "surveillance-cameras-missing-animal-response-network"
+  },
+  {
+    "claim": "The Browning Dark Ops Elite is recommended for lost pet camera work because its adaptive flash strength prevents whiteout, a common problem with fixed-flash cameras.",
+    "stance": "supports",
+    "stance_target": "Browning Dark Ops Elite as preferred trail camera model",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "all lighting conditions; especially relevant for nighttime captures",
+    "quoted_support": "My current favorite camera is the Browning Dark Ops Elite. The Browning has a feature that adjusts the strength of the flash based on how close the animal is to the camera. A too bright flash that whites out the animal in the photo is a common problem with many wildlife cameras.",
+    "numbers": [],
+    "entities": ["Browning Dark Ops Elite", "MAR Network", "Kat Albrecht"],
+    "time_period": "current",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "surveillance-cameras-missing-animal-response-network"
+  },
+  {
+    "claim": "Camera effectiveness for lost pet recovery depends critically on proper setup; a great camera positioned poorly will not capture a single image of the missing animal.",
+    "stance": "supports",
+    "stance_target": "camera placement as more important than camera quality",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "all lost pet scenarios",
+    "quoted_support": "even a great camera won't get a single picture of a lost pet if set up poorly",
+    "numbers": [],
+    "entities": ["MAR Network"],
+    "time_period": "current",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "surveillance-cameras-missing-animal-response-network"
+  }
+]

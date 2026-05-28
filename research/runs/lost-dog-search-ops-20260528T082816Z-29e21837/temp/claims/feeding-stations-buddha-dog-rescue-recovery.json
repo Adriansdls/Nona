@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "A feeding station is one of the most important tools in lost dog recovery — aromatic food placed at last-sighted location attracts the dog back to a fixed, monitorable point.",
+    "stance": "supports",
+    "stance_target": "feeding station as primary anchor point for lost dog recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "all lost dog scenarios; particularly effective for dogs that have entered flight mode",
+    "quoted_support": "A feeding station is one of the most important tools in the recovery a lost dog. To set up a food station, put stinky food on the ground that will help attract your lost dog back to a location where it was sighted.",
+    "numbers": [],
+    "entities": ["Buddha Dog Rescue & Recovery"],
+    "time_period": "current",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "feeding-stations-buddha-dog-rescue-recovery"
+  },
+  {
+    "claim": "Liquid smoke (hickory/mesquite) spray dramatically enhances feeding station scent range when applied to ground, tree trunks, and nearby vegetation.",
+    "stance": "supports",
+    "stance_target": "food-based scent enhancement (liquid smoke) for feeding stations",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "outdoor feeding stations; wind-dependent scent dispersion",
+    "quoted_support": "To enhance the feeding stations we use liquid smoke. It is a pungent hickory, mesquite smell... a BBQ in a bottle!! Spray it on the ground near the food and trail it. Spray the trunks of trees and nearby vegetation to help hold the scent.",
+    "numbers": [],
+    "entities": ["Buddha Dog Rescue & Recovery"],
+    "time_period": "current",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "feeding-stations-buddha-dog-rescue-recovery"
+  },
+  {
+    "claim": "A feeding station without a camera monitoring who ate the food prolongs the search — identifying whether the target dog or wildlife consumed the food is critical for next-step decisions.",
+    "stance": "supports",
+    "stance_target": "camera monitoring of feeding stations as mandatory, not optional",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "all feeding station deployments; wildlife competition (raccoons, cats, skunks, opossums) is unavoidable",
+    "quoted_support": "A feeding station should ALWAYS be properly monitored with a trail camera or home surveillance camera such as Ring or Nest. Without knowing what is eating the food it can prolong your search.",
+    "numbers": [],
+    "entities": ["Buddha Dog Rescue & Recovery"],
+    "time_period": "current",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "feeding-stations-buddha-dog-rescue-recovery"
+  },
+  {
+    "claim": "Once a lost dog finds a food source it will likely return — camera-confirmed feeding time-stamps provide the scheduling intelligence needed to time a trap deployment.",
+    "stance": "supports",
+    "stance_target": "feeding pattern detection as the trigger condition for trap deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs that have not been picked up by humans; hungry dogs in flight mode",
+    "quoted_support": "When the lost dog goes to the food station, it takes a photo and puts a time stamp on the photo, which will help you determine your missing dog's feeding pattern. Once your dog finds the food source, he/she will most likely return. Now you can move forward with the next step of capture and getting a trap set if necessary.",
+    "numbers": [],
+    "entities": ["Buddha Dog Rescue & Recovery"],
+    "time_period": "current",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "feeding-stations-buddha-dog-rescue-recovery"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Thermal drones lose detection effectiveness in summer and when the environment has been heated by the sun, because the Delta T between animal body temperature and ambient temperature becomes too small.",
+    "stance": "supports",
+    "stance_target": "Drone use is highly conditional and season/time-of-day dependent",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Thermal UAV searches; Northeast Pennsylvania context; generalizes to warm climates like Algarve",
+    "quoted_support": "The ideal time for locating missing animals is in the Fall and Winter (in Northeast Pennsylvania) when the temperatures are low, and the tree leaf canopy and brush are minimal. As the temperatures increase and the ambient temperature becomes closer to the animal's temperature, the Delta T decreases, and the animals will be harder to pick out on the video and photos.",
+    "numbers": ["$2,500 drone cost", "$8,000 thermal camera", "$150 FAA Part 107 test", "$750 liability insurance"],
+    "entities": ["MAR", "Ted Bachman", "Kat Albrecht-Thiessen", "FAA Part 107"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "drones-and-lost-pet-recovery-how-effective-are-they-missing-animal-response-netw"
+  },
+  {
+    "claim": "Drones cannot detect animals hunkered down in areas with junk and vehicles scattered throughout, because civilian-grade thermal systems cannot see through or under solid objects.",
+    "stance": "supports",
+    "stance_target": "Drone effectiveness is strongly limited by terrain and obstacle density",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Civilian-grade thermal drones; applies to cluttered peri-urban and rural Algarve settings",
+    "quoted_support": "Any case where a frightened animal is hunkered down in an area where there is junk and vehicles scattered throughout, greatly decreases the chance that they will be detected by a drone. The civilian-grade thermal systems cannot see through or under solid objects.",
+    "numbers": [],
+    "entities": ["Ted Bachman", "MAR"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "drones-and-lost-pet-recovery-how-effective-are-they-missing-animal-response-netw"
+  },
+  {
+    "claim": "A minimum operational crew for drone-based lost pet search is four people: pilot, visual observer for pilot, and at least two ground personnel to trek to the detected animal's location for positive identification.",
+    "stance": "supports",
+    "stance_target": "Drone searches require substantial human resource commitment, not a solo operation",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Wooded or inaccessible terrain searches",
+    "quoted_support": "At a minimum, the crew needed will be a pilot, a visual observer for the pilot, and at least two people to trek into the woods for identifying the animal. This is the crew needed just to attempt to get a sighting.",
+    "numbers": ["minimum 4 crew members"],
+    "entities": ["Ted Bachman"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "drones-and-lost-pet-recovery-how-effective-are-they-missing-animal-response-netw"
+  },
+  {
+    "claim": "Noisy drones can frighten skittish lost dogs and worsen their situation; drones are explicitly not the most appropriate tool for every lost dog case.",
+    "stance": "supports",
+    "stance_target": "Drone deployment requires behavioral profile assessment before use on skittish dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applies especially to fear-based disappearances and skittish/traumatized dog profiles",
+    "quoted_support": "One final note about drones is that just like tracking dogs, drones are NOT the most appropriate tool for every lost dog case. There are sometimes legal limitations with where they can be operated, some locations (i.e. heavily forested areas) make detection impossible, and some drones can be so noisy that they scare a skittish dog.",
+    "numbers": [],
+    "entities": ["Kat Albrecht-Thiessen", "MAR"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "drones-and-lost-pet-recovery-how-effective-are-they-missing-animal-response-netw"
+  },
+  {
+    "claim": "Drone searches are most appropriate for large wooded areas risky or inaccessible on foot, near-roadway accident scenes, post-fire searches, and properties where ground access is denied by the owner.",
+    "stance": "supports",
+    "stance_target": "Drone use should be prioritized by risk to pet and terrain inaccessibility rather than routine deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost pet recovery operations; prioritizes cases where foot search is dangerous or denied",
+    "quoted_support": "I prioritize our aerial searches based upon risk to the pet. If there are animals that were separated due to auto accidents and are near busy roadways, these searches are given priority... Searches of wooded areas, tree lines, heavy thorn bushes, rocky terrain, or other areas that put searchers at increased risk due to terrain are also a good use of the drone.",
+    "numbers": [],
+    "entities": ["Ted Bachman", "MAR"],
+    "time_period": "Current",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "drones-and-lost-pet-recovery-how-effective-are-they-missing-animal-response-netw"
+  }
+]

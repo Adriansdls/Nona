@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "A two-camera array increases survey detection probability by an average of 80% (range 40–128%) compared to a single camera across four wildlife species — the single biggest gain in the entire 1–10 camera range.",
+    "stance": "supports",
+    "stance_target": "two-camera minimum as the cost-effective standard for lost dog feeding station surveillance",
+    "evidence_type": "statistical",
+    "scope_conditions": "deer, bobcat, raccoon, opossum in Connecticut; non-baited cameras; 5,000 Monte Carlo iterations; year-long dataset",
+    "quoted_support": "The use of a two camera array increased survey detection an average of 80% (range 40–128%) from the detection probability of a single camera across the four species.",
+    "numbers": ["80%", "40%", "128%"],
+    "entities": ["O'Connor", "Nathan", "Liberati", "Tingley", "Vokoun", "Rittenhouse", "University of Connecticut"],
+    "time_period": "2014-2017",
+    "region": "Connecticut, USA",
+    "confidence": "high",
+    "source_note_id": "camera-trap-arrays-improve-detection-probability-of-wildlife-investigating-study"
+  },
+  {
+    "claim": "For cryptic/infrequent species (bobcat, opossum), a single camera at maximum season length (180 days) still achieved only 0.13–0.14 detection probability — no amount of time compensates for using a single camera for low-frequency subjects.",
+    "stance": "supports",
+    "stance_target": "single-camera deployment as inadequate for detecting shy/fleeing lost dogs regardless of how long it is deployed",
+    "evidence_type": "statistical",
+    "scope_conditions": "cryptic species with naturally low detection probability; analogous to traumatized fleeing dogs that visit infrequently",
+    "quoted_support": "for two of our modeled species, Virginia opossum and bobcat, data from a single camera produced maximum season-long detectabilities of 0.13 and 0.14, respectively, even after 180 days. The addition of a second, randomly-placed camera to create an array increased season detectability over a 180-day survey to 0.86 and 0.54, respectively.",
+    "numbers": ["0.13", "0.14", "0.86", "0.54", "180 days"],
+    "entities": ["O'Connor", "Nathan", "Rittenhouse"],
+    "time_period": "2014-2017",
+    "region": "Connecticut, USA",
+    "confidence": "high",
+    "source_note_id": "camera-trap-arrays-improve-detection-probability-of-wildlife-investigating-study"
+  },
+  {
+    "claim": "The maximum array size at which adding cameras no longer significantly improved detection was 8–9 cameras for all four species — for field operations, 2–3 cameras at a feeding station captures the majority of available gain.",
+    "stance": "supports",
+    "stance_target": "2–3 camera arrays as the practical optimum for lost dog feeding station monitoring",
+    "evidence_type": "statistical",
+    "scope_conditions": "non-baited cameras at 1-ha sites; real-world lost dog stations are baited (higher base detection), so diminishing returns kick in earlier",
+    "quoted_support": "The array size where adding additional cameras to the array no longer significantly improved survey detectability, was between eight and nine cameras for all four species.",
+    "numbers": ["8-9 cameras"],
+    "entities": ["O'Connor", "Nathan", "Rittenhouse"],
+    "time_period": "2014-2017",
+    "region": "Connecticut, USA",
+    "confidence": "high",
+    "source_note_id": "camera-trap-arrays-improve-detection-probability-of-wildlife-investigating-study"
+  },
+  {
+    "claim": "Longer deployment with a single camera does not compensate for camera array size — season-long detectability asymptotes below 0.15 for cryptic species even after extended periods, regardless of season length.",
+    "stance": "supports",
+    "stance_target": "array size (multiple cameras) as the primary lever for detection improvement, not deployment duration",
+    "evidence_type": "statistical",
+    "scope_conditions": "cryptic/infrequent species; multi-season deployment; Monte Carlo simulation",
+    "quoted_support": "increasing season length did not always result in meaningful increases in detectability, and that where increases occurred, they were not equal to those achieved by increasing array size. While season-long detectability curves for our simulated arrays sometimes reached asymptotes quickly (usually around a 100-day season), for single cameras, these asymptotes were <0.15 for our two focal species with relatively low probabilities of detection.",
+    "numbers": ["0.15", "100 days"],
+    "entities": ["O'Connor", "Nathan", "Rittenhouse"],
+    "time_period": "2014-2017",
+    "region": "Connecticut, USA",
+    "confidence": "high",
+    "source_note_id": "camera-trap-arrays-improve-detection-probability-of-wildlife-investigating-study"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "run_id": "lost-dog-search-ops-20260528T082816Z-29e21837",
+  "vault_tag": "lost-dog-search-ops",
+  "created": "2026-05-28T08:28:16Z",
+  "status": "completed",
+  "current_step": 10,
+  "artifact_dir": "research/runs/lost-dog-search-ops-20260528T082816Z-29e21837",
+  "temp_dir": "research/runs/lost-dog-search-ops-20260528T082816Z-29e21837/temp",
+  "claims_dir": "research/runs/lost-dog-search-ops-20260528T082816Z-29e21837/temp/claims",
+  "query_file_path": "research/runs/lost-dog-search-ops-20260528T082816Z-29e21837/query.md",
+  "final_report_path": "research/notes/final_report_lost-dog-search-ops.md",
+  "pipeline_tier": "light",
+  "modality": "collect"
+}

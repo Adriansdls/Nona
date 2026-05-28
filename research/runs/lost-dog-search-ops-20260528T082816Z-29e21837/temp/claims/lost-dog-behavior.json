@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Aloof dogs that appear cowering and fearful after days of being lost are routinely misidentified as abuse victims by finders, even when their fearfulness is purely temperament-based — leading finders to skip contacting the owner and working to place the dog instead.",
+    "stance": "supports",
+    "stance_target": "Public education and finder error prevention; lost-dog-vs-dumped-dog misidentification protocol",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Aloof temperament dogs; rural and suburban finder behavior",
+    "quoted_support": "Their wariness can be easily misinterpreted as the result of abuse. In addition, these dogs are often not recovered for weeks or months after their escape, giving them the physical appearance (thinness, injuries, stickers, ticks, etc.) that they are homeless and unloved, and have been abused.",
+    "numbers": ["weeks or months recovery timeline for aloof dogs"],
+    "entities": ["Kat Albrecht", "Pet Hunters International", "LRR"],
+    "time_period": null,
+    "region": "Mid-Atlantic USA (LRR service area)",
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior"
+  },
+  {
+    "claim": "A panicked dog (fireworks/thunder escape) runs at blind speed for several miles, whereas a dog escaping to follow a scent meanders and doubles back over a short distance — these two circumstances require entirely different search radii.",
+    "stance": "supports",
+    "stance_target": "Circumstances-of-escape parameter for search radius calibration",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Contrast between wandering/exploratory escape and panic/flight escape",
+    "quoted_support": "A dog who digs out from a yard to explore a scent will tend to travel a short distance before she is found - meandering and doubling back as she explores the scent. On the other hand, a dog who bolts in panic because of fireworks or thunder will take off at a blind run and can run for several miles.",
+    "numbers": ["several miles for panic-bolt dog"],
+    "entities": ["Kat Albrecht", "Pet Hunters International"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior"
+  },
+  {
+    "claim": "Population density is inversely correlated with travel distance for lost dogs: dogs lost in Manhattan stay close to escape point; dogs lost in rural Rocky Mountains or farmland travel farther and are harder to find near escape point.",
+    "stance": "supports",
+    "stance_target": "Population-density parameter in search zone calibration",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General; extremes clearest but principle applies across a continuum",
+    "quoted_support": "A dog who escapes in Manhattan will travel a shorter distance than a dog who escapes in the Rockies or in rural farmland. When dogs escape into areas with a high number of people, their chances of being found close to the escape point are increased. But in areas with an extremely low number of people, dogs tend to travel farther.",
+    "numbers": [],
+    "entities": ["Kat Albrecht"],
+    "time_period": null,
+    "region": "Rural Algarve relevant: low population density → extended search radius",
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior"
+  },
+  {
+    "claim": "The local animal shelter is typically the first place owners search but the last place that dog finders take a found dog (due to euthanasia fears) — creating a systematic information gap in the most obvious search channel.",
+    "stance": "supports",
+    "stance_target": "Shelter-checking protocol must be supplemented by direct canvassing of foster networks and rescue groups",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "US shelter system context; similar dynamics may apply in Portuguese context",
+    "quoted_support": "The first place where people search for their lost dog - the local shelter - is typically the last place where someone who finds a loose dog will take him (due to the fear of euthanasia)!",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Pet Hunters International"],
+    "time_period": null,
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior"
+  }
+]

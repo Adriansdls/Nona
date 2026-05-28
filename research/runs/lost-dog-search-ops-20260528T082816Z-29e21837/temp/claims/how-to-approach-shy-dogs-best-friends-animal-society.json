@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "When approaching a shy or scared dog, approach toward the side (not head-on), avoid direct eye contact, make body smaller by lowering the shoulder and angling away, and never force a hand toward the dog.",
+    "stance": "supports",
+    "stance_target": "Non-threatening body language protocol is essential for skittish dog field recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Any fearful dog encounter; directly applicable to field recovery of lost skittish dogs",
+    "quoted_support": "Approach toward the side of the dog, not head on, and avoid direct eye contact. When you are close, begin to make your body 'smaller.' Lower the shoulder that is closest to the dog. Start turning so that by the time you are beside the dog, you are almost facing away.",
+    "numbers": [],
+    "entities": ["Best Friends Animal Society"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-to-approach-shy-dogs-best-friends-animal-society"
+  },
+  {
+    "claim": "To leash a scared dog, slowly loop the lead over its head rather than grabbing the collar; after looping, move away and wait for the dog to follow rather than pulling it.",
+    "stance": "supports",
+    "stance_target": "Capture technique for skittish dogs must avoid sudden restraint to prevent panic",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Field capture of fearful loose dogs",
+    "quoted_support": "If your goal is to get a leash on the scared dog... slowly loop the lead over their head. Don't attempt to grab a defensive dog's collar to clip on a leash. Once the loop is around the dog's neck, move away and wait to see whether the dog will move to join you on a walk.",
+    "numbers": [],
+    "entities": ["Best Friends Animal Society"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-to-approach-shy-dogs-best-friends-animal-society"
+  },
+  {
+    "claim": "If a leashed fearful dog panics and flails, releasing leash pressure and waiting for the dog to calm down is the correct response; forcing movement escalates fear.",
+    "stance": "supports",
+    "stance_target": "Pressure-release technique reduces flight risk during capture of scared dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Post-capture management of fearful dogs on leash",
+    "quoted_support": "If the dog starts to panic — e.g., flails around on the lead — release the leash pressure and wait for them to calm down. A walk can take 10 minutes or an hour.",
+    "numbers": ["walk duration 10 minutes to 1 hour"],
+    "entities": ["Best Friends Animal Society"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-to-approach-shy-dogs-best-friends-animal-society"
+  },
+  {
+    "claim": "Fear signs in dogs include freezing, raised hackles, head lowering or raising while looking away, staring (defensive), growling, lip wrinkling, and snarling — all indicating the dog may flee or bite if approached incorrectly.",
+    "stance": "supports",
+    "stance_target": "Volunteer training must include fear-signal recognition before field deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General dog behavior; applicable to lost dog sighting encounters",
+    "quoted_support": "Appearing frozen or holding very still; Raising hackles; Looking away or lowering of the head while still sitting up; Raising the head way up while looking away; Staring at you (If a defensive dog stares into your eyes, look away for your own safety).",
+    "numbers": [],
+    "entities": ["Best Friends Animal Society"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-to-approach-shy-dogs-best-friends-animal-society"
+  }
+]

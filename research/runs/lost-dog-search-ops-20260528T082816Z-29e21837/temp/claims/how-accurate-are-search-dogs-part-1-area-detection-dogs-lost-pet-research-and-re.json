@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Area detection dogs correctly identify a target scent an average of 91.61% of the time (range 75–100%) and miss target scents 8.39% of the time on average, per meta-review of 12 detection tasks.",
+    "stance": "supports",
+    "stance_target": "area detection dogs as highly accurate but not infallible tools in lost dog searches",
+    "evidence_type": "statistical",
+    "scope_conditions": "12 different detection tasks including cancer, scat, termite, and bomb detection; meta-review by Helton 2009; not specific to lost dogs",
+    "quoted_support": "Helton (2009) reviewed the results of 12 different detection tasks... He found that search dogs found and correctly identified the target scent 91.61% of the time (range = 75.00% to 100.00%). Looked at another way, the search dogs missed indicating a target scent in an average of 8.39% of trials (range = 0% to 25%).",
+    "numbers": ["91.61%", "75.00%", "100.00%", "8.39%", "0%", "25%"],
+    "entities": ["Helton 2009", "Lost Pet Research & Recovery"],
+    "time_period": "2009-2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-1-area-detection-dogs-lost-pet-research-and-re"
+  },
+  {
+    "claim": "Area detection dogs give false positives (indicate scent present when absent) at an average rate of 3.42% (range 0–18.2%), making them highly specific but not perfectly reliable.",
+    "stance": "supports",
+    "stance_target": "search dog false positive rate as low but non-zero — field intelligence must be corroborated",
+    "evidence_type": "statistical",
+    "scope_conditions": "12 detection tasks in Helton 2009 meta-review",
+    "quoted_support": "Helton (2009) also found that the search dogs gave false alarms (e.g. indicated a scent was present when it was not present) an average of 3.42% (range = 0% to 18.20%).",
+    "numbers": ["3.42%", "0%", "18.20%"],
+    "entities": ["Helton 2009", "Lost Pet Research & Recovery"],
+    "time_period": "2009-2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-1-area-detection-dogs-lost-pet-research-and-re"
+  },
+  {
+    "claim": "Search dog success rate (actual find rate) is fundamentally limited by whether the handler correctly identifies the search area — for lost cats, success rates are only 5–20% despite high scent accuracy.",
+    "stance": "supports",
+    "stance_target": "prior intelligence about search area as the primary bottleneck in search dog effectiveness",
+    "evidence_type": "empirical",
+    "scope_conditions": "lost cat detection dogs; lost person SAR; not directly stated for lost dogs but principle applies",
+    "quoted_support": "Whether or not the search dog is accurate is important, but that does not mean that they find their intended target 80 to 90% or more of the time. In order to have a successful find, the target scent must be present in the search area, and the search area is determined by the search dog handler or another person. Therefore, a large part of their success is determined by the knowledge and experience of the search dog handler... Typical success rates for cat detection dogs may be as high as 20% or as low as 5%.",
+    "numbers": ["20%", "5%"],
+    "entities": ["Lost Pet Research & Recovery"],
+    "time_period": "2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-1-area-detection-dogs-lost-pet-research-and-re"
+  },
+  {
+    "claim": "Environmental conditions (hot dry air, gusty winds, no wind, terrain) dramatically affect search dog detection range — scat detection dogs can locate a scent anywhere from 100 meters to only 1 meter away depending on conditions.",
+    "stance": "supports",
+    "stance_target": "environmental condition assessment as mandatory input for search dog operation planning",
+    "evidence_type": "empirical",
+    "scope_conditions": "field conditions; primarily studied for scat detection dogs but applies to all area detection",
+    "quoted_support": "MacKay et al. (2008) estimated that scat detection dogs were able to locate a scat anywhere from 100 meters away to only 1 meter away depending on environmental conditions.",
+    "numbers": ["100 meters", "1 meter"],
+    "entities": ["MacKay et al. 2008", "Lost Pet Research & Recovery"],
+    "time_period": "2008-2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-1-area-detection-dogs-lost-pet-research-and-re"
+  },
+  {
+    "claim": "Physical fitness and health significantly affect a search dog's detection accuracy — a panting/hot/tired dog detects fewer scent particles; medications (especially steroids) and certain diseases also reduce scent identification ability.",
+    "stance": "supports",
+    "stance_target": "search dog operational condition as a quality variable requiring field assessment before deployment",
+    "evidence_type": "empirical",
+    "scope_conditions": "all detection dogs; highly relevant for multi-day field deployments in Algarve summer heat",
+    "quoted_support": "A hot or tired dog that is panting heavily is not able to sniff as effectively and fewer scent particles are detected. Certain medications such as steroids (Ezeh et al. 1992) and some diseases can also effect a dog's ability to identify and process scents.",
+    "numbers": [],
+    "entities": ["Altom et al. 2003", "Gillette 2004", "Ezeh et al. 1992"],
+    "time_period": "1992-2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-1-area-detection-dogs-lost-pet-research-and-re"
+  }
+]

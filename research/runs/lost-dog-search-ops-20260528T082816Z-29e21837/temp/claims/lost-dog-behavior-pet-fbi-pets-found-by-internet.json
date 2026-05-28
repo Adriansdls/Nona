@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Elderly, disabled, and small dogs typically remain within a 1-2 mile radius of their escape point; friendly/purebred dogs also within 1-2 miles but are quickly 'rescued' by humans; aggressive/panicked/skittish dogs can travel several miles and require a 5-10 mile poster distribution radius.",
+    "stance": "supports",
+    "stance_target": "Distance-based search radius parameterized by dog type/temperament",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General urban/suburban environments; based on Kat Albrecht MAR methodology",
+    "quoted_support": "Elderly dogs, disabled dogs, and small dogs tend to be recovered quickly, often ending up within a few blocks from their escape point. Your target search area will be within a 1 to 2-mile radius of your home. [...] Aggressive dogs, panicked dogs (fireworks, involved in car accident), and dogs with skittish, shy temperaments will be more difficult to capture... The radius for your posters should encompass a large area – a 5 to 10-mile radius in some cases.",
+    "numbers": ["1-2 mile radius (small/elderly/friendly dogs)", "5-10 mile radius (panicked/skittish dogs)"],
+    "entities": ["Pet FBI", "Kat Albrecht", "MAR"],
+    "time_period": "Published 2014, updated December 2024",
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "People who pick up stray dogs frequently transport them out of the immediate search area into foster homes and rescue adoption programs, creating a critical displacement problem that requires contacting all rescue groups and breed rescue groups in the search zone.",
+    "stance": "supports",
+    "stance_target": "Shelter and rescue canvassing as high-priority early action, beyond the immediate vicinity",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Urban and suburban areas with active rescue networks",
+    "quoted_support": "One complicating factor with lost dogs is that people who pick up stray dogs often transport them out of the immediate search area. Because a large amount of lost dogs end up in foster homes and rescue adoption programs, you should contact all rescue groups and breed rescue groups within your area.",
+    "numbers": [],
+    "entities": ["Pet FBI", "Kat Albrecht"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "When approaching a panicked dog, walking straight toward it mimics predator stalking behavior and triggers flight — instead, stop at the Alert Zone, shuffle sideways with hip facing the dog, and never advance while the dog is showing stress body language.",
+    "stance": "supports",
+    "stance_target": "Physical approach protocol for survival-mode dogs — three-zone awareness model",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Direct encounter with panicked/displaced lost dog",
+    "quoted_support": "We often think that if we creep slowly, a dog will understand that we are not going to hurt it when in reality we are simulating how a predator would slowly stalk its prey. Thus when you reach the 'Alert Zone', you should stop, talk normally in various tones to the dog, and do not advance forward... you can advance a foot or two, never walking straight at the dog, always shuffling sideways with your hip facing the dog.",
+    "numbers": [],
+    "entities": ["Pet FBI", "Kat Albrecht", "MAR Technicians"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "Cell-phone-to-cell-phone real-time coordination between a witness who has visual contact with a loose dog and a searching owner has proven to be a highly effective live recovery tactic.",
+    "stance": "supports",
+    "stance_target": "Sighting lead triage and real-time coordination protocol",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Active sighting scenario with mobile witness",
+    "quoted_support": "Ask the caller if they are calling from a cell phone and if they are, ask them to remain on the phone with you to keep you updated on the dogs' location. This tactic alone (cell phone to cell phone communication between a witness and a dog owner) has proven to be a highly effective method of recovering lost dogs.",
+    "numbers": [],
+    "entities": ["Pet FBI"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "A 'magnet dog' — a friendly or familiar dog on a 30-foot long leash — can attract and distract a panicked dog that won't respond to its own owner, enabling close enough approach for capture with a snappy snare.",
+    "stance": "supports",
+    "stance_target": "Magnet-dog technique as capture method for xenophobic/flight-mode dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Panicked/xenophobic dogs that have not responded to other recovery methods",
+    "quoted_support": "Even though they don't recognize or respond to their owner, sometimes they are willing to approach or to be approached by another dog. You can use a second dog (on a 30-foot long leash) as an attraction device to distract your dog so you can get close enough to capture him.",
+    "numbers": ["30-foot long leash"],
+    "entities": ["Pet FBI", "MAR Technicians"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  }
+]

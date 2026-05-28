@@ -29,6 +29,8 @@ summary: 'Comprehensive MAR Network guide on trail camera deployment for lost pe
   as >4600 words — dense source worth reviewing for additional behavioral detail.'
 ---
 
+*Suggested by [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]] — MAR page on using cameras to find lost pets — complementary to surveillance-cameras page*
+
 Using Cameras For Lost Pets - Missing Animal Response Network
 Skip to main content
 Skip to footer

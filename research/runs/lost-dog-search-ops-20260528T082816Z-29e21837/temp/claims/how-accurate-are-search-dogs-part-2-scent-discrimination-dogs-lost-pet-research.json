@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Veteran bloodhound trailing dogs (18+ months training + law enforcement/SAR experience) achieved a 96% find rate on aged trails (48 hours, 0.5–1.5 miles); novice dogs (< 18 months) achieved only 53.3%.",
+    "stance": "supports",
+    "stance_target": "experienced search dog teams as dramatically more reliable than novice teams for lost pet trailing",
+    "evidence_type": "empirical",
+    "scope_conditions": "8 bloodhounds; trails aged 48 hours; 0.5–1.5 miles; variable terrain; heavy foot traffic areas; blind trials (handlers did not know trail locations)",
+    "quoted_support": "Novice dogs had less than 18 months of training experience. Veteran dogs had more than 18 months training and had run one or more trails for law enforcement or search and rescue. Overall, novice dogs only had a 53.3% find rate and one false identification. Veteran dogs had a 96% overall find rate with no false identifications.",
+    "numbers": ["96%", "53.3%", "18 months", "48 hours", "0.5-1.5 miles"],
+    "entities": ["Harvey and Harvey 2003", "Lost Pet Research & Recovery"],
+    "time_period": "2003-2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-2-scent-discrimination-dogs-lost-pet-research"
+  },
+  {
+    "claim": "Scent discrimination confirmation requires multiple independent dogs — in the French judicial dog program, scent matches were always confirmed by 2–7 other dogs, with 14–39 lineups per case.",
+    "stance": "supports",
+    "stance_target": "multi-dog confirmation protocol as the reliable standard for any high-stakes scent identification",
+    "evidence_type": "empirical",
+    "scope_conditions": "judicial case lineups in France; highly trained German Shepherds; 18-month initial program + continuous training",
+    "quoted_support": "In a judicial case task, scent-matches were always confirmed by 2 to 7 other dogs working on the same case. The number of lineups used per court case averaged 14-39 with 4.6 to 13 lineups per dog.",
+    "numbers": ["2-7 dogs", "14-39 lineups", "4.6-13 lineups per dog"],
+    "entities": ["Marchal et al. 2016", "Lost Pet Research & Recovery"],
+    "time_period": "2016-2018",
+    "region": "France",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-2-scent-discrimination-dogs-lost-pet-research"
+  },
+  {
+    "claim": "Trailing dogs follow the strongest scent trail, which may not be located where the subject actually walked due to scent behavior (air currents, pooling) — trailing evidence must be interpreted with this caveat.",
+    "stance": "supports",
+    "stance_target": "search dog trail indication as directional intelligence, not a precise footstep map",
+    "evidence_type": "empirical",
+    "scope_conditions": "all trailing dog scenarios; scent behavior varies with temperature, humidity, wind, terrain",
+    "quoted_support": "A trailing dog is provided with a scent article (such as from a missing person or animal) and follows the strongest scent trail left by that individual. Due to the behavior of scent, the scent trail may not be located where the individual actually walked.",
+    "numbers": [],
+    "entities": ["Lost Pet Research & Recovery"],
+    "time_period": "2018",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-2-scent-discrimination-dogs-lost-pet-research"
+  },
+  {
+    "claim": "Wildlife scat matching dogs achieved 87–98% accuracy across studies — this level of scent discrimination (individual animal ID from scent) establishes that dogs can reliably distinguish one animal from another.",
+    "stance": "supports",
+    "stance_target": "scent discrimination dogs as capable of individual animal identification for lost pet search",
+    "evidence_type": "empirical",
+    "scope_conditions": "Amur tiger scat matching (Kerley & Salkina 2007), maned wolf scat matching (Wasser et al. 2009); individual accuracy with multiple test trials",
+    "quoted_support": "Kerley and Salkina (2007) tested the ability of 5 dogs to match 58 Amur tiger scats to 25 known tigers. They found that the dogs correctly matched scats 87% of the time. The accuracy of four out of five dogs increased to 98% with repeated-trial tests.",
+    "numbers": ["87%", "98%"],
+    "entities": ["Kerley and Salkina 2007", "Wasser et al. 2009"],
+    "time_period": "2007-2018",
+    "region": "USA/Russia",
+    "confidence": "high",
+    "source_note_id": "how-accurate-are-search-dogs-part-2-scent-discrimination-dogs-lost-pet-research"
+  }
+]
