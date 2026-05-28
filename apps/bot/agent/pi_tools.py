@@ -243,6 +243,54 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
             "required": [],
         },
     },
+    {
+        "name": "update_behavioral_assessment",
+        "description": (
+            "WP9: Update the behavioral profile with new intelligence gathered during this run. "
+            "Use when you learn new escape trigger, breed category, or conditioning events "
+            "(e.g. owner reports 'chamei o nome mas o cão fugiu' → name_conditioned=true). "
+            "Also call to record a sighting belief update with direction-of-travel."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "breed_category": {
+                    "type": "string",
+                    "enum": ["galgo", "podenco", "sighthound_other", "toy", "herding", "guardian", "scent_hound", "mixed"],
+                    "description": "Override breed category if now confirmed",
+                },
+                "escape_trigger": {
+                    "type": "string",
+                    "enum": ["opportunistic", "prey_drive", "blind_panic", "wanderlust"],
+                    "description": "How the dog was lost — most important variable for phase",
+                },
+                "temperament": {
+                    "type": "string",
+                    "enum": ["gregarious", "aloof", "xenophobic"],
+                    "description": "Override temperament if now confirmed from owner reports",
+                },
+                "add_conditioning_events": {
+                    "type": "array",
+                    "items": {"type": "string", "enum": ["name_conditioned", "crowd_conditioned", "approach_conditioned"]},
+                    "description": "Add events that permanently restrict the action gate",
+                },
+                "sighting_update": {
+                    "type": "object",
+                    "description": "If updating belief from a new sighting",
+                    "properties": {
+                        "sighting_id": {"type": "string"},
+                        "location_approx": {"type": "string"},
+                        "direction_of_travel": {"type": "string", "description": "Cardinal direction: north|south|east|west|northeast|etc"},
+                        "observer_type": {"type": "string", "enum": ["camera", "owner", "volunteer", "civilian"]},
+                        "conditions": {"type": "string", "enum": ["daylight", "dusk", "night", "unknown"]},
+                        "crowd_broadcast_occurred": {"type": "boolean"},
+                    },
+                    "required": ["sighting_id", "location_approx", "observer_type"],
+                },
+            },
+            "required": [],
+        },
+    },
 ]
 
 
@@ -736,5 +784,83 @@ async def execute_pi_tool(
 
         harness.log_action(action, name, f"Cross-posted to regional channels: {', '.join(posted) or 'none'}")
         return json.dumps({"posted_to": posted})
+
+    if name == "update_behavioral_assessment":
+        from agent.harness import (
+            compute_phase, compute_action_gate, update_belief_from_sighting
+        )
+
+        bp: dict = dict(harness.case.get("behavioral_profile") or {})
+        changed_fields: list[str] = []
+
+        # Update breed_category, escape_trigger, temperament if provided
+        for field in ("breed_category", "escape_trigger", "temperament"):
+            val = inputs.get(field)
+            if val:
+                bp[field] = str(val)
+                changed_fields.append(field)
+
+        # Add conditioning events (irreversible)
+        new_events = inputs.get("add_conditioning_events") or []
+        if new_events:
+            ag = bp.get("action_gate") or {}
+            existing = ag.get("conditioning_events") or []
+            merged = list(set(existing + list(new_events)))
+            if "action_gate" not in bp:
+                bp["action_gate"] = {}
+            bp["action_gate"]["conditioning_events"] = merged
+            changed_fields.append(f"conditioning_events={merged}")
+
+        # Sighting belief update
+        su = inputs.get("sighting_update")
+        if su and isinstance(su, dict):
+            bp = update_belief_from_sighting(
+                profile=bp,
+                sighting_id=str(su.get("sighting_id", "")),
+                location_approx=str(su.get("location_approx", "")),
+                direction_of_travel=su.get("direction_of_travel"),
+                observer_type=str(su.get("observer_type", "civilian")),
+                conditions=str(su.get("conditions", "unknown")),
+                crowd_broadcast=bool(su.get("crowd_broadcast_occurred", False)),
+            )
+            changed_fields.append(f"sighting_belief_update(lambda={bp.get('belief_distribution', {}).get('sighting_evidence', [{}])[-1].get('lambda', '?')})")
+
+        # Recompute phase + action gate with updated values
+        hours = harness._hours_elapsed()
+        bc = bp.get("breed_category", "mixed")
+        et = bp.get("escape_trigger", "opportunistic")
+        tm = bp.get("temperament", "aloof")
+        ce = (bp.get("action_gate") or {}).get("conditioning_events") or []
+
+        phase_name, phase_1_cap = compute_phase(hours, bc, et, tm)
+        new_gate = compute_action_gate(bc, phase_name, tm, et, ce)
+
+        bp["phase_state"] = {
+            "current": phase_name,
+            "phase_1_cap_hours": phase_1_cap,
+            "last_calculated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+            "phase_history": (bp.get("phase_state") or {}).get("phase_history") or [],
+        }
+        bp["action_gate"] = new_gate
+
+        # Write back
+        db.table("cases").update({"behavioral_profile": bp}).eq("id", case_id).execute()
+        harness.case["behavioral_profile"] = bp
+
+        harness.log_action(
+            "behavioral_assessment_updated",
+            name,
+            f"Updated: {', '.join(changed_fields) or 'phase recalc only'} → phase={phase_name}, broadcast={new_gate['broadcast_sighting_location']}"
+        )
+        return json.dumps({
+            "updated": True,
+            "phase": phase_name,
+            "action_gate": {
+                "broadcast": new_gate["broadcast_sighting_location"],
+                "active_search_permitted": new_gate["active_search_permitted"],
+                "crowd_response_blocked": new_gate["crowd_response_blocked"],
+            },
+            "changed_fields": changed_fields,
+        })
 
     return json.dumps({"error": f"unknown tool: {name}"})

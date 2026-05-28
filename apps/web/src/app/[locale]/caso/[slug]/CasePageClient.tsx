@@ -115,11 +115,32 @@ interface ProbabilityScenario {
   actions: string[]
 }
 
+interface ActionGate {
+  broadcast_sighting_location?: 'public' | 'private_coordinator_only' | 'blocked'
+  active_search_permitted?: boolean
+  crowd_response_blocked?: boolean
+  name_calling_blocked?: boolean
+  drone_blocked?: boolean
+  gate_rationale?: string
+  conditioning_events?: string[]
+}
+
+interface PhaseState {
+  current?: string
+  phase_1_cap_hours?: number
+  last_calculated_at?: string
+}
+
 interface BehavioralProfile {
   sociability?: string
   environment?: string
   stress_level?: string
+  breed_category?: string
+  escape_trigger?: string
+  temperament?: string
   scenarios?: ProbabilityScenario[]
+  phase_state?: PhaseState
+  action_gate?: ActionGate
 }
 
 // ─── Props ───────────────────────────────────────────────────────────
@@ -480,6 +501,47 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         </div>
       </section>
 
+      {/* ACTION GATE WARNINGS (WP9) — shown before scenarios */}
+      {c.behavioral_profile?.action_gate && (
+        (() => {
+          const ag = c.behavioral_profile!.action_gate!
+          const warnings: { text: string; level: 'critical' | 'warning' }[] = []
+          if (ag.broadcast_sighting_location === 'blocked') {
+            warnings.push({ text: 'Avistamentos PRIVADOS — não partilhar localização publicamente.', level: 'critical' })
+          } else if (ag.broadcast_sighting_location === 'private_coordinator_only') {
+            warnings.push({ text: 'Avistamentos apenas para o coordenador — não partilhar em redes sociais.', level: 'warning' })
+          }
+          if (ag.crowd_response_blocked) {
+            warnings.push({ text: 'Buscas activas suspensas — máximo 1-2 pessoas silenciosas. Sem grupos.', level: 'critical' })
+          }
+          if (ag.name_calling_blocked) {
+            warnings.push({ text: 'NÃO chame o nome do cão — pode ser gatilho de fuga.', level: 'critical' })
+          }
+          if (ag.drone_blocked) {
+            warnings.push({ text: 'Sem drones — causam deslocação em cães assustados.', level: 'warning' })
+          }
+          if (warnings.length === 0) return null
+          return (
+            <section style={{ padding: '0 32px 20px' }}>
+              <div style={{ display: 'grid', gap: 8 }}>
+                {warnings.map((w, i) => (
+                  <div key={i} style={{
+                    display: 'flex', alignItems: 'flex-start', gap: 12,
+                    padding: '12px 16px',
+                    background: w.level === 'critical' ? '#FEF2F2' : '#FFFBEB',
+                    border: `1.5px solid ${w.level === 'critical' ? '#DC262633' : '#D9770633'}`,
+                    borderRadius: 10,
+                  }}>
+                    <span style={{ fontSize: 14, lineHeight: 1, marginTop: 1 }}>{w.level === 'critical' ? '🔴' : '🟡'}</span>
+                    <span style={{ fontSize: 13.5, color: w.level === 'critical' ? '#991B1B' : '#92400E', lineHeight: 1.45, fontWeight: 500 }}>{w.text}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        })()
+      )}
+
       {/* BEHAVIORAL SCENARIOS */}
       {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (
         <section style={{ padding: '0 32px 28px' }}>
@@ -505,6 +567,16 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             {c.behavioral_profile.stress_level && (
               <span style={{ padding: '4px 10px', borderRadius: 999, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>
                 {c.behavioral_profile.stress_level.replace('_', ' ')}
+              </span>
+            )}
+            {c.behavioral_profile.breed_category && (
+              <span style={{ padding: '4px 10px', borderRadius: 999, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>
+                {c.behavioral_profile.breed_category.replace('_', ' ')}
+              </span>
+            )}
+            {c.behavioral_profile.phase_state?.current && (
+              <span style={{ padding: '4px 10px', borderRadius: 999, background: '#F0F9FF', border: `1px solid #BAE6FD`, fontFamily: N.mono, fontSize: 10.5, color: '#0369A1' }}>
+                {c.behavioral_profile.phase_state.current.replace('phase_', 'fase ').replace('_', ' ')}
               </span>
             )}
           </div>

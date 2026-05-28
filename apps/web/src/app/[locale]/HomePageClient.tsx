@@ -18,12 +18,24 @@ interface ProbabilityScenario {
   actions: string[]
 }
 
+interface ActionGate {
+  broadcast_sighting_location: 'public' | 'private_coordinator_only' | 'blocked'
+  active_search_permitted: boolean
+  crowd_response_blocked: boolean
+  name_calling_blocked: boolean
+  drone_blocked: boolean
+  gate_rationale?: string
+  protocol_items?: string[]
+  prohibitions?: string[]
+}
+
 interface ChatMessage {
   from: 'user' | 'agent'
   text: string
   time: string
   quickReplies?: string[] | undefined
   scenarios?: ProbabilityScenario[]
+  actionGate?: ActionGate
 }
 interface ActionItem { label: string; detail?: string; live?: boolean }
 interface RecentReunido {
@@ -121,6 +133,49 @@ function ScenarioPanel({ scenarios }: { scenarios: ProbabilityScenario[] }) {
   )
 }
 
+function ProtocolCard({ gate }: { gate: ActionGate }) {
+  const isHard = gate.crowd_response_blocked || !gate.active_search_permitted
+  const borderColor = isHard ? '#DC2626' : '#D97706'
+  const bgColor = isHard ? '#FEF2F2' : '#FFFBEB'
+  const labelColor = isHard ? '#991B1B' : '#92400E'
+
+  const protocolItems = gate.protocol_items ?? (isHard ? [
+    'Estação de alimentação + câmara nas primeiras 2h',
+    'Cartazes néon sem coordenadas exactas',
+  ] : ['Busca activa nas primeiras 72h', 'Partilha em grupos locais'])
+
+  const prohibitions = gate.prohibitions ?? [
+    ...(gate.name_calling_blocked ? ['Não chame o nome do cão'] : []),
+    ...(gate.crowd_response_blocked ? ['Sem grupos de busca > 2 pessoas'] : []),
+    ...(gate.broadcast_sighting_location !== 'public' ? ['Não partilhar avistamentos publicamente'] : []),
+    ...(gate.drone_blocked ? ['Sem drones'] : []),
+  ]
+
+  if (!isHard && prohibitions.length === 0) return null
+
+  return (
+    <div style={{ marginTop: 12, padding: '14px 16px', background: bgColor, border: `1.5px solid ${borderColor}33`, borderRadius: 12 }}>
+      <p style={{ margin: '0 0 10px', fontFamily: N.mono, fontSize: 10, color: labelColor, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>
+        protocolo activo
+      </p>
+      <div style={{ display: 'grid', gap: 5 }}>
+        {protocolItems.map((item, i) => (
+          <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: '#166534' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><polyline points="4 12.5 9 17.5 20 6.5"/></svg>
+            {item}
+          </div>
+        ))}
+        {prohibitions.map((item, i) => (
+          <div key={`p-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: '#991B1B' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 interface HomePageClientProps {
   locale: string; reunidosCount: number; recentReunidos: RecentReunido[]
 }
@@ -207,6 +262,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     setStreaming(true)
     let accumulated = ''
     let scenariosSnap: ProbabilityScenario[] = []
+    let actionGateSnap: ActionGate | undefined = undefined
     const events: AgentEvent[] = []
     const actions: ActionItem[] = []
 
@@ -252,6 +308,11 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             } else if (evt['type'] === 'probability_scenarios') {
               scenariosSnap = Array.isArray(evt['scenarios']) ? evt['scenarios'] as ProbabilityScenario[] : []
               setProbabilityScenarios(scenariosSnap)
+            } else if (evt['type'] === 'action_gate' || evt['type'] === 'action_gate_card') {
+              const gateData = evt['type'] === 'action_gate' ? evt['gate'] : evt['card']
+              if (gateData && typeof gateData === 'object') {
+                actionGateSnap = gateData as ActionGate
+              }
             } else if (evt['type'] === 'case_created') {
               setCaseSlug(String(evt['slug'] ?? ''))
               if (evt['ownerToken']) setOwnerToken(String(evt['ownerToken']))
@@ -259,7 +320,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               setQuickReplies(Array.isArray(evt['replies']) ? evt['replies'] as string[] : [])
             } else if (evt['type'] === 'done') {
               const qr = Array.isArray(evt['quick_replies']) ? evt['quick_replies'] as string[] : []
-              setMessages(prev => [...prev, { from: 'agent' as const, text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}), ...(scenariosSnap.length > 0 ? { scenarios: scenariosSnap } : {}) }])
+              setMessages(prev => [...prev, { from: 'agent' as const, text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}), ...(scenariosSnap.length > 0 ? { scenarios: scenariosSnap } : {}), ...(actionGateSnap ? { actionGate: actionGateSnap } : {}) }])
               setProbabilityScenarios([])
               setNonaText(''); setNonaActions([])
             }
@@ -482,6 +543,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                   </div>
                   <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>{renderMarkdown(msg.text)}</p>
                   {msg.scenarios && msg.scenarios.length > 0 && <ScenarioPanel scenarios={msg.scenarios}/>}
+                  {msg.actionGate && <ProtocolCard gate={msg.actionGate}/>}
                   {msg.quickReplies && (
                     <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                       {msg.quickReplies.map(r => <button key={r} onClick={() => setInputValue(r)} style={{ padding: '8px 14px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: N.sans }}>{r}</button>)}

@@ -7,6 +7,64 @@ import { generateSlug } from '@/lib/slug'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
+// WP9: Phase + action gate compute (mirrors Python harness.py logic)
+export interface ActionGate {
+  broadcast_sighting_location: 'public' | 'private_coordinator_only' | 'blocked'
+  active_search_permitted: boolean
+  crowd_response_blocked: boolean
+  name_calling_blocked: boolean
+  drone_blocked: boolean
+  approach_protocol: 'passive_only' | 'calming_signals_ok'
+  gate_rationale: string
+}
+
+function computePhaseAndGate(
+  breedCategory: string,
+  escapeTrigger: string,
+  temperament: string,
+  hoursSinceLoss: number,
+): { phase: string; phaseCapHours: number; actionGate: ActionGate } {
+  const bc = breedCategory.toLowerCase()
+  const et = escapeTrigger.toLowerCase()
+  const tm = temperament.toLowerCase()
+
+  let phaseCapHours: number
+  if (bc === 'galgo') phaseCapHours = 0
+  else if (bc === 'podenco' && et === 'prey_drive') phaseCapHours = 4
+  else if (et === 'blind_panic' || tm === 'xenophobic') phaseCapHours = 24
+  else phaseCapHours = 72
+
+  let phase: string
+  if (hoursSinceLoss < phaseCapHours) phase = 'phase_1_acute'
+  else if (hoursSinceLoss < 168) phase = 'phase_2_survival'
+  else phase = 'phase_3_entrenched'
+
+  const isHardCase =
+    bc === 'galgo' ||
+    tm === 'xenophobic' ||
+    phase === 'phase_2_survival' ||
+    phase === 'phase_3_entrenched' ||
+    (bc === 'podenco' && et !== 'opportunistic')
+
+  const rationale: string[] = []
+  if (bc === 'galgo') rationale.push('galgo: passivo obrigatório')
+  if (bc === 'podenco' && et !== 'opportunistic') rationale.push('podenco prey_drive')
+  if (tm === 'xenophobic') rationale.push('cão xenofóbico')
+  if (phase !== 'phase_1_acute') rationale.push(`fase ${phase}`)
+
+  const actionGate: ActionGate = {
+    broadcast_sighting_location: isHardCase ? 'blocked' : (tm === 'aloof' ? 'private_coordinator_only' : 'public'),
+    active_search_permitted: !isHardCase,
+    crowd_response_blocked: isHardCase,
+    name_calling_blocked: isHardCase,
+    drone_blocked: isHardCase || bc === 'galgo' || bc === 'podenco',
+    approach_protocol: isHardCase ? 'passive_only' : 'calming_signals_ok',
+    gate_rationale: rationale.join('; ') || 'protocolo padrão',
+  }
+
+  return { phase, phaseCapHours, actionGate }
+}
+
 export interface ProbabilityScenario {
   title: string
   probability: number
@@ -40,10 +98,12 @@ REGRAS DE PRIVACIDADE (obrigatórias):
 Turno 1 — primeira mensagem do utilizador:
 Chama identify_dog + normalize_location. Depois responde com:
 1. Confirmar o que percebeste (raça, local aproximado)
-2. Fazer ESTAS 3 perguntas juntas, numa só mensagem:
+2. Fazer ESTAS 5 perguntas juntas, numa só mensagem:
    "O vosso cão aproxima-se de desconhecidos ou fica com medo deles?"
    "Estava com trela ou livre quando se perdeu? Era zona urbana, perto de estrada, ou rural/isolado?"
    "Já se perdeu antes? Assusta-se com trovões ou fogos de artifício?"
+   "Como foi que se perdeu exatamente? Assustou-se com um barulho / perseguiu um animal / saiu por uma porta aberta / fugiu sem razão aparente?"
+   "É galgo ou podenco?"
 
 Turno 2 — resposta com dados comportamentais:
 Com as respostas, classifica internamente:
@@ -51,6 +111,14 @@ Com as respostas, classifica internamente:
 - off_leash: true | false
 - environment: urban | suburban | rural_road | rural_isolated
 - stress_level: normal | stressed | high_stress
+- escape_trigger: blind_panic (barulho/susto) | prey_drive (perseguiu animal) | opportunistic (saiu por porta/gate) | wanderlust (sem razão aparente)
+- breed_category: galgo | podenco | sighthound_other | toy | herding | guardian | scent_hound | mixed
+- temperament: gregarious (aproxima-se de todos) | aloof (reservado) | xenophobic (medo de pessoas)
+
+CRÍTICO — Escape trigger determina o protocolo:
+- blind_panic ou galgo: NUNCA busca activa, estação de alimentação imediata, phase_1_cap=0-24h
+- prey_drive com podenco: estação em 4h, raio 5-15km
+- opportunistic: busca activa nas primeiras 72h é segura
 
 Sequência obrigatória: normalize_location → create_case → record_behavioral_profile(case_id de create_case) → notify_volunteers
 
@@ -85,7 +153,13 @@ Fluxo mais curto: identify_dog → search_similar → normalize_location → cre
 Sem perguntas comportamentais (dono não está presente).
 
 Após criar qualquer caso, inclui no final da tua resposta:
-QUICK_REPLIES: ["Enviar foto do cão", "Adicionar mais detalhes", "Como posso partilhar?"]`
+QUICK_REPLIES: ["Enviar foto do cão", "Adicionar mais detalhes", "Como posso partilhar?"]
+
+Após record_behavioral_profile, inclui também um ACTION_GATE_CARD no formato:
+ACTION_GATE_CARD: {"broadcast":"public|private_coordinator_only|blocked","active_search":true|false,"crowd_blocked":true|false,"name_calling_blocked":true|false,"drone_blocked":true|false,"protocol_items":["item1","item2"],"prohibitions":["item1","item2"]}
+
+Exemplos de protocol_items: "Estação de alimentação + câmara nas primeiras 2h", "Cartazes néon sem coordenadas exactas"
+Exemplos de prohibitions: "Não chame o nome", "Sem grupos de busca > 2 pessoas", "Não partilhar avistamentos publicamente"`
 }
 
 const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
@@ -148,7 +222,7 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
   },
   {
     name: 'record_behavioral_profile',
-    description: 'Armazena o perfil comportamental do cão e os cenários de probabilidade calculados. Chamar DEPOIS de create_case, usando o case_id retornado por create_case.',
+    description: 'Armazena o perfil comportamental do cão, cenários de probabilidade e action gate WP9. Chamar DEPOIS de create_case, usando o case_id retornado por create_case.',
     input_schema: {
       type: 'object' as const,
       properties: {
@@ -157,6 +231,22 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
         off_leash: { type: 'boolean' },
         environment: { type: 'string', enum: ['urban', 'suburban', 'rural_road', 'rural_isolated'] },
         stress_level: { type: 'string', enum: ['normal', 'stressed', 'high_stress'] },
+        // WP9 new fields
+        breed_category: {
+          type: 'string',
+          enum: ['galgo', 'podenco', 'sighthound_other', 'toy', 'herding', 'guardian', 'scent_hound', 'mixed'],
+          description: 'Categoria de raça — determina fase e protocolo',
+        },
+        escape_trigger: {
+          type: 'string',
+          enum: ['opportunistic', 'prey_drive', 'blind_panic', 'wanderlust'],
+          description: 'Como se perdeu — a variável mais importante para o protocolo',
+        },
+        temperament: {
+          type: 'string',
+          enum: ['gregarious', 'aloof', 'xenophobic'],
+          description: 'Temperamento base — determina se busca activa é segura',
+        },
         scenarios: {
           type: 'array',
           minItems: 2,
@@ -198,6 +288,7 @@ interface ToolResult {
   ownerToken?: string
   caseId?: string
   probabilityScenarios?: ProbabilityScenario[]
+  actionGate?: ActionGate
 }
 
 async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<ToolResult> {
@@ -295,19 +386,44 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           return { result: 'Erro: case_id obrigatório. Chama create_case primeiro.', status: 'ok' }
         }
         const supabase = createServiceClient()
+
+        const breedCategory = String(input.breed_category ?? 'mixed')
+        const escapeTrigger = String(input.escape_trigger ?? 'opportunistic')
+        const temperament = String(input.temperament ?? 'aloof')
+
+        // WP9: Compute phase and action gate server-side
+        const { phase, phaseCapHours, actionGate } = computePhaseAndGate(breedCategory, escapeTrigger, temperament, 0)
+
         const profile = {
           sociability: String(input.sociability ?? 'neutral'),
           off_leash: Boolean(input.off_leash),
           environment: String(input.environment ?? 'suburban'),
           stress_level: String(input.stress_level ?? 'normal'),
-          scenarios: (input.scenarios ?? []) as ProbabilityScenario[],
+          breed_category: breedCategory,
+          escape_trigger: escapeTrigger,
+          temperament,
+          phase_state: {
+            current: phase,
+            phase_1_cap_hours: phaseCapHours,
+            last_calculated_at: new Date().toISOString(),
+            phase_history: [],
+          },
+          action_gate: actionGate,
+          belief_distribution: {
+            scenarios: (input.scenarios ?? []) as ProbabilityScenario[],
+            sighting_evidence: [],
+            last_bayesian_update: null,
+            posterior_radius_km: null,
+            highest_probability_zone: null,
+          },
         }
         await supabase.from('cases').update({ behavioral_profile: profile }).eq('id', case_id)
         return {
-          code: `behavioral_profile.record(case=${case_id.slice(0, 8)}…)`,
-          result: `Perfil registado · ${profile.scenarios.length} cenários calculados`,
+          code: `behavioral_profile.record(case=${case_id.slice(0, 8)}…, phase=${phase})`,
+          result: `Perfil WP9 registado · fase=${phase} · broadcast=${actionGate.broadcast_sighting_location} · ${profile.belief_distribution.scenarios.length} cenários`,
           status: 'ok',
-          probabilityScenarios: profile.scenarios,
+          probabilityScenarios: profile.belief_distribution.scenarios,
+          actionGate,
         }
       }
 
@@ -337,6 +453,18 @@ function extractQuickReplies(text: string): { cleaned: string; replies: string[]
     return { cleaned, replies }
   } catch {
     return { cleaned: text, replies: [] }
+  }
+}
+
+function extractActionGateCard(text: string): { cleaned: string; card: Record<string, unknown> | null } {
+  const match = text.match(/ACTION_GATE_CARD:\s*(\{.*?\})/s)
+  if (!match) return { cleaned: text, card: null }
+  try {
+    const card = JSON.parse(match[1] ?? '{}') as Record<string, unknown>
+    const cleaned = text.replace(/ACTION_GATE_CARD:.*$/s, '').trim()
+    return { cleaned, card }
+  } catch {
+    return { cleaned: text, card: null }
   }
 }
 
@@ -415,8 +543,14 @@ export async function POST(req: NextRequest) {
           const finalMessage = await stream.finalMessage()
 
           if (finalMessage.stop_reason === 'end_turn') {
-            const { cleaned, replies } = extractQuickReplies(fullText)
-            if (cleaned !== fullText) {
+            let processedText = fullText
+            const { cleaned: cleanedGate, card } = extractActionGateCard(processedText)
+            if (card) {
+              processedText = cleanedGate
+              send({ type: 'action_gate_card', card })
+            }
+            const { cleaned, replies } = extractQuickReplies(processedText)
+            if (cleaned !== processedText) {
               send({ type: 'text_correction', text: cleaned })
             }
             if (replies.length > 0) {
@@ -447,6 +581,9 @@ export async function POST(req: NextRequest) {
               }
               if (result.probabilityScenarios && result.probabilityScenarios.length > 0) {
                 send({ type: 'probability_scenarios', scenarios: result.probabilityScenarios })
+              }
+              if (result.actionGate) {
+                send({ type: 'action_gate', gate: result.actionGate })
               }
               toolResults.push({
                 type: 'tool_result',
