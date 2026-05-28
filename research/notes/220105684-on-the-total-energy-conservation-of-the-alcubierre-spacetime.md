@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:08:49.446902Z'
+updated: '2026-05-28T09:28:54.388351Z'
 source: https://arxiv.org/abs/2201.05684
 source_domain: arxiv.org
 fetched_at: '2026-05-28T08:08:49.446760Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: institutional
 content_type: paper
 deprecated: false
+summary: '[2201.05684] On the total energy conservation of the Alcubierre spacetime'
 ---
 
 [2201.05684] On the total energy conservation of the Alcubierre spacetime

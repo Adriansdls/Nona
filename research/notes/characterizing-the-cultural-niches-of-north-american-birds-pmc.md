@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:08:39.565159Z'
+updated: '2026-05-28T09:28:54.384368Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC6561159/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:39.564910Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Characterizing the cultural niches of North American birds - PMC
 ---
 
 Characterizing the cultural niches of North American birds - PMC

@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:12:59.204990Z'
+updated: '2026-05-28T09:28:54.427510Z'
 source: https://www.dogsnaturallymagazine.com/the-stress-hormone-cortisol-in-dogs/
 source_domain: www.dogsnaturallymagazine.com
 fetched_at: '2026-05-28T08:12:59.204830Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Dogs Naturally - Natural Dog Health And Nutrition
 ---
 
 Dogs Naturally - Natural Dog Health And Nutrition

@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- survival-mode
+- search-strategy
+created: '2026-05-28T09:28:53.267467Z'
+updated: '2026-05-28T09:28:54.364836Z'
+status: review
+type: note
+deprecated: false
+summary: 'Project: Nona / Red Cão Algarve — Lost dog rescue operating system'
+---
+
 # Research Brief 02 — Spatiotemporal Movement + Physical Environment Modeling
 
 **For:** Researcher  

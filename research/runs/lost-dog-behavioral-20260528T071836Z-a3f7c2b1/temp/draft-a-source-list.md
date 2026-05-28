@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- survival-mode
+- distance-statistics
+- locus-bayesian-sighting-update
+- fear
+- recovery-protocol
+created: '2026-05-28T09:28:53.370646Z'
+updated: '2026-05-28T09:28:54.454226Z'
+status: review
+type: note
+deprecated: false
+summary: 'Angle: Breadth-optimized — maximum coverage of all 19 atomic items and all
+  4 sections'
+---
+
 # Draft A — must_read_note_ids (n=42)
 Angle: Breadth-optimized — maximum coverage of all 19 atomic items and all 4 sections
 

@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "SNIRH (snirh.apambiente.pt), managed by APA, is the primary open-access data source for Algarve river flows, reservoir levels, and groundwater monitoring — aggregating data from 1,500 stations across 10+ monitoring networks.",
+    "stance": "supports",
+    "stance_target": "SNIRH as the core computational data source for water availability in the territorial intelligence layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portugal nationwide; SNIRH operational since 1997",
+    "quoted_support": "SNIRH, now managed by the APA, brings together all data from more than 10 monitoring networks, 1500 stations and 250 associated parameters at time intervals ranging from minute to year.",
+    "numbers": ["1,500 monitoring stations", "10+ monitoring networks", "250 parameters", "time intervals from minute to year", "operational since 1997"],
+    "entities": ["SNIRH", "APA", "Bluefocus", "INAG"],
+    "time_period": "1997-present",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "portuguese-water-hub-projects"
+  }
+]

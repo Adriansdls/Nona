@@ -8,12 +8,12 @@ tags:
 - wilderness-sar
 - probability-maps
 created: '2026-05-28T07:31:08.395496Z'
-updated: '2026-05-28T07:40:09.996397Z'
+updated: '2026-05-28T09:28:54.554949Z'
 source: https://sarbayes.org/
 source_domain: sarbayes.org
 fetched_at: '2026-05-28T07:31:08.395343Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

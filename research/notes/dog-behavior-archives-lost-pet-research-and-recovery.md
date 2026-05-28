@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-podenco-lost-movement-pattern
 created: '2026-05-28T08:09:13.325529Z'
+updated: '2026-05-28T09:28:54.396549Z'
 source: https://lostpetresearch.com/category/dog-behavior/
 source_domain: lostpetresearch.com
 fetched_at: '2026-05-28T08:09:13.325384Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Dog Behavior Archives - Lost Pet Research and Recovery
 ---
 
 Dog Behavior Archives - Lost Pet Research and Recovery

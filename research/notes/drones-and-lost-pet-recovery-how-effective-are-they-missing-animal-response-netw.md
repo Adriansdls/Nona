@@ -8,12 +8,12 @@ tags:
 - thermal-imaging
 - search-equipment
 created: '2026-05-28T08:34:26.330428Z'
-updated: '2026-05-28T08:35:13.623416Z'
+updated: '2026-05-28T09:28:54.444106Z'
 source: https://www.missinganimalresponse.com/lost-pet-tips/drones-and-lost-pet-recovery-how-effective-are-they/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T08:34:26.330242Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

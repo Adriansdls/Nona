@@ -5,7 +5,7 @@ tags:
 - lost-dog-behavioral
 - lost-dog-behavior
 created: '2026-05-28T07:36:21.396958Z'
-updated: '2026-05-28T07:36:32.669636Z'
+updated: '2026-05-28T09:28:53.246756Z'
 source: https://lostpetresearch.com/lost-pet-resources/lost-dog-behavior/
 source_domain: lostpetresearch.com
 fetched_at: '2026-05-28T07:36:21.396762Z'
@@ -15,6 +15,8 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Suggested by incredible-lost-dog-reunion-video-by-kat-albrecht — Lost Pet
+  Research organization behavioral classifica...
 ---
 
 *Suggested by [[incredible-lost-dog-reunion-video-by-kat-albrecht]] — Lost Pet Research organization behavioral classification and movement data for lost dogs*

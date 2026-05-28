@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-galgo-vs-greyhound-behavioral-equivalence
 created: '2026-05-28T08:07:29.595855Z'
+updated: '2026-05-28T09:28:54.365778Z'
 source: https://dogbehavior.it/dogbehavior/article/view/164
 source_domain: dogbehavior.it
 fetched_at: '2026-05-28T08:07:29.595698Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Are whippets and Italian Greyhounds “breedist” when deciding whether to join
+  other dogs in play? A survey among Itali...
 ---
 
 Are whippets and Italian Greyhounds “breedist” when deciding whether to join other dogs in play? A survey among Italian caretakers

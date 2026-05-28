@@ -8,12 +8,12 @@ tags:
 - search-strategy
 - distance-statistics
 created: '2026-05-28T07:28:44.181063Z'
-updated: '2026-05-28T08:08:04.376016Z'
+updated: '2026-05-28T09:28:54.523249Z'
 source: https://www.humananimalsupportservices.org/fi-hass/
 source_domain: www.humananimalsupportservices.org
 fetched_at: '2026-05-28T07:28:44.180910Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

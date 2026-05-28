@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "IPMA publishes real-time rural fire danger (PIR) ratings at county (conselho) level for all mainland Portugal, with danger classes including VERY HIGH and HIGHEST that trigger legally-binding access and activity restrictions.",
+    "stance": "supports",
+    "stance_target": "fire hazard data source for Algarve territorial layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Continental Portugal, county level, real-time / daily",
+    "quoted_support": "In the event of an Alert Situation declared by the government, the conditions associated with it override those defined by the Rural Fire Danger (PIR) classes.",
+    "numbers": [],
+    "entities": ["IPMA", "PIR", "Portugal"],
+    "time_period": "current / daily",
+    "region": "Mainland Portugal including Algarve",
+    "confidence": "high",
+    "source_note_id": "ipma-mainland-rural-fire-danger-2"
+  },
+  {
+    "claim": "At VERY HIGH or HIGHEST fire danger levels, legal restrictions apply to burning, barbecues, rockets/balloons, machinery, fumigation, and bonfires in rural territories across affected counties.",
+    "stance": "supports",
+    "stance_target": "fire-season hazard mapping and search zone access constraints",
+    "evidence_type": "legal",
+    "scope_conditions": "Continental Portugal counties at VERY HIGH or HIGHEST fire danger",
+    "quoted_support": "In rural territories, in counties with 'VERY HIGH' or 'HIGHEST' rural fire danger, there are exceptions to the restrictions on the use of agricultural and forestry machinery and respective implements, between sunset and 11:00.",
+    "numbers": ["sunset to 11:00 exception window"],
+    "entities": ["IPMA", "ICNF", "GNR"],
+    "time_period": "fire season (typically June–September in Algarve)",
+    "region": "Algarve counties",
+    "confidence": "high",
+    "source_note_id": "ipma-mainland-rural-fire-danger-2"
+  },
+  {
+    "claim": "IPMA provides fire danger classification per district and county, enabling integration of fire risk as a dynamic hazard layer in the rescue platform that can be queried by municipality at any date.",
+    "stance": "supports",
+    "stance_target": "API/data integration approach for fire-risk territorial layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "IPMA PIR tool, selectable by District then County",
+    "quoted_support": "Select a County: District: Select District / County: First Select District",
+    "numbers": [],
+    "entities": ["IPMA", "PIR API"],
+    "time_period": "2026",
+    "region": "Mainland Portugal",
+    "confidence": "medium",
+    "source_note_id": "ipma-mainland-rural-fire-danger-2"
+  }
+]

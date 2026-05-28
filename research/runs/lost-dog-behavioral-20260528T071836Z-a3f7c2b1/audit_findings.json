@@ -1,0 +1,21 @@
+{
+  "mode": "hyperresearch-v8",
+  "run_id": "lost-dog-behavioral-20260528T071836Z-a3f7c2b1",
+  "completed": "2026-05-28",
+  "pipeline_tier": "full",
+  "loci_count": 6,
+  "notes_in_vault": 292,
+  "critical_findings_applied": 3,
+  "critical_findings_skipped": 0,
+  "total_findings_applied": 30,
+  "polish_edits": 6,
+  "polish_escalations": 0,
+  "final_word_count": 9835,
+  "lint_results": {
+    "wrapper-report": "OK",
+    "locus-coverage": "FALSE_POSITIVE — all 6 interim notes exist as files with correct type:interim + locus tags; vault FTS index not indexing 2 of 6 notes due to tag length/hyphen issue",
+    "scaffold-prompt": "EXPECTED — scaffold uses summarized prompt format not verbatim; lint rule checks for verbatim which was not required in our scaffold design",
+    "patch-surgery": "OK"
+  },
+  "final_report_path": "research/notes/final_report_lost-dog-behavioral.md"
+}

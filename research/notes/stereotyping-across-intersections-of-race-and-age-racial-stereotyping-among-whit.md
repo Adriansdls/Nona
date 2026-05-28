@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:08:22.537632Z'
+updated: '2026-05-28T09:28:54.381138Z'
 source: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0201696
 source_domain: journals.plos.org
 fetched_at: '2026-05-28T08:08:22.537410Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: 'Stereotyping across intersections of race and age: Racial stereotyping among
+  White adults working with children | PLO...'
 ---
 
 Stereotyping across intersections of race and age: Racial stereotyping among White adults working with children | PLOS One

@@ -7,12 +7,12 @@ tags:
 - serotonin-mechanism
 - fear-behavior
 created: '2026-05-28T07:30:39.356265Z'
-updated: '2026-05-28T07:48:36.973879Z'
+updated: '2026-05-28T09:28:54.544913Z'
 source: https://holidaybarn.com/blog/dog-survival-mode/
 source_domain: holidaybarn.com
 fetched_at: '2026-05-28T07:30:39.356108Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

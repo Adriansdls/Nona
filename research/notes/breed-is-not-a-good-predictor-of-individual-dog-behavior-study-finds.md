@@ -8,12 +8,12 @@ tags:
 - darwins-ark
 - individual-variation
 created: '2026-05-28T07:30:55.534348Z'
-updated: '2026-05-28T07:36:48.567406Z'
+updated: '2026-05-28T09:28:54.553374Z'
 source: https://www.nbcnews.com/science/science-news/breed-not-good-predictor-individual-dog-behavior-study-finds-rcna25990
 source_domain: www.nbcnews.com
 fetched_at: '2026-05-28T07:30:55.534137Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

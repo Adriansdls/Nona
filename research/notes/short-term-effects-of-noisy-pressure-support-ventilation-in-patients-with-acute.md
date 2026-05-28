@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:08:00.992419Z'
+updated: '2026-05-28T09:28:54.371620Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4056040/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:00.992262Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Short-term effects of noisy pressure support ventilation in patients with
+  acute hypoxemic respiratory failure - PMC
 ---
 
 Short-term effects of noisy pressure support ventilation in patients with acute hypoxemic respiratory failure - PMC

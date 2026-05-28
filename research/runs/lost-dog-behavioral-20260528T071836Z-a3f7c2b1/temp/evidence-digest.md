@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- survival-mode
+- locus-dog-phase-transition-thresholds
+- galgo-behavior
+created: '2026-05-28T09:28:53.367462Z'
+updated: '2026-05-28T09:28:54.452646Z'
+status: review
+type: note
+deprecated: false
+summary: '85 notes, 387 total claims. Digest: top 90 high-confidence or empirical/statistical
+  claims with verbatim quotes, grou...'
+---
+
 # Evidence Digest — lost-dog-behavioral
 
 85 notes, 387 total claims. Digest: top 90 high-confidence or empirical/statistical claims with verbatim quotes, grouped by atomic item.

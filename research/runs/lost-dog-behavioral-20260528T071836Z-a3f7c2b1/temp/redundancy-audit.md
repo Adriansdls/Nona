@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- distance-statistics
+- lord-2007
+- lost-dog-behavioral
+- locus-bayesian-sighting-update
+- kat-albrecht
+created: '2026-05-28T09:28:53.252320Z'
+updated: '2026-05-28T09:28:54.355406Z'
+status: review
+type: note
+deprecated: false
+summary: 'Primary: lost-dog-behavior-kat-albrecht-missing-animal-response-network'
+---
+
 # Redundancy Audit — lost-dog-behavioral
 
 ## Identified derivative clusters

@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- locus-bayesian-sighting-update
+- locus-dog-phase-transition-thresholds
+- cortisol
+- sar
+created: '2026-05-28T09:28:53.371394Z'
+updated: '2026-05-28T09:28:54.454940Z'
+status: review
+type: note
+deprecated: false
+summary: 'Modality: collect | Format: structured | 4 sections × 4 subsections'
+---
+
 # Draft Angles — lost-dog-behavioral
 
 Modality: collect | Format: structured | 4 sections × 4 subsections

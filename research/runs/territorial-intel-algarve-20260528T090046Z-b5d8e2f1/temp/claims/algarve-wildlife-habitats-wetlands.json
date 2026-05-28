@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Almost all Algarve rivers (except Guadiana and lower Arade near Portimão) run completely dry or reduce to isolated pools by early summer — motorway bridges over river valleys show completely dry riverbeds visible from June onward.",
+    "stance": "supports",
+    "stance_target": "rivers as seasonal water sources in lost dog search — negligible as water attractors in summer months",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve rivers except Guadiana and lower Arade; summer season",
+    "quoted_support": "Except for the River Guadiana which flows into the sea on the Portuguese-Spanish border, and the River Arade which is crossed by a number of bridges near Portimao, the motorway bridges cross river valleys which are totally devoid of flowing water... nearly all the smaller rivers and streams are either bone dry or consist only of a series of pools by the beginning of the hot season.",
+    "numbers": [],
+    "entities": ["Rio Guadiana", "Rio Arade", "Portimão"],
+    "time_period": "annual summer pattern",
+    "region": "Algarve, Portugal",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-wetlands"
+  },
+  {
+    "claim": "The Rio Odelouca between Portimão and Silves retains flow into spring and is accessible for observation alongside the road (EN124 equivalent), functioning as a key wildlife corridor and potential water-attractor for lost dogs in Serra area.",
+    "stance": "supports",
+    "stance_target": "Rio Odelouca as primary inland river corridor for lost dog search in Barlavento interior",
+    "evidence_type": "empirical",
+    "scope_conditions": "Rio Odelouca between Portimão and Silves; spring season",
+    "quoted_support": "Good places to visit to enjoy some of the freshwater habitats are Fonte Benemola in the central part of the Algarve, and the drive along the road between Portimao and Silves, which runs along the River Odelouca, has plenty of places to stop and enjoy the river.",
+    "numbers": [],
+    "entities": ["Rio Odelouca", "Portimão", "Silves", "Fonte Benemola"],
+    "time_period": "autumn-spring (wet season)",
+    "region": "Barlavento Algarve interior",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-wetlands"
+  },
+  {
+    "claim": "Reservoir margins in the Algarve are poorly colonised by emergent vegetation compared to natural rivers, reducing their wildlife habitat value — but once reedbeds establish, they become significant wildlife corridors.",
+    "stance": "neutral",
+    "stance_target": "Algarve reservoirs as partial habitat zones — important for territorial layer but not equivalent to natural riparian zones",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve reservoirs generally",
+    "quoted_support": "they are no substitute for the wildlife habitats which existed in the rivers that feed them before the flows were so badly diminished. It takes a very long time for the margins of reservoirs to become colonised by the emergent plants that are essential before other wildlife species will visit or live in them. Once good-sized reedbeds become established in the margins of these reservoirs they become much more valuable as wildlife havens.",
+    "numbers": [],
+    "entities": ["Algarve reservoirs"],
+    "time_period": "current",
+    "region": "Algarve, Portugal",
+    "confidence": "medium",
+    "source_note_id": "algarve-wildlife-habitats-wetlands"
+  }
+]

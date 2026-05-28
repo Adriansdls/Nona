@@ -9,12 +9,12 @@ tags:
 - escape-behavior
 - scent-drive
 created: '2026-05-28T07:30:34.795058Z'
-updated: '2026-05-28T07:31:40.219764Z'
+updated: '2026-05-28T09:28:54.306693Z'
 source: https://www.beaglepro.com/beagle-running-escaping
 source_domain: www.beaglepro.com
 fetched_at: '2026-05-28T07:30:34.794919Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

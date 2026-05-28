@@ -13,12 +13,12 @@ tags:
 - lord-2007
 - missing-dog-study
 created: '2026-05-28T07:28:42.441817Z'
-updated: '2026-05-28T08:08:03.776694Z'
+updated: '2026-05-28T09:28:54.520264Z'
 source: https://journal.iaabcfoundation.org/what-we-need-to-learn-about-missing-dogs/
 source_domain: journal.iaabcfoundation.org
 fetched_at: '2026-05-28T07:28:42.441648Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

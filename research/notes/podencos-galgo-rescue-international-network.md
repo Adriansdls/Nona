@@ -7,12 +7,12 @@ tags:
 - galgo-podenco-comparison
 - galgo-behavior
 created: '2026-05-28T07:38:28.099812Z'
-updated: '2026-05-28T07:38:50.477803Z'
+updated: '2026-05-28T09:28:54.349474Z'
 source: http://www.galgorescue.org/podencos/
 source_domain: www.galgorescue.org
 fetched_at: '2026-05-28T07:38:28.099653Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

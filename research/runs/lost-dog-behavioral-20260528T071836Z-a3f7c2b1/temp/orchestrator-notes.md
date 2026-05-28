@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- survival-mode
+- galgo-rescue
+- locus-bayesian-sighting-update
+- prey-drive
+- source-analysis
+created: '2026-05-28T09:28:53.234504Z'
+updated: '2026-05-28T09:28:54.275248Z'
+status: review
+type: note
+deprecated: false
+summary: 'DO NOT DELETE ANY ARTIFACTS. User will use all produced artifacts to create
+  an Obsidian vault. This means:'
+---
+
 # Orchestrator Notes — lost-dog-behavioral
 
 ## User instruction (received during step 3)

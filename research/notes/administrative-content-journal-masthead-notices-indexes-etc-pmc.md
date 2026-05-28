@@ -4,7 +4,7 @@ id: administrative-content-journal-masthead-notices-indexes-etc-pmc
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:36:13.801246Z'
-updated: '2026-05-28T07:36:16.880063Z'
+updated: '2026-05-28T09:28:53.245690Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9090073/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:36:13.801115Z'
@@ -14,6 +14,8 @@ type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Suggested by dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute
+  — PMC full text version of Mo...
 ---
 
 *Suggested by [[dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute]] — PMC full text version of Morrill et al. 2022 Science paper on breed vs behavior GWAS*

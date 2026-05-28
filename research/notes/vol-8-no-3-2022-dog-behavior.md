@@ -4,7 +4,7 @@ id: vol-8-no-3-2022-dog-behavior
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:34:17.661663Z'
-updated: '2026-05-28T07:34:23.510524Z'
+updated: '2026-05-28T09:28:53.242141Z'
 source: https://dogbehavior.it/dogbehavior/issue/view/24
 source_domain: dogbehavior.it
 fetched_at: '2026-05-28T07:34:17.661537Z'
@@ -14,6 +14,8 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Suggested by prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from
+  — Listing Vol 8 No 1 to...
 ---
 
 *Suggested by [[prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from]] — Listing Vol 8 No 1 to find separation distress galgo article URL*

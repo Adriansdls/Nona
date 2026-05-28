@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Portuguese IP (Itinerários Principais) roads are designed to become full motorways where pedestrians, cyclists, and animals are prohibited — making them hard movement barriers for lost dogs.",
+    "stance": "supports",
+    "stance_target": "road barrier classification for Algarve territorial layer",
+    "evidence_type": "legal",
+    "scope_conditions": "PRN 1985, continental Portugal road network",
+    "quoted_support": "O objetivo final da rede fundamental é tornar todas as estradas nela inseridas em autoestradas ou com perfil similar a estas, isto é, estradas onde é proibida a circulação de peões, de bicicletas ou de animais. São também vedadas em toda a sua extensão sendo apenas possível entrar nelas através de rampas próprias.",
+    "numbers": [],
+    "entities": ["PRN 1985", "IP roads", "A22", "IC roads"],
+    "time_period": "current (PRN 2000 framework)",
+    "region": "Continental Portugal including Algarve",
+    "confidence": "high",
+    "source_note_id": "portugalrodovias-openstreetmap-wiki"
+  },
+  {
+    "claim": "Many Portuguese roads carry dual or triple classification simultaneously (e.g., IC + EN or IP + IC + local designation), requiring OSM route relations to encode both the infrastructure type and the itinerary membership separately.",
+    "stance": "supports",
+    "stance_target": "OSM data quality and complexity for Algarve road encoding",
+    "evidence_type": "empirical",
+    "scope_conditions": "OSM Portugal road standardization",
+    "quoted_support": "Por vezes é possível até ver três classificações para uma única estrada (como por exemplo a Via de Cintura Interna no Porto onde há troços que são classificados como IP 1/IC 23/VCI!)",
+    "numbers": [],
+    "entities": ["OSM Portugal", "IC", "IP", "EN", "ER"],
+    "time_period": "current",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "portugalrodovias-openstreetmap-wiki"
+  }
+]

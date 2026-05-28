@@ -11,12 +11,12 @@ tags:
 - wilderness-sar
 - terrain-features
 created: '2026-05-28T07:30:09.882996Z'
-updated: '2026-05-28T07:39:01.847566Z'
+updated: '2026-05-28T09:28:54.538464Z'
 source: https://link.springer.com/article/10.1007/s10588-010-9066-2
 source_domain: link.springer.com
 fetched_at: '2026-05-28T07:30:09.882835Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

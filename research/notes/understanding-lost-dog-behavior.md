@@ -8,12 +8,12 @@ tags:
 - survival-mode
 - xenophobic-dogs
 created: '2026-05-28T07:31:37.660479Z'
-updated: '2026-05-28T07:33:08.735816Z'
+updated: '2026-05-28T09:28:54.321642Z'
 source: https://www.pawmaw.com/blog/lost-dog-behavior
 source_domain: www.pawmaw.com
 fetched_at: '2026-05-28T07:31:37.660323Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

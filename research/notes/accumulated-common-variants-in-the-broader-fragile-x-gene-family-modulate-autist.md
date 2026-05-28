@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:10:20.702131Z'
+updated: '2026-05-28T09:28:54.410763Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4693501/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:10:20.701952Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Accumulated common variants in the broader fragile X gene family modulate
+  autistic phenotypes - PMC
 ---
 
 Accumulated common variants in the broader fragile X gene family modulate autistic phenotypes - PMC

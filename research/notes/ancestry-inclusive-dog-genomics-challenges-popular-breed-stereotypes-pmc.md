@@ -9,12 +9,12 @@ tags:
 - behavioral-variation
 - heritability
 created: '2026-05-28T07:40:06.680999Z'
-updated: '2026-05-28T07:40:46.518020Z'
+updated: '2026-05-28T09:28:54.353637Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC9675396/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:40:06.680807Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy

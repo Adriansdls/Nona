@@ -7,12 +7,12 @@ tags:
 - activity-patterns
 - thermoregulation
 created: '2026-05-28T07:28:49.622621Z'
-updated: '2026-05-28T08:08:05.322342Z'
+updated: '2026-05-28T09:28:54.524605Z'
 source: https://pupford.com/blogs/all/dog-crepuscular
 source_domain: pupford.com
 fetched_at: '2026-05-28T07:28:49.622470Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

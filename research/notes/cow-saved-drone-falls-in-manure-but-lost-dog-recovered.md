@@ -9,12 +9,12 @@ tags:
 - recovery-protocol
 - golden-retriever
 created: '2026-05-28T07:37:37.890686Z'
-updated: '2026-05-28T07:38:13.400334Z'
+updated: '2026-05-28T09:28:54.346710Z'
 source: https://katalbrecht.substack.com/p/cow-saved-drone-falls-in-manure-but
 source_domain: katalbrecht.substack.com
 fetched_at: '2026-05-28T07:37:37.890473Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: commentary
 content_type: blog

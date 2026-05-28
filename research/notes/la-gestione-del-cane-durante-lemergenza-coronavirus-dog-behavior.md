@@ -5,7 +5,7 @@ id: la-gestione-del-cane-durante-lemergenza-coronavirus-dog-behavior
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:34:00.904002Z'
-updated: '2026-05-28T07:34:05.212906Z'
+updated: '2026-05-28T09:28:53.240876Z'
 source: https://dogbehavior.it/dogbehavior/article/view/116
 source_domain: dogbehavior.it
 fetched_at: '2026-05-28T07:34:00.903864Z'
@@ -15,6 +15,8 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Suggested by prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from
+  — Separation distress i...
 ---
 
 *Suggested by [[prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from]] — Separation distress in rescued galgos from Spain - related galgo behavioral data by same lab*

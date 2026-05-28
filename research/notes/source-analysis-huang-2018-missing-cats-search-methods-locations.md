@@ -5,7 +5,8 @@ tags:
 - lost-dog-behavioral
 - source-analysis
 created: '2026-05-28T07:54:19.677341Z'
-status: draft
+updated: '2026-05-28T09:28:54.505708Z'
+status: review
 type: source-analysis
 deprecated: false
 summary: 'Huang et al. 2018 (Animals; PMC5789300): peer-reviewed retrospective case

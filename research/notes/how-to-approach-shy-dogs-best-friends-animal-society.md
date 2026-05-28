@@ -8,12 +8,12 @@ tags:
 - skittish-dog
 - fear-behavior
 created: '2026-05-28T08:34:40.787944Z'
-updated: '2026-05-28T08:35:27.962186Z'
+updated: '2026-05-28T09:28:54.447077Z'
 source: https://bestfriends.org/pet-care-resources/how-approach-shy-nervous-or-scared-dog
 source_domain: bestfriends.org
 fetched_at: '2026-05-28T08:34:40.787754Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

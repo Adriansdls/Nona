@@ -8,12 +8,12 @@ tags:
 - feeding-station
 - sighting-protocol
 created: '2026-05-28T07:31:28.008282Z'
-updated: '2026-05-28T07:40:11.068562Z'
+updated: '2026-05-28T09:28:54.558221Z'
 source: https://www.joyfulpets.com/lost-pet-recovery-guide/
 source_domain: www.joyfulpets.com
 fetched_at: '2026-05-28T07:31:28.008116Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

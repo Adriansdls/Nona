@@ -8,12 +8,12 @@ tags:
 - trail-camera
 - recovery-protocol
 created: '2026-05-28T07:29:52.032876Z'
-updated: '2026-05-28T07:32:19.546811Z'
+updated: '2026-05-28T09:28:54.284978Z'
 source: https://www.missinganimalresponse.com/lost-pet-tips/when-do-you-set-a-trap-for-a-lost-dog/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:29:52.032711Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

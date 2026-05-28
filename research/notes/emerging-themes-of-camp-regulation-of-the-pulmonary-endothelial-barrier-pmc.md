@@ -5,15 +5,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:10:29.931918Z'
+updated: '2026-05-28T09:28:54.411809Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4631543/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:10:29.931748Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Emerging themes of cAMP regulation of the pulmonary endothelial barrier -
+  PMC
 ---
 
 Emerging themes of cAMP regulation of the pulmonary endothelial barrier - PMC

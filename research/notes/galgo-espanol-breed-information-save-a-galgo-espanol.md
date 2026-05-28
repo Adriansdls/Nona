@@ -8,12 +8,12 @@ tags:
 - fear-response
 - sighthound
 created: '2026-05-28T07:30:28.429346Z'
-updated: '2026-05-28T07:32:30.998858Z'
+updated: '2026-05-28T09:28:54.295642Z'
 source: https://www.sagehounds.com/the-galgo-espanol
 source_domain: www.sagehounds.com
 fetched_at: '2026-05-28T07:30:28.429196Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

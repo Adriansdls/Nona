@@ -11,12 +11,12 @@ tags:
 - water-sources
 - search-strategy
 created: '2026-05-28T07:28:32.511003Z'
-updated: '2026-05-28T08:08:08.152241Z'
+updated: '2026-05-28T09:28:54.515473Z'
 source: https://lostandfoundpet.org/understanding-survival-mode-behavior-in-lost-dogs/
 source_domain: lostandfoundpet.org
 fetched_at: '2026-05-28T07:28:32.510834Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

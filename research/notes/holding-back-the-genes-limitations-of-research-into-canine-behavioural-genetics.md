@@ -9,12 +9,12 @@ tags:
 - heritability
 - phenotyping-challenges
 created: '2026-05-28T07:36:57.312398Z'
-updated: '2026-05-28T07:37:49.435334Z'
+updated: '2026-05-28T09:28:54.342865Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4579367/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:36:57.312241Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy

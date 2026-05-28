@@ -5,15 +5,18 @@ tags:
 - lost-dog-behavioral
 - locus-galgo-vs-greyhound-behavioral-equivalence
 created: '2026-05-28T08:09:19.987414Z'
+updated: '2026-05-28T09:28:54.398550Z'
 source: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=33627543&rettype=abstract&retmode=text
 source_domain: eutils.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:09:19.987284Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: '1. J Vet Med Sci. 2021 Apr 9;83(4):566-572. doi: 10.1292/jvms.20-0394. Epub
+  2021'
 ---
 
 1. J Vet Med Sci. 2021 Apr 9;83(4):566-572. doi: 10.1292/jvms.20-0394. Epub 2021 

@@ -8,12 +8,12 @@ tags:
 - lost-dog
 - behavior-in-field
 created: '2026-05-28T07:30:38.978618Z'
-updated: '2026-05-28T07:36:48.357153Z'
+updated: '2026-05-28T09:28:54.543432Z'
 source: https://greyhoundpetsinc.org/learn/lost-dog-resources/
 source_domain: greyhoundpetsinc.org
 fetched_at: '2026-05-28T07:30:38.978360Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

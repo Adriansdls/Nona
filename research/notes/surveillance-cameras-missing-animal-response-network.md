@@ -7,12 +7,12 @@ tags:
 - lost-dog
 - feeding-station
 created: '2026-05-28T08:34:09.102633Z'
-updated: '2026-05-28T08:41:33.667711Z'
+updated: '2026-05-28T09:28:54.587442Z'
 source: https://www.missinganimalresponse.com/surveillance-cameras/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T08:34:09.102472Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

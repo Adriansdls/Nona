@@ -9,12 +9,12 @@ tags:
 - shelter-stress
 - hennessy
 created: '2026-05-28T08:32:10.514823Z'
-updated: '2026-05-28T08:32:31.758434Z'
+updated: '2026-05-28T09:28:54.442571Z'
 source: https://www.themoderndogtrainer.net/sparcs-2015-reducing-stress-of-dogs-in-shelters-with-michael-hennessy-phd/
 source_domain: www.themoderndogtrainer.net
 fetched_at: '2026-05-28T08:32:10.514651Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

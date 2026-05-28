@@ -11,12 +11,12 @@ tags:
 - lost-dog
 - approach-strategy
 created: '2026-05-28T07:35:16.443311Z'
-updated: '2026-05-28T07:36:49.072639Z'
+updated: '2026-05-28T09:28:54.570030Z'
 source: https://greyhoundsaspets.org.nz/2-fear-and-anxiety
 source_domain: greyhoundsaspets.org.nz
 fetched_at: '2026-05-28T07:35:16.443120Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

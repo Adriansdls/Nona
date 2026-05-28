@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- locus-bayesian-sighting-update
+- water-sources
+- c-barq
+- sighting-management
+- sighting-protocol
+created: '2026-05-28T09:28:53.372031Z'
+updated: '2026-05-28T09:28:54.455632Z'
+status: review
+type: note
+deprecated: false
+summary: 'Angle: Practitioner-optimized — encoding-first, decision rules, parameter
+  tables'
+---
+
 # Draft C — must_read_note_ids (n=40)
 Angle: Practitioner-optimized — encoding-first, decision rules, parameter tables
 

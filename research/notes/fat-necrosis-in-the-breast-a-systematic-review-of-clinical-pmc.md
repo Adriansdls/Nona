@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:08:16.411136Z'
+updated: '2026-05-28T09:28:54.378009Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC6560815/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:16.410962Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: 'Fat necrosis in the Breast: A systematic review of clinical - PMC'
 ---
 
 Fat necrosis in the Breast: A systematic review of clinical - PMC

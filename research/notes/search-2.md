@@ -5,15 +5,18 @@ tags:
 - lost-dog-behavioral
 - locus-galgo-vs-greyhound-behavioral-equivalence
 created: '2026-05-28T08:07:44.289813Z'
+updated: '2026-05-28T09:28:54.369461Z'
 source: https://api.semanticscholar.org/graph/v1/paper/search?query=galgo+behavior+fear+rescue&fields=title,year,citationCount,abstract&limit=8
 source_domain: api.semanticscholar.org
 fetched_at: '2026-05-28T08:07:44.289690Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: institutional
 content_type: paper
 deprecated: false
+summary: '{"total": 442, "offset": 0, "next": 8, "data": [{"paperId": "284f2819165d8ff3d1e9c00e0ae49281193da283",
+  "title": "Ghr...'
 ---
 
 {"total": 442, "offset": 0, "next": 8, "data": [{"paperId": "284f2819165d8ff3d1e9c00e0ae49281193da283", "title": "Ghrelin receptor agonist MK0677 and overnight fasting do not rescue deficient fear extinction in 129S1/SvImJ mice", "year": 2023, "citationCount": 1, "openAccessPdf": {"url": "https://www.frontiersin.org/articles/10.3389/fpsyt.2023.1094948/pdf", "status": "GOLD", "license": "CCBY", "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC9947350, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."}, "authors": [{"authorId": "39777364", "name": "E. Fritz"}, {"authorId": "112895137", "name": "A. Pierre"}, {"authorId": "46851432", "name": "Dimitri De Bundel"}, {"authorId": "2212557", "name": "N. Singewald"}], "abstract": "The hunger hormone ghrelin has been implicated in the modulation of anxiety- and fear-related behaviors in rodents and humans, while its dysregulation may be associated with psychiatric illness. Along these lines, the ghrelin system has been suggested as a potential target to facilitate fear extinction, which is the main mechanism underlying cognitive behavioral therapy. So far, this hypothesis has not been tested in individuals that have difficulties to extinguish fear. Thus, we investigated pharmacological (ghrelin receptor agonist MK0677) and non-pharmacological (overnight fasting) strategies to target the ghrelin system in the 129S1/SvImJ (S1) mouse strain, which models the endophenotype of impaired fear extinction that has been associated with treatment resistance in anxiety and PTSD patients. MK0677 induced food intake and overnight fasting increased plasma ghrelin levels in S1 mice, suggesting that the ghrelin system is responsive in the S1 strain. However, neither systemic administration of MK0677 nor overnight fasting had an effect on fear extinction in S1 mice. Similarly, our groups previously reported that both interventions did not attenuate fear in extinction-competent C57BL/6J mice. In summary, our findings are in contrast to several studies reporting beneficial effects of GHSR agonism and overnight fasting on fear- and anxiety-related behaviors in rodents. Rather, our data agree with accumulating evidence of divergent behavioral effects of ghrelin system activation and underscore the hypothesis that potential benefits of targeting the ghrelin system in fear extinction may be dependent on factors (e.g., previous stress exposure) that are not yet fully understood."}, {"paperId": "69f76daa85ce7c9fc12c662fe43f4cc68fe9538b", "title": "Investigation of the knowledge, attitude and behavior of medical personnel and related needs for emergency rescue in public health emergencies.", "year": 2024, "citationCount": 2, "openAccessPdf": {"url": "", "status": "CLOSED", "license": null, "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.ienj.2024.101531?email=

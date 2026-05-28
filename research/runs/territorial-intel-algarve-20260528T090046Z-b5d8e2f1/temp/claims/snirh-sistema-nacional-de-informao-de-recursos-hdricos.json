@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "SNIRH (snirh.apambiente.pt) provides freely accessible real-time and historical data on Algarve reservoir storage, precipitation, streamflow, groundwater, and flood zones — the primary authoritative computational data source for building the territorial water layer.",
+    "stance": "supports",
+    "stance_target": "SNIRH as the recommended data source for reservoir and river monitoring in the territorial knowledge layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portugal; SNIRH operational since 1995/1997; data licensed for reuse with attribution",
+    "quoted_support": "É permitido o uso dos conteúdos deste site, desde que mencionada a sua fonte. [Content may be used with attribution.] Boletim Armazenamento Albufeiras — Abril 2026 [Reservoir Storage Bulletin — April 2026 available]",
+    "numbers": ["1,500 stations", "250 parameters", "10+ monitoring networks", "Reservoirs Storage Bulletin updated April 2026", "Groundwater Bulletin updated May 2026"],
+    "entities": ["SNIRH", "APA", "Hidrométrica Algarve network"],
+    "time_period": "1995-present",
+    "region": "Portugal (Algarve subnetwork)",
+    "confidence": "high",
+    "source_note_id": "snirh-sistema-nacional-de-informao-de-recursos-hdricos"
+  },
+  {
+    "claim": "SNIRH includes dedicated flood zone mapping (SVARH GIS — Zonas Inundáveis e de Risco de Inundações) providing spatial data on inundation risk zones across Portugal including the Algarve — directly usable for hazard layer encoding.",
+    "stance": "supports",
+    "stance_target": "SNIRH flood zone GIS as data source for flood/seasonal inundation hazard layer in rescue system",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portugal; SNIRH flood section",
+    "quoted_support": "SVARH: Zonas Inundáveis e de Risco de Inundações (SIG) — Marcas de Referência — Relatório da Cartografia de Inundações",
+    "numbers": [],
+    "entities": ["SNIRH", "SVARH", "APA"],
+    "time_period": "current",
+    "region": "Portugal including Algarve",
+    "confidence": "high",
+    "source_note_id": "snirh-sistema-nacional-de-informao-de-recursos-hdricos"
+  }
+]

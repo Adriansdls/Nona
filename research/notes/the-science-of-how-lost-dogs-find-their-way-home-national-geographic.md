@@ -8,12 +8,12 @@ tags:
 - magnetic-compass
 - separation-stress
 created: '2026-05-28T08:31:05.009587Z'
-updated: '2026-05-28T08:33:16.270408Z'
+updated: '2026-05-28T09:28:54.437792Z'
 source: https://www.nationalgeographic.com/animals/article/lost-dogs-homing-scent-magnetic-field
 source_domain: www.nationalgeographic.com
 fetched_at: '2026-05-28T08:31:05.009442Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

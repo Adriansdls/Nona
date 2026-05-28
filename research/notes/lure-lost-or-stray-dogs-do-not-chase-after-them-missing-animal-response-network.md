@@ -10,12 +10,12 @@ tags:
 - search-strategy
 - capture-technique
 created: '2026-05-28T07:29:52.057867Z'
-updated: '2026-05-28T07:31:59.417376Z'
+updated: '2026-05-28T09:28:54.286961Z'
 source: https://www.missinganimalresponse.com/lost-pet-tips/lure-lost-or-stray-dogs-do-not-chase-after-them/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:29:52.057695Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

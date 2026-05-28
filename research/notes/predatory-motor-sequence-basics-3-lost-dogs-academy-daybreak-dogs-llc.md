@@ -8,12 +8,12 @@ tags:
 - arousal-regulation
 - lost-dog-recovery
 created: '2026-05-28T07:35:31.342189Z'
-updated: '2026-05-28T07:36:01.527004Z'
+updated: '2026-05-28T09:28:54.336139Z'
 source: https://3lostdogsacademy.com/predatory-motor-sequence-basics/
 source_domain: 3lostdogsacademy.com
 fetched_at: '2026-05-28T07:35:31.342019Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

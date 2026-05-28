@@ -10,12 +10,12 @@ tags:
 - kremer-2021
 - dallas-shelter
 created: '2026-05-28T07:35:47.413704Z'
-updated: '2026-05-28T07:36:23.057711Z'
+updated: '2026-05-28T09:28:54.575819Z'
 source: https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2021.669428/full
 source_domain: www.frontiersin.org
 fetched_at: '2026-05-28T07:35:47.413540Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

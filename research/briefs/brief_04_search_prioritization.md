@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- kat-albrecht
+- galgo-behavior
+created: '2026-05-28T09:28:53.265160Z'
+updated: '2026-05-28T09:28:54.363334Z'
+status: review
+type: note
+deprecated: false
+summary: 'Project: Nona / Red Cão Algarve — Lost dog rescue operating system'
+---
+
 # Research Brief 04 — Dynamic Search Prioritization + Field Operations
 
 **For:** Researcher  

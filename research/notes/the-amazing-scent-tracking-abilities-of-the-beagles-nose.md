@@ -8,12 +8,12 @@ tags:
 - olfactory-biology
 - scent-tracking
 created: '2026-05-28T07:30:33.682937Z'
-updated: '2026-05-28T07:31:31.127707Z'
+updated: '2026-05-28T09:28:54.304820Z'
 source: https://houndcove.com/beagle-scent-tracking/
 source_domain: houndcove.com
 fetched_at: '2026-05-28T07:30:33.682790Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

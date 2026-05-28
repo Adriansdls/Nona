@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- survival-mode
+- locus-dog-phase-transition-thresholds
+- search-strategy
+created: '2026-05-28T09:28:53.348474Z'
+updated: '2026-05-28T09:28:54.420965Z'
+status: review
+type: note
+deprecated: false
+summary: 'Locus question: For which temperament/phase combinations does active searching
+  increase vs. decrease recovery probabi...'
+---
+
 # Interim report: search-mode-temperament-sighting-protocol
 
 **Locus question:** For which temperament/phase combinations does active searching increase vs. decrease recovery probability — and when a sighting arrives, what is the precise decision rule distinguishing safe individual response from dangerous crowd-broadcast response?

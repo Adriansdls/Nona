@@ -7,12 +7,12 @@ tags:
 - camera-trap
 - search-patterns
 created: '2026-05-28T08:34:14.205607Z'
-updated: '2026-05-28T08:41:32.722793Z'
+updated: '2026-05-28T09:28:54.589250Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC6576775/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:34:14.205435Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: policy

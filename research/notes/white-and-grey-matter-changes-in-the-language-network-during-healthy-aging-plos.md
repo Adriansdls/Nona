@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:10:03.209227Z'
+updated: '2026-05-28T09:28:54.405458Z'
 source: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0108077
 source_domain: journals.plos.org
 fetched_at: '2026-05-28T08:10:03.209064Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: White and Grey Matter Changes in the Language Network during Healthy Aging
+  | PLOS One
 ---
 
 White and Grey Matter Changes in the Language Network during Healthy Aging | PLOS One

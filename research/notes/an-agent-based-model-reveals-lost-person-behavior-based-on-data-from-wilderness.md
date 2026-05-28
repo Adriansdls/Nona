@@ -10,12 +10,12 @@ tags:
 - spatial-probability
 - wilderness-sar
 created: '2026-05-28T07:37:53.131206Z'
-updated: '2026-05-28T07:39:02.644574Z'
+updated: '2026-05-28T09:28:54.585462Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8990012/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:37:53.131040Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: policy

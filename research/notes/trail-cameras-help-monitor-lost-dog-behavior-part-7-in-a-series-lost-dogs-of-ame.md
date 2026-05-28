@@ -8,12 +8,12 @@ tags:
 - lost-dog
 - feeding-station
 created: '2026-05-28T07:28:50.010206Z'
-updated: '2026-05-28T08:08:07.876406Z'
+updated: '2026-05-28T09:28:54.527453Z'
 source: https://lostdogsofamerica.org/trail-cameras-help-monitor-lost-dog-behavior-part-7-in-a-series/
 source_domain: lostdogsofamerica.org
 fetched_at: '2026-05-28T07:28:50.010020Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

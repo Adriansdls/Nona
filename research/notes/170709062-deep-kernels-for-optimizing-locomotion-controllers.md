@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:15:38.051051Z'
+updated: '2026-05-28T09:28:54.432993Z'
 source: https://arxiv.org/abs/1707.09062
 source_domain: arxiv.org
 fetched_at: '2026-05-28T08:15:38.050919Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: institutional
 content_type: paper
 deprecated: false
+summary: '[1707.09062] Deep Kernels for Optimizing Locomotion Controllers'
 ---
 
 [1707.09062] Deep Kernels for Optimizing Locomotion Controllers

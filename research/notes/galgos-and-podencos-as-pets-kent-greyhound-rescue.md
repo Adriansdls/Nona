@@ -7,12 +7,12 @@ tags:
 - podenco
 - galgo-podenco-comparison
 created: '2026-05-28T07:38:26.320798Z'
-updated: '2026-05-28T07:38:44.095609Z'
+updated: '2026-05-28T09:28:54.348143Z'
 source: https://www.kentgreyhoundrescue.com/types-of-dogs/galgos-and-podencos-as-pets/
 source_domain: www.kentgreyhoundrescue.com
 fetched_at: '2026-05-28T07:38:26.320650Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "EN 125 (Vila do Bispo to Vila Real de Santo António) is a 1st-class national road that runs the full east-west length of the Algarve coast — Lagos, Portimão, Lagoa, Faro, Olhão, Tavira — and is the primary road barrier dividing coastal from inland zones.",
+    "stance": "supports",
+    "stance_target": "road barrier and attractor classification for Algarve coastal corridor",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve district, OSM relation 6832045",
+    "quoted_support": "EN 125 (wikipedia) Vila do Bispo – Vila Real de Santo António 6832045 (i J) Vila do Bispo – Lagos – Portimão – Lagoa – Faro – Olhão – Tavira – Vila Real de Santo António",
+    "numbers": ["OSM relation 6832045"],
+    "entities": ["EN 125", "N125", "Vila do Bispo", "Lagos", "Portimão", "Faro", "Tavira", "Vila Real de Santo António"],
+    "time_period": "current",
+    "region": "Algarve coastal corridor",
+    "confidence": "high",
+    "source_note_id": "portugalrodoviasnacionais-e-regionais-openstreetmap-wiki"
+  },
+  {
+    "claim": "EN 124 (Portimão to Alcoutim, no OSM relation defined) runs through the interior Serra do Caldeirão — Portimão, Lagos port, Silves, São Bartolomeu de Messines, Barranco Velho, Cachopo, Alcoutim — and represents the main north–south interior corridor through high-hazard terrain.",
+    "stance": "supports",
+    "stance_target": "interior road network encoding for lost dog movement in Serra do Caldeirão",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve interior, OSM relation not yet defined",
+    "quoted_support": "EN 124 (wikipedia) Portimão – Alcoutim (proximidades) Relação não definida Portimão – porto de Lagos – Silves – São Bartolomeu de Messines – Barranco Velho – Cachopo – Alcoutim (proximidades)",
+    "numbers": [],
+    "entities": ["EN 124", "N124", "Portimão", "Silves", "Serra do Caldeirão", "Cachopo", "Alcoutim"],
+    "time_period": "current",
+    "region": "Algarve interior (Serra do Caldeirão)",
+    "confidence": "high",
+    "source_note_id": "portugalrodoviasnacionais-e-regionais-openstreetmap-wiki"
+  },
+  {
+    "claim": "EN 2 (Chaves to Faro, OSM relation 7362083) is a 1st-class national road running the full north–south length of Portugal terminating in Faro — it enters the Algarve from the north through Castro Verde and represents a major transport vector for dogs traveling long distances.",
+    "stance": "supports",
+    "stance_target": "north–south transport vector into Algarve for long-range lost dog movement",
+    "evidence_type": "empirical",
+    "scope_conditions": "Full Portugal, OSM relation 7362083, terminates in Faro",
+    "quoted_support": "EN 2 (wikipedia) Chaves – Faro 7362083 (i J) Chaves – Vila Real – Lamego – Viseu – Santa Comba Dão – Góis – Sertã – Abrantes – Mora – Montemor-o-Novo – Torrão – Castro Verde – Faro",
+    "numbers": ["OSM relation 7362083"],
+    "entities": ["EN 2", "N2", "Faro", "Castro Verde"],
+    "time_period": "current",
+    "region": "Portugal / Algarve entry point",
+    "confidence": "high",
+    "source_note_id": "portugalrodoviasnacionais-e-regionais-openstreetmap-wiki"
+  },
+  {
+    "claim": "Algarve has 9 regional roads (ER) that form the secondary network: ER 124, ER 125, ER 125.11, ER 266, ER 267, ER 268, ER 270, ER 396, and ER 2-6 — these connect the coast to the Serra de Monchique and eastern Barrocal.",
+    "stance": "supports",
+    "stance_target": "secondary road network encoding for Algarve territorial layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve Região, OSM Portugal roads data",
+    "quoted_support": "ER 267 (wikipedia) Aljezur – São Marcos da Serra 7353624 (i J) Aljezur (IC 4) – Monchique – Alferce – São Marcos da Serra (IC 1) ... ER 270 (wikipedia) Fonte de Boliqueime – Tavira 7353755 (i J) Fonte de Boliqueime – Loulé – São Brás de Alportel – Tavira (IP 1)",
+    "numbers": ["9 regional roads in Algarve"],
+    "entities": ["ER 267", "ER 270", "Monchique", "Aljezur", "Loulé", "São Brás de Alportel"],
+    "time_period": "current",
+    "region": "Algarve",
+    "confidence": "high",
+    "source_note_id": "portugalrodoviasnacionais-e-regionais-openstreetmap-wiki"
+  },
+  {
+    "claim": "Portugal has 164 national roads and 158 regional roads in the national classification system, but EN 124 (a key Algarve interior road) has no OSM relation defined, indicating a data gap.",
+    "stance": "supports",
+    "stance_target": "OSM data quality assessment for Algarve road network",
+    "evidence_type": "empirical",
+    "scope_conditions": "OSM Portugal road data as of 2026",
+    "quoted_support": "Existem ao todo 164 rodovias classificadas como estradas nacionais e 158 como regionais. ... EN 124 (wikipedia) Portimão – Alcoutim (proximidades) Relação não definida",
+    "numbers": ["164 estradas nacionais", "158 estradas regionais"],
+    "entities": ["OSM Portugal", "EN 124"],
+    "time_period": "2026",
+    "region": "Portugal / Algarve",
+    "confidence": "high",
+    "source_note_id": "portugalrodoviasnacionais-e-regionais-openstreetmap-wiki"
+  }
+]

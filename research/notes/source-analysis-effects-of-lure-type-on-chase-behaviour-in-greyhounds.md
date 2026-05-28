@@ -5,7 +5,8 @@ tags:
 - lost-dog-behavioral
 - source-analysis
 created: '2026-05-28T07:54:11.949508Z'
-status: draft
+updated: '2026-05-28T09:28:54.503187Z'
+status: review
 type: source-analysis
 deprecated: false
 summary: 'Starling, Wilson & McGreevy (2020) PMC7760772. N=89+537 greyhounds. Sighthounds

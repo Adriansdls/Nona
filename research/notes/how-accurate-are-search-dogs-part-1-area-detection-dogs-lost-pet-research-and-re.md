@@ -8,12 +8,12 @@ tags:
 - lost-dog
 - search-patterns
 created: '2026-05-28T08:34:21.131502Z'
-updated: '2026-05-28T08:41:32.633300Z'
+updated: '2026-05-28T09:28:54.591297Z'
 source: https://lostpetresearch.com/2018/09/how-accurate-are-search-dogs-part-1/
 source_domain: lostpetresearch.com
 fetched_at: '2026-05-28T08:34:21.131333Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -5,7 +5,8 @@ tags:
 - lost-dog-behavioral
 - source-analysis
 created: '2026-05-28T07:54:16.874666Z'
-status: draft
+updated: '2026-05-28T09:28:54.504495Z'
+status: review
 type: source-analysis
 deprecated: false
 summary: 'Kremer 2021 (Frontiers Vet Sci) peer-reviewed spatial analysis of n=30,609

@@ -10,12 +10,12 @@ tags:
 - kat-albrecht
 - turid-rugaas
 created: '2026-05-28T07:31:37.944122Z'
-updated: '2026-05-28T07:32:47.072922Z'
+updated: '2026-05-28T09:28:54.323857Z'
 source: https://www.whole-dog-journal.com/lifestyle/how-to-catch-a-dog-on-the-loose/
 source_domain: www.whole-dog-journal.com
 fetched_at: '2026-05-28T07:31:37.943976Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

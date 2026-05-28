@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:09:31.140032Z'
+updated: '2026-05-28T09:28:54.401484Z'
 source: https://missinganimalresponse.com/lost-dog-behavior/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T08:09:31.139876Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Lost Dog Behavior | Kat Albrecht - Missing Animal Response Network
 ---
 
 Lost Dog Behavior | Kat Albrecht - Missing Animal Response Network

@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:08:16.377980Z'
+updated: '2026-05-28T09:28:54.379038Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7352938/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:16.377747Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Systemic Proteome Alterations Linked to Early Stage Pancreatic Cancer in
+  Diabetic Patients - PMC
 ---
 
 Systemic Proteome Alterations Linked to Early Stage Pancreatic Cancer in Diabetic Patients - PMC

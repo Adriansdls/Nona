@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-galgo-vs-greyhound-behavioral-equivalence
 created: '2026-05-28T08:08:04.301933Z'
+updated: '2026-05-28T09:28:54.373673Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7341205/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:04.301788Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: A Pilot Study of Methods for Evaluating the Effects of Arousal and Emotional
+  Valence on Performance of Racing Greyhou...
 ---
 
 A Pilot Study of Methods for Evaluating the Effects of Arousal and Emotional Valence on Performance of Racing Greyhounds - PMC

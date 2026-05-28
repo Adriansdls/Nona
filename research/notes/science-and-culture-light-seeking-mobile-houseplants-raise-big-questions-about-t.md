@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:09:37.626280Z'
+updated: '2026-05-28T09:28:54.403354Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6681727/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:09:37.626113Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: 'Science and Culture: Light-seeking mobile houseplants raise big questions
+  about the future of technology - PMC'
 ---
 
 Science and Culture: Light-seeking mobile houseplants raise big questions about the future of technology - PMC

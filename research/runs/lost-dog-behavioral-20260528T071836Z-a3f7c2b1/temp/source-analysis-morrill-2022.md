@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- sighthound
+- galgo-behavior
+- dog-movement-algarve
+created: '2026-05-28T09:28:53.259329Z'
+updated: '2026-05-28T09:28:54.359726Z'
+status: review
+type: note
+deprecated: false
+summary: 'Original source: ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc'
+---
+
 # Source Analysis — Ancestry-inclusive dog genomics challenges popular breed stereotypes
 
 **Original source:** [[ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc]]

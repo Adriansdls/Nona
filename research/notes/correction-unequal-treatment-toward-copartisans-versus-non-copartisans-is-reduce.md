@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:09:56.240933Z'
+updated: '2026-05-28T09:28:54.404393Z'
 source: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0264248
 source_domain: journals.plos.org
 fetched_at: '2026-05-28T08:09:56.240786Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: 'Correction: Unequal treatment toward copartisans versus non-copartisans
+  is reduced when partisanship can be falsified...'
 ---
 
 Correction: Unequal treatment toward copartisans versus non-copartisans is reduced when partisanship can be falsified | PLOS One

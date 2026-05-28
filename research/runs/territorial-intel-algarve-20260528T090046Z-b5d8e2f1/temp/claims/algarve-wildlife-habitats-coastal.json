@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Three coastal protected zones divide the Algarve coast: Castro Marim Nature Reserve (east), Parque Natural da Ria Formosa (central), Cape St Vincent Natural Park (west) — each representing a low-infrastructure natural area with distinct terrain types.",
+    "stance": "supports",
+    "stance_target": "coastal protected zone classification for territorial model",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve coast",
+    "quoted_support": "Coastal Nature Reserves in the Algarve: East - Castro Marim, Central - Park Natural da Ria Formosa, West - Cape St Vincent Natural Park.",
+    "numbers": [],
+    "entities": ["Castro Marim Nature Reserve", "Ria Formosa Natural Park", "Cape St Vincent Natural Park"],
+    "time_period": "current",
+    "region": "Algarve coast",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-coastal"
+  },
+  {
+    "claim": "Greater Flamingo flocks are visible from the N125 bridge over the Arade River at Portimão — confirming the N125 bridge as a specific geographic reference point with wildlife activity adjacent to the main coastal road barrier.",
+    "stance": "supports",
+    "stance_target": "N125 at Portimão Arade bridge as specific territorial feature combining road barrier and wildlife zone",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portimão, Arade River estuary, N125",
+    "quoted_support": "They can also frequently be seen from the bridge over the Arade River at Portimao on the N125 road.",
+    "numbers": [],
+    "entities": ["Arade River", "Portimão", "N125", "Flamingo"],
+    "time_period": "current",
+    "region": "Portimão, western central Algarve",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-coastal"
+  },
+  {
+    "claim": "The Atlantic tidal range makes Algarve coastal estuaries richer in invertebrate food resources than Mediterranean equivalents — estuaries (Alvor, Castro Marim, Ria Formosa) function as high-food-density zones that would attract scavenging or hungry lost dogs.",
+    "stance": "supports",
+    "stance_target": "estuaries as food-attractor zones in territorial model",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve coast, estuaries and mudflats",
+    "quoted_support": "the beaches and estuaries are richer in wildlife, particularly in invertebrate species, making it a much more attractive place for birds, such as waders, that depend on food-rich intertidal zones for their survival.",
+    "numbers": [],
+    "entities": ["Alvor estuary", "Castro Marim", "Ria Formosa"],
+    "time_period": "current",
+    "region": "Algarve coast",
+    "confidence": "medium",
+    "source_note_id": "algarve-wildlife-habitats-coastal"
+  },
+  {
+    "claim": "Clifftop vegetation at Cape St. Vincent is internationally renowned and covered in dense low-growing plant cushions in spring — the clifftop edge zone combines extreme physical hazard with open, densely-vegetated terrain.",
+    "stance": "supports",
+    "stance_target": "Cape St. Vincent clifftops as extreme-hazard zone with dense near-edge vegetation",
+    "evidence_type": "empirical",
+    "scope_conditions": "Cape St. Vincent, far southwest Algarve",
+    "quoted_support": "The best known and most spectacular of the Algarve's cliffs are at Cape St. Vincent, the most south-westerly tip of Europe. Not only are the cliffs themselves magnificent, but the flora at the Cape is internationally renowned. Once spring gets underway the clifftops are smothered in pincushions of brightly flowering low-growing plants.",
+    "numbers": [],
+    "entities": ["Cape St. Vincent", "Sagres"],
+    "time_period": "spring",
+    "region": "southwestern tip of Algarve",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-coastal"
+  }
+]

@@ -8,12 +8,12 @@ tags:
 - methodology
 - biography
 created: '2026-05-28T07:29:51.503022Z'
-updated: '2026-05-28T07:32:19.535781Z'
+updated: '2026-05-28T09:28:54.281124Z'
 source: https://katalbrecht.com/about/
 source_domain: katalbrecht.com
 fetched_at: '2026-05-28T07:29:51.502849Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

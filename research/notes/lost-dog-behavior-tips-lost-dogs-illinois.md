@@ -8,12 +8,12 @@ tags:
 - elusive-dogs
 - flight-mode
 created: '2026-05-28T07:31:33.009516Z'
-updated: '2026-05-28T07:32:58.576664Z'
+updated: '2026-05-28T09:28:54.319723Z'
 source: https://lostdogsillinois.org/categories/lost-dog-behavior-tips/
 source_domain: lostdogsillinois.org
 fetched_at: '2026-05-28T07:31:33.009371Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

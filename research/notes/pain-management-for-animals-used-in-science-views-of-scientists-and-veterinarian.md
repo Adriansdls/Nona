@@ -6,7 +6,7 @@ tags:
 - dog-movement-algarve
 - lost-pet-statistics
 created: '2026-05-28T07:35:33.305120Z'
-updated: '2026-05-28T08:07:43.846220Z'
+updated: '2026-05-28T09:28:53.244424Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4494316/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:35:33.304958Z'
@@ -16,6 +16,8 @@ type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Suggested by lost-pet-statistics-lost-pet-research-and-recovery — Weiss et
+  al. 2012 Animals journal — primary source ...
 ---
 
 *Suggested by [[lost-pet-statistics-lost-pet-research-and-recovery]] — Weiss et al. 2012 Animals journal — primary source for lost dog recovery rate statistics and search method data*

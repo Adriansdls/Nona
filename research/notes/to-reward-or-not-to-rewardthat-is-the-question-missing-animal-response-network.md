@@ -9,12 +9,12 @@ tags:
 - neuroscience
 - sighting-management
 created: '2026-05-28T08:39:54.916674Z'
-updated: '2026-05-28T08:40:22.396861Z'
+updated: '2026-05-28T09:28:54.451405Z'
 source: https://www.missinganimalresponse.com/lost-pet-tips/to-reward-or-not-to-reward-that-is-the-question/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T08:39:54.916422Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

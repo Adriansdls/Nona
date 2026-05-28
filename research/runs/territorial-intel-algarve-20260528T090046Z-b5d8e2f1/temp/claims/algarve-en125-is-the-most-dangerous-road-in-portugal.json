@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The EN125 national road (Vila do Bispo to Vila Real de Santo António) is officially the most dangerous road in Portugal, ranked #1 by the ANSR 2017 annual report with 5 accident blackspot points.",
+    "stance": "supports",
+    "stance_target": "EN125 as primary road hazard for lost dogs in the Algarve",
+    "evidence_type": "statistical",
+    "scope_conditions": "Algarve, Portugal; 2017 ANSR report data",
+    "quoted_support": "It's official, the Algarve's EN125 road is the most dangerous in the country, according to the National Highway Safety Authority (ANSR), whose latest annual report identifies 50 accident blackspots in the country... five of which are on the EN125 which runs from Vila do Bispo to Vila Real de Santo António.",
+    "numbers": ["5 blackspot points on EN125", "50 total national blackspots", "34,416 accidents with victims in 2017", "510 fatalities in 2017", "+6.6% accidents over 2016", "+14.6% fatalities over 2016"],
+    "entities": ["EN125", "ANSR", "Vila do Bispo", "Vila Real de Santo António"],
+    "time_period": "2017",
+    "region": "Algarve, Portugal",
+    "confidence": "high",
+    "source_note_id": "algarve-en125-is-the-most-dangerous-road-in-portugal"
+  },
+  {
+    "claim": "A blackspot on Portuguese roads is defined as a 200-metre road section where at least 5 injury accidents were recorded in a one-year period.",
+    "stance": "neutral",
+    "stance_target": "definition of road accident blackspot for territorial encoding",
+    "evidence_type": "legal",
+    "scope_conditions": "Portugal national standard per ANSR",
+    "quoted_support": "A blackspot is declared when, within a 200 metre section of road, at least five accidents involving injuries have been recorded in a one year period.",
+    "numbers": ["200 metres", "5 accidents minimum", "1 year period"],
+    "entities": ["ANSR"],
+    "time_period": "2017",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "algarve-en125-is-the-most-dangerous-road-in-portugal"
+  },
+  {
+    "claim": "The eastern section of EN125 (Faro to VRSA) was in worse physical condition than the western section as of 2018, with only €300k of a €1M emergency repair grant allocated to it.",
+    "stance": "supports",
+    "stance_target": "eastern EN125 as higher-risk zone for animal-vehicle collisions",
+    "evidence_type": "empirical",
+    "scope_conditions": "Eastern EN125, Algarve; 2018 conditions",
+    "quoted_support": "Only €300,000 of a €1 million emergency road repair spend has been allocated to the eastern EN125, which will do little more than fix the very worst sections.",
+    "numbers": ["€300,000 of €1,000,000 allocated to eastern EN125"],
+    "entities": ["EN125"],
+    "time_period": "2018",
+    "region": "Eastern Algarve, Portugal",
+    "confidence": "medium",
+    "source_note_id": "algarve-en125-is-the-most-dangerous-road-in-portugal"
+  }
+]

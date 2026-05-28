@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:14:51.466201Z'
+updated: '2026-05-28T09:28:54.431177Z'
 source: https://link.springer.com/search?query=bayesian+search+rescue+sighting
 source_domain: link.springer.com
 fetched_at: '2026-05-28T08:14:51.466049Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Search research articles and books | Springer Nature Link
 ---
 
 Search research articles and books | Springer Nature Link

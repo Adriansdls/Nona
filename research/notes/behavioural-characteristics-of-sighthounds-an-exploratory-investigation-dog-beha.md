@@ -10,12 +10,12 @@ tags:
 - predatory-drive
 - galgo
 created: '2026-05-28T07:30:11.793497Z'
-updated: '2026-05-28T07:36:48.054799Z'
+updated: '2026-05-28T09:28:54.541959Z'
 source: https://dogbehavior.it/dogbehavior/article/view/207
 source_domain: dogbehavior.it
 fetched_at: '2026-05-28T07:30:11.793324Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

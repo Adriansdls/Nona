@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "OSM Portugal has an organized community subproject structure covering road hierarchies, hydrological features, protected areas, and administrative divisions with Faro (Algarve) as a named community node.",
+    "stance": "supports",
+    "stance_target": "OSM as viable base layer for Algarve territorial intelligence",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portugal OSM wiki, current as of 2026",
+    "quoted_support": "Subprojetos: Rodovias (Rede · Serviços · Percursos · Infraestruturas · Sinalização) ... Hidrologia (Águas Balneares · Albufeiras) · Áreas protegidas · Percursos pedestres",
+    "numbers": [],
+    "entities": ["OpenStreetMap Portugal", "Faro", "Algarve", "OSM Portugal community"],
+    "time_period": "2026",
+    "region": "Portugal / Algarve",
+    "confidence": "high",
+    "source_note_id": "portugal-openstreetmap-wiki"
+  },
+  {
+    "claim": "The Portuguese OSM road classification uses a six-tier hierarchy: AE (autoestrada), IP (itinerário principal), IC (itinerário complementar), EN (estrada nacional), ER (estrada regional), CM (caminho municipal).",
+    "stance": "supports",
+    "stance_target": "road network encoding for Algarve territorial layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portugal OSM standardization",
+    "quoted_support": "Rodovias (AE · IP · IC · EN · ER · CM)",
+    "numbers": [],
+    "entities": ["A22", "N125", "N124", "N2"],
+    "time_period": "2026",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "portugal-openstreetmap-wiki"
+  },
+  {
+    "claim": "OSM Portugal tracks hydrological features including albufeiras (reservoirs), barragens (dams), praias (beaches), and rios (rivers) under a dedicated Hidrologia subproject.",
+    "stance": "supports",
+    "stance_target": "water source data availability for lost dog movement analysis",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portugal OSM",
+    "quoted_support": "Hidrologia: Parques · Reservas · Albufeiras · Barragens · Praias · Rios",
+    "numbers": [],
+    "entities": ["SNIRH", "OSM Portugal Hidrologia"],
+    "time_period": "2026",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "portugal-openstreetmap-wiki"
+  }
+]

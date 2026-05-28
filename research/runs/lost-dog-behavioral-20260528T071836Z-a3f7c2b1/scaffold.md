@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- kat-albrecht
+- dog-movement-algarve
+- fear-response
+created: '2026-05-28T09:28:53.231567Z'
+updated: '2026-05-28T09:28:54.273006Z'
+status: review
+type: note
+deprecated: false
+summary: '> PRIVATE PLANNING DOCUMENT — MUST NOT appear in final report'
+---
+
 # Scaffold — lost-dog-behavioral
 
 > PRIVATE PLANNING DOCUMENT — MUST NOT appear in final report

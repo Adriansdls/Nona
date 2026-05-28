@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:10:59.408680Z'
+updated: '2026-05-28T09:28:54.415811Z'
 source: https://www.frontiersin.org/articles/10.3389/fpsyg.2019.02616/full
 source_domain: www.frontiersin.org
 fetched_at: '2026-05-28T08:10:59.408524Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: 'Frontiers | Effects and Moderators of Acute Aerobic Exercise on Subsequent
+  Interference Control: A Systematic Review ...'
 ---
 
 Frontiers | Effects and Moderators of Acute Aerobic Exercise on Subsequent Interference Control: A Systematic Review and Meta-Analysis

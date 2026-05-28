@@ -12,12 +12,12 @@ tags:
 - breed-behavior
 - noise-phobia
 created: '2026-05-28T07:33:25.865502Z'
-updated: '2026-05-28T07:36:48.820144Z'
+updated: '2026-05-28T09:28:54.563011Z'
 source: https://dogbehavior.it/dogbehavior/article/view/181
 source_domain: dogbehavior.it
 fetched_at: '2026-05-28T07:33:25.865346Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -6,12 +6,12 @@ tags:
 - water
 - dehydration
 created: '2026-05-28T07:28:58.200966Z'
-updated: '2026-05-28T08:08:05.603909Z'
+updated: '2026-05-28T09:28:54.530487Z'
 source: https://petadvisorpro.com/how-long-can-a-dog-survive-without-water/
 source_domain: petadvisorpro.com
 fetched_at: '2026-05-28T07:28:58.200760Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

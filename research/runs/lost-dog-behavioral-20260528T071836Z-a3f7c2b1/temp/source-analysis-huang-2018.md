@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- lost-dog-search-ops
+- recovery-rates
+- source-analysis
+created: '2026-05-28T09:28:53.253293Z'
+updated: '2026-05-28T09:28:54.356143Z'
+status: review
+type: note
+deprecated: false
+summary: 'Original source: search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are'
+---
+
 # Source Analysis — Search Methods Used to Locate Missing Cats and Locations Where Missing Cats Are Found
 
 **Original source:** [[search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are]]

@@ -1,0 +1,100 @@
+{
+  "critic_type": "depth",
+  "run_id": "lost-dog-behavioral-20260528T071836Z-a3f7c2b1",
+  "draft_path": "research/notes/final_report_lost-dog-behavioral.md",
+  "interim_notes_reviewed": [
+    "interim-report-dog-phase-transition-thresholds.md",
+    "interim-report-breed-prior-individual-vs-population.md",
+    "interim-report-galgo-vs-greyhound-behavioral-equivalence.md",
+    "interim-report-podenco-lost-movement-pattern.md",
+    "interim-report-bayesian-sighting-update.md",
+    "interim-report-search-mode-temperament-sighting-protocol.md"
+  ],
+  "summary": "Draft is broadly faithful to interim notes — major load-bearing findings (galgo dual prior, podenco PMS, Bayesian belief/action separation, OR=8.34 transfer, Hennessy phase arc, Lord/Weiss/Kremer anchors) are all carried through with appropriate quantitative specificity. Depth gaps are concentrated in two clusters: (a) HPA-axis mechanism (StatPearls/MSD interim detail on the days-to-weeks neuroplastic bridge from acute cortisol peak to chronic survival-mode is missing the mechanistic chain, weakening the user's request for a defensible phase-transition encoding), and (b) the calming-signal / magnet-dog protocol layer (interim notes have named cases — Lucy 10-264, Lacey 10-267, KoKo, Murphy, Kody, Phoebe — and a 6-step calming sequence with crinkly-packaging and Elvis-singing substitution that the draft abstracts to '45-degree angled approach'). The Buddha Dog 50-75-90-99% discrete probability ladder is also collapsed to '50-99%' in the draft when the interim provides a directly encodable per-history scale. No interim note appears to have been ignored wholesale; the issues are systematic under-use, not skipped packets.",
+  "findings": [
+    {
+      "severity": "major",
+      "location": "Section 1 — Temporal Behavioral Phases, paragraph 2 (Hennessy cortisol arc, lines 19-21)",
+      "issue": "The draft cites Hennessy's three-phase cortisol arc as 'the only direct physiological anchor' but stops at curve shape (peak/decline/plateau). It omits the mechanistic chain the interim note builds — CRH → ACTH → cortisol with 60-90 min plasma half-life, vs. days-to-weeks behavioral consequence via amygdala-hippocampal neuroplastic imprinting. This chain is exactly what the user asked for when they wrote 'how does fear/stress level at time of loss affect phase progression?' — without it, the phase model looks like an arbitrary practitioner heuristic rather than a defensible neurobiological model.",
+      "evidence": "interim-report-dog-phase-transition-thresholds.md, Stream 3: 'plasma cortisol half-life in dogs is approximately 60-90 minutes, with acute stress peaks resolving within 4-6 hours physiologically. However, the behavioral effects are not coterminus with the hormonal event: fear conditioning (via amygdala-hippocampal imprinting) occurs within minutes and is durable for days to weeks. Chronic HPA axis activation beyond 24-48 hours produces qualitative neuroplastic changes — not just quantitative hormonal elevation.' Cites MSD Vet Manual and StatPearls.",
+      "recommendation": "Add a one-paragraph or 2-3 sentence mechanism bridge between the acute cortisol peak (hours) and the chronic survival-mode behavioral state (days) — specifically: cortisol half-life is 60-90 min in dogs but fear conditioning is durable on days-to-weeks timescale via amygdala-hippocampal imprinting, with chronic HPA activation beyond 24-48h producing qualitative neuroplastic changes. This anchors the 72h Phase 1 ceiling in a real mechanism rather than a curve-shape transfer."
+    },
+    {
+      "severity": "major",
+      "location": "Section 1 — Calibration Numbers table (line ~44, 'Survival-mode onset probability') and Section 4 calibration table",
+      "issue": "Buddha Dog gives a discrete 50-75-90-99% probability ladder keyed to dog history (gregarious-baseline=50%, mild-history=75%, fearful-history=90%, puppy-mill/trauma=99%) that is directly encodable as a per-case prior. The draft collapses this to '0.50 gregarious / 0.75 unknown / 0.95-0.99 xenophobic', which loses the puppy-mill / abused-rescue tier that is operationally critical for the Algarve galgo cohort (almost universal maltreatment baseline per MN Greyhound Rescue interim citation).",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md: 'Depending on your dog's history, there is a 50-75-90-99% chance that your dog, being lost, is not exhibiting the same behaviors you would normally expect.' Range is significant — baseline gregarious 50%, known-fearful/puppy-mill/trauma-history approach 90-99%.",
+      "recommendation": "Expand the survival-mode onset probability row to a 4-tier ladder (gregarious 0.50 / mild-aloof 0.75 / fearful-history 0.90 / trauma-or-puppy-mill 0.99) keyed explicitly to owner-reported dog history. This is the direct intake-question → prior mapping the user requested ('how we should represent this in a scoring/weighting system')."
+    },
+    {
+      "severity": "major",
+      "location": "Section 2 — Breed-Specific Priors, Per-Category Operational Table (lines 122-133)",
+      "issue": "Albrecht 1999 (the only existing breed-type distance data) provides three quantitative breed-type breakdowns the draft cites only one of: mixed-breed averaged 14 miles, purebred averaged 2 miles (7× ratio), toy breeds least likely to travel beyond 0.75 miles, AND 'pointing breeds traveled farther than retrieving breeds.' Draft surfaces 14-mile mixed-breed and 0.75-mile toy but loses the pointing-vs-retrieving distinction — which has direct encoding implications for the breed-category table's 'scent hound (beagle/pointer)' row.",
+      "evidence": "interim-report-bayesian-sighting-update.md, source 6: 'Albrecht's informal 1999 study (N=254 dog owners): mixed-breed dogs averaged 14 miles before pickup vs. purebred dogs averaging only 2 miles (7x difference); toy breeds least likely to travel beyond 0.75 miles; pointing breeds traveled farther than retrieving breeds.'",
+      "recommendation": "In the Per-Category Operational Table, split the scent-hound row or add a row distinguishing pointing breeds (longer range; trail-following bias) from retrieving breeds (shorter range; closer-to-home recovery). Add the 7× mixed-vs-purebred ratio as an explicit calibration row in the table — it is the empirical anchor for treating mixed-breed Algarve dogs (a large fraction of the realistic caseload) as long-tail cases by default."
+    },
+    {
+      "severity": "major",
+      "location": "Section 4 — Fear Escalation Dynamics, Practical Encoding (lines 366-379)",
+      "issue": "The draft's 'Required positive actions' compress the MAR calming-signal sequence to '45-degree angled approach, crouch, peripheral gaze, food dropped passively.' The interim notes contain a 6-step explicit sequence with two operationally critical details the draft loses: (1) lip-smacking with crinkly food packaging as the auditory lure (not silence), and (2) SING (use a unique non-conditioned sound signature) if other people have already tried calling — the Lacey/Elvis pattern. The Murphy military-owner case (removing hat to allow visual recognition) is also missing. These are the specific scripts an Algarve volunteer needs.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md, 'dont-call-your-dog' section: '(1) get low/flat to ground; (2) avoid direct eye contact; (3) face sideways, not predator-straight-on; (4) make lip-smacking sounds with crinkly food packaging; (5) drop food on ground without reaching; (6) SING if other methods have been used by prior failed-capturers (unique sound signature not yet conditioned as a threat trigger). The Murphy military-owner video case is cited.'",
+      "recommendation": "Either expand the 'Required positive actions' bullet into the full 6-step sequence, or add a sub-section 'Calming-signal protocol (MAR / Lacey & Murphy cases)' with the six steps, and explicitly name the non-conditioned-sound-substitution rule for cases where the dog has already been called by multiple failed responders. This is one of the highest-leverage UI scripts for the platform."
+    },
+    {
+      "severity": "major",
+      "location": "Section 3 — Bayesian Updating, paragraph on 'conspecific lure' / Section 4 magnet-dog references",
+      "issue": "The draft mentions 'conspecific lure' four times in operational tables but never explains the magnet-dog method, which is the MAR-documented mechanism (named dogs Kody and Phoebe; Phoebe was the dog that ultimately recovered Winnie at day 69). The interim note specifies why it works ('tunnel vision' on the magnet dog so the panicked dog never notices the humans nearby) and that snare-pole capture is paired with it. Without this, the draft's 'conspecific lure' reads as an abstract category rather than a documented protocol.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md, 'snap-into-action' section: 'Kody is wiggly, friendly, and gives off play signals to other dogs. We use magnet dogs to draw in panicked strays that may be leary of people but that will zoom in right up to our magnet dog. They get tunnel vision and never notice us because they're so focused on making eye contact with the magnet dog.' Also cites that the Winnie 69-day recovery used Phoebe as magnet dog.",
+      "recommendation": "Add 1-2 sentences either in Section 2 (galgo capture protocol) or Section 4 (positive actions) describing the magnet-dog mechanism: a friendly familiar dog at a feeding station produces 'tunnel vision' so the panicked dog approaches the magnet dog and ignores nearby handlers, enabling snare-pole or trap-pen capture. Cite the Winnie/Phoebe recovery as the named case. This is the load-bearing capture method for Algarve galgos."
+    },
+    {
+      "severity": "major",
+      "location": "Section 3 — Bayesian Updating, paragraph on trap deployment protocol (lines 180-181)",
+      "issue": "The draft's trap-deployment protocol mentions 'food station within 50 feet, trap door tied open overnight, spring only when dog has been seen entering and eating consistently' but loses three specific operational parameters the interim provides: (1) smelly canned food with gravy (not generic kibble), (2) 1-3 hour monitoring intervals (essential for animal-welfare compliance and Algarve volunteer scheduling), and (3) the exact distance from sighting (the interim says '20 feet of the sighted location' in one place, draft uses 50 feet). These are the kinds of numbers the user explicitly asked for under 'Practical encoding'.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md, 'when-do-you-set-a-trap' section: 'place familiar scent article near escape point; (2) establish food station with smelly canned food with gravy; (3) confirm dog eating consistently on trail camera at that specific location; (4) obtain landowner permission if off-property; (5) set humane trap with 1-3 hour monitoring intervals.' interim-report-bayesian-sighting-update.md: 'install a camera-monitored feeding station within 20 feet of the sighted location within 4 hours.'",
+      "recommendation": "Reconcile the 20-foot vs. 50-foot distance (one interim says 20, draft says 50 — pick the more conservative or cite range). Add the canned-gravy bait specification and the 1-3h monitoring interval to the trap-deployment encoding. Add 'landowner permission' to the trap_deployment_eligible() pseudocode (the draft has it but it's the only one of the five MAR steps that survives intact)."
+    },
+    {
+      "severity": "major",
+      "location": "Section 3 — Bayesian Updating, Princess Borzoi reference (line 178)",
+      "issue": "The draft describes Princess Borzoi as 'fatal multi-state displacement after repeated crowd events; killed on Highway 34 in Colorado.' The interim provides the geographic ping-pong specifically: Cheyenne, WY → Colorado → back to Wyoming → Colorado again, with the explicit causal claim 'She never settled because of human interference.' This is the load-bearing dose-response evidence — repeated crowd events caused a random-walk movement pattern, not just one big displacement. Without it, the case reads as a single bad outcome rather than a documented repeated-pressure pattern that justifies the absolute prohibition.",
+      "evidence": "interim-report-bayesian-sighting-update.md: 'She then traveled many miles — Cheyenne, WY to Colorado; back to Wyoming; then to Colorado again. She never settled because of human interference. She was hit on 34 in Colorado.'",
+      "recommendation": "Expand the Princess Borzoi mention to 2 sentences capturing the geographic ping-pong (WY→CO→WY→CO) and the 'never settled because of human interference' causal claim. This converts the citation from anecdote to documented dose-response — the strongest case-evidence for the hard prohibition on public sighting broadcast for fearful dogs."
+    },
+    {
+      "severity": "minor",
+      "location": "Section 1 — Calibration Numbers and 'Recovery-by-phase' row (line 53)",
+      "issue": "The interim notes contain Lord 2007's recovery-method percentages (calling/visiting animal agencies 34.8%, neighborhood signs 15.2%) and the Weiss 2012 breakdown is in the draft but Lord's distinct percentages — which support the survivorship-bias argument the draft makes — are not. The draft argues Lord-vs-MAR is a survivorship bias issue without showing Lord's actual numbers that anchor that argument.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md: 'Lord 2007b (n=187 dogs, Montgomery County OH) found that calling/visiting animal agencies (34.8%) and neighborhood signs (15.2%) drove recovery.'",
+      "recommendation": "Add the Lord-specific recovery-method percentages (34.8% agency contacts, 15.2% neighborhood signs) either in Section 1 calibration table or in the prose where the Lord-vs-MAR tension is resolved. This sharpens the resolution from 'Lord's sample was biased' to 'Lord's 34.8% agency-contact recovery is a gregarious-dog-dominated channel.'"
+    },
+    {
+      "severity": "minor",
+      "location": "Section 4 — Knowledge Gaps (line 346)",
+      "issue": "The interim notes flag a specific olfactory mechanism the draft preserves abstractly ('olfactory portion of brain closes down') but does not link to its operational consequence: even owner scent items will fail as lures during peak adrenaline state, and food lures are unreliable until cortisol drops. The draft mentions food-lure failure during arousal in the podenco section but does not generalize this to xenophobic dogs in Phase 1.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md, dont-call-your-dog: 'during peak adrenaline state, olfactory processing shuts down — the owner's scent cannot be detected by the dog until cortisol drops enough for the parasympathetic system to re-engage. This means even food lures fail at peak panic.'",
+      "recommendation": "In Section 4 add one sentence stating that during peak adrenaline state both food lures AND owner scent articles are functionally invisible to the dog, so the first 4-6 hours after a blind-panic loss are not the time to deploy scent-based lures — wait for cortisol to drop, then deploy. This is a counter-intuitive timing rule that owners and volunteers consistently violate."
+    },
+    {
+      "severity": "minor",
+      "location": "Section 2 — Knowledge Gaps (line 137)",
+      "issue": "The interim note flags a critical operational distinction the draft does not surface: Algarve galgos likely include both hunting-discarded (high trauma) and pet-abandoned (lower trauma) populations, and the intake type should modulate the breed prior. Draft says galgo trauma baseline is 'overwhelmingly present at population level' without surfacing the intake-type modulation opportunity.",
+      "evidence": "interim-report-breed-prior-individual-vs-population.md, Open questions: 'The galgo's specific history in Spain (hunting kennel conditions, minimal human socialization, systematic abandonment after hunting season — the galguero practice) may explain its elevated stranger-fear as environmental/developmental rather than genetic. If this is the case, a socialized galgo raised in a home would have a different prior than a hunting-kenneled galgo — intake context should modulate the breed prior.'",
+      "recommendation": "Add an intake field / prior modulation to Section 2 Practical Encoding: galgos identified by owner as 'pet from puppy' or 'home-raised socialized' should have the action gate relaxed by one tier (still passive-default, but conspecific-lure not mandatory; 24h camera-first window instead of 72h). Galgos identified as 'rescued from hunting/galguero context' retain the full 72h+ trauma protocol."
+    },
+    {
+      "severity": "minor",
+      "location": "Section 2 — Calibration Numbers, Podenco rows (lines 113-117)",
+      "issue": "The McLennan PMS data has a fuller breakdown than the draft surfaces (Hunt 69%, Orient 69%, Eye 54%, Stalk 23%, Chase 69%, Grab-bite 69%, Possess 31%, Kill-bite 46%, Dissect 23%, Consume 8%). Draft cites Hunt/Chase/Consume but loses Grab-bite (69%) and Kill-bite (46%) — both relevant to the operational claim that 'food lures are unreliable during chase because prey drive is appetitive not consumptive.' Possess (31%) is also relevant: a podenco that has caught prey may guard it from approach.",
+      "evidence": "interim-report-podenco-lost-movement-pattern.md and interim-report-breed-prior-individual-vs-population.md: 'Hunt: 69%, Orient: 69%, Eye: 54%, Stalk: 23%, Chase: 69%, Grab-bite: 69%, Possess: 31%, Kill-bite: 46%, Dissect: 23%, Consume: 8%.'",
+      "recommendation": "Add Grab-bite (69%), Kill-bite (46%), and Possess (31%) to the calibration table as supporting context for the Consume=8% claim, with a one-line note that the 69% Grab-bite combined with 8% Consume confirms the appetitive-not-consumptive interpretation — the podenco grabs prey but rarely eats it, so food-lure-during-pursuit fails."
+    },
+    {
+      "severity": "minor",
+      "location": "Section 2 — Galgo capture protocol / Forward Implications",
+      "issue": "MN Greyhound Rescue interim citation: 'galgos are notoriously excellent jumpers (minimum 5-foot fence required, 6-foot preferred)'. Draft has '1.8 m (6 ft) fence-clearance' in the calibration table but does not state the operational consequence: trap pens and feeding-station enclosures used in Algarve recovery operations must use 1.8m+ fencing, or the trapped galgo will clear it. This is a concrete encoding parameter the draft drops.",
+      "evidence": "interim-report-galgo-vs-greyhound-behavioral-equivalence.md, source 13: 'galgos are notoriously excellent jumpers (minimum 5-foot fence required, 6-foot preferred), and these dogs have almost universally seen maltreatment and neglect.'",
+      "recommendation": "Either in Section 2 Practical Encoding (galgo action gate) or in Forward Implications, add an explicit equipment specification: any temporary holding enclosure, trap pen, or transport crate for a recovered galgo must have minimum 1.8m enclosure height. Trap pens with shorter walls are documented escape risks. This is a concrete encoding parameter requested under 'how should we represent this in a scoring/weighting system.'"
+    }
+  ]
+}

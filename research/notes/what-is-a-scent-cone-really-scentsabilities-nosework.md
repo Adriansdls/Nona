@@ -7,12 +7,12 @@ tags:
 - wind
 - scent-plume
 created: '2026-05-28T07:28:43.124036Z'
-updated: '2026-05-28T08:08:09.108184Z'
+updated: '2026-05-28T09:28:54.521799Z'
 source: https://scentsabilitiesnw.com/blog/what-is-a-scent-cone-really/
 source_domain: scentsabilitiesnw.com
 fetched_at: '2026-05-28T07:28:43.123831Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

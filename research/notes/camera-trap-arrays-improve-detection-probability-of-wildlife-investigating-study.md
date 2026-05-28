@@ -7,12 +7,12 @@ tags:
 - camera-trap
 - search-patterns
 created: '2026-05-28T08:39:15.126183Z'
-updated: '2026-05-28T08:41:33.252704Z'
+updated: '2026-05-28T09:28:54.593937Z'
 source: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0175684
 source_domain: journals.plos.org
 fetched_at: '2026-05-28T08:39:15.126003Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

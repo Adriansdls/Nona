@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- survival-mode
+- galgo-behavior
+- dog-movement-algarve
+created: '2026-05-28T09:28:53.236483Z'
+updated: '2026-05-28T09:28:54.277024Z'
+status: review
+type: note
+deprecated: false
+summary: '| Query phrase (verbatim) | Mapped atomic item(s) | Scope check | Gap? |'
+---
+
 # Coverage Matrix — query phrase → atomic item mapping
 
 | Query phrase (verbatim) | Mapped atomic item(s) | Scope check | Gap? |

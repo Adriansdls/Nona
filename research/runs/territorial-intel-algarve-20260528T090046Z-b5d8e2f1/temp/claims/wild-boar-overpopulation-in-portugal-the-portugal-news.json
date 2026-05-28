@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Portugal's national wild boar population is estimated at 300,000–400,000 animals, with highest density in Alentejo, Beira Interior, and Trás-os-Montes — the Algarve is not cited as a primary high-density zone, though Serra de Monchique/Caldeirão border the Alentejo.",
+    "stance": "supports",
+    "stance_target": "wild boar hazard is moderate in Algarve specifically (primary density zones are further north)",
+    "evidence_type": "statistical",
+    "scope_conditions": "Portugal national, 2023",
+    "quoted_support": "The wild boar population is estimated to be between 300,000 and 400,000, it has a very high growth rate and there is a lot of food available... the population density of this species is higher in the regions of Alentejo, Beira Interior and Trás-os-Montes.",
+    "numbers": ["300,000–400,000 national population", "10–20% target reduction", "5–10 year timeframe"],
+    "entities": ["CESAM", "University of Aveiro", "ForestWISE", "ICNF", "Carlos Fonseca", "Alentejo", "Beira Interior", "Trás-os-Montes"],
+    "time_period": "2023",
+    "region": "Portugal national",
+    "confidence": "high",
+    "source_note_id": "wild-boar-overpopulation-in-portugal-the-portugal-news"
+  },
+  {
+    "claim": "The Javali Strategic and Action Plan was produced by CESAM (Center for Environmental and Sea Studies, University of Aveiro) and ForestWISE — these institutions have primary data on boar distribution that could map Algarve-specific density zones.",
+    "stance": "neutral",
+    "stance_target": "CESAM/ForestWISE as primary data sources for boar spatial distribution",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Portugal, 2023",
+    "quoted_support": "The Javali Strategic and Action Plan was prepared by Rita Torres and João Carvalho, from the Center for Environmental and Sea Studies (CESAM) at the University of Aveiro, and Carlos Fonseca, from the ForestWISE Collaborative Laboratory.",
+    "numbers": [],
+    "entities": ["CESAM", "University of Aveiro", "ForestWISE", "Rita Torres", "João Carvalho", "Carlos Fonseca", "Javali Strategic and Action Plan"],
+    "time_period": "2023",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "wild-boar-overpopulation-in-portugal-the-portugal-news"
+  },
+  {
+    "claim": "Wild boar are reported invading peri-urban areas and destroying property (fences, walls, crops) — in the Alentejo border zones adjacent to Algarve this confirms that boar presence extends to populated areas, representing risk for dogs encountering them.",
+    "stance": "supports",
+    "stance_target": "wild boar territorial overlap with human-occupied zones as dog hazard",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Alentejo, Portugal (adjacent to northern Algarve border)",
+    "quoted_support": "Sao Mamede National Park and surrounding area is overloaded with Boar. Pig families of 20 plus invade properties destroying fences, walls and can re-landscape a small farm in one night. Some of the males are enormous.",
+    "numbers": ["pig families of 20+"],
+    "entities": ["Sao Mamede National Park", "Alentejo"],
+    "time_period": "2023",
+    "region": "Alentejo (adjacent to northern Algarve)",
+    "confidence": "medium",
+    "source_note_id": "wild-boar-overpopulation-in-portugal-the-portugal-news"
+  },
+  {
+    "claim": "The Portuguese government has proposed extending wild boar hunting to practically year-round to reduce population 10–20% — meaning intensified human hunting activity in Serra zones is likely in coming years, increasing human presence and dog disturbance risk in those areas.",
+    "stance": "supports",
+    "stance_target": "increased hunting activity in Serra as temporal context for territorial model",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Portugal, post-2023 policy context",
+    "quoted_support": "João Paulo Catarino indicated that the Government will 'propose the extension of wild boar hunting periods', with the objective of 'substantially reducing numbers'. 'For now, we are even considering increasing the periods of wild boar hunting practically for the whole year'.",
+    "numbers": [],
+    "entities": ["João Paulo Catarino", "ICNF", "Paulo Salsa"],
+    "time_period": "post-2023",
+    "region": "Portugal",
+    "confidence": "medium",
+    "source_note_id": "wild-boar-overpopulation-in-portugal-the-portugal-news"
+  }
+]

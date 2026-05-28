@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- sighthound
+- galgo-behavior
+created: '2026-05-28T09:28:53.254788Z'
+updated: '2026-05-28T09:28:54.356889Z'
+status: review
+type: note
+deprecated: false
+summary: 'Original source: effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc'
+---
+
 # Source Analysis — Effects of Lure Type on Chase-Related Behaviour in Racing Greyhounds
 
 **Original source:** [[effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc]]

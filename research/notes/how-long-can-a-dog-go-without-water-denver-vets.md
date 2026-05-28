@@ -6,12 +6,12 @@ tags:
 - water
 - dehydration
 created: '2026-05-28T07:28:49.752400Z'
-updated: '2026-05-28T08:08:06.122585Z'
+updated: '2026-05-28T09:28:54.526001Z'
 source: https://www.petsonbroadway.net/site/blog/2024/08/15/dog-without-water
 source_domain: www.petsonbroadway.net
 fetched_at: '2026-05-28T07:28:49.752216Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

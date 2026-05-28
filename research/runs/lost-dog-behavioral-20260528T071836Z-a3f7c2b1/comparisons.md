@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- locus-bayesian-sighting-update
+- locus-dog-phase-transition-thresholds
+- galgo-behavior
+- camera-trap
+created: '2026-05-28T09:28:53.365207Z'
+updated: '2026-05-28T09:28:54.434945Z'
+status: review
+type: note
+deprecated: false
+summary: '> Corpus critic update (step 8): Key confidence adjustments after targeted
+  fetch wave:'
+---
+
 # Cross-locus comparisons
 
 > **Corpus critic update (step 8):** Key confidence adjustments after targeted fetch wave:

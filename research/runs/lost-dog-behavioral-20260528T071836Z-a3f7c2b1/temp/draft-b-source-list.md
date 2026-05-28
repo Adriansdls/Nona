@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- locus-bayesian-sighting-update
+- breed-genetics
+- breed-behavior
+- locus-breed-prior-individual-vs-population
+- breed-overview
+created: '2026-05-28T09:28:53.369960Z'
+updated: '2026-05-28T09:28:54.453374Z'
+status: review
+type: note
+deprecated: false
+summary: 'Angle: Depth-optimized — focus on knowledge gaps, tensions, and uncertain
+  claims'
+---
+
 # Draft B — must_read_note_ids (n=38)
 Angle: Depth-optimized — focus on knowledge gaps, tensions, and uncertain claims
 

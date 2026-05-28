@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-podenco-lost-movement-pattern
 created: '2026-05-28T08:10:43.369721Z'
+updated: '2026-05-28T09:28:54.413777Z'
 source: https://www.dogsnaturallymagazine.com/sighthound-vs-scent-hound-whats-the-difference/
 source_domain: www.dogsnaturallymagazine.com
 fetched_at: '2026-05-28T08:10:43.369499Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Dogs Naturally - Natural Dog Health And Nutrition
 ---
 
 Dogs Naturally - Natural Dog Health And Nutrition

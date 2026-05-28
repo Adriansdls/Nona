@@ -10,12 +10,12 @@ tags:
 - drone
 - social-lure
 created: '2026-05-28T07:37:37.873750Z'
-updated: '2026-05-28T07:38:13.408419Z'
+updated: '2026-05-28T09:28:54.344902Z'
 source: https://katalbrecht.substack.com/p/dog-befriends-a-fox-while-lost-in
 source_domain: katalbrecht.substack.com
 fetched_at: '2026-05-28T07:37:37.873592Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: commentary
 content_type: blog

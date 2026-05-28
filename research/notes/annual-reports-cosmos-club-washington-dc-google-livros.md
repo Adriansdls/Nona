@@ -4,7 +4,7 @@ id: annual-reports-cosmos-club-washington-dc-google-livros
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:36:51.299045Z'
-updated: '2026-05-28T07:39:32.331433Z'
+updated: '2026-05-28T09:28:53.247787Z'
 source: https://books.google.com/books?id=MQ1KAAAAMAAJ&q=ecology+stray+dog+beck
 source_domain: books.google.pt
 fetched_at: '2026-05-28T07:36:51.298901Z'
@@ -14,6 +14,8 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Suggested by stay-out-of-the-woods-missing-animal-response-network — Alan
+  Beck 'Ecology of the Stray Dog' - cited as ...
 ---
 
 *Suggested by [[stay-out-of-the-woods-missing-animal-response-network]] — Alan Beck 'Ecology of the Stray Dog' - cited as source for midday dog resting behavior*

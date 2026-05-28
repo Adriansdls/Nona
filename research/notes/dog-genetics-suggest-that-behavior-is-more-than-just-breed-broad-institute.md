@@ -8,12 +8,12 @@ tags:
 - darwins-ark
 - behavioral-variation
 created: '2026-05-28T07:31:23.335186Z'
-updated: '2026-05-28T07:32:28.705084Z'
+updated: '2026-05-28T09:28:54.313525Z'
 source: https://www.broadinstitute.org/news/dog-genetics-suggest-behavior-more-just-breed
 source_domain: www.broadinstitute.org
 fetched_at: '2026-05-28T07:31:23.335008Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

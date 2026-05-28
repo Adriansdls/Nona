@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:14:30.505983Z'
+updated: '2026-05-28T09:28:54.430245Z'
 source: https://www.frontiersin.org/articles/10.3389/frobt.2019.00017/full
 source_domain: www.frontiersin.org
 fetched_at: '2026-05-28T08:14:30.505811Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: 'Frontiers | Editorial: Consciousness in Humanoid Robots'
 ---
 
 Frontiers | Editorial: Consciousness in Humanoid Robots

@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:10:50.024892Z'
+updated: '2026-05-28T09:28:54.414734Z'
 source: https://arxiv.org/abs/2309.00706
 source_domain: arxiv.org
 fetched_at: '2026-05-28T08:10:50.024757Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: institutional
 content_type: paper
 deprecated: false
+summary: '[2309.00706] Causal Effect Estimation after Propensity Score Trimming with
+  Continuous Treatments'
 ---
 
 [2309.00706] Causal Effect Estimation after Propensity Score Trimming with Continuous Treatments

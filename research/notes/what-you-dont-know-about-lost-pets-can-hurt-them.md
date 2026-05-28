@@ -10,12 +10,12 @@ tags:
 - survival-mode
 - fear-behavior
 created: '2026-05-28T07:30:46.973525Z'
-updated: '2026-05-28T07:48:37.008535Z'
+updated: '2026-05-28T09:28:54.548356Z'
 source: https://www.maddiesfund.org/what-you-dont-know-about-lost-pets-can-hurt-them.htm
 source_domain: www.maddiesfund.org
 fetched_at: '2026-05-28T07:30:46.973367Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

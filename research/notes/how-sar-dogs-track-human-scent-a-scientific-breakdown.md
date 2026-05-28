@@ -7,12 +7,12 @@ tags:
 - sar
 - scent-plume
 created: '2026-05-28T07:28:42.152580Z'
-updated: '2026-05-28T08:08:06.455898Z'
+updated: '2026-05-28T09:28:54.518633Z'
 source: https://zoeta-dogsoul.com/search-retrieve/how-search-and-rescue-dogs-track-human-scent/
 source_domain: zoeta-dogsoul.com
 fetched_at: '2026-05-28T07:28:42.152412Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

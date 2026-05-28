@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- cortisol
+- kat-albrecht
+- galgo
+- greyhound
+- kremer-2021
+created: '2026-05-28T09:28:53.380265Z'
+updated: '2026-05-28T09:28:54.458062Z'
+status: review
+type: note
+deprecated: false
+summary: All 3 drafts drew from the same vault corpus and the same 6 interim notes
+  with committed positions. No major factual ...
+---
+
 # Synthesis conflicts check
 
 All 3 drafts drew from the same vault corpus and the same 6 interim notes with committed positions. No major factual contradictions were found. Minor alignment notes:

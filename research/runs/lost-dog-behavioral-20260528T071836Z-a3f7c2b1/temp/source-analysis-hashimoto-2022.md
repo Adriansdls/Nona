@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- search-strategy
+- terrain
+- dog-movement-algarve
+created: '2026-05-28T09:28:53.256812Z'
+updated: '2026-05-28T09:28:54.358380Z'
+status: review
+type: note
+deprecated: false
+summary: 'Original source: an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness'
+---
+
 # Source Analysis — An agent-based model reveals lost person behavior based on data from wilderness search and rescue
 
 **Original source:** [[an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness]]

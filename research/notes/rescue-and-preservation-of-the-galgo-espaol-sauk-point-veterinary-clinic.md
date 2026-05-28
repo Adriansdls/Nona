@@ -5,12 +5,12 @@ tags:
 - lost-dog-behavioral
 - galgo-rescue
 created: '2026-05-28T07:30:31.272635Z'
-updated: '2026-05-28T07:32:41.381571Z'
+updated: '2026-05-28T09:28:54.301575Z'
 source: https://saukpointvet.com/rescue-and-preservation-of-the-galgo-espanol/
 source_domain: saukpointvet.com
 fetched_at: '2026-05-28T07:30:31.272414Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

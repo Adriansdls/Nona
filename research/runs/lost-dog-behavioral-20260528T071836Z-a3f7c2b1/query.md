@@ -1,8 +1,18 @@
 ---
-vault_tag: lost-dog-behavioral
-run_id: lost-dog-behavioral-20260528T071836Z-a3f7c2b1
-created: 2026-05-28T07:18:36Z
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- survival-mode
+- kat-albrecht
+created: '2026-05-28T07:18:36Z'
+updated: '2026-05-28T09:28:54.274220Z'
 source: user-prompt (brief_01_behavioral_engine.md)
+status: review
+type: note
+deprecated: false
+summary: 'Project: Nona / Red Cão Algarve — Lost dog rescue operating system'
 ---
 
 # Research Brief 01 — Probabilistic Behavioral Engine

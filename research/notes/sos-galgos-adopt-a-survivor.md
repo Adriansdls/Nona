@@ -9,12 +9,12 @@ tags:
 - fear-response
 - hide-behavior
 created: '2026-05-28T07:35:31.117982Z'
-updated: '2026-05-28T07:36:21.717002Z'
+updated: '2026-05-28T09:28:54.334629Z'
 source: https://www.sosgalgos.org/en/adopt-a-survivor
 source_domain: www.sosgalgos.org
 fetched_at: '2026-05-28T07:35:31.117840Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

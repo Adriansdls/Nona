@@ -8,12 +8,12 @@ tags:
 - evasion-triggers
 - sighting-management
 created: '2026-05-28T07:30:54.163491Z'
-updated: '2026-05-28T07:32:07.041049Z'
+updated: '2026-05-28T09:28:54.310233Z'
 source: https://www.ctdgrv.org/behaviors-to-avoid/
 source_domain: www.ctdgrv.org
 fetched_at: '2026-05-28T07:30:54.163325Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

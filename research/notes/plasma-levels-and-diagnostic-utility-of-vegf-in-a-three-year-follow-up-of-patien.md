@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:09:27.533067Z'
+updated: '2026-05-28T09:28:54.399514Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8624052/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:09:27.532899Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Plasma Levels and Diagnostic Utility of VEGF in a Three-Year Follow-Up of
+  Patients with Breast Cancer - PMC
 ---
 
 Plasma Levels and Diagnostic Utility of VEGF in a Three-Year Follow-Up of Patients with Breast Cancer - PMC

@@ -7,12 +7,12 @@ tags:
 - panic-mode
 - cause-of-death
 created: '2026-05-28T07:30:47.492819Z'
-updated: '2026-05-28T07:48:36.931799Z'
+updated: '2026-05-28T09:28:54.550143Z'
 source: https://lostdogsofamerica.org/never-follow-chase-or-pressure-a-lost-dog/
 source_domain: lostdogsofamerica.org
 fetched_at: '2026-05-28T07:30:47.492678Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

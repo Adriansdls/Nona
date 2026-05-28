@@ -1,0 +1,109 @@
+{
+  "critic_type": "width",
+  "run_id": "lost-dog-behavioral-20260528T071836Z-a3f7c2b1",
+  "draft_path": "research/notes/final_report_lost-dog-behavioral.md",
+  "findings": [
+    {
+      "id": "width-01-microchip-rto",
+      "severity": "critical",
+      "location": "Section 1 (Temporal Behavioral Phases) — Key Empirical Findings or Calibration Numbers table",
+      "issue": "The microchip-vs-no-chip Return-To-Owner differential from Kremer 2021 (n=30,609) is entirely absent from the draft despite being one of the strongest empirical anchors in the corpus and a load-bearing input to recovery-method calibration. Orchestrator notes flagged this as a Key Number For Encoding: 71% RTO with microchip vs 39% RTO without (a ~32-point gap). Weiss 2012's 15% ID/chip recovery method is mentioned, but the actual chip differential — the largest single intervention effect in the entire literature — is missing. For Nona's intake UX (which collects chip status) and for the AI system prompt's confidence-weighting of escape scenarios, this number is core.",
+      "evidence": "orchestrator-notes.md: 'Microchip effect: 71% vs 39% RTO (Kremer 2021)'. evidence-digest.md SQ5 cites Kremer breakdown. Draft contains zero mention of 'microchip', 'chip', or 'RTO' as a percentage breakdown — only Weiss's 15% ID/chip recovery-method figure appears once in line 23. Corpus support: [[frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis]].",
+      "recommendation": "Add 1–2 sentences in Section 1 Key Empirical Findings (after the Kremer 91%/5-day-hold sentence around line 23) stating the microchip RTO differential and its operational implication: chipped Algarve dogs have a categorically different recovery curve than unchipped ones, and Nona's intake should branch the urgency-decay function on chip status. Add a row to the Section 1 Calibration table: 'RTO rate, chipped vs unchipped (Kremer 2021) | 71% vs 39% | high'."
+    },
+    {
+      "id": "width-02-magnet-dog-method",
+      "severity": "critical",
+      "location": "Section 4 (Fear Escalation Dynamics) — Practical Encoding, and Section 2 breed table",
+      "issue": "The magnet-dog method (a calm, friendly conspecific used to draw in panicked dogs whose arousal blocks food-lure response) is the corpus's primary documented alternative recovery protocol for high-arousal/xenophobic dogs and is the mechanism by which the Winnie case ultimately resolved (Phoebe was the magnet dog). The draft mentions 'conspecific lure' only in the galgo capture protocol cell of the breed table and the action-gate pseudocode, but never explains what it is, why it works, when to deploy it, or what the empirical case basis is. For galgo and prey-driven podenco cases — Nona's hardest caseload — this is a primary intervention. The corpus has a dedicated note ([[snap-into-action-missing-animal-response-network]]) with Kody as the named example and an explicit two-track triage framing (food lure for food-responsive dogs; magnet dog for arousal-suppressed dogs).",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md lines 16–18: 'the magnet-dog method as an alternative to food luring for xenophobic dogs… We never know which bait a dog will respond to (food or other dogs).' Winnie case resolution explicitly attributed to magnet dog in the search-mode interim. Draft uses 'conspecific lure' three times without ever defining or explaining the protocol. Corpus: [[snap-into-action-missing-animal-response-network]], [[dog-befriends-a-fox-while-lost-in-blizzard]].",
+      "recommendation": "Expand Section 4 Practical Encoding (or add a paragraph at the end of Section 2 galgo discussion around line 98) with 2–3 sentences explaining the magnet-dog protocol: definition (calm familiar conspecific draws in panicked dog whose food response is arousal-suppressed), mechanism (social/play signals bypass predator-mimicry triggers; dog gets tunnel vision on conspecific and stops attending to humans), deployment trigger (food-station has been visited without dog entering trap; or trauma-baseline breed with no food response). Cite [[snap-into-action-missing-animal-response-network]] and the Winnie-Phoebe outcome."
+    },
+    {
+      "id": "width-03-benediktova-scent-hound-homing",
+      "severity": "major",
+      "location": "Section 2 (Breed-Specific Priors) — scent-hound row of operational table + Key Empirical Findings paragraph",
+      "issue": "Benediktová et al. 2020 (eLife, n=27 dogs, 622 trials) is the corpus's strongest empirical GPS telemetry data on canine homing behavior — specifically scent hounds — and identifies two distinct homing strategies (tracking 59.4%, magnetic-compass scouting 33.2%). This is rare empirical telemetry in a field where the draft repeatedly notes 'no GPS data exists' as a knowledge gap. The Hashimoto Section 3 expansion mentions adding 'a seventh Scent Track strategy' for the dog adaptation of WiSAR but never grounds it in Benediktová. The scent-hound row of the breed table (Section 2) gives '5–10+ km along scent trail' with no empirical anchor. This is the only published GPS dataset describing how hunting dogs navigate when separated from handler.",
+      "evidence": "evidence-digest.md SQ7: 'Hunting dog GPS telemetry (Benediktová 2020, n=27, 622 trials): scent hounds home using olfactory tracking (59.4%) or magnetic compass scouting (33.2%) — active homing strategies covering hundreds to thousands of meters'. comparisons.md notes Benediktová's 'magnetic compass scouting on return' as a corpus update. Draft contains zero reference to Benediktová, magnetic compass, or the tracking/scouting split. Corpus: [[magnetic-alignment-enhances-homing-efficiency-of-hunting-dogs-elife]].",
+      "recommendation": "Add 1–2 sentences in Section 2 Key Empirical Findings (in or near the scent-hound discussion, between the galgo and podenco subsections) noting the Benediktová finding and its implication: scent hounds (and likely podencos to some degree) actively home via two strategies, which means their movement is not pure random diffusion from IPP — the spatial prior should encode a non-trivial backward-toward-home tendency for scent breeds. Add to the Section 3 calibration table: 'Scent-hound active homing (Benediktová 2020) | 59% tracking + 33% scouting | medium'."
+    },
+    {
+      "id": "width-04-pointing-vs-retrieving",
+      "severity": "major",
+      "location": "Section 2 (Breed-Specific Priors) — Knowledge Gaps + breed table",
+      "issue": "Albrecht 1999 (the only existing breed-type distance dataset, n=254) contains a specific finding that the draft uses partially: it correctly reports mixed-breed ~14 mi and toy <0.75 mi, but drops the pointing-vs-retrieving distinction (pointing breeds travel farther than retrieving breeds). For an Algarve operational context where pointing-type dogs (perdigueiro português, English pointers) are common hunting companions, this is operationally relevant. The scent-hound row of the breed table lumps 'beagle/pointer' together; the corpus's own data shows these should be split.",
+      "evidence": "evidence-digest.md SQ5: 'Albrecht 1999 (n=254, informal): mixed-breed dogs ~14 miles avg before pickup; purebred ~2 miles; toy breeds <0.75 miles; pointing breeds farther than retrieving breeds.' Draft uses the first three figures but omits the pointing/retrieving distinction entirely. Corpus: [[what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal]].",
+      "recommendation": "Add a one-sentence qualifier in Section 2 Knowledge Gaps or in the scent-hound row of the breed table: 'Within scent hounds, Albrecht 1999 reports pointing breeds travel farther than retrieving breeds — relevant for Algarve perdigueiro and English pointer cases, where movement priors should default to the wider end of the 5–10 km range.' No new section needed; just preserve the corpus finding."
+    },
+    {
+      "id": "width-05-scent-article-protocol-specifics",
+      "severity": "major",
+      "location": "Section 3 (Bayesian Updating) — Practical Encoding, around the trap-deployment block lines 277–284",
+      "issue": "The draft's trap deployment protocol abstracts away the operationally critical micro-protocol that the corpus documents in detail: (a) place a familiar scent article (owner's worn clothing) near the escape point as the first anchor action, (b) use smelly canned food with gravy specifically (not dry kibble), (c) tie the trap door open with a bungee cord for the first several nights so the dog enters freely and builds positive association, then spring only after consistent feeding is camera-confirmed. These three specifics are what distinguish 'feeding station' from 'effective passive capture protocol' and are unanimous across MAR, HARTT, and Joyful Pets. The current draft says 'set a humane trap with door tied open overnight initially' once (line 180) but does not specify scent article, food type, or the multi-day conditioning phase.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md lines 20–22: '(1) place familiar scent article near escape point; (2) establish food station with smelly canned food with gravy; (3) confirm dog eating consistently on trail camera; (4) obtain landowner permission; (5) set humane trap with 1–3 hour monitoring intervals … trap doors should be tied open overnight (bungee cord) to allow the dog to enter freely.' Draft Section 3 contains the trap_deployment_eligible() function but loses scent-article placement and food-type specifics. Corpus: [[when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network]], [[snap-into-action-missing-animal-response-network]].",
+      "recommendation": "Expand the trap_deployment_eligible() block or the surrounding paragraph in Section 3 Practical Encoding to enumerate the four sub-protocols: (1) scent-article anchor at escape point within 4h of loss; (2) feeding-station food spec (canned with gravy, not kibble); (3) multi-day comfort phase with bungee-tied open door before spring is armed; (4) camera-confirmed 2-consecutive-day feeding before trap goes live. These can be added as a numbered list under the existing pseudocode block."
+    },
+    {
+      "id": "width-06-owner-at-escape-point",
+      "severity": "major",
+      "location": "Section 4 (Fear Escalation Dynamics) — Practical Encoding, owner-warning surface paragraph around line 379",
+      "issue": "The corpus consistently distinguishes two owner-behavior protocols: (a) owner-stays-at-escape-point with familiar scent items + food + water (the productive alternative to wandering search), and (b) owner-pursues-via-sightings (the prohibited behavior). The draft's owner-warning paragraph (line 379) lists 'set up a feeding station; distribute neon flyers; file a coordinator-only sighting report' but never explicitly names the owner-stays-at-escape-point protocol — which is the highest-yield productive owner action for opportunistic-escape gregarious dogs in the first 24h. This is also the productive channel for owner anxiety that the draft notes is essential to compliance.",
+      "evidence": "interim-report-search-mode-temperament-sighting-protocol.md decision table line 109: 'Xenophobic + any phase → FULL PASSIVE: … owner may be present at escape point' (for Gregarious + Evasion). HARTT note documents owner-at-escape-point + scent article as Phase 1 anchor. Buddha Dog warns about owner presence ONLY in the survival-mode/evasion case. Draft conflates these: line 316 mentions the familiar-stimulus negative association in survival mode but never gives owners the affirmative Phase-1 escape-point protocol. Corpus: [[lost-pet-owner-guide-hartt]], [[lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network]].",
+      "recommendation": "Add a sentence to the owner-warning approved-alternatives list in Section 4 (around line 379): 'For Phase 1 opportunistic-escape gregarious cases, the highest-yield owner action is to remain near the escape point with an unwashed worn item of clothing, water, and food — passive scent-anchor — rather than driving the neighborhood. This converts owner anxiety into productive presence at the location where the dog is most likely to return.' Also add an explicit warning that this protocol REVERSES for Phase 2+ or xenophobic cases, where owner presence at sighting locations becomes counterproductive (the Buddha Dog familiar-stimulus paradox already in the draft)."
+    },
+    {
+      "id": "width-07-hartt-pre-mapping-and-vague-location",
+      "severity": "minor",
+      "location": "Section 3 (Bayesian Updating) — Practical Encoding, Layer 1 description around line 223",
+      "issue": "HARTT's pre-mapping protocol — studying an aerial view of the 2-mile radius from IPP before the first sighting arrives, so that vague civilian descriptions ('near the big tree by the church') can be converted to grid coordinates in real time — is a load-bearing operational step that converts low-information sightings into usable spatial data. The draft references the 2-mile pre-mapping radius in the calibration table but never describes the operational workflow. For Algarve rural terrain where civilians may report sightings as 'by the cork tree past the third olive grove on the road to Messines', this preparation step is what makes Bayesian update tractable.",
+      "evidence": "interim-report-bayesian-sighting-update.md: 'Pre-mapping recommendation within 2-mile radius of escape point is critical: \"Study an aerial view of the area two miles from where your pet went missing… It will also be very helpful if you get sighting calls and the caller is vague with their description of the location.\" This converts vague location descriptions into grid coordinates — a critical precision step before any Bayesian update.' Draft mentions 2-mile pre-mapping radius in the calibration table only. Corpus: [[lost-pet-owner-guide-hartt]].",
+      "recommendation": "Add one sentence to Section 3 Practical Encoding Layer 1 (around line 223): 'Operationally, the engine should generate a pre-mapped 2-mile aerial overlay of the IPP at intake — with named landmarks, road segments, and watershed boundaries — so that vague civilian sightings (\"by the cork tree past the third olive grove\") can be converted to grid coordinates in real time. This pre-mapping is what makes low-λ eyewitness sightings tractable for the posterior update.'"
+    },
+    {
+      "id": "width-08-herding-guardian-thin-coverage-acknowledgement",
+      "severity": "minor",
+      "location": "Section 2 (Breed-Specific Priors) — Knowledge Gaps",
+      "issue": "Coverage-gaps.md flags herding and guardian breeds as 'thin' — no breed-specific lost-dog data found. The draft includes herding and guardian rows in the operational table (lines 131–132) without any acknowledgement that these recommendations have categorically weaker evidentiary grounding than the galgo, podenco, sighthound-other, and toy-breed rows. For the Nona engine, this matters: the herding row recommends 'assume_xenophobic_default + low_noise_protocol' but the user/operator should know this defaults from breed function not from observed lost-dog data.",
+      "evidence": "coverage-gaps.md: 'Herding breeds | **Thin** | Limited specific data; contextual mentions only' and 'Guardian breeds | **Thin** | Very limited coverage; territorial behavior from general sources'. The Section 2 Knowledge Gaps paragraph (line 137) discusses Morrill, Normando, Albrecht limitations but never acknowledges the herding/guardian evidentiary thinness.",
+      "recommendation": "Add a one-sentence qualifier to Section 2 Knowledge Gaps (around line 137): 'Herding and guardian-breed lost-dog priors in the operational table above are inferred from breed function (noise-phobic flight risk; territorial perimeter behavior) rather than from any lost-dog-specific study; treat these rows as priors-of-last-resort that should yield to the first individual signals received.' This protects the engine's calibration honesty without removing the operational rows."
+    },
+    {
+      "id": "width-09-forward-implications-bloat",
+      "severity": "major",
+      "location": "Section 4 — Forward Implications subsection, lines 382–389",
+      "issue": "The 'Forward Implications' subsection at the end of Section 4 is a coda that significantly repeats material already established elsewhere in the report. Three of its four paragraphs restate (a) the 'primary product is preventing fear escalation' thesis (already the closing line of the Executive Summary), (b) the engine-priors-should-age claim (already implicit in the action-gate state machine of Section 4), and (c) the Algarve calibration caveat (already in Section 1 Knowledge Gaps and Section 1 Practical Encoding heat modifier). Only the 'Nona's own data is the highest-value research opportunity' beat is genuinely new. At ~430 words, this subsection adds bulk without proportional new content. The brief is structured around 4 sections × 4 subsections (Empirical / Calibration / Gaps / Encoding) and the 'Forward Implications' is an extra-grammatical fifth subsection appearing only under Section 4.",
+      "evidence": "Lines 383–388 vs. line 5 (Executive Summary) and line 389 ('platform's primary product is not finding lost dogs but preventing the fear escalation') and line 76 (heat modifier) and line 300 (Lost Dogs of America 'preventing escalation' thesis). The 4-subsection-per-section structure mandated by prompt-decomposition.json is broken only here.",
+      "recommendation": "Tighten Forward Implications from 4 paragraphs to 1: keep the 'Nona's own operational data is the highest-value research opportunity' beat (genuinely new and forward-looking) and the 'log every case outcome; refit quarterly once 50+ cases per breed × trigger combination accumulate' actionable. Remove the paragraphs restating fear-escalation-prevention (already the report's closing thesis) and the Algarve heat caveat (already in Section 1). This trims ~250–300 words without losing distinct content."
+    },
+    {
+      "id": "width-10-exec-summary-conclusion-overlap",
+      "severity": "minor",
+      "location": "Executive Summary (lines 5–7) and Section 4 closing paragraph (line 389)",
+      "issue": "The Executive Summary's closing claim ('That asymmetry forces the architecture: belief always updates, action is gated, breed governs the gate at full weight…') and the Section 4 closing paragraph ('The platform's primary product is not finding lost dogs but preventing the fear escalation… every design decision… should be evaluated against whether it reduces or increases the probability of crowd convergence, name-calling during flight, or unauthorized owner pursuit.') restate the same thesis with substantial phrase overlap (belief/action gate; preventing escalation; asymmetric cost). The conclusion does not differentiate itself from the opening — it amplifies emotionally but adds no new strategic implication beyond what the exec summary already committed to.",
+      "evidence": "Lines 5 (exec summary), 300 (Section 4 opening), 389 (Section 4 closing) all carry the 'primary product is preventing fear escalation' beat. Three statements of the same thesis at different points of the report.",
+      "recommendation": "Differentiate the Section 4 closing paragraph by adding 1–2 forward-looking implications absent from the exec summary: (a) the specific UI surface the asymmetric-cost principle implies (intake question phrasing that surfaces escape-trigger type and prior-failed-approach history BEFORE breed); (b) the volunteer-routing implication (calm-protocol-certified volunteers as a distinct role from broadcast-volunteers). Trim the repetition of 'preventing fear escalation' since the exec summary already owns that framing."
+    }
+  ],
+  "summary": {
+    "critical_count": 2,
+    "major_count": 5,
+    "minor_count": 3,
+    "total_findings": 10,
+    "coverage_gap_count": 8,
+    "bloat_finding_count": 2,
+    "notes_apparently_unused_by_draft": [
+      "magnetic-alignment-enhances-homing-efficiency-of-hunting-dogs-elife (Benediktová 2020 GPS telemetry on scent-hound homing — never cited)",
+      "snap-into-action-missing-animal-response-network (magnet-dog method primary source — barely referenced; only 'conspecific lure' tokens appear without explanation)",
+      "behaviors-to-avoid-ct-dog-gone-recovery (CT Dog Gone Recovery sighting-broadcast prohibition — convergence evidence not surfaced)",
+      "shy-lost-dog-strategies-lost-dogs-of-america (Pobloskie shy-dog protocol — never cited despite documenting starvation-prerequisite trapping rationale)",
+      "k9-search-and-rescue-advanced-techniques-to-master-sar-deployment-dogbase-blog (K9 SAR point-to-point sighting-anchor pattern + 40% efficiency-from-planned-patterns figure — never cited)",
+      "the-science-of-finding-lost-pets-iaabc-foundation-journal (IAABC backpacker/berry-picker WiSAR-to-pet-recovery mapping — never cited despite establishing the architectural justification for the Section 3 prior)"
+    ],
+    "structural_observations": [
+      "Section 1 missing microchip RTO differential despite this being the largest single-intervention empirical effect in the corpus.",
+      "Section 2 underweights scent-hound differentiation (pointing vs retrieving; tracking vs scouting) — both empirically supported, both dropped.",
+      "Section 3 abstracts away operational micro-protocols (scent article, food-with-gravy, bungee-tied trap door, pre-mapping workflow) that the corpus consistently treats as load-bearing.",
+      "Section 4 carries a Forward Implications subsection that breaks the mandated 4-subsection symmetry and largely repeats earlier material."
+    ]
+  }
+}

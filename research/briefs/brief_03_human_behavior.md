@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- search-strategy
+- lost-dog-search-ops
+created: '2026-05-28T09:28:53.260578Z'
+updated: '2026-05-28T09:28:54.360445Z'
+status: review
+type: note
+deprecated: false
+summary: 'Project: Nona / Red Cão Algarve — Lost dog rescue operating system'
+---
+
 # Research Brief 03 — Human Behavior Modeling
 
 **For:** Researcher  

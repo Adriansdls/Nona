@@ -5,7 +5,8 @@ tags:
 - lost-dog-behavioral
 - source-analysis
 created: '2026-05-28T07:54:31.772930Z'
-status: draft
+updated: '2026-05-28T09:28:54.508115Z'
+status: review
 type: source-analysis
 deprecated: false
 summary: 'Morrill et al. 2022 (Science, Darwin''s Ark, N=18,385 dogs) shows breed

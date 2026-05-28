@@ -8,12 +8,12 @@ tags:
 - phenotyping-challenges
 - shelter-behavior
 created: '2026-05-28T07:38:45.060993Z'
-updated: '2026-05-28T07:39:02.364396Z'
+updated: '2026-05-28T09:28:54.350963Z'
 source: https://vetapps.vet.upenn.edu/cbarq/about.cfm
 source_domain: vetapps.vet.upenn.edu
 fetched_at: '2026-05-28T07:38:45.060837Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

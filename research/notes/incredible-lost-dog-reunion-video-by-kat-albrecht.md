@@ -9,12 +9,12 @@ tags:
 - trauma-response
 - bloodhound-tracking
 created: '2026-05-28T07:30:53.811866Z'
-updated: '2026-05-28T07:31:48.370354Z'
+updated: '2026-05-28T09:28:54.308476Z'
 source: https://katalbrecht.substack.com/p/incredible-lost-dog-reunion-video
 source_domain: katalbrecht.substack.com
 fetched_at: '2026-05-28T07:30:53.811691Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: commentary
 content_type: blog

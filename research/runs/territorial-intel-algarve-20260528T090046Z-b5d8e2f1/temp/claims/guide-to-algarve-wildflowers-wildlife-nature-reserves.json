@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Four major Algarve nature reserves/parks represent the highest-protection zones with lowest human infrastructure density: Parque Natural da Ria Formosa (coastal east), Reserva Natural Sapal de Castro Marim (far east), Parque Natural do Vale do Guadiana (northeast), Parque Natural da Sudoeste Alentejano e Costa Vincentina (west coast).",
+    "stance": "supports",
+    "stance_target": "protected park boundaries as zones of minimal human infrastructure for territorial model",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve region",
+    "quoted_support": "the national parks and reserves are good places to start. Below are links to detailed information about the most important wildlife areas and natural parks of the Algarve: Parque Natural da Ria Formosa, Reserva Natural do Sapal de Castro Marim e Vila Real do San Antonio, Parque Natural do Vale do Guadiana, Parque Natural da Sudoeste Alentejano e Costa Vincentina.",
+    "numbers": [],
+    "entities": ["Parque Natural da Ria Formosa", "Reserva Natural Sapal de Castro Marim", "Parque Natural do Vale do Guadiana", "Parque Natural da Sudoeste Alentejano e Costa Vincentina", "Fonte de Benemola"],
+    "time_period": "current",
+    "region": "Algarve",
+    "confidence": "high",
+    "source_note_id": "guide-to-algarve-wildflowers-wildlife-nature-reserves"
+  },
+  {
+    "claim": "Maquis habitat is described as 'almost impenetrable' with few clearings — confirming this as a high-containment zone for both dogs and searches, with the qualification that some clearings exist within the dense shrub matrix.",
+    "stance": "supports",
+    "stance_target": "maquis impenetrability with partial clearings = zone with internal refuges but difficult perimeter search",
+    "evidence_type": "empirical",
+    "scope_conditions": "maquis, inland from coast toward Monchique",
+    "quoted_support": "Further inland is another distinctive habitat referred to as maquis and this supports taller and more dense shrubs which can be almost impenetrable. Few of these areas are without some clearings allowing access.",
+    "numbers": [],
+    "entities": ["maquis"],
+    "time_period": "current",
+    "region": "inland Algarve",
+    "confidence": "high",
+    "source_note_id": "guide-to-algarve-wildflowers-wildlife-nature-reserves"
+  },
+  {
+    "claim": "Coastal garrigue zone has clearly walkable open ground with distinct bare stony patches alternating with plant cushions — directly usable as a 'high permeability' classification in terrain encoding.",
+    "stance": "supports",
+    "stance_target": "garrigue as high-permeability terrain class",
+    "evidence_type": "empirical",
+    "scope_conditions": "near-coastal Algarve, garrigue zone",
+    "quoted_support": "This part of the Algarve contains a habitat known as garrigue - an area close to the sea with dense cushions of plants, pruned by the winds and with well defined bare, stony areas in between making the going quite comfortable.",
+    "numbers": [],
+    "entities": ["garrigue", "Algarve coast"],
+    "time_period": "current",
+    "region": "coastal Algarve",
+    "confidence": "high",
+    "source_note_id": "guide-to-algarve-wildflowers-wildlife-nature-reserves"
+  },
+  {
+    "claim": "Abandoned and fallow farmland in the Algarve is 'immediately taken over by vast numbers of wildflowers' — indicating that disused agricultural land rapidly becomes dense vegetation, transitioning from open to semi-impenetrable terrain.",
+    "stance": "supports",
+    "stance_target": "fallow/abandoned farmland as transitional medium-permeability zone",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve farmland",
+    "quoted_support": "farmland that is either abandoned or being allowed to lie fallow is immediately taken over by vast numbers of wildflowers.",
+    "numbers": [],
+    "entities": ["Algarve farmland"],
+    "time_period": "current",
+    "region": "Algarve",
+    "confidence": "medium",
+    "source_note_id": "guide-to-algarve-wildflowers-wildlife-nature-reserves"
+  },
+  {
+    "claim": "Umbrella/Stone pine (Pinus pinea) woodland exists in coastal areas and can withstand salt-laden winds — these coastal pine woodlands represent a distinct traversable but enclosed habitat type in the Litoral zone.",
+    "stance": "supports",
+    "stance_target": "coastal pine woodland as specific terrain type in Litoral zone",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve coastal zone",
+    "quoted_support": "In other parts of the coast there are woodlands consisting mainly of the Umbrella (or Stone) Pine (Pinus pinea) which is one of the few trees that can withstand the harsh, salt-laden and windy conditions found there.",
+    "numbers": [],
+    "entities": ["Pinus pinea", "Stone Pine", "Umbrella Pine"],
+    "time_period": "current",
+    "region": "Algarve coast",
+    "confidence": "high",
+    "source_note_id": "guide-to-algarve-wildflowers-wildlife-nature-reserves"
+  }
+]

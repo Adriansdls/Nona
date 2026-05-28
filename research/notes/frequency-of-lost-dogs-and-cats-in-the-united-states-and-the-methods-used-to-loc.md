@@ -12,12 +12,12 @@ tags:
 - recovery-rate
 - weiss-2012
 created: '2026-05-28T07:29:57.319920Z'
-updated: '2026-05-28T08:08:05.053192Z'
+updated: '2026-05-28T09:28:54.534974Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC4494319/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:29:57.319771Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: policy

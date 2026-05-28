@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-galgo-vs-greyhound-behavioral-equivalence
 created: '2026-05-28T08:09:27.663596Z'
+updated: '2026-05-28T09:28:54.400483Z'
 source: https://dogbehavior.it/dogbehavior/article/view/183
 source_domain: dogbehavior.it
 fetched_at: '2026-05-28T08:09:27.663379Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Analysis of the management of a shelter dog kennel
 ---
 
 Analysis of the management of a shelter dog kennel

@@ -7,12 +7,12 @@ tags:
 - wind
 - algarve
 created: '2026-05-28T07:28:58.952945Z'
-updated: '2026-05-28T08:08:07.588009Z'
+updated: '2026-05-28T09:28:54.531950Z'
 source: https://weather-aware.com/posts/nortada/
 source_domain: weather-aware.com
 fetched_at: '2026-05-28T07:28:58.952791Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

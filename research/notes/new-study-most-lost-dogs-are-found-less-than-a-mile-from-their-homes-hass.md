@@ -8,12 +8,12 @@ tags:
 - dallas-shelter
 - kremer-2021
 created: '2026-05-28T07:35:56.244239Z'
-updated: '2026-05-28T07:36:29.474587Z'
+updated: '2026-05-28T09:28:54.577555Z'
 source: https://www.humananimalsupportservices.org/blog/help-get-more-lost-dogs-back-to-their-families/
 source_domain: www.humananimalsupportservices.org
 fetched_at: '2026-05-28T07:35:56.244076Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

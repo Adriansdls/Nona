@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- kat-albrecht
+- locus-dog-phase-transition-thresholds
+created: '2026-05-28T09:28:53.355706Z'
+updated: '2026-05-28T09:28:54.426650Z'
+status: review
+type: note
+deprecated: false
+summary: 'Locus question: When a Podenco runs lost in Algarve scrubland, does it primarily
+  follow scent trails (extended nose-d...'
+---
+
 # Interim report: podenco-lost-movement-pattern
 
 **Locus question:** When a Podenco runs lost in Algarve scrubland, does it primarily follow scent trails (extended nose-down meandering, large circular search area) or make sight-triggered bursts (directional sprint to last-visual-contact)? McLennan's Hunt/Chase 69%/Consume 8% data exists but the spatial movement implication is unresolved.

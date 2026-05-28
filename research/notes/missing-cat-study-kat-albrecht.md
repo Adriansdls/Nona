@@ -8,12 +8,12 @@ tags:
 - kat-albrecht
 - huang-2018
 created: '2026-05-28T07:29:51.535538Z'
-updated: '2026-05-28T07:32:38.369240Z'
+updated: '2026-05-28T09:28:54.283039Z'
 source: https://katalbrecht.com/lost-pet-behaviors/missing-cat-study/
 source_domain: katalbrecht.com
 fetched_at: '2026-05-28T07:29:51.535373Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

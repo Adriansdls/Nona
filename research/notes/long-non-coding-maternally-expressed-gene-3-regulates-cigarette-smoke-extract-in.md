@@ -7,15 +7,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:09:00.365363Z'
+updated: '2026-05-28T09:28:54.391198Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7693283/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:09:00.365201Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Long non-coding maternally expressed gene 3 regulates cigarette smoke extract-induced
+  apoptosis, inflammation and cyt...
 ---
 
 Long non-coding maternally expressed gene 3 regulates cigarette smoke extract-induced apoptosis, inflammation and cytotoxicity by sponging miR-181a-2-3p in 16HBE cells - PMC

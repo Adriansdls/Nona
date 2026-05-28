@@ -7,12 +7,12 @@ tags:
 - search-dogs
 - lost-dog
 created: '2026-05-28T08:39:48.574488Z'
-updated: '2026-05-28T08:41:33.030539Z'
+updated: '2026-05-28T09:28:54.596112Z'
 source: https://lostpetresearch.com/2018/11/how-accurate-are-search-dogs-part-2-scent-discrimination-dogs/
 source_domain: lostpetresearch.com
 fetched_at: '2026-05-28T08:39:48.574305Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

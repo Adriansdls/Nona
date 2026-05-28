@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-podenco-lost-movement-pattern
 created: '2026-05-28T08:09:36.989878Z'
+updated: '2026-05-28T09:28:54.402419Z'
 source: https://www.akc.org/dog-breeds/ibizan-hound/
 source_domain: www.akc.org
 fetched_at: '2026-05-28T08:09:36.989744Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Ibizan Hound Dog Breed Information
 ---
 
 Ibizan Hound Dog Breed Information

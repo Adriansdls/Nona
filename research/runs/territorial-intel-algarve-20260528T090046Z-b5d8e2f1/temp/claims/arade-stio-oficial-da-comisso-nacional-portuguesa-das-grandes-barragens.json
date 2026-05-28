@@ -1,0 +1,16 @@
+[
+  {
+    "claim": "Barragem do Arade (APA official data) has useful capacity of 26.744 hm³, surface area of 1.82 km² at full storage, minimum exploitation level of 34.5m — when below this level the reservoir is non-functional as a water source for wildlife.",
+    "stance": "supports",
+    "stance_target": "Barragem do Arade as conditional permanent water source in territorial layer — with minimum functional threshold",
+    "evidence_type": "empirical",
+    "scope_conditions": "Barragem do Arade, Silves; APA official registry data",
+    "quoted_support": "Capacidade útil - 26744 x 1000m3 / Nível de pleno armazenamento (NPA) - 61 m / Nível mínimo de exploração (Nme) - 34,5 m / Área inundada ao NPA - 1820 x 1000m2",
+    "numbers": ["26,744,000 m³ useful capacity", "28,389,000 m³ total capacity", "1,645,000 m³ dead volume", "1.82 km² surface at NPA", "NPA 61m", "NMC 62.5m", "Nme 34.5m", "229 km² basin area", "777mm mean annual precipitation"],
+    "entities": ["Barragem do Arade", "Silves", "APA", "CNPGB", "Associação de Regantes e Beneficiários de Silves, Lagoa e Portimão"],
+    "time_period": "1956-present",
+    "region": "Silves municipality, Barlavento Algarve",
+    "confidence": "high",
+    "source_note_id": "arade-stio-oficial-da-comisso-nacional-portuguesa-das-grandes-barragens"
+  }
+]

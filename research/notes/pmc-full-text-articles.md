@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-galgo-vs-greyhound-behavioral-equivalence
 created: '2026-05-28T08:08:51.500741Z'
+updated: '2026-05-28T09:28:54.389317Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/search/?query=galgo+behavior+fear+anxiety
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:51.500613Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Official websites use .gov
 ---
 
 PMC Full Text Articles

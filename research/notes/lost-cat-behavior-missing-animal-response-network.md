@@ -8,12 +8,12 @@ tags:
 - behavioral-typology
 - trap-and-reunite
 created: '2026-05-28T07:35:19.413194Z'
-updated: '2026-05-28T07:40:11.762566Z'
+updated: '2026-05-28T09:28:54.572148Z'
 source: https://www.missinganimalresponse.com/lost-cat-behavior/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:35:19.413038Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

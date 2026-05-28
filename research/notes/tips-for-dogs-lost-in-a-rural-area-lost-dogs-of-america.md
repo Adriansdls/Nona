@@ -9,12 +9,12 @@ tags:
 - kathy-pobloskie
 - lost-dogs-of-america
 created: '2026-05-28T07:36:39.695498Z'
-updated: '2026-05-28T07:36:53.819929Z'
+updated: '2026-05-28T09:28:54.341038Z'
 source: https://lostdogsofamerica.org/tips-for-dogs-lost-in-a-rural-area/
 source_domain: lostdogsofamerica.org
 fetched_at: '2026-05-28T07:36:39.695327Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

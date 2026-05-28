@@ -7,12 +7,12 @@ tags:
 - galgo-rescue
 - sighthound
 created: '2026-05-28T07:35:30.188865Z'
-updated: '2026-05-28T07:36:14.636426Z'
+updated: '2026-05-28T09:28:54.332988Z'
 source: https://minnesotagreyhoundrescue.org/what-is-a-galgo/
 source_domain: minnesotagreyhoundrescue.org
 fetched_at: '2026-05-28T07:35:30.188704Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

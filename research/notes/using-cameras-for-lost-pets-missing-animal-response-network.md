@@ -6,12 +6,12 @@ tags:
 - camera-trap
 - lost-dog
 created: '2026-05-28T07:28:50.563472Z'
-updated: '2026-05-28T08:08:08.527667Z'
+updated: '2026-05-28T09:28:54.529004Z'
 source: https://www.missinganimalresponse.com/using-cameras-for-lost-pets/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:28:50.563328Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

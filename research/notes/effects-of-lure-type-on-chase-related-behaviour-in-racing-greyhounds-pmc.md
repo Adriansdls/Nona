@@ -8,12 +8,12 @@ tags:
 - chase-behavior
 - peer-reviewed
 created: '2026-05-28T07:35:36.111409Z'
-updated: '2026-05-28T07:36:37.553550Z'
+updated: '2026-05-28T09:28:54.339194Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7760772/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:35:36.111251Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy

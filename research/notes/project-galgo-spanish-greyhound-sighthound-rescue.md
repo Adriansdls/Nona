@@ -5,12 +5,12 @@ tags:
 - lost-dog-behavioral
 - galgo-rescue
 created: '2026-05-28T07:30:25.181117Z'
-updated: '2026-05-28T07:32:18.671451Z'
+updated: '2026-05-28T09:28:54.292650Z'
 source: https://projectgalgo.com/
 source_domain: projectgalgo.com
 fetched_at: '2026-05-28T07:30:25.180937Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

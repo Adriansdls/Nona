@@ -4,7 +4,7 @@ id: when-fear-bites-galgo-news
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:35:03.265508Z'
-updated: '2026-05-28T07:35:25.457141Z'
+updated: '2026-05-28T09:28:53.243319Z'
 source: https://galgonews.com/galgonews/2026/05/when-fear-bites/
 source_domain: galgonews.com
 fetched_at: '2026-05-28T07:35:03.265404Z'
@@ -14,6 +14,8 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Suggested by from-heaven-to-hell-the-story-of-the-galgo-espagnol-galgo-news
+  — recent article on galgo fear behavior l...
 ---
 
 *Suggested by [[from-heaven-to-hell-the-story-of-the-galgo-espagnol-galgo-news]] — recent article on galgo fear behavior linked from same domain*

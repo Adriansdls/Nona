@@ -7,15 +7,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:08:46.553726Z'
+updated: '2026-05-28T09:28:54.386386Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8157401/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:08:46.553564Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Characteristics of the AT-Hook Motif Containing Nuclear Localized (AHL) Genes
+  in Carrot Provides Insight into Their R...
 ---
 
 Characteristics of the AT-Hook Motif Containing Nuclear Localized (AHL) Genes in Carrot Provides Insight into Their Role in Plant Growth and Storage Root Development - PMC

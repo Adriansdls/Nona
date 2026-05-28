@@ -9,12 +9,12 @@ tags:
 - magnetic-compass
 - scent-hound
 created: '2026-05-28T08:31:37.538014Z'
-updated: '2026-05-28T08:32:44.859362Z'
+updated: '2026-05-28T09:28:54.440905Z'
 source: https://elifesciences.org/articles/55080
 source_domain: elifesciences.org
 fetched_at: '2026-05-28T08:31:37.537850Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

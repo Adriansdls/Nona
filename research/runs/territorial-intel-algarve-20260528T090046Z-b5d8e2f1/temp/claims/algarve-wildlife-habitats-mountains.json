@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Serra de Monchique has large eucalyptus plantation zones on lower slopes that give way to open heathland at summit — eucalyptus is traversable but monotonous, while the open heathland at higher elevations supports more wildlife and visibility.",
+    "stance": "supports",
+    "stance_target": "Monchique terrain permeability encoding: lower slopes passable (eucalyptus), upper slopes open (heathland)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra de Monchique",
+    "quoted_support": "Once above Monchique the drive up to the top of the mountains at Foia can be somewhat depressing as it winds through endless Eucalyptus plantations, but do persevere. Eventually the Eucalyptus gives way to open heathland, which is where the majority of the wildflowers and other wildlife can be seen and enjoyed.",
+    "numbers": [],
+    "entities": ["Serra de Monchique", "Foia", "eucalyptus"],
+    "time_period": "current",
+    "region": "Serra de Monchique",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-mountains"
+  },
+  {
+    "claim": "Serra do Caldeirão is mostly wooded along the main A2 route (São Brás de Alportel to Castro Verde) with numerous informal parking areas — road access exists but terrain is winding and time-consuming.",
+    "stance": "supports",
+    "stance_target": "Caldeirão road access and woodland terrain encoding",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra do Caldeirão, Route A2",
+    "quoted_support": "The road (Route A2) that runs from Sao Bras de Alportel in the south to Castro Verde in the north has numerous stopping places where the curious can get out of their cars and explore the terrain which is largely wooded. It is an excellent route for those who are interested in fungi... This road is an excellent and very scenic route to take... It is very winding, steep and time-consuming.",
+    "numbers": [],
+    "entities": ["Serra do Caldeirão", "A2", "São Brás de Alportel", "Castro Verde"],
+    "time_period": "current",
+    "region": "Serra do Caldeirão",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-mountains"
+  },
+  {
+    "claim": "Serra de Espinhaço de Cão is best accessed via road 268 between Odeceixe and Carapateira — the only named access road for this western range, relevant for lost dog search logistics.",
+    "stance": "supports",
+    "stance_target": "Espinhaço de Cão road access encoding",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra de Espinhaço de Cão, western Algarve",
+    "quoted_support": "The Serra de Espinhaco de Cao is a range of gentle hills which are best accessed from the 268 road between Odeceixe and Carapateira on the western coast of the Algarve.",
+    "numbers": ["road 268"],
+    "entities": ["Serra de Espinhaço de Cão", "Odeceixe", "Carapateira", "road 268"],
+    "time_period": "current",
+    "region": "western Algarve",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-mountains"
+  },
+  {
+    "claim": "Serra de Monchique's underlying syenite geology (relatively rare) contributes to unique habitat diversity — under consideration for Natura 2000 designation — and Iberian Lynx presence makes it one of the most ecologically significant mountain zones in southern Portugal.",
+    "stance": "neutral",
+    "stance_target": "Monchique as high-complexity wildlife zone requiring specific territorial encoding",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra de Monchique",
+    "quoted_support": "The underlying rock of these mountains is syenite which is relatively rare, and leads to a diversity of special wildlife habitats which are under consideration for Natura 2000 designation and protection... Serra de Monchique is one of the last strongholds of the Iberian Lynx which has been driven to the point extinction in both Spain and Portugal as a result of habitat destruction.",
+    "numbers": [],
+    "entities": ["Serra de Monchique", "syenite", "Iberian Lynx", "Natura 2000"],
+    "time_period": "current",
+    "region": "Serra de Monchique",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-mountains"
+  },
+  {
+    "claim": "All three mountain ranges offer easy road access for parking and departure on foot — meaning search vehicle deployment can reach mountain zone boundaries on main roads, but foot penetration is needed for interior terrain.",
+    "stance": "supports",
+    "stance_target": "mountain zone search logistics: vehicle-accessible boundary, foot-access interior",
+    "evidence_type": "empirical",
+    "scope_conditions": "all three Algarve mountain ranges",
+    "quoted_support": "All three of these mountain ranges offer excellent terrain for wildlife enthusiasts to explore and enjoy. Access to various walks in the mountain areas is easy from the main roads which run through them, and there are sufficient informal parking places along the routes at which you can leave your transport and set off for a hike.",
+    "numbers": [],
+    "entities": ["Serra de Monchique", "Serra do Caldeirão", "Serra de Espinhaço de Cão"],
+    "time_period": "current",
+    "region": "Algarve mountain ranges",
+    "confidence": "high",
+    "source_note_id": "algarve-wildlife-habitats-mountains"
+  }
+]

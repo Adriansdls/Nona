@@ -9,12 +9,12 @@ tags:
 - fear-behavior
 - practitioner-guide
 created: '2026-05-28T07:30:46.571670Z'
-updated: '2026-05-28T07:48:37.077412Z'
+updated: '2026-05-28T09:28:54.546498Z'
 source: https://www.buddhadogrescueandrecovery.com/pages/survival-mode
 source_domain: www.buddhadogrescueandrecovery.com
 fetched_at: '2026-05-28T07:30:46.571511Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

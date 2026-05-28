@@ -7,12 +7,12 @@ tags:
 - breed-overview
 - sighthound-comparison
 created: '2026-05-28T07:30:32.334763Z'
-updated: '2026-05-28T07:31:24.679356Z'
+updated: '2026-05-28T09:28:54.303077Z'
 source: https://www.dogpackapp.com/blog/dog-breeds/podenco/
 source_domain: www.dogpackapp.com
 fetched_at: '2026-05-28T07:30:32.334611Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

@@ -1,0 +1,15 @@
+{
+  "run_id": "territorial-intel-algarve-20260528T090046Z-b5d8e2f1",
+  "vault_tag": "territorial-intel-algarve",
+  "created": "2026-05-28T09:00:46Z",
+  "status": "completed",
+  "current_step": 10,
+  "artifact_dir": "research/runs/territorial-intel-algarve-20260528T090046Z-b5d8e2f1",
+  "temp_dir": "research/runs/territorial-intel-algarve-20260528T090046Z-b5d8e2f1/temp",
+  "claims_dir": "research/runs/territorial-intel-algarve-20260528T090046Z-b5d8e2f1/temp/claims",
+  "query_file_path": "research/runs/territorial-intel-algarve-20260528T090046Z-b5d8e2f1/query.md",
+  "final_report_path": "research/notes/final_report_territorial-intel-algarve.md",
+  "pipeline_tier": "light",
+  "forced_tier": "light",
+  "modality": null
+}

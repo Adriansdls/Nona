@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- locus-dog-phase-transition-thresholds
+- lost-dog
+- locus-bayesian-sighting-update
+created: '2026-05-28T09:28:53.381779Z'
+updated: '2026-05-28T09:28:54.459516Z'
+status: review
+type: note
+deprecated: false
+summary: The probabilistic engine that Nona requires cannot rest on a single phase
+  model, a single breed prior, or a single si...
+---
+
 # Probabilistic Behavioral Engine for Lost-Dog Rescue — Depth-Optimized Draft
 
 ## Executive Summary

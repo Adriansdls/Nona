@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:08:44.501552Z'
+updated: '2026-05-28T09:28:54.385325Z'
 source: https://arxiv.org/abs/2104.02060
 source_domain: arxiv.org
 fetched_at: '2026-05-28T08:08:44.501420Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: institutional
 content_type: paper
 deprecated: false
+summary: '[2104.02060] Toward Generating Synthetic CT Volumes using a 3D-Conditional
+  Generative Adversarial Network'
 ---
 
 [2104.02060] Toward Generating Synthetic CT Volumes using a 3D-Conditional Generative Adversarial Network

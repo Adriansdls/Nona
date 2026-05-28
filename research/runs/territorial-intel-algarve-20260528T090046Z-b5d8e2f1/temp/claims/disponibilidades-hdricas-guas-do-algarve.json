@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "As of May 8, 2026, the three main Algarve public supply dams are near capacity: Odelouca 88.18% full (138.56 hm³), Odeleite 96.43% full (125.36 hm³), Beliche 91.74% full (44.04 hm³) — representing full viable permanent water sources for wildlife and lost dogs.",
+    "stance": "supports",
+    "stance_target": "Algarve reservoirs as active permanent water sources in current territorial layer (2026 operational status)",
+    "evidence_type": "statistical",
+    "scope_conditions": "Three main Algarve dams (Odelouca, Odeleite, Beliche); data from Águas do Algarve weekly monitoring as of 08/05/2026",
+    "quoted_support": "BARRAGEM DE ODELOUCA: 08/05/26 — 138,56 hm³ (88,18%) total, 109,62 hm³ (85,51%) útil. BARRAGEM DE ODELEITE: 08/05/26 — 125,36 hm³ (96,43%) total, 104,16 hm³ (95,74%) útil. BARRAGEM DE BELICHE: 08/05/26 — 44,04 hm³ (91,74%) total, 38,93 hm³ (90,76%) útil.",
+    "numbers": ["Odelouca: 138.56 hm³ / 88.18% (08/05/26)", "Odeleite: 125.36 hm³ / 96.43% (08/05/26)", "Beliche: 44.04 hm³ / 91.74% (08/05/26)", "Odelouca total capacity: 157.14 hm³ useful 128.2 hm³", "Odeleite total: 130 hm³ useful 108.80 hm³", "Beliche total: 48 hm³ useful 42.89 hm³"],
+    "entities": ["Barragem de Odelouca", "Barragem de Odeleite", "Barragem de Beliche", "Águas do Algarve"],
+    "time_period": "April-May 2026",
+    "region": "Algarve, Portugal",
+    "confidence": "high",
+    "source_note_id": "disponibilidades-hdricas-guas-do-algarve"
+  },
+  {
+    "claim": "Reservoir levels decreased steadily each week from April to May 2026 (Odelouca: 141.12 hm³ on 10/04/26 → 138.56 hm³ on 08/05/26), confirming summer drawdown trend as evaporation and abstraction exceed rainfall inputs.",
+    "stance": "supports",
+    "stance_target": "Algarve reservoir seasonal depletion rate — for temporal modeling of water availability in summer rescue scenarios",
+    "evidence_type": "statistical",
+    "scope_conditions": "Barragem de Odelouca; April-May 2026 weekly data",
+    "quoted_support": "10/04/26: 141,12 hm³ (89,80%) → 08/05/26: 138,56 hm³ (88,18%) — consistent weekly decline across all three reservoirs.",
+    "numbers": ["Odelouca loss: ~2.56 hm³ over 28 days (Apr-May 2026)", "weekly decline rate approximately 0.64 hm³/week"],
+    "entities": ["Barragem de Odelouca", "Águas do Algarve"],
+    "time_period": "April-May 2026",
+    "region": "Western Algarve",
+    "confidence": "high",
+    "source_note_id": "disponibilidades-hdricas-guas-do-algarve"
+  }
+]

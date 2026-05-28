@@ -10,12 +10,12 @@ tags:
 - separation-anxiety
 - fear-response
 created: '2026-05-28T07:31:48.647111Z'
-updated: '2026-05-28T07:32:50.686195Z'
+updated: '2026-05-28T09:28:54.327597Z'
 source: https://animalcorner.org/dog-breeds/galgo-espanol/
 source_domain: animalcorner.org
 fetched_at: '2026-05-28T07:31:48.646969Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

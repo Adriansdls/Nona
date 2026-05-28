@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:11:13.002022Z'
+updated: '2026-05-28T09:28:54.420006Z'
 source: https://www.frontiersin.org/articles/10.3389/fvets.2016.00064/full
 source_domain: www.frontiersin.org
 fetched_at: '2026-05-28T08:11:13.001862Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: 'Frontiers | Larynx Trauma and Hyoid Bone Fracture after Bite Injury in Dog:
+  Case Report'
 ---
 
 Frontiers | Larynx Trauma and Hyoid Bone Fracture after Bite Injury in Dog: Case Report

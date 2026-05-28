@@ -7,12 +7,12 @@ tags:
 - flight-mode
 - capture-techniques
 created: '2026-05-28T07:31:32.099174Z'
-updated: '2026-05-28T07:32:31.975654Z'
+updated: '2026-05-28T09:28:54.559741Z'
 source: https://www.missinganimalresponse.com/pet-detective-cases/snap-into-action/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:31:32.099009Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

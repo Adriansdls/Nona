@@ -6,12 +6,12 @@ tags:
 - wind
 - algarve
 created: '2026-05-28T07:34:45.160793Z'
-updated: '2026-05-28T08:08:07.346177Z'
+updated: '2026-05-28T09:28:54.567781Z'
 source: https://blog.getboat.com/stories-experiences/navigating-portugal-atlantic-winds/
 source_domain: blog.getboat.com
 fetched_at: '2026-05-28T07:34:45.160625Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

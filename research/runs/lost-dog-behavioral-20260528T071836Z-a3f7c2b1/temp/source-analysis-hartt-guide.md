@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- search-strategy
+- terrain
+- dog-movement-algarve
+created: '2026-05-28T09:28:53.258019Z'
+updated: '2026-05-28T09:28:54.359058Z'
+status: review
+type: note
+deprecated: false
+summary: 'Original source: lost-pet-owner-guide-hartt'
+---
+
 # Source Analysis — Lost Pet Owner Guide | HARTT
 
 **Original source:** [[lost-pet-owner-guide-hartt]]

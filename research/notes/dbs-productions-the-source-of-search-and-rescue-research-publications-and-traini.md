@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:12:01.762425Z'
+updated: '2026-05-28T09:28:54.423819Z'
 source: https://www.dbs-sar.com
 source_domain: www.dbs-sar.com
 fetched_at: '2026-05-28T08:12:01.762256Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: dbS Productions - The Source of Search and Rescue Research, Publications,
+  and Training
 ---
 
 dbS Productions - The Source of Search and Rescue Research, Publications, and Training

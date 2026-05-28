@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "57% of the Geoparque Algarvensis territory (covering Loulé, Silves, Albufeira — ~1,381 km2) is classified under Portugal's National System of Classified Areas (SNAC), meaning land use is constrained and human infrastructure is sparse across the majority of the Barrocal and mountain zones.",
+    "stance": "supports",
+    "stance_target": "low human activity in classified natural areas = lower sighting probability for lost dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Loulé, Silves, Albufeira municipalities",
+    "quoted_support": "This territory has around 57% of its surface area classified under the National System of Classified Areas (SNAC), including the Local Protected Landscapes of Rocha da Pena and Fonte Benémola.",
+    "numbers": ["1,381 km2 total area", "57% under SNAC", "~1/3 of total Algarve territory"],
+    "entities": ["Geoparque Algarvensis", "SNAC", "Rocha da Pena", "Fonte Benémola", "Loulé", "Silves", "Albufeira"],
+    "time_period": "current",
+    "region": "central Algarve (Loulé, Silves, Albufeira)",
+    "confidence": "high",
+    "source_note_id": "biodiversity-explore-geoparque-algarvensis-municpios-de-loul-silves-e-albufeira"
+  },
+  {
+    "claim": "Six Natura 2000 Sites of Community Importance cover the area: Monchique, Arade/Odelouca, Quarteira Stream, Barrocal, Caldeirão, and Guadiana — confirming that both major river corridors (Arade, Odelouca) and the Barrocal zone have formal ecological status.",
+    "stance": "supports",
+    "stance_target": "Arade/Odelouca river corridor as ecologically significant movement axis",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve Natura 2000 network",
+    "quoted_support": "six Sites of Community Importance (SCI) Monchique, Arade/Odelouca, the Quarteira Stream, Barrocal, Caldeirão and Guadiana and two Special Protection Areas (SPA) Caldeirão and Monchique, areas integrated in the Natura 2000 Network.",
+    "numbers": ["6 SCIs", "2 SPAs"],
+    "entities": ["Monchique SCI", "Arade/Odelouca SCI", "Barrocal SCI", "Caldeirão SCI", "Guadiana SCI", "Natura 2000"],
+    "time_period": "current",
+    "region": "Algarve",
+    "confidence": "high",
+    "source_note_id": "biodiversity-explore-geoparque-algarvensis-municpios-de-loul-silves-e-albufeira"
+  },
+  {
+    "claim": "The Vascão Stream (Ribeira do Vascão) holds RAMSAR Wetland of International Importance status — confirming it as a permanent water body with high ecological value and a likely focal point for wildlife including lost dogs seeking water.",
+    "stance": "supports",
+    "stance_target": "Vascão as permanent water attractor in eastern Algarve/Alentejo border zone",
+    "evidence_type": "empirical",
+    "scope_conditions": "Vascão Stream, eastern Algarve",
+    "quoted_support": "It also has a Wetland of International Importance for waterfowl and fish under the RAMSAR Convention, the Vascão Stream.",
+    "numbers": [],
+    "entities": ["Vascão Stream", "RAMSAR"],
+    "time_period": "current",
+    "region": "eastern Algarve, Alentejo border",
+    "confidence": "high",
+    "source_note_id": "biodiversity-explore-geoparque-algarvensis-municpios-de-loul-silves-e-albufeira"
+  },
+  {
+    "claim": "The Algarve Regional Land Management Plan (PROT) defines a Regional Structure for Environmental Protection with ecological corridors connecting classified sites — these ecological corridors overlap with likely wildlife movement routes relevant to dog behavioral modeling.",
+    "stance": "supports",
+    "stance_target": "PROT ecological corridors as movement data source for territorial layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve region, PROT planning framework",
+    "quoted_support": "These sites, together with a system of ecological corridors, are a large part of the Regional Structure for Environmental Protection and Enhancement presented in the Algarve Regional Land Management Plan (PROT).",
+    "numbers": [],
+    "entities": ["PROT", "Algarve", "ecological corridors"],
+    "time_period": "current",
+    "region": "Algarve",
+    "confidence": "high",
+    "source_note_id": "biodiversity-explore-geoparque-algarvensis-municpios-de-loul-silves-e-albufeira"
+  }
+]

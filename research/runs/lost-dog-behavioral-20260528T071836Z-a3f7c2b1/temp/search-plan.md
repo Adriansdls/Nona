@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- survival-mode
+- sighthound
+created: '2026-05-28T09:28:53.235490Z'
+updated: '2026-05-28T09:28:54.276162Z'
+status: review
+type: note
+deprecated: false
+summary: '| Atomic item | Search query | Type | Lens | Target |'
+---
+
 # Search Plan — lost-dog-behavioral
 
 | Atomic item | Search query | Type | Lens | Target |

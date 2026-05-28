@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:14:24.482545Z'
+updated: '2026-05-28T09:28:54.429354Z'
 source: https://pethealthnetwork.com/dog-health/cortisol-test-dogs
 source_domain: www.pethealthnetwork.com
 fetched_at: '2026-05-28T08:14:24.482410Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Dog Checkups and Preventive Care
 ---
 
 Skip to main content

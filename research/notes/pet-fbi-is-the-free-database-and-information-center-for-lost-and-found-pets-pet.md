@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:12:25.761702Z'
+updated: '2026-05-28T09:28:54.425795Z'
 source: https://www.petfbi.org
 source_domain: petfbi.org
 fetched_at: '2026-05-28T08:12:25.761538Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Pet FBI is The Free Database and Information Center For Lost and Found Pets
+  | Pet FBI Pets Found By Internet
 ---
 
 Pet FBI is The Free Database and Information Center For Lost and Found Pets | Pet FBI Pets Found By Internet

@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- lost-dog
+- survival-mode
+- kat-albrecht
+- sighthound
+created: '2026-05-28T09:28:53.237338Z'
+updated: '2026-05-28T09:28:54.277945Z'
+status: review
+type: note
+deprecated: false
+summary: 'Scores: Authority(0-3) + Novelty(0-3) + Stance(0-3) + Coverage(0-3) + Redundancy(0-3)
+  + Freshness(0-3) = max 18'
+---
+
 # Scored URL Queue — lost-dog-behavioral
 
 Scores: Authority(0-3) + Novelty(0-3) + Stance(0-3) + Coverage(0-3) + Redundancy(0-3) + Freshness(0-3) = max 18

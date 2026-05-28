@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:11:11.003195Z'
+updated: '2026-05-28T09:28:54.418966Z'
 source: https://www.frontiersin.org/articles/10.3389/fvets.2018.00192/full
 source_domain: www.frontiersin.org
 fetched_at: '2026-05-28T08:11:11.003029Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: 'Frontiers | Evaluating Diagnostic Tests With Near-Perfect Specificity: Use
+  of a Hui–Walter Approach When Designing a ...'
 ---
 
 Frontiers | Evaluating Diagnostic Tests With Near-Perfect Specificity: Use of a Hui–Walter Approach When Designing a Trial of a DIVA Test for Bovine Tuberculosis

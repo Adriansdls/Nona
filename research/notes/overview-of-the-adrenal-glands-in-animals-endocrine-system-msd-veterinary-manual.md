@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:10:05.793795Z'
+updated: '2026-05-28T09:28:54.408508Z'
 source: https://www.msdvetmanual.com/endocrine-system/the-adrenal-glands/adrenal-cortex
 source_domain: www.msdvetmanual.com
 fetched_at: '2026-05-28T08:10:05.793631Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Overview of the Adrenal Glands in Animals - Endocrine System - MSD Veterinary
+  Manual
 ---
 
 Overview of the Adrenal Glands in Animals - Endocrine System - MSD Veterinary Manual

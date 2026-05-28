@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Serra do Caldeirão supports ~150 bird species with Bonelli's Eagle (one of Portugal's most important populations), Eagle Owl, and Goshawk as apex predators — indicating a functioning raptor ecosystem that would represent danger to small dogs and fear stimulus for medium/large dogs.",
+    "stance": "supports",
+    "stance_target": "raptor presence in Serra Caldeirão as behavioral stress factor for lost dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra do Caldeirão",
+    "quoted_support": "The Serra do Caldeirão supports a wealthy community of woodland passerines and birds of prey, comprising about 150 species that include raptors such as the Short-toed Eagle, the Goshawk, the Sparrowhawk, and the Eagle Owl... The Algarve also shelters one of the most important populations of Bonelli's Eagle in Portugal, a regionally endangered species that occurs mainly throughout the inland 'Serras'.",
+    "numbers": ["~150 bird species"],
+    "entities": ["Serra do Caldeirão", "Bonelli's Eagle", "Eagle Owl", "Goshawk"],
+    "time_period": "current",
+    "region": "Serra do Caldeirão",
+    "confidence": "high",
+    "source_note_id": "serra-do-caldeiro-birds-and-nature-algarve-hiking-sightseeing-birding"
+  },
+  {
+    "claim": "The Serra do Caldeirão has no single birding hotspot — wildlife is diffusely distributed across peaks and valleys — meaning search grid coverage must be comprehensive rather than concentrated around specific attractors.",
+    "stance": "supports",
+    "stance_target": "Caldeirão as diffuse-distribution search zone (no concentration hotspots)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra do Caldeirão",
+    "quoted_support": "Contrary to other places in Algarve, in the Serras there is not a 'birding hotspot' where birds occur in relatively large concentrations; Barranco das Lajes and the neighbouring peaks and valleys are as good as any other place to observe most of the birds mentioned above.",
+    "numbers": [],
+    "entities": ["Serra do Caldeirão", "Barranco das Lajes"],
+    "time_period": "current",
+    "region": "Serra do Caldeirão",
+    "confidence": "high",
+    "source_note_id": "serra-do-caldeiro-birds-and-nature-algarve-hiking-sightseeing-birding"
+  },
+  {
+    "claim": "Iberian Lynx reintroduction is active in the Algarve Serras; in the Serra, Lynx competes with Mongoose, Wildcat, and Fox (all common throughout the Serras) — this predator community represents a direct hazard to small/medium lost dogs.",
+    "stance": "supports",
+    "stance_target": "Serra Caldeirão/Monchique predator community as hazard category for territorial model",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve Serras",
+    "quoted_support": "In the Algarve, the Lynx has to face competition from the Mongoose, the Wildcat and the Fox, which are common throughout the Serras.",
+    "numbers": [],
+    "entities": ["Iberian Lynx", "Mongoose", "Wildcat", "Fox", "Serra do Caldeirão", "Serra de Monchique"],
+    "time_period": "current",
+    "region": "Algarve Serras",
+    "confidence": "high",
+    "source_note_id": "serra-do-caldeiro-birds-and-nature-algarve-hiking-sightseeing-birding"
+  },
+  {
+    "claim": "Named accessible birding locations in Caldeirão (Barranco das Lajes, Barranco do Velho, Parises, Rocha da Pena, Fonte da Benémola) represent specific geographic reference points with trail access — usable as search coordination nodes.",
+    "stance": "supports",
+    "stance_target": "named terrain access points for search grid design in Caldeirão",
+    "evidence_type": "empirical",
+    "scope_conditions": "Serra do Caldeirão and Barrocal, Loulé municipality",
+    "quoted_support": "Other good spots to observe inland species include Barranco do Velho and Parises, as well as Rocha da Pena and Fonte da Benémola (in Loulé), the Lower Guadiana Valley (in eastern Algarve) and Picota in Monchique.",
+    "numbers": [],
+    "entities": ["Barranco das Lajes", "Barranco do Velho", "Parises", "Rocha da Pena", "Fonte da Benémola", "Picota"],
+    "time_period": "current",
+    "region": "Serra do Caldeirão, Barrocal Loulé",
+    "confidence": "high",
+    "source_note_id": "serra-do-caldeiro-birds-and-nature-algarve-hiking-sightseeing-birding"
+  }
+]

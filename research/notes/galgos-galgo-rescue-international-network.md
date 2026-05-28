@@ -8,12 +8,12 @@ tags:
 - sighthound
 - prey-drive
 created: '2026-05-28T07:30:29.549036Z'
-updated: '2026-05-28T07:32:36.750521Z'
+updated: '2026-05-28T09:28:54.298627Z'
 source: https://www.galgorescue.org/spanish-galgo
 source_domain: www.galgorescue.org
 fetched_at: '2026-05-28T07:30:29.548883Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

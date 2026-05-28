@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-bayesian-sighting-update
 created: '2026-05-28T08:11:01.173136Z'
+updated: '2026-05-28T09:28:54.416952Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3760870/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:11:01.173003Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Low Openness on the Revised NEO Personality Inventory as a Risk Factor for
+  Treatment-Resistant Depression - PMC
 ---
 
 Low Openness on the Revised NEO Personality Inventory as a Risk Factor for Treatment-Resistant Depression - PMC

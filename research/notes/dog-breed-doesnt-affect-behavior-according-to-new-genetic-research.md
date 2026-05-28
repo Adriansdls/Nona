@@ -7,12 +7,12 @@ tags:
 - behavioral-variation
 - gwas-study
 created: '2026-05-28T07:31:18.742372Z'
-updated: '2026-05-28T07:32:17.419593Z'
+updated: '2026-05-28T09:28:54.311873Z'
 source: https://www.smithsonianmag.com/smart-news/a-dogs-breed-cant-predict-most-of-its-behavior-new-study-shows-180979999/
 source_domain: www.smithsonianmag.com
 fetched_at: '2026-05-28T07:31:18.742167Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

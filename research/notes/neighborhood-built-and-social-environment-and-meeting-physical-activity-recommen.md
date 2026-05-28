@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:10:05.788707Z'
+updated: '2026-05-28T09:28:54.407509Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC7044527/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:10:05.788554Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Neighborhood built and social environment and meeting physical activity recommendations
+  among mid to older adults wit...
 ---
 
 Neighborhood built and social environment and meeting physical activity recommendations among mid to older adults with joint pain - PMC

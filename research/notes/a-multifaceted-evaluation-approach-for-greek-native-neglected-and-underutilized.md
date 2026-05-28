@@ -7,15 +7,18 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:09:01.989630Z'
+updated: '2026-05-28T09:28:54.393506Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10147030/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:09:01.989465Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: A Multifaceted Evaluation Approach for Greek Native Neglected and Underutilized
+  Forest Fruit Trees and Shrubs as Natu...
 ---
 
 A Multifaceted Evaluation Approach for Greek Native Neglected and Underutilized Forest Fruit Trees and Shrubs as Natural Sources of Antioxidants: Consolidating the Framework for Their Sustainable Agronomic Exploitation - PMC

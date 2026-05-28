@@ -7,12 +7,12 @@ tags:
 - sar
 - terrain
 created: '2026-05-28T07:28:42.049848Z'
-updated: '2026-05-28T08:08:06.704686Z'
+updated: '2026-05-28T09:28:54.517023Z'
 source: https://www.dogbase.co/blog/k9-search-and-rescue-advanced-techniques-to-master-sar-deployment
 source_domain: www.dogbase.co
 fetched_at: '2026-05-28T07:28:42.049666Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

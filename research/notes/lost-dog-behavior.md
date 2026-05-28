@@ -9,12 +9,12 @@ tags:
 - distance-factors
 - fear-escalation
 created: '2026-05-28T07:30:11.025150Z'
-updated: '2026-05-28T07:39:02.141148Z'
+updated: '2026-05-28T09:28:54.540282Z'
 source: https://www.lrr.org/reading-room/lost-dog-behavior
 source_domain: www.lrr.org
 fetched_at: '2026-05-28T07:30:11.025013Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

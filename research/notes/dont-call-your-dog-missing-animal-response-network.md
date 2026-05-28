@@ -9,12 +9,12 @@ tags:
 - calming-signals
 - capture-technique
 created: '2026-05-28T07:29:52.475913Z'
-updated: '2026-05-28T07:31:38.354189Z'
+updated: '2026-05-28T09:28:54.291114Z'
 source: https://www.missinganimalresponse.com/dont-call-dog/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:29:52.475756Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

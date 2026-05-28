@@ -4,7 +4,7 @@ id: calming-signals-archives-missing-animal-response-network
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:46:43.829262Z'
-updated: '2026-05-28T07:47:15.222439Z'
+updated: '2026-05-28T09:28:53.251544Z'
 source: https://www.missinganimalresponse.com/tag/calming-signals/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:46:43.829062Z'
@@ -14,6 +14,8 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Suggested by what-you-dont-know-about-lost-pets-can-hurt-them — MARN calming
+  signals archive — primary documentation ...
 ---
 
 *Suggested by [[what-you-dont-know-about-lost-pets-can-hurt-them]] — MARN calming signals archive — primary documentation of Kat Albrecht's technique*

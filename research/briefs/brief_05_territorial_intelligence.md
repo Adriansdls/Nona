@@ -1,3 +1,19 @@
+---
+title: Untitled
+tags:
+- dog-movement-algarve
+- lost-dog-behavioral
+- lost-dog
+- terrain
+- territorial-intel-algarve
+created: '2026-05-28T09:28:53.261564Z'
+updated: '2026-05-28T09:28:54.361168Z'
+status: review
+type: note
+deprecated: false
+summary: 'Project: Nona / Red Cão Algarve — Lost dog rescue operating system'
+---
+
 # Research Brief 05 — Territorial Intelligence Layer
 
 **For:** Researcher  

@@ -6,12 +6,12 @@ tags:
 - sighthound
 - galgo-behavior
 created: '2026-05-28T07:35:34.611816Z'
-updated: '2026-05-28T07:36:27.077333Z'
+updated: '2026-05-28T09:28:54.337605Z'
 source: https://greyhoundracinghistory.co.uk/greyhound-articles/greyhound-behavioral-studies-and-research/
 source_domain: greyhoundracinghistory.co.uk
 fetched_at: '2026-05-28T07:35:34.611660Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

@@ -5,15 +5,17 @@ tags:
 - lost-dog-behavioral
 - locus-dog-phase-transition-thresholds
 created: '2026-05-28T08:14:54.869259Z'
+updated: '2026-05-28T09:28:54.432113Z'
 source: https://www.animalbehaviorsociety.org/web/index.php
 source_domain: www.animalbehaviorsociety.org
 fetched_at: '2026-05-28T08:14:54.869129Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: The Animal Behavior Society
 ---
 
 The Animal Behavior Society

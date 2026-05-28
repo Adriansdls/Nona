@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- survival-mode
+- galgo-behavior
+created: '2026-05-28T09:28:53.366465Z'
+updated: '2026-05-28T09:28:54.448170Z'
+status: review
+type: note
+deprecated: false
+summary: '5 gaps identified and 4 gap types attempted via targeted fetch wave. Net:
+  5 new vault notes added. 2 positions streng...'
+---
+
 # Corpus Critic Results — lost-dog-behavioral
 
 ## Summary

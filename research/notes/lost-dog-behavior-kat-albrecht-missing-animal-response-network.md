@@ -16,12 +16,12 @@ tags:
 - xenophobic-dog
 - sar-methodology
 created: '2026-05-28T07:28:18.281775Z'
-updated: '2026-05-28T08:08:03.512360Z'
+updated: '2026-05-28T09:28:54.511793Z'
 source: https://www.missinganimalresponse.com/lost-dog-behavior/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:28:18.281538Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

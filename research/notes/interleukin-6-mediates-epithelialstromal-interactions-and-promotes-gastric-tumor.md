@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:10:05.002888Z'
+updated: '2026-05-28T09:28:54.406471Z'
 source: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0060914
 source_domain: journals.plos.org
 fetched_at: '2026-05-28T08:10:05.002659Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: Interleukin-6 Mediates Epithelial–Stromal Interactions and Promotes Gastric
+  Tumorigenesis | PLOS One
 ---
 
 Interleukin-6 Mediates Epithelial–Stromal Interactions and Promotes Gastric Tumorigenesis | PLOS One

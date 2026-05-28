@@ -7,12 +7,12 @@ tags:
 - breed-overview
 - hunting-dog
 created: '2026-05-28T07:30:28.885288Z'
-updated: '2026-05-28T07:31:12.837463Z'
+updated: '2026-05-28T09:28:54.297187Z'
 source: https://www.hopeforpodencos.com/about-podencos
 source_domain: www.hopeforpodencos.com
 fetched_at: '2026-05-28T07:30:28.885129Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

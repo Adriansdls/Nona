@@ -5,7 +5,8 @@ tags:
 - lost-dog-behavioral
 - source-analysis
 created: '2026-05-28T07:54:19.912447Z'
-status: draft
+updated: '2026-05-28T09:28:54.506924Z'
+status: review
 type: source-analysis
 deprecated: false
 summary: Hashimoto et al. (2022, Scientific Reports) introduce the first time-discrete

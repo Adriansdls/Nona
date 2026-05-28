@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Portugal OSM data is available as a daily-updated PBF extract from Geofabrik, with the current file at 412MB (as of 2026-05-27), covering all OSM data including roads, water, land use, and buildings.",
+    "stance": "supports",
+    "stance_target": "OSM as primary computational data source for Algarve territorial intelligence",
+    "evidence_type": "empirical",
+    "scope_conditions": "Full Portugal, not Algarve-only — Algarve must be clipped with Osmium or Osmosis post-download",
+    "quoted_support": "portugal-latest.osm.pbf, suitable for Osmium, Osmosis, imposm, osm2pgsql, mkgmap, and others. This file was last modified 8 hours ago and contains all OSM data up to 2026-05-27T20:21:15Z. File size: 393 MB.",
+    "numbers": ["393 MB (PBF)", "412MB (latest compressed)", "updated daily"],
+    "entities": ["Geofabrik", "OpenStreetMap", "Portugal"],
+    "time_period": "2026-05-27",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "download-openstreetmap-for-portugal-geofabrik-download-server"
+  },
+  {
+    "claim": "No Algarve-specific sub-region OSM extract is defined on Geofabrik — only the full Portugal extract is available, requiring local clipping with a .poly file to isolate the Algarve district.",
+    "stance": "supports",
+    "stance_target": "data preparation workflow for Algarve territorial layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Geofabrik Portugal page, May 2026",
+    "quoted_support": "Sub Regions: No sub regions are defined for this region.",
+    "numbers": [],
+    "entities": ["Geofabrik", "Osmium", "Osmosis", "osm2pgsql"],
+    "time_period": "2026",
+    "region": "Portugal / Algarve",
+    "confidence": "high",
+    "source_note_id": "download-openstreetmap-for-portugal-geofabrik-download-server"
+  },
+  {
+    "claim": "Portugal OSM data is distributed under ODbL 1.0 license, permitting commercial and derivative use with attribution and share-alike requirements.",
+    "stance": "supports",
+    "stance_target": "legal viability of OSM data for Nona rescue platform",
+    "evidence_type": "legal",
+    "scope_conditions": "All Geofabrik OSM extracts",
+    "quoted_support": "Data processed by Geofabrik GmbH and created by OpenStreetMap Contributors | License: ODbL 1.0",
+    "numbers": [],
+    "entities": ["Geofabrik", "OpenStreetMap Contributors", "ODbL 1.0"],
+    "time_period": "2026",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "download-openstreetmap-for-portugal-geofabrik-download-server"
+  },
+  {
+    "claim": "Multiple compatible output formats exist for Portugal OSM: PBF (Osmium/osm2pgsql), ESRI SHP (785MB), and GeoPackage/GPKG (812MB), enabling direct ingestion into PostgreSQL/PostGIS or GIS tools without format conversion.",
+    "stance": "supports",
+    "stance_target": "engineering approach for territorial intelligence database",
+    "evidence_type": "empirical",
+    "scope_conditions": "Geofabrik Portugal extracts",
+    "quoted_support": "portugal-latest-free.shp.zip, yields a number of ESRI compatible shape files... portugal-latest-free.gpkg.zip, same as shape file but in more modern Geopackage format.",
+    "numbers": ["785 MB (SHP)", "812 MB (GPKG)"],
+    "entities": ["PostGIS", "QGIS", "osm2pgsql"],
+    "time_period": "2026-05-27",
+    "region": "Portugal",
+    "confidence": "high",
+    "source_note_id": "download-openstreetmap-for-portugal-geofabrik-download-server"
+  }
+]

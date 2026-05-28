@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- survival-mode
+- kat-albrecht
+created: '2026-05-28T09:28:53.377101Z'
+updated: '2026-05-28T09:28:54.457238Z'
+status: review
+type: note
+deprecated: false
+summary: The behavioral engine for Nona should be built as a four-axis probabilistic
+  system whose inputs are time-elapsed, bre...
+---
+
 # Probabilistic Behavioral Engine for the Nona / Red Cão Algarve Lost-Dog Platform — Breadth Draft
 
 ## Executive Summary

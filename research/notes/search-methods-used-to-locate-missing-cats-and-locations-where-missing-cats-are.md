@@ -10,12 +10,12 @@ tags:
 - temporal-decay
 - physical-search
 created: '2026-05-28T07:36:16.462160Z'
-updated: '2026-05-28T07:39:02.375141Z'
+updated: '2026-05-28T09:28:54.579393Z'
 source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5789300/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:36:16.461976Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: ground_truth
 content_type: policy

@@ -8,12 +8,12 @@ tags:
 - humane-trap
 - kathy-pobloskie
 created: '2026-05-28T07:30:47.575404Z'
-updated: '2026-05-28T07:48:37.048309Z'
+updated: '2026-05-28T09:28:54.551753Z'
 source: https://lostdogsofamerica.org/categories/recovery-procedures/shy-dog-strategies/
 source_domain: lostdogsofamerica.org
 fetched_at: '2026-05-28T07:30:47.575240Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

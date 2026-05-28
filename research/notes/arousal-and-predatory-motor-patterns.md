@@ -9,12 +9,12 @@ tags:
 - stress-response
 - scent-hound-behavior
 created: '2026-05-28T07:35:09.029049Z'
-updated: '2026-05-28T07:35:53.769422Z'
+updated: '2026-05-28T09:28:54.331181Z'
 source: https://bestdoglearningandstuff.co.uk/arousal-and-predatory-motor-patterns
 source_domain: bestdoglearningandstuff.co.uk
 fetched_at: '2026-05-28T07:35:09.028895Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

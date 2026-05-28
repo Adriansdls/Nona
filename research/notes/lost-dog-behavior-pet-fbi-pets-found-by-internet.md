@@ -10,12 +10,12 @@ tags:
 - search-strategy
 - vehicle-transport
 created: '2026-05-28T07:28:26.433123Z'
-updated: '2026-05-28T08:08:06.981660Z'
+updated: '2026-05-28T09:28:54.513559Z'
 source: https://petfbi.org/what-to-do/lost-dog-behavior/
 source_domain: petfbi.org
 fetched_at: '2026-05-28T07:28:26.432975Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

@@ -7,12 +7,12 @@ tags:
 - galgo-rescue
 - flight-response
 created: '2026-05-28T07:30:26.706214Z'
-updated: '2026-05-28T07:32:25.172888Z'
+updated: '2026-05-28T09:28:54.294173Z'
 source: https://galgosdelsol.org/what-is-a-galgo/
 source_domain: galgosdelsol.org
 fetched_at: '2026-05-28T07:30:26.706029Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

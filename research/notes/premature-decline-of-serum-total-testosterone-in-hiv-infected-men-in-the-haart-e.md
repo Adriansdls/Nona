@@ -6,15 +6,18 @@ tags:
 - lost-dog-behavioral
 - locus-breed-prior-individual-vs-population
 created: '2026-05-28T08:10:14.032711Z'
+updated: '2026-05-28T09:28:54.409563Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC3235128/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T08:10:14.032556Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy
 deprecated: false
+summary: Premature Decline of Serum Total Testosterone in HIV-Infected Men in the
+  HAART-Era - PMC
 ---
 
 Premature Decline of Serum Total Testosterone in HIV-Infected Men in the HAART-Era - PMC

@@ -4,7 +4,7 @@ id: from-heaven-to-hell-the-story-of-the-galgo-espagnol-galgo-news
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:31:43.956786Z'
-updated: '2026-05-28T07:32:43.778232Z'
+updated: '2026-05-28T09:28:53.238830Z'
 source: https://galgonews.com/galgonews/2025/10/from-heaven-to-hell-the-story-of-the-galgo-espagnol.html
 source_domain: galgonews.com
 fetched_at: '2026-05-28T07:31:43.956647Z'
@@ -14,6 +14,7 @@ type: note
 tier: unknown
 content_type: unknown
 deprecated: false
+summary: From Heaven to Hell – The Story of the Galgo Espagnol – Galgo News
 ---
 
 From Heaven to Hell – The Story of the Galgo Espagnol – Galgo News

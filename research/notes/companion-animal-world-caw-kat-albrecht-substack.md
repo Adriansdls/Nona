@@ -4,7 +4,7 @@ id: companion-animal-world-caw-kat-albrecht-substack
 tags:
 - lost-dog-behavioral
 created: '2026-05-28T07:37:15.659428Z'
-updated: '2026-05-28T07:37:37.321312Z'
+updated: '2026-05-28T09:28:53.248747Z'
 source: https://katalbrecht.substack.com/
 source_domain: katalbrecht.substack.com
 fetched_at: '2026-05-28T07:37:15.659253Z'
@@ -14,6 +14,8 @@ type: note
 tier: commentary
 content_type: blog
 deprecated: false
+summary: Suggested by about-kat-albrecht-kat-albrecht — Kat Albrecht main Substack
+  - may contain more recent case studies and ...
 ---
 
 *Suggested by [[about-kat-albrecht-kat-albrecht]] — Kat Albrecht main Substack - may contain more recent case studies and behavioral phase data*

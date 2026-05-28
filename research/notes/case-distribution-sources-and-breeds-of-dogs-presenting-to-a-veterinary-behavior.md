@@ -9,12 +9,12 @@ tags:
 - aggression
 - shelter-behavior
 created: '2026-05-28T07:31:27.152152Z'
-updated: '2026-05-28T07:32:43.910635Z'
+updated: '2026-05-28T09:28:54.315534Z'
 source: https://pmc.ncbi.nlm.nih.gov/articles/PMC8909650/
 source_domain: pmc.ncbi.nlm.nih.gov
 fetched_at: '2026-05-28T07:31:27.152012Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: ground_truth
 content_type: policy

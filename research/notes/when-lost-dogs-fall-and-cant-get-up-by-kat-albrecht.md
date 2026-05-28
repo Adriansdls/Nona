@@ -8,12 +8,12 @@ tags:
 - search-methodology
 - kat-albrecht
 created: '2026-05-28T07:29:51.254489Z'
-updated: '2026-05-28T07:32:38.378222Z'
+updated: '2026-05-28T09:28:54.279340Z'
 source: https://katalbrecht.substack.com/p/when-lost-dogs-fall-and-cant-get
 source_domain: katalbrecht.substack.com
 fetched_at: '2026-05-28T07:29:51.254332Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: commentary
 content_type: blog

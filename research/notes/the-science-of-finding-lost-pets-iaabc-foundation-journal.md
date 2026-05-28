@@ -10,12 +10,12 @@ tags:
 - behavioral-classification
 - silence-factor
 created: '2026-05-28T07:29:59.154391Z'
-updated: '2026-05-28T07:40:34.179744Z'
+updated: '2026-05-28T09:28:54.536691Z'
 source: https://journal.iaabcfoundation.org/science-finding-lost-pets/
 source_domain: journal.iaabcfoundation.org
 fetched_at: '2026-05-28T07:29:59.154235Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

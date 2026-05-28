@@ -9,12 +9,12 @@ tags:
 - search-methods
 - lord-2007
 created: '2026-05-28T07:29:03.823654Z'
-updated: '2026-05-28T08:08:04.053561Z'
+updated: '2026-05-28T09:28:54.533357Z'
 source: https://lostpetresearch.com/2019/03/lost-pet-statistics/
 source_domain: lostpetresearch.com
 fetched_at: '2026-05-28T07:29:03.823480Z'
 fetch_provider: builtin
-status: review
+status: evergreen
 type: note
 tier: unknown
 content_type: unknown

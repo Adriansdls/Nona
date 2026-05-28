@@ -10,12 +10,12 @@ tags:
 - trail-camera
 - midday-behavior
 created: '2026-05-28T07:29:52.079532Z'
-updated: '2026-05-28T07:31:59.426710Z'
+updated: '2026-05-28T09:28:54.288943Z'
 source: https://www.missinganimalresponse.com/lost-pet-tips/stay-out-of-the-woods/
 source_domain: www.missinganimalresponse.com
 fetched_at: '2026-05-28T07:29:52.079354Z'
 fetch_provider: builtin
-status: draft
+status: review
 type: note
 tier: unknown
 content_type: unknown

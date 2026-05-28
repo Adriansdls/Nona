@@ -1,0 +1,59 @@
+{
+  "critic_type": "instruction",
+  "findings": [
+    {
+      "severity": "major",
+      "atomic_item": "SQ5: What percentage of dogs found alive are found within each phase (0–24h / 24h–7d / 7d+)?",
+      "failure_mode": "under-covered",
+      "location": "Section 1 (Temporal Behavioral Phases) — Calibration Numbers table has one row 'Recovery-by-phase (gregarious-dominated) | P1 60–70%, P2 20–25%, P3 5–15%' but Key Empirical Findings narrative does not derive or anchor these numbers.",
+      "issue": "The prompt explicitly asks for the percentage of dogs found alive in each phase. The draft surfaces one line in the calibration table with three numeric bands but does not show the derivation, sources, or stratification by temperament/breed. The owner-facing brief said this output 'feeds directly into hardcoded priors' — the underlying basis needs explicit treatment in Key Empirical Findings.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add a 3-4 sentence paragraph in Section 1 Key Empirical Findings that explicitly addresses recovery percentages by phase, deriving the P1 60-70% / P2 20-25% / P3 5-15% bands from the available anchors (Kremer 91% by day 5, Weiss 93% overall, Lord median 2 days, Huang cat curve transfer). State explicitly that these are gregarious-dominated population means and that hard-case (Nona's actual caseload) recovery distributions are shifted later (more mass in P2/P3)."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "Albrecht 2002 — primary-source — key findings, methodology, data on behavior phases",
+      "failure_mode": "missing",
+      "location": "Throughout — search for 'Albrecht 2002' returns no direct citation; only 'Albrecht 1999' (n=254 distance data) and IAABC review (Kat Albrecht) appear.",
+      "issue": "The prompt named 'Albrecht 2002' as a key source to check. The draft cites the IAABC review and Albrecht 1999 distance data, but does not explicitly engage with the 2002 foundational MAR work. If Albrecht 2002 was not retrievable in the vault, that should be stated as a knowledge gap.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Either cite Albrecht 2002 directly with its key findings on phase progression / MAR foundational methodology in Section 1 Key Empirical Findings, OR add a single sentence to Section 1 Knowledge Gaps acknowledging 'Albrecht 2002 — the named foundational MAR text — was not retrievable in the current vault; findings are derived from the Albrecht/IAABC 2024 review and downstream MAR practitioner literature.' The patcher can pick whichever is supportable from the vault."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "ASPCA — organization — lost pet research, recovery statistics",
+      "failure_mode": "under-covered",
+      "location": "Section 1 — Weiss 2012 is cited (ASPCA-affiliated study) but the ASPCA organizational role is not surfaced; no other ASPCA research is engaged.",
+      "issue": "The prompt named ASPCA as a key source organization. The draft cites Weiss 2012 (which IS the ASPCA Frequency of Lost Dogs and Cats study) but does not attribute it to ASPCA or surface any additional ASPCA lost-pet research. A reader scanning for 'what ASPCA says' will not find it.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add 'ASPCA-affiliated' or '(ASPCA)' attribution next to the first Weiss 2012 citation in Section 1 Key Empirical Findings. If additional ASPCA lost-pet research exists in the vault, add a 1-2 sentence reference; if not, the attribution alone resolves the gap."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "SQ6 + SQ7: documented differences in lost dog behavior by breed category (sighthounds, scent hounds, toy breeds, herding breeds, guardian breeds, mixed/unknown) — movement radius by day, approach vs hide, road vs terrain, survival behavior",
+      "failure_mode": "under-covered",
+      "location": "Section 2 (Breed-Specific Behavioral Priors) — Key Empirical Findings narrative is dominated by galgo and podenco; toy, herding, guardian, scent hound (beagle), mixed/unknown categories appear ONLY in the Per-Category Operational Table without narrative treatment.",
+      "issue": "The prompt explicitly enumerates six breed categories and asks for behavioral differences for each. The draft handles galgo and podenco in depth (correctly — they are the Algarve priority) but the other four categories (toy, herding, guardian, scent hound, mixed/unknown) are reduced to table rows. Key Empirical Findings narrative should at minimum surface the empirical basis for each category's numbers, even briefly. Mixed/unknown is the largest real-world population and gets one table row with two numbers and no narrative.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add a paragraph (4-6 sentences) in Section 2 Key Empirical Findings, after the podenco discussion, titled or framed around 'The other breed categories'. Briefly cover: scent hound trail-following behavior with beagle as paradigm; toy breed hide-close survival mode (drainage, porches, dense vegetation); herding breed noise-phobia flight risk; guardian breed territorial return tendency; mixed/unknown — note the 66% four-breed-ancestry prevalence from Morrill 2022 and explain why temperament-gating dominates for this category. Anchor each to whatever vault evidence exists; flag uncited claims as 'practitioner consensus, no peer-reviewed source identified'."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "SQ10: What published studies compare breed-type outcomes (recovery rate, distance found, method of recovery)?",
+      "failure_mode": "under-covered",
+      "location": "Section 2 Knowledge Gaps mentions 'Albrecht 1999 (n=254) is the only existing breed-type distance data and is informal' but no dedicated treatment of the SQ10 question elsewhere.",
+      "issue": "The prompt asks specifically what published studies compare breed-type outcomes. The draft acknowledges the absence in Knowledge Gaps but does not explicitly enumerate what WAS searched and what little exists. A reader would benefit from a clear 'here is what we found and here is what is missing' statement, because the answer (essentially nothing) is itself a load-bearing finding for the engine design.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Expand the Section 2 Knowledge Gaps sentence on Albrecht 1999 into a 2-3 sentence treatment of SQ10: list what was checked (PubMed, Semantic Scholar, peer-reviewed canine behavior journals), state that no controlled breed-stratified lost-dog outcome study exists, and note Albrecht 1999 as the closest available informal data point with n=254 and breed-stratified distance findings. This converts an implicit gap into an explicit answer to the prompt's question."
+    },
+    {
+      "severity": "minor",
+      "atomic_item": "Output format: Knowledge gaps must distinguish empirically validated claims from anecdotal or practitioner consensus",
+      "failure_mode": "under-covered",
+      "location": "Knowledge Gaps subsections across all 4 sections — content is solid but does not consistently flag the validated-vs-practitioner-consensus distinction the prompt requested.",
+      "issue": "The prompt's output-format specification explicitly asks that Knowledge Gaps 'distinguish empirically validated claims from anecdotal or practitioner consensus'. The current Knowledge Gaps sections describe what is missing but don't always tag each claim with its evidence tier. For example, Section 4 lists multiple gaps without a clean per-claim 'this is anecdotal / this is practitioner consensus / this is validated' tagging.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "In each section's Knowledge Gaps subsection, prepend a brief tier tag to claims where appropriate: '[practitioner consensus, no peer-reviewed]', '[anecdotal case series only]', '[peer-reviewed but adjacent-domain transfer]', or '[empirically validated]'. This is a light-touch edit — adding 6-10 inline tags total across the four Knowledge Gaps subsections is sufficient."
+    }
+  ]
+}

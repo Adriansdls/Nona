@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "The Arade/Odelouca river system hosts two critically endangered endemic fish (Iberochondrostoma almacai and Squalius aradensis) plus otter (Lutra lutra) and Mediterranean turtle — indicating a productive riparian corridor that wildlife (and potentially lost dogs) use for food and movement.",
+    "stance": "supports",
+    "stance_target": "Arade-Odelouca corridor as active wildlife movement zone for lost dog search prioritization",
+    "evidence_type": "empirical",
+    "scope_conditions": "Arade-Odelouca watershed, Loulé/Silves/Albufeira municipalities; Geoparque Algarvensis designation",
+    "quoted_support": "highlighting its primary importance in the preservation of two species of fish endemic to the Southwest of Portugal, which have the status of 'Critically Endangered' of extinction: the Southwestern boga (Iberochondrostoma almacai) and the Arade scaly (Squalius aradensis). Also associated with aquatic environments are the Mediterranean turtle (Mauremys leprosa) and the otter (Lutra lutra).",
+    "numbers": ["2 critically endangered endemic fish species"],
+    "entities": ["Iberochondrostoma almacai", "Squalius aradensis", "Mauremys leprosa", "Lutra lutra", "Geoparque Algarvensis", "Odelouca", "Rio Arade"],
+    "time_period": "current",
+    "region": "Loulé, Silves, Albufeira municipalities",
+    "confidence": "high",
+    "source_note_id": "arade-river-odelouca-stream-hotspots-biodiversidade-geoparque-algarvensis-municp"
+  },
+  {
+    "claim": "The Arade/Odelouca habitat system shows a clear terrain gradient from upstream embedded mountain valleys (gallery forest: willow, poplar, oleander, tamarisk) to downstream estuarine flats (mudflats, mangrove vegetation, agricultural areas) — directly encoding the Litoral/Barrocal/Serra terrain zones.",
+    "stance": "supports",
+    "stance_target": "Arade-Odelouca corridor as a cross-terrain feature connecting Serra, Barrocal, and Litoral zones in the territorial knowledge layer",
+    "evidence_type": "empirical",
+    "scope_conditions": "Arade River from headwaters to estuary; Geoparque Algarvensis territory",
+    "quoted_support": "from upstream to downstream, where the embedded valleys, occupied by mountainous riparian galleries, characterized by the presence of willows (Salix alba), white poplar (Populus alba), oleander (Nerium oleander) and tamarisk (Tamarix spp.), give way to wide valleys, with accentuated estuarine characteristics as they approach the coast, interspersed with the flat banks typical of mangroves.",
+    "numbers": [],
+    "entities": ["Rio Arade", "Odelouca", "Serra de Monchique", "Portimão estuary"],
+    "time_period": "current",
+    "region": "Barlavento Algarve (Serra to coast)",
+    "confidence": "high",
+    "source_note_id": "arade-river-odelouca-stream-hotspots-biodiversidade-geoparque-algarvensis-municp"
+  }
+]

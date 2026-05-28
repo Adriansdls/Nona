@@ -1,3 +1,20 @@
+---
+title: Untitled
+tags:
+- lost-dog-behavioral
+- dog-movement-algarve
+- lost-dog
+- survival-mode
+- sighthound
+created: '2026-05-28T09:28:53.385264Z'
+updated: '2026-05-28T09:28:54.460262Z'
+status: review
+type: note
+deprecated: false
+summary: Nona's behavioral engine should be implemented as a four-input scoring function
+  whose primary output is not a probabi...
+---
+
 # Probabilistic Behavioral Engine for Nona — Practitioner Encoding Specification
 
 ## Executive Summary

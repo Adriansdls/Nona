@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The Vicentine Coast Natural Park extends 130km from Porto Covo (Alentejo) to Burgau (Algarve), forming a continuous protected coastal barrier with imposing limestone cliff escarpments that constitute a hard terrain boundary.",
+    "stance": "supports",
+    "stance_target": "coastal cliff hazard zones for lost dog movement analysis in western Algarve",
+    "evidence_type": "empirical",
+    "scope_conditions": "Southwest Alentejo and Vicentine Coast Natural Park, western Algarve coast",
+    "quoted_support": "Stretching for over 130 kilometres between charming Porto Covo in the Alentejo and the village of Burgau in the Algarve... its imposing escarpments shelter both little coves and vast, dramatic beaches",
+    "numbers": ["130 kilometres"],
+    "entities": ["Vicentine Coast Natural Park", "Sagres", "Aljezur", "Burgau", "Cape Saint Vincent"],
+    "time_period": "current",
+    "region": "Western Algarve / Southwest Alentejo",
+    "confidence": "high",
+    "source_note_id": "vicentine-coast-natural-park"
+  },
+  {
+    "claim": "The Sagres Peninsula has a flat limestone plateau topped by sparse vegetation where animal and botanical species unique to the Atlantic-Mediterranean transition abound, making it a distinctive search terrain zone.",
+    "stance": "supports",
+    "stance_target": "vegetation/terrain zone encoding for Sagres sub-region",
+    "evidence_type": "empirical",
+    "scope_conditions": "Sagres Peninsula, westernmost Algarve",
+    "quoted_support": "this peninsula is topped by a vast limestone plateau where unique animal and botanical species abound... The austere tableland is the famed abode of bird species such as Little Bustard, Stone-curlew, Thekla Lark",
+    "numbers": ["~700 species of plants", "100 rare or endemic"],
+    "entities": ["Sagres Peninsula", "Cape Saint Vincent", "Prince Henry the Navigator"],
+    "time_period": "current",
+    "region": "Sagres, western Algarve",
+    "confidence": "high",
+    "source_note_id": "vicentine-coast-natural-park"
+  },
+  {
+    "claim": "The park constitutes a bioregional bridge between North African, European, and Mediterranean ecosystems, meaning terrain and wildlife diversity is unusually high and not captured by standard Corine/ICNF national classifications.",
+    "stance": "supports",
+    "stance_target": "local knowledge gaps for Algarve territorial layer",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Southwest Alentejo and Vicentine Coast Natural Park",
+    "quoted_support": "Being continental Europe's southwesternmost point, this peculiar place establishes a natural bridge between the North African, European, and Mediterranean bioregions.",
+    "numbers": [],
+    "entities": ["Vicentine Coast Natural Park"],
+    "time_period": "current",
+    "region": "Western Algarve",
+    "confidence": "medium",
+    "source_note_id": "vicentine-coast-natural-park"
+  }
+]
