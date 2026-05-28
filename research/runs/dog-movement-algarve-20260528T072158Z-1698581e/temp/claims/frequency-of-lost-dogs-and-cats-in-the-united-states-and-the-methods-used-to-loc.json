@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "14% of US dogs were lost at least once in a five-year period; 93% of lost dogs were recovered (95% CI: 86–97%).",
+    "stance": "supports",
+    "stance_target": "most lost dogs are recoverable — high recovery rate justifies sustained active search programs",
+    "evidence_type": "statistical",
+    "scope_conditions": "nationally representative US telephone survey, 1,015 households, Sept–Nov 2010",
+    "quoted_support": "Fourteen percent of dogs (95% Confidence Interval (CI): 11–16%) and 15% (95% CI: 12–18%) of cats were lost in the past five years. Ninety three percent (95% CI: 86–97%) of dogs and 75% (95% CI: 64–85%) of cats were recovered.",
+    "numbers": ["14% dogs lost in 5 years", "15% cats lost in 5 years", "93% dog recovery rate", "75% cat recovery rate", "7% of dogs never reunited"],
+    "entities": ["Weiss", "Slater", "Lord", "ASPCA", "Animals 2012"],
+    "time_period": "Sept–Nov 2010 data collection, published 2012",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"
+  },
+  {
+    "claim": "Neighborhood search (49%), self-return (20%), and ID tag (14%) are the primary recovery pathways for lost dogs; shelter accounted for only 6% of recoveries.",
+    "stance": "supports",
+    "stance_target": "local physical search and ID tags are the dominant recovery mechanisms — shelters are secondary and should not be the primary search investment",
+    "evidence_type": "statistical",
+    "scope_conditions": "101 recovered dogs in the Weiss et al. 2012 sample",
+    "quoted_support": "For dogs, searching the neighborhood and returning on their own were the most common methods of finding the dog; 14% were found through an identification tag.",
+    "numbers": ["49% neighborhood search", "20% self-return", "14% ID tag", "6% shelter"],
+    "entities": ["Weiss et al. 2012"],
+    "time_period": "2010",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"
+  }
+]

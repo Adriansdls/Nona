@@ -1,0 +1,14 @@
+{
+  "run_id": "dog-movement-algarve-20260528T072158Z-1698581e",
+  "vault_tag": "dog-movement-algarve",
+  "created": "2026-05-28T07:21:58Z",
+  "status": "completed",
+  "current_step": 16,
+  "artifact_dir": "research/runs/dog-movement-algarve-20260528T072158Z-1698581e",
+  "temp_dir": "research/runs/dog-movement-algarve-20260528T072158Z-1698581e/temp",
+  "claims_dir": "research/runs/dog-movement-algarve-20260528T072158Z-1698581e/temp/claims",
+  "query_file_path": "research/runs/dog-movement-algarve-20260528T072158Z-1698581e/query.md",
+  "final_report_path": "research/notes/final_report_dog-movement-algarve.md",
+  "pipeline_tier": "light",
+  "modality": "synthesize"
+}

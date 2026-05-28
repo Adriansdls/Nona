@@ -1,0 +1,282 @@
+[
+  {
+    "cluster_id": "breed-as-behavioral-prior",
+    "fight": "Does breed predict fear/reactivity in lost dogs well enough to use as a prior in a behavioral scoring engine?",
+    "side_a": {
+      "position": "Breed is nearly uninformative for agonistic threshold (fear/reactivity) — the exact trait needed for evasion-mode classification. Breed explains only 9% of individual behavioral variance; agonistic threshold is the LEAST breed-predictable trait.",
+      "claims": [
+        "Breed explains just 9% of behavioral variation in individual dogs (Morrill 2022, Science, n=18,385).",
+        "Agonistic threshold — how easily a dog is provoked by frightening stimuli — is the LEAST breed-predictable behavioral trait; breed is 'almost uninformative' for it.",
+        "66% of mixed-breed dogs carry >5% ancestry from 4+ breeds, making breed ID for shelter/rescue populations practically impossible.",
+        "Modern dog breeds are only ~160 years old (~50–80 generations); insufficient time to accumulate breed-specific behavioral variants.",
+        "No breed-exclusive behavioral variant exists: only 332 of 16.7 million SNPs are breed-exclusive and fixed (0.002%).",
+        "Breed explains dog behavior very little (9%), but it explains physical traits very well (Broad Institute 2022). Behavior is more than just breed."
+      ],
+      "sources": [
+        "ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc",
+        "breed-is-not-a-good-predictor-of-individual-dog-behavior-study-finds",
+        "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute",
+        "dog-breed-doesnt-affect-behavior-according-to-new-genetic-research"
+      ]
+    },
+    "side_b": {
+      "position": "Breed-group means on specific behavioral traits differ significantly, providing valid population-level priors for lost-dog search strategy, even if individual prediction is unreliable.",
+      "claims": [
+        "Rescue galgos show significantly higher fear of non-cohabiting adult people vs. other rescue dogs (p=0.009, Normando 2024, n=410).",
+        "Predatory behavior in sighthounds differs significantly by breed within the group (p<0.001, Normando 2025, n=768 C-BARQ survey).",
+        "Podencos score Hunt 69%, Chase 69%, Consume 8% — breed-specific predatory motor sequence measurably different from food-motivated breeds (McLennan, Applied Animal Behaviour Science).",
+        "Sighthounds as a group show low aggression + high predatory drive + variable owner-shadowing (p<0.001 between breeds in same group).",
+        "Biddability (command responsiveness) is the most breed-differentiated behavioral trait; border collie ancestry has a confirmed small genetic effect on biddability scores.",
+        "Albrecht 1999 (n=254): mixed-breed dogs averaged 14 miles travel vs. purebred 2 miles (7x difference); toy breeds <0.75 miles."
+      ],
+      "sources": [
+        "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+        "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+        "prey-drive-in-podencos",
+        "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+      ]
+    },
+    "evidence_quality_delta": "Side A has stronger individual-level empirical backing (Science 2022, n=18,385, genomic); Side B has weaker but non-negligible empirical support (Normando 2024 n=410, C-BARQ validated instrument). The fight is at different levels of analysis: individual prediction (Side A wins) vs. population-level group mean differences (Side B wins).",
+    "scope_overlap": "Partial genuine disagreement + partial scope mismatch. Morrill shows agonistic threshold is least breed-predictable at individual level; Normando shows galgo group-mean stranger-fear significantly exceeds non-galgo controls at population level. BOTH can be true simultaneously. The resolution matters for Nona: breed priors are valid as weak population-level starting points, not as individual classifiers.",
+    "decision_relevance": "high"
+  },
+  {
+    "cluster_id": "sighting-response-crowd-vs-privacy",
+    "fight": "When a sighting of a lost dog is received, should the owner/search team immediately go to the sighting location, or keep the location private to prevent crowd-displacement?",
+    "side_a": {
+      "position": "Respond to sightings immediately — sightings give real-time location information that must be acted on quickly before the dog moves.",
+      "claims": [
+        "Be prepared to respond to all calls immediately with a charged phone; use Google Maps to pin sighting locations (HARTT Lost Pet Guide).",
+        "When you get a call of a sighting, respond as soon as possible (general practitioner consensus).",
+        "Lord 2007b: calling animal agencies and neighborhood searching were the primary recovery methods — active response to sighting information."
+      ],
+      "sources": [
+        "lost-pet-owner-guide-hartt",
+        "finding-a-lost-pet-aspca"
+      ]
+    },
+    "side_b": {
+      "position": "Sighting location information must be kept private from public posts. Flooding the area with people causes crowd-displacement events that push the dog further away, often into traffic.",
+      "claims": [
+        "Crowd-at-sighting caused 7-mile displacement in 1 hour in the Winnie case (69-day lost dog) — quantified case study.",
+        "Princess (Borzoi): repeated crowd-at-sighting events caused perpetual displacement across two states until fatal vehicle strike.",
+        "Social media posting of sighting location floods area with callers who chase the dog further; MAR recommends keeping sighting locations vague in public posts.",
+        "Chasing a lost dog causes it to run further away; crowd gatherings = multiple chasers = compounded flight response. Sighting response must be organized and controlled (MAR, Lost Dogs Illinois).",
+        "'Stay Out of the Woods' principle — active search triggers fight/flight in a dog that has settled; search approach must be passive and solo (Kat Albrecht, MARN)."
+      ],
+      "sources": [
+        "dog-befriends-a-fox-while-lost-in-blizzard",
+        "stay-out-of-the-woods-missing-animal-response-network",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+        "behaviors-to-avoid-ct-dog-gone-recovery"
+      ]
+    },
+    "evidence_quality_delta": "Side B has quantified case study evidence (Winnie: 7 miles/1 hour, Princess: fatal vehicle strike). Side A reflects general practitioner advice without documented case outcomes. Side B is stronger.",
+    "scope_overlap": "Genuine disagreement on the action. Resolution: respond only with 1 person (the coordinator); public sighting location sharing = dangerous. Crowd-to-sighting response is the harmful action, not individual-coordinator response.",
+    "decision_relevance": "high"
+  },
+  {
+    "cluster_id": "lost-dog-distance-distribution",
+    "fight": "How far do lost dogs typically travel? Is the 1-mile radius the appropriate search bound, or do panicked/fearful dogs routinely exceed this?",
+    "side_a": {
+      "position": "The vast majority of lost dogs are found within 1 mile of home; 42% within a single city block.",
+      "claims": [
+        "70% of RTOed strays found within 1 mile of home; 42% within 400 feet (~1 city block) — Kremer 2021, n=30,609 Dallas dogs.",
+        "71% of lost dogs found less than 1 mile from home; 14% found 1-5 miles; 7% found more than 5 miles — Lord 2007b, n=187 Ohio dogs.",
+        "95% of dogs who wander beyond designated safe zones travel at most 1.8 miles from home — Fi GPS data (HASS 2025).",
+        "Median recovery time 2 days — most dogs recovered before significant displacement occurs."
+      ],
+      "sources": [
+        "frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis",
+        "lost-pet-statistics-lost-pet-research-and-recovery",
+        "most-lost-dogs-are-just-around-the-corner-literally-hass"
+      ]
+    },
+    "side_b": {
+      "position": "Panicked/xenophobic dogs and certain breeds travel far beyond 1 mile; mixed-breed dogs averaged 14 miles; galgo can cover 10+ km in hours when prey-triggered.",
+      "claims": [
+        "Albrecht 1999 (n=254, informal): mixed-breed dogs traveled ~14 miles before pickup; purebred dogs ~2 miles — 7x difference.",
+        "Blind panic cases: 'travel far, travel fast' — Winnie case: 7 miles in 1 hour when crowd converged at sighting.",
+        "Xenophobic dogs 'travel farther and are at higher risk of being hit by cars' — Albrecht MAR framework.",
+        "High-energy breeds (Huskies, Border Collies, German Shepherds) can cover 10+ miles per day.",
+        "Panicked/skittish dogs: 5–10 mile radius (PetFBI behavioral guide).",
+        "Rural density modifier: dogs in low-density suburbs travel 1.5–2.5 miles vs. 0–0.5 miles in dense urban (Kremer 2021)."
+      ],
+      "sources": [
+        "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal",
+        "dog-befriends-a-fox-while-lost-in-blizzard",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+        "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+      ]
+    },
+    "evidence_quality_delta": "Side A has better-powered empirical evidence (Kremer n=30,609, Lord n=187) but represents all lost dogs including quickly-recovered friendly ones. Side B cites Albrecht 1999 (informal, n=254) but focuses specifically on hard-to-recover cases. These are different populations: Side A = all lost dogs; Side B = persistent/evasive cases.",
+    "scope_overlap": "Partial scope mismatch: both are correct for their populations. The 1-mile figures represent the modal/typical lost dog; the 14-mile figure represents hard cases that Nona will disproportionately encounter (since easy cases self-resolve). Critical for Nona: the 1-mile prior holds for gregarious dogs; xenophobic/panicked dogs need a long-tail distribution.",
+    "decision_relevance": "high"
+  },
+  {
+    "cluster_id": "active-search-vs-passive-monitoring",
+    "fight": "Should owners actively search (call the dog's name, post signs, walk the neighborhood) or shift to passive monitoring (food station, trail camera, no calling)?",
+    "side_a": {
+      "position": "Active searching significantly improves recovery probability — calling animal agencies, visiting the area, and posting neighborhood signs are empirically associated with higher recovery.",
+      "claims": [
+        "Lord 2007b: owners more likely to recover dogs when they called animal agencies, visited, and posted signs in neighborhood.",
+        "Posting signs became effective after dog missing >7 days.",
+        "49% of dogs recovered by neighborhood search — the highest recovery method in Weiss 2012."
+      ],
+      "sources": [
+        "lost-pet-statistics-lost-pet-research-and-recovery",
+        "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"
+      ]
+    },
+    "side_b": {
+      "position": "Active searching by groups triggers flight response, pushes dogs out of safe areas, and causes vehicle strikes. Dogs need calm, passive monitoring once they have entered survival mode.",
+      "claims": [
+        "Large group searches calling names + making eye contact push panicked dogs out of safe areas and into traffic — top 3 death causes: car, train, drowning (Lost Dogs of America, thousands of cases).",
+        "Every person added to the search is a predator the dog must evade; keep human presence at sighting areas minimal and silent.",
+        "Active searching is counterproductive for xenophobic dogs — only passive food station + trail camera + trap works.",
+        "Stay Out of the Woods: even solo approach to hiding area triggers fight-or-flight; midday resting behavior disrupted (Alan Beck, ecology of stray dog).",
+        "Calling dog's name becomes an adrenaline-conditioned trigger — converts owner's call into a flight cue (MAR case studies: Lucy 10-264, Lacey 10-267, KoKo)."
+      ],
+      "sources": [
+        "never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america",
+        "stay-out-of-the-woods-missing-animal-response-network",
+        "dont-call-your-dog-missing-animal-response-network",
+        "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+      ]
+    },
+    "evidence_quality_delta": "Side A has survey-based empirical evidence (Lord 2007 n=187, Weiss 2012 n=1,015). Side B has stronger mechanistic evidence (conditioning mechanism, named case studies, Lost Dogs of America case database). Side A's evidence is associational and doesn't distinguish active search by a single quiet person vs. crowd noise; Side B distinguishes clearly. Resolution: active search by the owner alone (quietly) is beneficial; group searches with calling = harmful.",
+    "scope_overlap": "Partially scope-dependent: for gregarious dogs, active search works; for xenophobic/survival-mode dogs, passive monitoring is required. The two doctrines are not incompatible when conditioned on temperament.",
+    "decision_relevance": "high"
+  },
+  {
+    "cluster_id": "food-lure-effectiveness-timing",
+    "fight": "When are food lures effective for recalling or capturing a lost dog, and when do they fail?",
+    "side_a": {
+      "position": "Food lures (food stations, high-value treats, crinkly bags) are the primary non-chase recovery tool and reliably bring lost dogs within capture range.",
+      "claims": [
+        "Passive lure technique: crinkly bag + hot dog pieces + lip-smacking sounds = dog approaches within 45 minutes to 1+ hour in documented cases (Albrecht, Whole Dog Journal).",
+        "Food station anchor: lost dog anchors movement to a reliable food source; consistent feeding establishes routine before trap deployment (Lost Dogs of America).",
+        "Trap baiting with high-value food (rotisserie chicken, sardines, hot dogs) is the primary method for xenophobic and trauma-mode dogs (MARN, PetFBI).",
+        "Scent station (liquid smoke + BBQ + hot dogs) confirmed in drone-rescue case (Winnie)."
+      ],
+      "sources": [
+        "how-to-catch-a-dog-on-the-loose-whole-dog-journal",
+        "shy-lost-dog-strategies-lost-dogs-of-america",
+        "when-do-you-set-a-trap-for-a-lost-dog-missing-animal-response-network",
+        "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+      ]
+    },
+    "side_b": {
+      "position": "Food lures fail for dogs in high arousal states (prey drive, full flight mode, active chase), and specifically unreliable for podencos and other high prey-drive breeds mid-chase.",
+      "claims": [
+        "Dogs in high arousal refuse food — high-prey-drive sniffing RAISES arousal, does not calm; food lures fail mid-chase (McLennan 2024, arousal research).",
+        "Podencos score Consume 8% — food reward is not the primary motivator; predatory chase is self-reinforcing regardless of capture success (McLennan, Applied Animal Behaviour Science).",
+        "In survival mode, 95%+ of stimuli trigger flight; food containers (shaking) are listed as flight triggers, not lures (Buddha Dog).",
+        "Serotonin and olfactory shutdown during peak cortisol: a fully panicked dog cannot smell or process food normally (MARN, biochemical mechanism).",
+        "Hungry dog needed to take trap risk — overfeeding undermines humane trap efforts (shy-dog strategies: Pobloskie)."
+      ],
+      "sources": [
+        "arousal-and-predatory-motor-patterns",
+        "prey-drive-in-podencos",
+        "survival-mode-buddha-dog-rescue-recovery",
+        "dont-call-your-dog-missing-animal-response-network"
+      ]
+    },
+    "evidence_quality_delta": "Both sides rely on practitioner expertise + small-n case data. McLennan has peer-reviewed backing for predatory arousal suppressing food reward. Resolution: food lures work in calm/resting state (dog has settled), fail in active arousal/flight. The protocol is: wait until dog settles, then deploy food. Podencos require additional attention since food motivation is structurally lower.",
+    "scope_overlap": "Apparent contradiction resolves on arousal state. The real claim is: food station works at rest; food lure fails while running. Both sources are right for their scenarios.",
+    "decision_relevance": "medium"
+  },
+  {
+    "cluster_id": "survival-mode-onset-predictability",
+    "fight": "Can survival mode onset be predicted from prior temperament, or is it unpredictable across individuals?",
+    "side_a": {
+      "position": "Survival mode onset is predictable from temperament category — xenophobic dogs enter it immediately, gregarious dogs rarely enter it fully.",
+      "claims": [
+        "Albrecht 3-category taxonomy: xenophobic dogs are 'inclined to travel farther... have higher risk of being hit by cars... will run from everyone including their owners' — survival mode is the default state for this category.",
+        "Blind panic triggered by temperament (xenophobic), loud noises, or traumatic incident — three identifiable trigger classes predict onset.",
+        "Fear at time of loss (circumstances of escape) is one of 6 major factors influencing distance — higher fear = longer distance."
+      ],
+      "sources": [
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network"
+      ]
+    },
+    "side_b": {
+      "position": "There is very little correlation between prior behavior/life history and survival mode onset — any dog can enter it, and onset timing varies from immediate to a week or more.",
+      "claims": [
+        "There is very little correlation with previous behavior/life history to regression into survival mode — certain breeds and personality profiles are more prone but no individual prediction is reliable (Buddha Dog).",
+        "Some dogs enter survival mode instantly; for others it can take days or a week or more (Holiday Barn, K9's On Call).",
+        "A well-adjusted, well-trained, well-loved dog can turn 'skittish' in a heartbeat — it is not the owner's fault nor the dog's fault (Buddha Dog).",
+        "Even the most trauma-conditioned galgo needs weeks to months to allow human approach — the timing is not predictable from intake information alone."
+      ],
+      "sources": [
+        "survival-mode-buddha-dog-rescue-recovery",
+        "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+      ]
+    },
+    "evidence_quality_delta": "Side A has more analytical granularity (Albrecht's category framework). Side B has broader practitioner experience. Resolution: temperament predicts PROBABILITY of survival mode onset, not certainty or timing. The 3-category system provides prior probabilities, not deterministic states.",
+    "scope_overlap": "Partial genuine disagreement on predictability, partial scope mismatch (categories vs. individual). Both are right: categories predict group means; individual timing is genuinely unpredictable.",
+    "decision_relevance": "medium"
+  },
+  {
+    "cluster_id": "galgo-vs-greyhound-behavioral-equivalence",
+    "fight": "Can English greyhound research (chase behavior, freeze-flight, prey drive) be transferred directly to galgo español behavioral priors?",
+    "side_a": {
+      "position": "Galgos and greyhounds are sufficiently similar (both sighthounds, sprint-hunters, similar selective breeding history) that greyhound research applies as a close proxy.",
+      "claims": [
+        "Galgo = Spanish sighthound, named for Gauls; centuries-long selection for sight-hunting parallels English greyhound development.",
+        "Normando 2025 sighthound study: Saluki and Cirneco (diverse sighthounds) cluster similarly to greyhound breeds on predatory drive dimensions.",
+        "Modern galgos are mixed with Irish greyhound strains by some hunters — genetic overlap is partial.",
+        "PMC7760772 greyhound chase study: OR=8.34 for last-known-location fixation is directly applicable to galgo prey-chase scenarios (Algarve rabbit habitat)."
+      ],
+      "sources": [
+        "galgorescue.org",
+        "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc",
+        "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+      ]
+    },
+    "side_b": {
+      "position": "Galgos have a significantly different trauma baseline than English greyhounds — rescue galgos experienced systematic abuse and abandonment, producing higher baseline fear that modifies predatory behavior expression.",
+      "claims": [
+        "Normando 2024 (n=410): galgos show significantly higher stranger-fear than other rescue dogs (p=0.009) — not documented for English greyhounds in equivalent studies.",
+        "Galgo priors: 'Almost universally' experienced maltreatment; many have chips cut out by hunters; abandoned en masse at end of hunting season.",
+        "English racing greyhounds were professionally handled from birth; galgos were semi-feral working dogs — socialization baseline fundamentally different.",
+        "Freeze-to-corner behavior documented specifically in galgos at rescue intake; racing greyhounds typically enter foster homes at less extreme fear levels."
+      ],
+      "sources": [
+        "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+        "sos-galgos-adopt-a-survivor",
+        "galgo-espaol-animal-corner"
+      ]
+    },
+    "evidence_quality_delta": "Side B has the stronger empirical basis (Normando 2024 comparative n=410 with p-value). Side A relies on breed-type analogy without direct comparative data. The trauma baseline difference is real and documented.",
+    "scope_overlap": "Genuine disagreement: the chase/prey-drive behavioral research (Side A) applies, but the fear/approach-avoidance behavior differs significantly from racing greyhounds due to trauma baseline (Side B). Nona must encode both: galgo inherits greyhound chase priors AND galgo-specific elevated stranger-avoidance prior.",
+    "decision_relevance": "high"
+  },
+  {
+    "cluster_id": "signage-effectiveness-timing",
+    "fight": "Should lost dog signs be posted immediately, or does sign-posting only become effective after extended absence?",
+    "side_a": {
+      "position": "Post signs immediately — every hour counts, and visual identification in the neighborhood is the first step.",
+      "claims": [
+        "General practitioner consensus: post signs within the first few hours, before the dog moves.",
+        "49% of recoveries via neighborhood search (Weiss 2012) — signs support this."
+      ],
+      "sources": [
+        "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"
+      ]
+    },
+    "side_b": {
+      "position": "Posting signs was not statistically significant for recovery until the dog had been missing for more than 7 days.",
+      "claims": [
+        "Lord 2007b: sign-posting did not become effective until dog was lost >7 days; earlier posting showed no significant improvement in recovery probability.",
+        "Most dogs are recovered in first 2 days by active neighborhood search + shelter contact; signs serve the long-tail cases."
+      ],
+      "sources": [
+        "lost-pet-statistics-lost-pet-research-and-recovery"
+      ]
+    },
+    "evidence_quality_delta": "Side B has direct empirical evidence (Lord 2007b statistical analysis). Side A is practitioner common sense without statistical backing. Side B wins on evidence.",
+    "scope_overlap": "Real disagreement on timing. Signs serve a different function early (caller-generation for sightings) vs. late (>7 days: when active search has failed and you need the community). Not mutually exclusive: post signs for sighting generation, but expect low direct-recovery impact before day 7.",
+    "decision_relevance": "low"
+  }
+]

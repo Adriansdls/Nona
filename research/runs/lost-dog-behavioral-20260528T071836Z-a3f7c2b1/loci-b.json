@@ -1,0 +1,239 @@
+{
+  "analyst_id": "b",
+  "loci": [
+    {
+      "name": "galgo-vs-greyhound-behavioral-equivalence",
+      "flavor": "dialectical",
+      "one_line": "Can English/Irish greyhound chase research be applied directly as a galgo prior, or does galgo-specific trauma baseline make it a distinct behavioral model?",
+      "rationale": "The corpus contains a genuine unresolved fight across two dimensions. On prey-drive and chase mechanics, `effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc` (OR=8.34 last-known-location fixation, n=626 greyhounds) and `behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha` (sighthounds cluster similarly on predatory drive) support direct greyhound-to-galgo transfer. On the other side, `prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from` (Normando 2024, n=410, p=0.009) documents galgos with significantly elevated stranger-fear NOT documented in equivalent racing greyhound studies; `sos-galgos-adopt-a-survivor` and `galgo-espaol-animal-corner` document a systematically abused trauma baseline that differs fundamentally from professionally-raised racing greyhounds. The contradiction is load-bearing: if greyhound chase data transfers cleanly, Nona can import OR=8.34 for galgo post-trigger fixation; if galgos diverge due to trauma, fear-escalation probabilities must be computed independently. The corpus gestures at this split but does not resolve it — no study directly compares galgo vs. greyhound behavior in the same paradigm.",
+      "corpus_evidence": [
+        "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc",
+        "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+        "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+        "sos-galgos-adopt-a-survivor",
+        "galgo-espaol-animal-corner"
+      ],
+      "opposing_positions": [
+        {
+          "position": "English/Irish greyhound research (OR=8.34 last-known-location fixation, predatory arousal profile, chase self-reinforcement) applies directly to galgo priors because both are sprint sighthounds with centuries-long sight-hunting selection, and inter-breed sighthound comparisons show predatory drive clustering is similar across the group.",
+          "sources": [
+            "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc",
+            "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+          ]
+        },
+        {
+          "position": "Galgos must be modeled separately: rescue galgos show significantly elevated stranger-fear (p=0.009) not documented in racing greyhounds; systematic abuse/abandonment history produces a trauma baseline that overrides breed-level predatory behavior patterns in approach-avoidance contexts.",
+          "sources": [
+            "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+            "sos-galgos-adopt-a-survivor",
+            "galgo-espaol-animal-corner"
+          ]
+        }
+      ],
+      "suggested_starting_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/?term=galgo+espa%C3%B1ol+behavior+fear",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=greyhound+fear+stress+lost",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7760772/",
+        "https://dogbehavior.it/index.php/DB/article/view/246"
+      ],
+      "suggested_searches": [
+        "galgo español behavior fear stranger compared greyhound empirical",
+        "rescue greyhound trauma fear socialization baseline study",
+        "sighthound breed comparison approach avoidance fear stranger",
+        "galgo predatory behavior lost dog site:pubmed OR site:scholar.google.com"
+      ]
+    },
+    {
+      "name": "dog-phase-transition-thresholds-empirical",
+      "flavor": "convergent",
+      "one_line": "What are the empirical hour/day thresholds for behavioral phase transitions in lost dogs, and can the Huang 2018 cat temporal curve be used as a proxy?",
+      "rationale": "`coverage-gaps.md` (SQ2, SQ5) explicitly identifies this as the most significant genuine knowledge gap: 'No empirical dog-specific threshold data published. Only practitioner heuristics (0-24h/24h-7d).' The corpus notes around temporal behavior — `lost-dog-behavior-kat-albrecht-missing-animal-response-network`, `survival-mode-buddha-dog-rescue-recovery`, `lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn` — all describe phase progression narratively (acute panic → guarded scavenging → habituation) but cite no calibrated thresholds. The only quantified temporal curve in the corpus is the Huang 2018 cat data (`missing-cat-study-kat-albrecht`: 34% alive at day 7, 50% alive at day 30 — but this is for cats, with unclear canine transferability). `what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal` explicitly calls out that no dog-equivalent study has been published. Depth investigation should pursue: (1) whether any lost-dog survival/recovery studies break outcomes by time phase; (2) whether animal stress physiology literature gives acute vs. chronic cortisol phase boundaries; (3) what the WiSAR ISRID temporal profiles (Hashimoto 2022) show for human subjects as an indirect analog; (4) whether the cat data from Huang 2018 is cited in dog-context papers at all.",
+      "corpus_evidence": [
+        "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+        "survival-mode-buddha-dog-rescue-recovery",
+        "missing-cat-study-kat-albrecht",
+        "an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness"
+      ],
+      "suggested_starting_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/?term=lost+dog+temporal+recovery+phase+days",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=canine+cortisol+chronic+stress+days+threshold",
+        "https://doi.org/10.3390/ani8040049",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=lost+cat+dog+temporal+recovery+survival+curve"
+      ],
+      "suggested_searches": [
+        "lost dog recovery rate by time since lost empirical study",
+        "dog acute stress cortisol phase transition threshold hours days",
+        "stray dog behavioral phase adaptation survival days weeks literature",
+        "Huang 2018 lost cat temporal curve dog analog transferability",
+        "ISRID lost person behavior temporal phase distribution Hashimoto 2022"
+      ]
+    },
+    {
+      "name": "bayesian-sighting-update-dog-specific",
+      "flavor": "convergent",
+      "one_line": "How should a confirmed sighting update the position probability distribution for a lost dog, given the Lin & Goodrich 2010 WiSAR framework exists for humans but no dog-specific adaptation has been published?",
+      "rationale": "The corpus contains the framework (`a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features`: Lin & Goodrich 2010 Markov transition matrix, first-order posterior update) and the SARBayes operational tooling (`sarbayes-bayesian-methods-for-wisar`: ISRID Distance Ring model MapScore 0.78-0.81) but both are human WiSAR applications. `coverage-gaps.md` SQ13 explicitly flags: 'No dog-specific probabilistic model published. SARBayes and Lin & Goodrich apply to humans. The ISRID dataset has no dog equivalent.' The key unresolved questions for Nona are: (1) what likelihood function to assign a sighting observation given dog movement models (crowd displacement evidence from `dog-befriends-a-fox-while-lost-in-blizzard` suggests sightings can be confounded by observer-caused displacement — the sighting location may not be where the dog stabilized); (2) how to weight eyewitness sighting quality (camera vs. verbal report); (3) how to handle multiple conflicting sightings spatially. Depth investigation should find whether any animal SAR, tracking dog, or wildlife telemetry literature addresses the sighting-as-likelihood-update problem.",
+      "corpus_evidence": [
+        "a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features",
+        "sarbayes-bayesian-methods-for-wisar",
+        "an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness",
+        "dog-befriends-a-fox-while-lost-in-blizzard",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network"
+      ],
+      "suggested_starting_urls": [
+        "https://link.springer.com/article/10.1007/s10588-010-9070-3",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=Bayesian+search+animal+sighting+update+position",
+        "https://scholar.google.com/scholar?q=bayesian+sighting+update+lost+animal+search",
+        "https://sarbayes.org/"
+      ],
+      "suggested_searches": [
+        "Bayesian update sighting observation lost animal search position probability",
+        "Lin Goodrich 2010 WiSAR Bayesian posterior update sighting dog adaptation",
+        "wildlife telemetry GPS sighting reliability update Bayesian model",
+        "eyewitness sighting reliability canine tracking SAR search update",
+        "ISRID lost person behavior Markov update sighting evidence"
+      ]
+    },
+    {
+      "name": "breed-prior-utility-individual-vs-population",
+      "flavor": "dialectical",
+      "one_line": "Is breed a valid prior for Nona's behavioral engine — does the Morrill 2022 finding that breed explains only 9% of behavioral variance invalidate Normando 2024's breed-group mean differences for operational purposes?",
+      "rationale": "This is the clearest pre-structured contradiction in the corpus. `ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc` (Morrill 2022, Science, n=18,385): breed explains 9% of behavioral variance; agonistic threshold is 'almost uninformative' by breed — the exact trait needed for evasion-mode classification. Against this: `prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from` (Normando 2024, n=410, p=0.009): galgo group-mean stranger-fear significantly exceeds non-galgo controls. `behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha` (Normando 2025, C-BARQ, n=768): predatory drive differs significantly between sighthound breeds (p<0.001). The fight operates at two different analytical levels (individual prediction vs. population-level group means), which the corpus notes but does not resolve into a concrete encoding prescription. This locus is load-bearing because Nona must decide whether to include breed as an input to the scoring engine at all, and if so, how to weight it. Depth investigation should find: (1) any meta-analysis that formally quantifies the within-vs-between breed variance decomposition for fear/reactivity specifically; (2) whether population-level prior + individual override is standard in any Bayesian animal behavior model.",
+      "corpus_evidence": [
+        "ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc",
+        "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+        "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+        "holding-back-the-genes-limitations-of-research-into-canine-behavioural-genetics",
+        "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+      ],
+      "opposing_positions": [
+        {
+          "position": "Breed is nearly uninformative for agonistic threshold (the trait most relevant to evasion-mode classification): Morrill 2022 (n=18,385) shows breed explains only 9% of behavioral variance overall and is 'almost uninformative' for agonistic threshold specifically. Using breed as a prior would introduce more noise than signal at the individual level.",
+          "sources": [
+            "ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc",
+            "breed-is-not-a-good-predictor-of-individual-dog-behavior-study-finds",
+            "holding-back-the-genes-limitations-of-research-into-canine-behavioural-genetics"
+          ]
+        },
+        {
+          "position": "Breed-group means on specific traits (stranger-fear for galgos p=0.009; predatory drive variation across sighthound breeds p<0.001) provide real population-level signal valid as a weak Bayesian prior, even if individual prediction is unreliable. Not using breed would discard confirmed group-level signal.",
+          "sources": [
+            "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+            "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+            "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+          ]
+        }
+      ],
+      "suggested_starting_urls": [
+        "https://www.science.org/doi/10.1126/science.abk0639",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=dog+breed+behavior+variance+agonistic+fear+individual",
+        "https://dogbehavior.it/index.php/DB/article/view/246",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=canine+behavioral+genetics+within+between+breed+variance+fear"
+      ],
+      "suggested_searches": [
+        "Morrill 2022 Science breed behavior variance agonistic threshold replication",
+        "canine breed-level vs individual behavior prediction fear reactivity meta-analysis",
+        "population prior individual override Bayesian animal behavior model",
+        "C-BARQ breed mean fear stranger within-breed vs between-breed variance decomposition",
+        "dog breed agonistic threshold fear predictor systematic review"
+      ]
+    },
+    {
+      "name": "podenco-lost-behavior-algarve-specific",
+      "flavor": "convergent",
+      "one_line": "How do Podencos specifically behave when lost in Portuguese/Algarve terrain, and what does the predatory motor sequence profile (Hunt 69%/Chase 69%/Consume 8%) predict about movement patterns and recovery strategy?",
+      "rationale": "`coverage-gaps.md` SQ9 rates podenco coverage as only 'Adequate (2-3 sources)' and explicitly notes 'no study of how podencos specifically behave when lost in Algarve terrain.' The key data points in the corpus are the McLennan predatory motor sequence (`prey-drive-in-podencos`: Hunt/Chase 69%, Consume 8%) and the arousal research (`arousal-and-predatory-motor-patterns`: Broseghini 2024 ethogram, scent hound search phase characteristics). But these are breed-general predatory drive data, not lost-dog behavior data. The corpus does not address: (1) what Podenco movement radius looks like in the Algarve garrigue/maquis terrain specifically; (2) whether the multi-modal hunting (sight+scent+sound) profile means Podencos behave differently from pure sighthounds when lost (do they quarter and grid like scent hounds, or streak and fixate like greyhounds?); (3) whether high prey-drive-without-consumption means Podencos stabilize in territory after trigger fades or continue ranging. `predatory-motor-sequence-basics-3-lost-dogs-academy-daybreak-dogs-llc` notes that if a dog cannot complete the sequence (no prey to catch), arousal may stay elevated — which for a Podenco with 69% chase and 8% consume could mean prolonged movement. This gap directly changes the distance prior Nona assigns to a lost Podenco.",
+      "corpus_evidence": [
+        "prey-drive-in-podencos",
+        "arousal-and-predatory-motor-patterns",
+        "predatory-motor-sequence-basics-3-lost-dogs-academy-daybreak-dogs-llc",
+        "podenco-dogs-agile-and-ancient-mediterranean-sighthounds",
+        "podencos-galgo-rescue-international-network"
+      ],
+      "suggested_starting_urls": [
+        "https://www.tracey-mclennan.com/prey-drive-in-podencos",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=Podenco+behavior+hunting+lost+movement",
+        "https://scholar.google.com/scholar?q=Podenco+Ibizancos+hound+lost+range+movement+study",
+        "https://doi.org/10.1016/j.applanim.2024.106402"
+      ],
+      "suggested_searches": [
+        "Podenco Ibicenco lost dog range movement Algarve Portugal terrain",
+        "Broseghini 2024 predatory motor sequence scent hound sighthound ethogram",
+        "McLennan podenco prey drive Applied Animal Behaviour Science study",
+        "hunting dog lost scent hound range terrain Mediterranean",
+        "Podenco Português lost dog behavior recovery strategy"
+      ]
+    },
+    {
+      "name": "sighting-reliability-crowd-displacement-protocol",
+      "flavor": "dialectical",
+      "one_line": "When a sighting arrives, should the response be immediate individual response or strict location privacy — and what is the actual decision rule that resolves the crowd-displacement risk?",
+      "rationale": "The corpus documents a genuine operational disagreement. `lost-pet-owner-guide-hartt` and `finding-a-lost-pet-aspca` advise respond immediately to all sightings. Against this, `dog-befriends-a-fox-while-lost-in-blizzard` (Winnie case: 7-mile displacement in 1 hour from crowd convergence), `stay-out-of-the-woods-missing-animal-response-network`, and `behaviors-to-avoid-ct-dog-gone-recovery` document that sharing sighting locations publicly causes crowd-displacement events that move the dog into traffic. The corpus notes that the fight partially resolves on the distinction between individual-coordinator response (beneficial) vs. public posting + crowd response (harmful). But the encoding question for Nona is precise: what is the decision rule that the system should output when a sighting is received? When does the algorithm say 'respond now' vs. 'do not share location, set passive trap only'? The corpus sources on both sides are talking past each other on this operationally critical question. Depth investigation should find: (1) any case study with controlled single-person response; (2) MAR's formal protocol for sighting triage; (3) whether the crowd-displacement risk is conditioned on dog temperament category.",
+      "corpus_evidence": [
+        "dog-befriends-a-fox-while-lost-in-blizzard",
+        "stay-out-of-the-woods-missing-animal-response-network",
+        "lost-pet-owner-guide-hartt",
+        "behaviors-to-avoid-ct-dog-gone-recovery",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network"
+      ],
+      "opposing_positions": [
+        {
+          "position": "Respond immediately to sightings — sightings provide real-time location; the window is narrow before the dog moves. Call immediately, pin the location on maps, go now (HARTT guide, ASPCA).",
+          "sources": [
+            "lost-pet-owner-guide-hartt",
+            "finding-a-lost-pet-aspca"
+          ]
+        },
+        {
+          "position": "Keep sighting locations private from public posts. Crowd response to a sighting is one of the top causes of displacement and fatal vehicle strikes. Any public sharing triggers multiple chasers converging, compounding flight — the Winnie case documents 7 miles in 1 hour; Princess case documents fatal vehicle strike after repeated crowd-displacement events.",
+          "sources": [
+            "dog-befriends-a-fox-while-lost-in-blizzard",
+            "stay-out-of-the-woods-missing-animal-response-network",
+            "behaviors-to-avoid-ct-dog-gone-recovery",
+            "behaviors-to-avoid-ct-dog-gone-recovery"
+          ]
+        }
+      ],
+      "suggested_starting_urls": [
+        "https://www.missinganimalresponse.com/lost-dog-behavior/",
+        "https://www.lostdogsofamerica.org/",
+        "https://www.ctdoggonerecovery.com/behaviors-to-avoid",
+        "https://www.missinganimalresponse.com/stay-out-of-the-woods/"
+      ],
+      "suggested_searches": [
+        "MAR sighting triage protocol crowd displacement lost dog temperament decision rule",
+        "lost dog sighting response protocol xenophobic gregarious temperament",
+        "crowd displacement lost dog sighting case studies documented outcomes",
+        "MAR missing animal response sighting location privacy protocol formal",
+        "single-person vs group response sighting lost dog outcome comparison"
+      ]
+    }
+  ],
+  "skip_loci": [
+    {
+      "slug": "active-vs-passive-search-general",
+      "reason": "The contradiction is real (Lord 2007 vs. MAR doctrine) but the corpus already effectively resolves it: active search works for gregarious dogs; passive monitoring is required for xenophobic/survival-mode dogs. The resolution is temperament-conditioned, not a genuine binary. Encoding this in the report requires no additional depth investigation — the sources in the width corpus are sufficient. Elevated to the sighting-reliability locus instead, which is the sharpest operational version of the same question."
+    },
+    {
+      "slug": "food-lure-timing-arousal",
+      "reason": "The contradiction-graph correctly rates this 'medium' relevance. The corpus already resolves it cleanly: food lures work at rest, fail during active arousal/prey drive. Both sides are right for their scenarios and the resolution is obvious from the arousal literature. No depth investigation would change the encoding materially."
+    },
+    {
+      "slug": "survival-mode-onset-timing",
+      "reason": "The contradiction-graph rates this 'medium' relevance. The corpus already resolves it at the level Nona needs: temperament predicts probability of survival mode onset, not timing. Buddha Dog (variable/unpredictable) and Albrecht (category-predictable) are both right at their levels of analysis. Depth investigation would return the same answer already in the corpus."
+    },
+    {
+      "slug": "distance-distribution-absolute-numbers",
+      "reason": "The Kremer 2021 (n=30,609) vs. Albrecht 1999 (n=254) fight is a real scope mismatch: Kremer covers all dogs including rapidly self-resolving cases; Albrecht covers hard cases. Both figures are valid for their populations. The corpus already has sufficient data to build the bimodal distance prior (short-tail for gregarious; long-tail for xenophobic/sighthound). No additional depth investigation needed."
+    },
+    {
+      "slug": "signage-effectiveness-timing",
+      "reason": "Contradiction-graph rated 'low' relevance. Lord 2007 finding (signs not effective before 7 days) is interesting but Nona is a real-time behavioral engine, not a marketing platform. Signage timing is operational UX, not behavioral modeling. Rejected as not load-bearing for the research query."
+    },
+    {
+      "slug": "herding-guardian-breed-lost-behavior",
+      "reason": "Coverage-gaps.md confirms herding/guardian breed data is 'almost absent' and this is a genuine gap — but these breeds are not the primary concern for Nona/Red Cão Algarve, where the Algarve population is dominated by galgos, podencos, and mixed hounds. Pursuing herding/guardian breed depth would dilute the depth budget on lower-priority cases."
+    }
+  ]
+}

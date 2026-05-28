@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Approximately 70% of lost dogs are found at most 1 mile away from home; 42% were less than 400 feet (~1 city block) from home.",
+    "stance": "supports",
+    "stance_target": "proximity-first search strategy; consistent with Lord 2007b and HASS data",
+    "evidence_type": "empirical",
+    "scope_conditions": "2021 study of 30,000+ stray dogs in Dallas, TX (cited without full citation in article)",
+    "quoted_support": "According to the largest study we have—a 2021 study of over 30,000 stray dogs in Dallas—about 70% of lost dogs were found at most one mile away from home. Of these runaways, 42% were less than 400 feet away from home, or only about one city block away.",
+    "numbers": ["70%", "42%", "1 mile", "400 feet", "30,000+"],
+    "entities": ["Dallas study 2021"],
+    "time_period": "2021",
+    "region": "Dallas, Texas, USA",
+    "confidence": "medium",
+    "source_note_id": "how-long-do-dogs-go-missing-recovery-stats-timelines-tips-petplacecom"
+  },
+  {
+    "claim": "Microchipped dogs are returned at ~70% rate vs ~33% for dogs without microchips in the 2021 Dallas stray dog study.",
+    "stance": "supports",
+    "stance_target": "microchip registration doubles recovery probability for lost dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "2021 Dallas stray dog study, n=30,000+",
+    "quoted_support": "the Dallas study found that about 7 in 10 dogs with a microchip were returned to their owner, while only 1 in 3 dogs without a microchip found their way home.",
+    "numbers": ["7 in 10", "~70%", "1 in 3", "~33%"],
+    "entities": ["Dallas study 2021"],
+    "time_period": "2021",
+    "region": "Dallas, Texas, USA",
+    "confidence": "medium",
+    "source_note_id": "how-long-do-dogs-go-missing-recovery-stats-timelines-tips-petplacecom"
+  },
+  {
+    "claim": "Most dogs are found within 2 days of going missing, with recovery timelines ranging from half a day to 3 weeks.",
+    "stance": "supports",
+    "stance_target": "median 2-day recovery timeline (consistent with Lord 2007b); first 48 hours are highest-yield window",
+    "evidence_type": "statistical",
+    "scope_conditions": "synthesis across multiple studies; specific studies not individually cited in this paragraph",
+    "quoted_support": "most dogs are found within two days of running away, with recovery times ranging from half a day to three weeks.",
+    "numbers": ["2 days", "0.5 days to 3 weeks"],
+    "entities": [],
+    "time_period": "multiple studies",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "how-long-do-dogs-go-missing-recovery-stats-timelines-tips-petplacecom"
+  },
+  {
+    "claim": "Breed-specific behavioral traits (aloofness, escape drive, scent-chase instinct) and temperament (shy vs. friendly) are cited as primary factors affecting recovery duration — but no quantitative breed-level data is provided.",
+    "stance": "neutral",
+    "stance_target": "breed as a behavioral prior for lost dog risk and recovery scoring",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "No specific study cited for breed-level data; qualitative expert synthesis",
+    "quoted_support": "Certain behavioral characteristics of a breed—like aloofness or the innate desire to escape, wander, or chase a scent or prey—could lead to harder-to-catch runaways.",
+    "numbers": [],
+    "entities": [],
+    "time_period": null,
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "how-long-do-dogs-go-missing-recovery-stats-timelines-tips-petplacecom"
+  },
+  {
+    "claim": "Older and ill dogs typically cannot wander far from the point of escape and tend to hide nearby (under sheds/decks), shortening search radius.",
+    "stance": "supports",
+    "stance_target": "age/health as modifiers to the baseline distance distribution — elderly dogs have reduced movement radius",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "No specific study cited; qualitative expert guidance from PetPlace",
+    "quoted_support": "Older or ill dogs often cannot wander far and may hide nearby, such as underneath a shed or deck.",
+    "numbers": [],
+    "entities": [],
+    "time_period": null,
+    "region": null,
+    "confidence": "low",
+    "source_note_id": "how-long-do-dogs-go-missing-recovery-stats-timelines-tips-petplacecom"
+  }
+]

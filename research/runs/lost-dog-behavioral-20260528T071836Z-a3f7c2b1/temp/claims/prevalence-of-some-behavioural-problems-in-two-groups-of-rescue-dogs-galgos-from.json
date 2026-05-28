@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Rescue galgos from Spain show significantly higher rates of fear of non-cohabiting adult people (strangers) compared to other rescue dogs, with over 1 in 5 galgos showing this behavior.",
+    "stance": "supports",
+    "stance_target": "galgos being more likely to avoid approaching strangers when lost, requiring passive capture strategies rather than direct approach",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=410 rescue dogs (198 galgos, 212 other dogs); online questionnaire; Normando et al. 2024, Dog Behavior vol 10 no 1; Spain and Italy rescue context",
+    "quoted_support": "Galgos were more often reported as showing 'Out of context fear of non-co-habiting adult people' (p=0.009) than other dogs.",
+    "numbers": ["198 galgos", "212 other dogs", "410 total", "p=0.009", "more than 1 in 5 galgos"],
+    "entities": ["Normando", "Bertomoro", "Bonetti", "Walsh", "Zanetti", "Meers", "Contalbrigo", "galgo"],
+    "time_period": "2024",
+    "region": "Spain (origin), Italy (rescue context)",
+    "confidence": "high",
+    "source_note_id": "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from"
+  },
+  {
+    "claim": "Poor recall, predatory behavior toward cats, predatory behavior toward other animals, and shadowing the caretaker were all reported in more than 1 in 5 dogs in BOTH galgo and non-galgo rescue groups — these behaviors are not galgo-specific.",
+    "stance": "neutral",
+    "stance_target": "distinguishing galgo-specific behavioral priors from general sighthound/rescue dog baselines",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=410; Normando et al. 2024",
+    "quoted_support": "'Poor recall', 'Predatory behaviour toward cats', 'Predatory behaviour toward other animals' and 'Shadowing the caretaker' were reported in more than one dog out of five for both galgos and other dogs.",
+    "numbers": ["more than 1 in 5 for both groups"],
+    "entities": ["galgo", "Normando"],
+    "time_period": "2024",
+    "region": "Spain/Italy",
+    "confidence": "high",
+    "source_note_id": "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from"
+  },
+  {
+    "claim": "Coprophagia (eating feces) was reported in more than 1 in 5 galgos but not in other rescue dogs, suggesting galgo-specific background of food scarcity or stress during pre-rescue life in Spain.",
+    "stance": "supports",
+    "stance_target": "galgos having distinct pre-rescue environmental histories (hunting/racing conditions in Spain) that shape behavioral baselines",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=410; Normando et al. 2024; p=0.002",
+    "quoted_support": "Galgos were more often reported as showing 'Eating faeces' (p=0.002)... 'Eating faeces' was reported in more than one dog out of five in galgos, but not in other dogs.",
+    "numbers": ["p=0.002", "more than 1 in 5 galgos"],
+    "entities": ["galgo"],
+    "time_period": "2024",
+    "region": "Spain/Italy",
+    "confidence": "high",
+    "source_note_id": "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from"
+  },
+  {
+    "claim": "Fear of loud noises, fireworks, and thunderstorms increases with longer adoption time in rescue dogs, suggesting environmental exposure or sensitization over time rather than a breed-fixed trait.",
+    "stance": "supports",
+    "stance_target": "noise phobia as a time-evolving risk factor in rescue sighthounds, relevant to temporal behavioral phase modeling",
+    "evidence_type": "empirical",
+    "scope_conditions": "Normando et al. 2024; regression analysis of adoption length variable",
+    "quoted_support": "Dogs who had been longer with the family (i.e., longer adoption length) were more often reported as being afraid of loud noises, thunderstorms, and fireworks.",
+    "numbers": [],
+    "entities": ["Normando", "galgo"],
+    "time_period": "2024",
+    "region": "Spain/Italy",
+    "confidence": "medium",
+    "source_note_id": "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from"
+  }
+]

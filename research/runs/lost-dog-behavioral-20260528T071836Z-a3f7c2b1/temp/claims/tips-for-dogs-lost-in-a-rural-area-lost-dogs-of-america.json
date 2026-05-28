@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Scared lost dogs gravitate to farms because farms provide quiet, multiple hiding places, and reliable food sources (outdoor cat food, spilled grain); they hide in sheds, barns, or under farm machinery and emerge only at dusk and dawn to eat.",
+    "stance": "supports",
+    "stance_target": "behavioral pattern of scared dogs seeking quiet sheltered areas with food; dusk/dawn activity in evasion mode",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rural or peri-rural environments; dogs in evasion/hiding mode",
+    "quoted_support": "Scared lost dogs will often gravitate to a farm where it is quiet and there is a reliable food source like outdoor cat food or spilled grain. Farms provide a multitude of hiding places. Lost dogs will hide in sheds, old barns or under old farm machinery and creep out at dusk and dawn to eat.",
+    "numbers": [],
+    "entities": ["Kathy Pobloskie", "Lost Dogs of America"],
+    "time_period": null,
+    "region": "Rural USA (generalizable to Algarve context)",
+    "confidence": "high",
+    "source_note_id": "tips-for-dogs-lost-in-a-rural-area-lost-dogs-of-america"
+  },
+  {
+    "claim": "Farmers often allow lost dogs to remain on their property indefinitely without seeking the owner because they assume the dog was deliberately abandoned ('dumped').",
+    "stance": "supports",
+    "stance_target": "false assumption by finders as a barrier to recovery; manual outreach to farms is necessary",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rural environments; farmers as involuntary shelters",
+    "quoted_support": "If the dog isn't bothering livestock, farmers may let the dogs hang around indefinitely. But they may not proactively look for an owner because they assume that the dog was 'dumped' off at their farm.",
+    "numbers": [],
+    "entities": ["Kathy Pobloskie", "Lost Dogs of America"],
+    "time_period": null,
+    "region": "Rural USA",
+    "confidence": "medium",
+    "source_note_id": "tips-for-dogs-lost-in-a-rural-area-lost-dogs-of-america"
+  },
+  {
+    "claim": "Outdoor cat feeding stations serve as secondary food attractors for lost dogs in rural areas and are predictive locations for dog presence.",
+    "stance": "supports",
+    "stance_target": "cat-feeding-station monitoring as a search/lure technique for rural lost dog recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rural and peri-rural; dogs in survival/evasion mode",
+    "quoted_support": "Pay close attention to places where you see outdoor cats. There is probably a food source that your lost dog may also be visiting. Check for tracks or ask permission to set up a trail camera to monitor.",
+    "numbers": ["20 mile radius", "30 miles"],
+    "entities": ["Kathy Pobloskie", "Lost Dogs of America"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "tips-for-dogs-lost-in-a-rural-area-lost-dogs-of-america"
+  },
+  {
+    "claim": "Lost dogs in rural evasion mode have been safely recovered weeks, months, and even years after disappearance, confirming long survival viability and supporting persistent search strategy.",
+    "stance": "supports",
+    "stance_target": "long-duration search persistence as justified and evidence-based",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rural environments; prolonged evasion",
+    "quoted_support": "Never Give Up! Lost dogs are safely recovered weeks, months and even years after they have gone missing. Your dog may be hanging around a farm and is relying on YOU to bring him safely home.",
+    "numbers": [],
+    "entities": ["Kathy Pobloskie", "Lost Dogs of America"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "tips-for-dogs-lost-in-a-rural-area-lost-dogs-of-america"
+  }
+]

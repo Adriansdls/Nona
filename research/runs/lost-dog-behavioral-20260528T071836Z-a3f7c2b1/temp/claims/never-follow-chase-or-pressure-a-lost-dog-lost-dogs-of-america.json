@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Based on thousands of lost dog cases, the three main causes of death for lost dogs are: (1) hit by car, (2) hit by train, (3) drowning (often falling through thin ice).",
+    "stance": "supports",
+    "stance_target": "mortality risk profile for lost dogs — panic-driven movement as cause of death",
+    "evidence_type": "statistical",
+    "scope_conditions": "lost dogs tracked by Lost Dogs of America; North American case base",
+    "quoted_support": "Based on thousands and thousands of cases, our three main causes of death for lost dogs are 1. Hit by a car 2. Hit by a train and 3. Drowning (often falling through thin ice).",
+    "numbers": ["thousands of cases", "3 causes of death ranked"],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "ongoing (organization founded 2010s)",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america"
+  },
+  {
+    "claim": "Lost dogs that are not being pursued or pressured will make wise survival decisions and may survive indefinitely; dogs being pressured remain in panic mode and make poor decisions including running into traffic.",
+    "stance": "supports",
+    "stance_target": "chasing/pressuring as the primary human behavior that converts a survivable situation into a fatal one",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "lost dogs; behavior when actively pursued vs. left to settle",
+    "quoted_support": "Lost dogs who aren't being pursued or pressured will make very wise decisions and may survive indefinitely. Lost dogs that are being pressured will stay in 'panic' mode and will make very poor decisions.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "ongoing",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america"
+  }
+]

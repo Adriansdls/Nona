@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Podenco dogs differ fundamentally from Galgos (Spanish greyhounds) in hunting strategy: Podencos use sight, scent, and hearing, while Galgos are primarily visual hunters — meaning lost Podencos will both scent-track and visually pursue, while lost Galgos are more likely to sprint and freeze.",
+    "stance": "supports",
+    "stance_target": "Breed-specific lost dog behavioral priors require separate treatment for Podencos vs sighthounds",
+    "evidence_type": "empirical",
+    "scope_conditions": "Podenco and Galgo breeds; Spanish hunting context",
+    "quoted_support": "Though both are Spanish sighthounds, Podenco dogs use sight, scent, and hearing when hunting, while Galgos are primarily visual hunters. Podencos are more alert and energetic, while Galgos tend to be quieter and more reserved in temperament.",
+    "numbers": [],
+    "entities": ["Podenco", "Galgo", "Galgo Español"],
+    "time_period": "Contemporary",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "podenco-dogs-agile-and-ancient-mediterranean-sighthounds"
+  },
+  {
+    "claim": "Podencos require 1-2 hours of exercise per day; without sufficient physical and mental stimulation they channel energy into mischief and escape behavior.",
+    "stance": "supports",
+    "stance_target": "Understimulated Podencos are at elevated escape/wandering risk",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Domestic pet Podencos",
+    "quoted_support": "Because of their strong prey drive, allowing them off-leash in unenclosed areas can be risky. Instead, many owners use spacious yards or dog parks for safer play sessions.",
+    "numbers": ["1-2 hours per day"],
+    "entities": ["Podenco"],
+    "time_period": "Contemporary",
+    "region": "Spain, Portugal, Mediterranean",
+    "confidence": "medium",
+    "source_note_id": "podenco-dogs-agile-and-ancient-mediterranean-sighthounds"
+  },
+  {
+    "claim": "Podencos exhibit cautious approach behavior toward strangers — naturally wary — meaning a lost Podenco is likely to approach familiar people but avoid unfamiliar rescuers even when desperate.",
+    "stance": "supports",
+    "stance_target": "Podencos in lost state will approach familiar humans but flee from strangers, consistent with the Albrecht approach-avoidance model for wary/aloof dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Podencos without extensive early socialization",
+    "quoted_support": "Although naturally wary of strangers, consistent socialization helps them warm up, revealing a friendly side beneath that watchful exterior.",
+    "numbers": [],
+    "entities": ["Podenco"],
+    "time_period": "Contemporary",
+    "region": "Mediterranean",
+    "confidence": "medium",
+    "source_note_id": "podenco-dogs-agile-and-ancient-mediterranean-sighthounds"
+  },
+  {
+    "claim": "Podencos bond strongly with established owners and form 'strong bonds once trust is established', suggesting familiar scent/voice cues from known persons are the primary behavioral lever for luring a lost Podenco back.",
+    "stance": "supports",
+    "stance_target": "Familiar-person approach strategy is the most effective recovery method for bonded lost Podencos",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Domestic pet Podencos with established human bond",
+    "quoted_support": "With the right environment, these dogs forge strong bonds with their families, showing unwavering loyalty once trust is established.",
+    "numbers": [],
+    "entities": ["Podenco"],
+    "time_period": "Contemporary",
+    "region": "Spain, Europe",
+    "confidence": "medium",
+    "source_note_id": "podenco-dogs-agile-and-ancient-mediterranean-sighthounds"
+  }
+]

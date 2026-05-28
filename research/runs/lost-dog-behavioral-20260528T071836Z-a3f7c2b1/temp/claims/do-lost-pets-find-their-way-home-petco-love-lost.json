@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "93% of lost dogs are found alive, with 20% returning home on their own; microchipped dogs are returned at 52.2% rate vs 21.9% for non-microchipped (AVMA study data).",
+    "stance": "supports",
+    "stance_target": "Lost dog recovery is achievable in the majority of cases; identification technology significantly improves outcomes",
+    "evidence_type": "statistical",
+    "scope_conditions": "US, dogs, data from Lost Pet Research & Recovery and AVMA",
+    "quoted_support": "Lost Pet Research & Recovery indicates that 93% of lost dogs are found alive, and 20% of them return home on their own. Dogs without microchips were returned to their families 21.9% of the time. In contrast, microchipped dogs were returned 52.2% of the time, even when they were 600 to 1,000 miles away from home.",
+    "numbers": ["93%", "20%", "52.2%", "21.9%", "600-1,000 miles"],
+    "entities": ["Lost Pet Research & Recovery", "AVMA", "Petco Love Lost"],
+    "time_period": "pre-2021",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "do-lost-pets-find-their-way-home-petco-love-lost"
+  },
+  {
+    "claim": "The median distance lost outdoor-access cats traveled was approximately 344 yards (17-house radius) from home, per MARN missing cat study — a tight spatial prior for feline search concentration.",
+    "stance": "supports",
+    "stance_target": "Tight spatial priors exist for lost cat position based on empirical data from the MARN missing cat study",
+    "evidence_type": "empirical",
+    "scope_conditions": "Outdoor-access cats, MARN missing cat study data",
+    "quoted_support": "A missing cat study from the Missing Animal Response Network shows that the median distance lost outdoor-access cats traveled was roughly 344 yards, or about a 17-house radius from their home.",
+    "numbers": ["344 yards", "17-house radius"],
+    "entities": ["Missing Animal Response Network", "Kat Albrecht"],
+    "time_period": "pre-2021",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "do-lost-pets-find-their-way-home-petco-love-lost"
+  },
+  {
+    "claim": "One in three pets will become lost in their lifetime, and of 3.3 million dogs and cats entering shelters as strays, only about 20% are reunited with their families.",
+    "stance": "supports",
+    "stance_target": "Lost pet recovery is a high-volume problem with currently low systematic success rates",
+    "evidence_type": "statistical",
+    "scope_conditions": "US, all pet species",
+    "quoted_support": "Statistics show that one in three pets will become lost in their lifetime... of 3.3 million dogs and cats who enter shelters as strays, only about 20% are reunited with their families.",
+    "numbers": ["1 in 3", "3.3 million", "20%"],
+    "entities": ["Petco Love Lost"],
+    "time_period": "pre-2021",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "do-lost-pets-find-their-way-home-petco-love-lost"
+  }
+]

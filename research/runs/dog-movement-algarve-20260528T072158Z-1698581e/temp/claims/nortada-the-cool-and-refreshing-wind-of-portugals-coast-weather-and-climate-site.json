@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The Nortada is a north to northwest wind that blows along Portugal's Atlantic coast from May to September, driven by thermal land-sea differential (hot inland air rises, cool oceanic air rushes in from north/northwest).",
+    "stance": "supports",
+    "stance_target": "Prevailing wind direction during Algarve lost-dog season for scent station and camera trap orientation",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portuguese Atlantic coast; May–September seasonal pattern",
+    "quoted_support": "From May to September, this amazing wind comes along the coast to bring relief from the heat... the cooler air from the ocean rushes in to fill that space, creating the refreshing Nortada wind that blows from the north and northwest along the Portuguese coast.",
+    "numbers": [],
+    "entities": ["Nortada"],
+    "time_period": "May–September annually",
+    "region": "Portugal Atlantic coast",
+    "confidence": "high",
+    "source_note_id": "nortada-the-cool-and-refreshing-wind-of-portugals-coast-weather-and-climate-site"
+  },
+  {
+    "claim": "The Nortada occurs during the primary lost-dog season (summer) in the Algarve, meaning during peak search operations the prevailing wind direction will consistently be from the north or northwest.",
+    "stance": "supports",
+    "stance_target": "Actionable wind direction parameter for Algarve lost dog scent station placement (position stations south or southeast of suspected range)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve region, May–September; search strategies during summer high season",
+    "quoted_support": "The Nortada wind usually happens during the spring and summer seasons in Portugal. From May to September, this amazing wind comes along the coast.",
+    "numbers": [],
+    "entities": ["Nortada"],
+    "time_period": "May–September",
+    "region": "Algarve, Portugal",
+    "confidence": "high",
+    "source_note_id": "nortada-the-cool-and-refreshing-wind-of-portugals-coast-weather-and-climate-site"
+  },
+  {
+    "claim": "The Nortada is strong enough to support windsurfing and kitesurfing, indicating it is a sustained moderate-to-strong wind rather than a light breeze — relevant to scent plume dispersion distances and camera trap exposure management.",
+    "stance": "supports",
+    "stance_target": "Scent plume dispersion intensity from Nortada during search operations",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portuguese Atlantic coast during Nortada season",
+    "quoted_support": "Nortada also wind holds recreational significance, attracting windsurfers and kitesurfers who seek its favorable conditions for their sports.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "May–September",
+    "region": "Portugal coast",
+    "confidence": "medium",
+    "source_note_id": "nortada-the-cool-and-refreshing-wind-of-portugals-coast-weather-and-climate-site"
+  }
+]

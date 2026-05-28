@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Free-roaming domestic dogs consistently prefer buildings and roads (anthropogenic features), and avoid vegetation, open fields, and steep terrain across urban and rural settings in multiple countries.",
+    "stance": "supports",
+    "stance_target": "terrain corridor modeling — roads and buildings as primary movement corridors for dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "321 GPS-tracked free-roaming dogs at urban and rural sites in Indonesia and Guatemala; spatial logistic regression habitat selection analysis",
+    "quoted_support": "The most preferred resources were anthropogenic, being buildings and roads, which implies selection for human proximity. Vegetation and open fields were less preferred and steep terrain was avoided, indicating that FRDD were synanthropic and that their space patterns likely optimised energy use.",
+    "numbers": ["321 dogs"],
+    "entities": ["Cunha Silva L", "Friker B", "Warembourg C"],
+    "time_period": "2022",
+    "region": "Indonesia (urban); Guatemala (urban and rural)",
+    "confidence": "high",
+    "source_note_id": "habitat-selection-by-free-roaming-domestic-dogs-in-rabies-endemic-countries-in-r"
+  },
+  {
+    "claim": "Free-roaming dogs are synanthropic — their space-use patterns are organized around human infrastructure rather than natural terrain features, even in rural settings.",
+    "stance": "supports",
+    "stance_target": "roads, tracks, and human infrastructure as primary search corridors in Algarve",
+    "evidence_type": "empirical",
+    "scope_conditions": "321 dogs, urban and rural sites, Indonesia and Guatemala",
+    "quoted_support": "Results presented here provide novel empirical evidence that FRDD habitat selection is driven by synanthropic preferences for human-modified environments... patterns of habitat selection by FRDD were similar across study sites.",
+    "numbers": [],
+    "entities": ["Cunha Silva L", "Warembourg C"],
+    "time_period": "2022",
+    "region": "Indonesia and Guatemala (generalizable to rural Algarve)",
+    "confidence": "high",
+    "source_note_id": "habitat-selection-by-free-roaming-domestic-dogs-in-rabies-endemic-countries-in-r"
+  },
+  {
+    "claim": "Steep terrain is actively avoided by free-roaming domestic dogs in habitat selection, consistent with path-of-least-resistance movement behavior.",
+    "stance": "supports",
+    "stance_target": "terrain slope as barrier in Algarve terrain corridor modeling",
+    "evidence_type": "empirical",
+    "scope_conditions": "321 GPS-tracked dogs, urban and rural, Indonesia and Guatemala",
+    "quoted_support": "Vegetation and open fields were less preferred and steep terrain was avoided, indicating that FRDD were synanthropic and that their space patterns likely optimised energy use.",
+    "numbers": [],
+    "entities": ["Cunha Silva L"],
+    "time_period": "2022",
+    "region": "Indonesia, Guatemala",
+    "confidence": "high",
+    "source_note_id": "habitat-selection-by-free-roaming-domestic-dogs-in-rabies-endemic-countries-in-r"
+  }
+]

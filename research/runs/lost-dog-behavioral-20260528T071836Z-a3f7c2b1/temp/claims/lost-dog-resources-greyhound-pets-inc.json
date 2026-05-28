@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Loose greyhounds tend to follow their regular walking routes due to strong habit formation, making familiar route coverage a priority search strategy.",
+    "stance": "supports",
+    "stance_target": "sighthounds using habitual terrain rather than random dispersal when lost",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Practitioner guidance from greyhound rescue organization (GPI, Pacific Northwest); not a controlled study",
+    "quoted_support": "If you walk your dog on a regular route on a frequent basis, please check that route. Greyhounds are creatures of habit so hopefully your greyhound will be somewhere on that walking route.",
+    "numbers": [],
+    "entities": ["Greyhound Pets Inc", "GPI"],
+    "time_period": "2012-present",
+    "region": "Pacific Northwest, USA",
+    "confidence": "medium",
+    "source_note_id": "lost-dog-resources-greyhound-pets-inc"
+  },
+  {
+    "claim": "A shy or frightened loose greyhound will not respond to direct approach; effective retrieval requires counter-intuitive techniques such as running away from the dog or opening a car door and inviting entry.",
+    "stance": "supports",
+    "stance_target": "sighthounds (especially fearful ex-racing dogs) having flight-over-approach response to direct human pursuit",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Practitioner guidance; applies to shy/fearful individual dogs specifically",
+    "quoted_support": "If you can get your greyhound's attention and he still won't come to you, you could try turning and walking away, or even running the other way if he enjoys a chase... Don't move towards a shy dog. Just open the door and say, 'Let's go!'",
+    "numbers": [],
+    "entities": ["Greyhound Pets Inc"],
+    "time_period": "2012-present",
+    "region": "Pacific Northwest, USA",
+    "confidence": "medium",
+    "source_note_id": "lost-dog-resources-greyhound-pets-inc"
+  },
+  {
+    "claim": "Kat Albrecht's Missing Pet Partnership and Jim Branson's Three Retrievers Lost Pet Rescue are cited as primary authority sources for lost-dog behavioral guidance by greyhound rescue organizations.",
+    "stance": "neutral",
+    "stance_target": "primary source identification for lost-dog behavioral methodology",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Organizational citation; these are the primary upstream authorities on lost-pet behavioral strategy",
+    "quoted_support": "What You Don't Know About Lost Pets Can Hurt Them. By Kathy 'Kat' Albrecht, Founder, Missing Pet Partnership, May 2012. Guide to Finding Lost Dogs. By Jim Branson of Three Retrievers Lost Pet Rescue.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Pet Partnership", "Jim Branson", "Three Retrievers Lost Pet Rescue"],
+    "time_period": "2012",
+    "region": "USA",
+    "confidence": "high",
+    "source_note_id": "lost-dog-resources-greyhound-pets-inc"
+  },
+  {
+    "claim": "Greyhound recall devices (squawker, rabbit squealer) become ineffective if overused; they should be reserved exclusively for situations where the dog is actually loose.",
+    "stance": "supports",
+    "stance_target": "sighthound recall behavior being conditioned and habituatable, relevant to operational field protocol design",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Practitioner guidance from greyhound rescue",
+    "quoted_support": "It's always good to teach your dog a recall signal such as a call command of some kind, whistle, etc - do not use a squawker as your recall signal unless the dog is actually loose. Once the squawker is used too often, it will be ignored.",
+    "numbers": [],
+    "entities": ["Greyhound Pets Inc"],
+    "time_period": "Present",
+    "region": "Pacific Northwest, USA",
+    "confidence": "medium",
+    "source_note_id": "lost-dog-resources-greyhound-pets-inc"
+  }
+]

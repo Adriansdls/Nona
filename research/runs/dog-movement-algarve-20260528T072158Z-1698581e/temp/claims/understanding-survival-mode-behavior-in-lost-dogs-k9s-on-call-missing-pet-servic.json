@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Lost dogs in survival mode become nocturnal — moving primarily at night and hiding in wooded areas, under porches, or behind sheds during daylight hours.",
+    "stance": "supports",
+    "stance_target": "nocturnal activity cycle as primary behavioral pattern in survival-mode lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs that have entered survival mode after extended time lost",
+    "quoted_support": "Lost dogs often adjust their behavior to move mostly at night when it's quiet and there are fewer threats. During the day, they may hide in wooded areas, under porches, or behind sheds, emerging only after dark to search for food and water.",
+    "numbers": [],
+    "entities": ["K9's On Call Missing Pet Services"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic"
+  },
+  {
+    "claim": "Survival-mode dogs develop a predictable visiting pattern around safe hiding spots and food/water sources, which can be exploited by camera trap and baited station placement.",
+    "stance": "supports",
+    "stance_target": "pattern-based movement enabling predictive trap placement",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs that have established a territory after several days",
+    "quoted_support": "Once they find a safe hiding spot or food source, they may begin to create a pattern—visiting the same areas around the same time each day. This predictable behavior is valuable for search efforts, as it can help pinpoint where to set up cameras or humane traps.",
+    "numbers": [],
+    "entities": ["K9's On Call Missing Pet Services"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic"
+  },
+  {
+    "claim": "Lost dogs in survival mode seek water sources and shelter in drainage pipes, barns, or brushy areas as primary habitat.",
+    "stance": "supports",
+    "stance_target": "water source gravity as survival convergence behavior",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs in survival mode across varied environments",
+    "quoted_support": "They may drink from puddles, eat trash or small prey, and seek shelter under decks, in barns, drainage pipes, or brushy areas. Many will find comfort near water sources or quiet edges of neighborhoods.",
+    "numbers": [],
+    "entities": ["K9's On Call Missing Pet Services"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic"
+  },
+  {
+    "claim": "Survival-mode dogs remain silent and avoid barking to prevent detection — making vocal searches ineffective or counterproductive.",
+    "stance": "supports",
+    "stance_target": "silence as survival-mode trait reducing detection by search parties",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs in survival mode",
+    "quoted_support": "Dogs in survival mode rarely bark or make noise. They remain quiet to avoid detection by predators or humans. That's why calling or shouting for your dog can be ineffective—or even counterproductive.",
+    "numbers": [],
+    "entities": ["K9's On Call Missing Pet Services"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic"
+  },
+  {
+    "claim": "Scent anchors (owner's worn clothing, pet bedding) placed at the point of escape or last confirmed sighting guide survival-mode dogs back to a familiar location.",
+    "stance": "supports",
+    "stance_target": "scent diffusion and olfactory navigation as recovery mechanism",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs in survival mode within nose range of scent station",
+    "quoted_support": "Dogs navigate primarily by smell. Setting up an area with familiar scents—like your worn clothing, their bed, or your unwashed pillowcase—can create a 'scent anchor.' This helps guide them back toward a familiar, safe-smelling spot. Place the scent items at the point of escape or last confirmed sighting.",
+    "numbers": [],
+    "entities": ["K9's On Call Missing Pet Services"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic"
+  }
+]

@@ -1,0 +1,187 @@
+[
+  {
+    "claim": "Never chase or call a lost dog in flight mode — calling becomes a conditioned adrenaline trigger; chasing increases flight speed, travel distance, and vehicle-strike risk.",
+    "agreement_level": "strong",
+    "independent_sources": 8,
+    "source_ids": [
+      "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+      "dont-call-your-dog-missing-animal-response-network",
+      "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network",
+      "never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america",
+      "never-call-a-lost-dog-missing-animal-response-network",
+      "behaviors-to-avoid-ct-dog-gone-recovery",
+      "how-to-catch-a-dog-on-the-loose-whole-dog-journal",
+      "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+    ],
+    "encodable_rule": "ACTION_BLOCK: call_by_name = false; group_search = false; direct_approach = false when temperament=xenophobic OR phase=survival_mode"
+  },
+  {
+    "claim": "The three primary temperament categories that predict lost-dog recovery pathway are: Gregarious (friendly, approach humans readily), Aloof (wary but approachable with patience), and Xenophobic (flee from all humans including owner).",
+    "agreement_level": "strong",
+    "independent_sources": 6,
+    "source_ids": [
+      "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+      "the-science-of-finding-lost-pets-iaabc-foundation-journal",
+      "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal",
+      "lost-dog-behavior-pet-fbi-pets-found-by-internet",
+      "lost-dog-behavior",
+      "understanding-lost-dog-behavior"
+    ],
+    "encodable_rule": "TEMPERAMENT_PRIOR: [gregarious, aloof, xenophobic] → distance_radius_multiplier = [0.5x, 1x, 2-5x]; capture_method = [direct_approach, patience+food, passive_trap]"
+  },
+  {
+    "claim": "70–71% of lost dogs are found within 1 mile of home; approximately 42% within 400 feet of home.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis",
+      "lost-pet-statistics-lost-pet-research-and-recovery",
+      "most-lost-dogs-are-just-around-the-corner-literally-hass",
+      "new-study-most-lost-dogs-are-found-less-than-a-mile-from-their-homes-hass"
+    ],
+    "encodable_rule": "DISTANCE_PRIOR: P(found_within_400ft) = 0.42; P(found_within_1mi) = 0.70; P(found_1-5mi) = 0.14; P(found_>5mi) = 0.07 (baseline, all temperaments, urban/suburban US context)"
+  },
+  {
+    "claim": "Olfactory function is compromised during peak cortisol/adrenaline — a panicked dog likely cannot recognize its owner's scent, making scent-based approaches unreliable in acute flight phase.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "dont-call-your-dog-missing-animal-response-network",
+      "what-you-dont-know-about-lost-pets-can-hurt-them",
+      "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn",
+      "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+    ],
+    "encodable_rule": "PHASE_MODIFIER: if phase=blind_panic → owner_scent_recognition = false; food_lure_effectiveness = 0.1; RECOMMENDATION: wait for arousal reduction before approach"
+  },
+  {
+    "claim": "Calming signals (peripheral gaze, oblique body angle, crouching, yawning, food-dropping without direct offer) are the validated approach protocol for xenophobic and survival-mode lost dogs.",
+    "agreement_level": "strong",
+    "independent_sources": 5,
+    "source_ids": [
+      "never-call-a-lost-dog-missing-animal-response-network",
+      "how-to-catch-a-dog-on-the-loose-whole-dog-journal",
+      "how-to-get-a-skittish-dog-to-come-to-you-petco-love-lost",
+      "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network",
+      "lost-dog-resources-greyhound-pets-inc"
+    ],
+    "encodable_rule": "ACTION_PROTOCOL: if temperament=xenophobic → approach_style = calming_signals + food_drop + oblique_body + no_eye_contact; group_search = false"
+  },
+  {
+    "claim": "Population density significantly compresses lost dog movement radius — dogs lost in rural/low-density areas travel farther than urban dogs.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+      "frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis",
+      "everything-you-need-to-know-about-lost-dog-syndrome",
+      "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+    ],
+    "encodable_rule": "DENSITY_MODIFIER: if environment=rural → distance_radius_multiplier = 1.5-2.5x vs urban baseline"
+  },
+  {
+    "claim": "Terrain creates directional barriers (fences, cliffs, water) that constrain lost dog movement to paths of least resistance.",
+    "agreement_level": "strong",
+    "independent_sources": 3,
+    "source_ids": [
+      "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+      "a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features",
+      "tips-for-dogs-lost-in-a-rural-area-lost-dogs-of-america"
+    ],
+    "encodable_rule": "TERRAIN_FILTER: probability_mass redistributed along terrain-feasible paths; barriers (rivers, fences, cliffs) create hard boundaries in position distribution"
+  },
+  {
+    "claim": "Galgo español require weeks to months of passive, patient coaxing before any human can approach them — immediate direct approach reliably fails.",
+    "agreement_level": "strong",
+    "independent_sources": 5,
+    "source_ids": [
+      "what-is-a-galgo-galgos-del-sol",
+      "sos-galgos-adopt-a-survivor",
+      "galgo-espaol-animal-corner",
+      "galgo-espanol-breed-information-save-a-galgo-espanol",
+      "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from"
+    ],
+    "encodable_rule": "BREED_PRIOR[galgo]: stranger_approach_success_rate_day1 = 0.02; recommended_capture_method = conspecific_lure + trap; timeline = weeks_to_months"
+  },
+  {
+    "claim": "Podenco is a triple-sensory hunter (sight + scent + hearing) with extremely high prey drive; food lures are less reliable mid-chase because chase motivation is intrinsic (Consume = 8%).",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "prey-drive-in-podencos",
+      "about-podenco-dogs-hope-for-podencos",
+      "podenco-dogs-agile-and-ancient-mediterranean-sighthounds",
+      "podencos-galgo-rescue-international-network"
+    ],
+    "encodable_rule": "BREED_PRIOR[podenco]: predatory_drive = very_high; multi_sensory = true; food_lure_effectiveness_during_chase = 0.1; movement_pattern = endurance_trot_following_scent"
+  },
+  {
+    "claim": "Panic-bolt dogs travel straight and fast from the trigger location, while exploratory-wandering dogs meander and double back — escape trigger is a strong predictor of initial distance traveled.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+      "everything-you-need-to-know-about-lost-dog-syndrome",
+      "survival-mode-buddha-dog-rescue-recovery",
+      "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic"
+    ],
+    "encodable_rule": "TRIGGER_MODIFIER: if trigger=loud_noise → initial_direction = straight_line_from_source, distance_multiplier = 2-5x; if trigger=gate_left_open → meander_radius, distance_multiplier = 0.5-1x"
+  },
+  {
+    "claim": "Lost panicked dogs shift to crepuscular/nocturnal activity (dusk and dawn peaks) and remain hidden and silent during daylight hours, making daytime active searching low-yield.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "advice-on-trapping-a-runaway-dog-pet-fbi-pets-found-by-internet",
+      "tips-for-dogs-lost-in-a-rural-area-lost-dogs-of-america",
+      "understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic",
+      "survival-mode-buddha-dog-rescue-recovery"
+    ],
+    "encodable_rule": "TEMPORAL_PRIOR: activity_peak = [dawn, dusk]; daytime = hiding + silent; SEARCH_TIMING: deploy_trail_camera_overnight; schedule_active_approach = dawn_window"
+  },
+  {
+    "claim": "Microchipping approximately doubles the probability of shelter reunion (71% vs 39%, Kremer 2021, n=13,794; 53% vs 35%, Lord 2007).",
+    "agreement_level": "strong",
+    "independent_sources": 3,
+    "source_ids": [
+      "frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis",
+      "lost-pet-statistics-lost-pet-research-and-recovery",
+      "do-lost-pets-find-their-way-home-petco-love-lost"
+    ],
+    "encodable_rule": "INTAKE_VARIABLE[microchipped]: shelter_rto_probability_multiplier = 1.82x (71% vs 39%)"
+  },
+  {
+    "claim": "Sightings must be coordinated by a single person; public social-media broadcasting of sighting location causes crowd-displacement events that can push dogs miles away and into traffic.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "dog-befriends-a-fox-while-lost-in-blizzard",
+      "stay-out-of-the-woods-missing-animal-response-network",
+      "behaviors-to-avoid-ct-dog-gone-recovery",
+      "lost-dog-behavior-kat-albrecht-missing-animal-response-network"
+    ],
+    "encodable_rule": "SIGHTING_PROTOCOL: public_broadcast_location = false; sighting_response = single_coordinator_only; action_at_sighting_location = passive_wait_with_food_station"
+  },
+  {
+    "claim": "Median lost dog recovery time is 2 days (range 0.5–21 days); first 5 days are the critical window for shelter reunion.",
+    "agreement_level": "strong",
+    "independent_sources": 3,
+    "source_ids": [
+      "lost-pet-statistics-lost-pet-research-and-recovery",
+      "frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis",
+      "how-long-do-dogs-go-missing-recovery-stats-timelines-tips-petplacecom"
+    ],
+    "encodable_rule": "TEMPORAL_URGENCY: priority_weight_decay_curve: day1=1.0, day3=0.7, day7=0.4, day14=0.2 (calibrate against Huang 2018 temporal curve)"
+  },
+  {
+    "claim": "Conspecific attraction (a calm familiar dog) is the most reliable method for bridging approach to galgo and other extremely human-avoidant dogs.",
+    "agreement_level": "strong",
+    "independent_sources": 4,
+    "source_ids": [
+      "sos-galgos-adopt-a-survivor",
+      "galgos-galgo-rescue-international-network",
+      "galgo-espaol-animal-corner",
+      "lost-dog-resources-greyhound-pets-inc"
+    ],
+    "encodable_rule": "CAPTURE_METHOD[galgo,xenophobic]: primary = familiar_dog_lure; success_rate > food_lure > owner_presence"
+  }
+]

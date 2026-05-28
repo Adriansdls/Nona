@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Understanding lost-subject behavioral category (analogous to 'backpacker' vs. 'berry picker' in SAR) determines the search strategy; the same principle applies to lost dogs via temperament-based classification.",
+    "stance": "supports",
+    "stance_target": "behavioral classification as the foundation of evidence-based lost pet search",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Albrecht 2016 IAABC; draws on SAR lost-person behavior science applied to pets",
+    "quoted_support": "Finding missing hikers and lost people with Alzheimer's disease is considered a science because there have been numerous studies into the behavioral patterns of missing people, which are used to help predict how and where to find them.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Pet Partnership"],
+    "time_period": "2016",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "the-science-of-finding-lost-pets-iaabc-foundation-journal"
+  },
+  {
+    "claim": "84% of 128 lost outdoor-access cats were found within a 5-house radius of their home; 92% of 158 displaced indoor-only cats that escaped were also found within a 5-house radius.",
+    "stance": "supports",
+    "stance_target": "radius constraint for displaced/panicked animals remaining near escape point",
+    "evidence_type": "statistical",
+    "scope_conditions": "MPP internal case tracking 2013, cats only; not peer-reviewed at time of this article (peer-reviewed version published as Huang et al. 2018)",
+    "quoted_support": "MPP finally compiled statistics on lost cat behaviors and found that 84% of 128 lost outdoor-access cats were found within a five-house radius of their home, and that 92% of 158 cases of displaced, indoor-only cats who'd escaped outside were also found within a five-house radius of their home.",
+    "numbers": ["84% of 128 outdoor-access cats within 5-house radius", "92% of 158 indoor-only cats within 5-house radius"],
+    "entities": ["Missing Pet Partnership", "Kat Albrecht"],
+    "time_period": "2013 (MPP data), 2016 (publication)",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "the-science-of-finding-lost-pets-iaabc-foundation-journal"
+  },
+  {
+    "claim": "Cats are 13 times more likely to return to owners by means other than shelter reclamation, suggesting the shelter is not the primary reunion pathway for cats — and by extension warrants investigation for dogs.",
+    "stance": "supports",
+    "stance_target": "non-shelter reunion as dominant pathway; supports investing in field/neighborhood search over shelter visits",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lord et al. 2007 cited in this article",
+    "quoted_support": "A 2007 study by Lord et al showed that cats are 13 times more likely to return to owners by means other than being reclaimed from the shelter.",
+    "numbers": ["13x more likely to be reunited outside shelter"],
+    "entities": ["Lord", "Missing Pet Partnership"],
+    "time_period": "2007",
+    "region": "Ohio",
+    "confidence": "high",
+    "source_note_id": "the-science-of-finding-lost-pets-iaabc-foundation-journal"
+  },
+  {
+    "claim": "Bold-temperament displaced animals (unafraid of strangers) may initially hide but then travel; xenophobic-temperament animals hide in silence at or near the escape point and do not vocalize even when called.",
+    "stance": "supports",
+    "stance_target": "temperament-as-prior for whether displaced animal hides-near vs. travels-far",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Albrecht 2016 framework; described for cats but explicitly proposed as analogous for dogs",
+    "quoted_support": "If they tell me that the cat panics when a stranger comes into the home; that it runs and hides under a bed and won't come out until the company has left, I immediately know that this cat has more of a cautious, or what we call 'xenophobic,' temperament, and that it will most likely be hiding in silence, close to the escape point.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Pet Partnership"],
+    "time_period": "2016",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "the-science-of-finding-lost-pets-iaabc-foundation-journal"
+  },
+  {
+    "claim": "The 'Silence Factor' — that sick, injured, or panicked animals hide silently and do not vocalize — is a critical behavioral reality that makes physical ground search more effective than calling by name.",
+    "stance": "supports",
+    "stance_target": "passive ground search superiority over vocal calling for fear-suppressed animals",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Albrecht practitioner observation from 1999 onward; named principle",
+    "quoted_support": "If cat owners were educated about 'The Silence Factor'—that sick, injured, and panicked cats will hide in silence within their territory and not meow even when they are called— more cat lives would be saved!",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Pet Partnership"],
+    "time_period": "1999 onwards",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "the-science-of-finding-lost-pets-iaabc-foundation-journal"
+  }
+]

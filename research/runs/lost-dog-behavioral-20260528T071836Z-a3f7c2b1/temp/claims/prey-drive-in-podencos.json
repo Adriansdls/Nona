@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "69% of Podencos in a research study showed strong Hunt behavior, 69% Orient, 69% Chase, and 69% Grab-bite — the pursuit and capture phases dominate the predatory motor sequence.",
+    "stance": "supports",
+    "stance_target": "Podencos are overwhelmingly oriented toward active prey pursuit rather than passive monitoring when stimulated by prey signals",
+    "evidence_type": "statistical",
+    "scope_conditions": "Podencos studied in research context; sample size not specified in this article",
+    "quoted_support": "Hunt: 69%, Orient: 69%, Eye: 54%, Stalk: 23%, Chase: 69%, Grab-bite: 69%, Possess: 31%, Kill-bite: 46%, Dissect: 23%, Consume: 8%",
+    "numbers": ["Hunt 69%", "Orient 69%", "Eye 54%", "Stalk 23%", "Chase 69%", "Grab-bite 69%", "Possess 31%", "Kill-bite 46%", "Dissect 23%", "Consume 8%"],
+    "entities": ["Tracey McLennan", "Applied Animal Behaviour Science", "Podenco"],
+    "time_period": "Research study pre-2024",
+    "region": "Not specified",
+    "confidence": "high",
+    "source_note_id": "prey-drive-in-podencos"
+  },
+  {
+    "claim": "Podencos score very low on Consume (8%) meaning their predatory motivation is driven by the chase itself rather than food reward — scent luring is less effective for recalling them mid-chase than it would be for food-motivated breeds.",
+    "stance": "supports",
+    "stance_target": "Behavioral prediction: food lures are less effective for recalling a Podenco in full prey-drive state compared to food-motivated breeds",
+    "evidence_type": "statistical",
+    "scope_conditions": "Podencos; predatory motor sequence research",
+    "quoted_support": "Consume: 8%",
+    "numbers": ["Consume 8%"],
+    "entities": ["Tracey McLennan", "Podenco"],
+    "time_period": "Research study pre-2024",
+    "region": "Not specified",
+    "confidence": "medium",
+    "source_note_id": "prey-drive-in-podencos"
+  },
+  {
+    "claim": "Podencos hunt using a combination of sight, scent, and hearing — they are not purely scent-led like a Beagle, nor purely sight-led like a Greyhound, making their lost-dog movement pattern a blend of scent-following and visual tracking.",
+    "stance": "supports",
+    "stance_target": "Podencos occupy a behavioral middle ground between scent hounds and sighthounds, requiring combined search strategies when lost",
+    "evidence_type": "empirical",
+    "scope_conditions": "All Podenco subtypes",
+    "quoted_support": "Podencos hunt using sight, scent and hearing.",
+    "numbers": [],
+    "entities": ["Podenco", "Tracey McLennan", "Best Dog Learning and Stuff"],
+    "time_period": "Contemporary",
+    "region": "Spain, UK",
+    "confidence": "high",
+    "source_note_id": "prey-drive-in-podencos"
+  },
+  {
+    "claim": "Tracey McLennan's research on predatory motor sequences in hunting dogs is published in Applied Animal Behaviour Science — the data cited here is peer-reviewed empirical research, not breed-enthusiast opinion.",
+    "stance": "supports",
+    "stance_target": "Podenco prey drive data has peer-reviewed empirical backing",
+    "evidence_type": "empirical",
+    "scope_conditions": "Applied Animal Behaviour Science journal",
+    "quoted_support": "I am a published researcher in my field with both my original research and my review of the literature looking at prey drive in dogs being published in the respected journal Applied Animal Behaviour Science.",
+    "numbers": [],
+    "entities": ["Tracey McLennan", "Applied Animal Behaviour Science", "Best Dog Learning and Stuff"],
+    "time_period": "Pre-2024",
+    "region": "UK",
+    "confidence": "high",
+    "source_note_id": "prey-drive-in-podencos"
+  }
+]

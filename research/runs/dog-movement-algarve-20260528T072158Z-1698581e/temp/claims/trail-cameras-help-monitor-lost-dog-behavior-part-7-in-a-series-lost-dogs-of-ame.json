@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Trail camera images reveal visit time-of-day data, which profiles whether a lost dog is primarily nocturnal or diurnal in its foraging and movement — critical for planning interception timing.",
+    "stance": "supports",
+    "stance_target": "Activity cycle monitoring for lost dog in Algarve heat conditions",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Trail cameras at lost dog feeding stations",
+    "quoted_support": "They will help you plan a strategy to catch your dog... You aren't looking for gallery quality photos – you just want to see if it is your dog that is eating the food, and what time of day he was there.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America", "Lost Dogs of Wisconsin", "Lost Dogs Illinois"],
+    "time_period": "Current",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "trail-cameras-help-monitor-lost-dog-behavior-part-7-in-a-series-lost-dogs-of-ame"
+  },
+  {
+    "claim": "Cameras should capture the dog entering and exiting the scene, not just at the food bowl, to determine directional movement patterns and movement corridors.",
+    "stance": "supports",
+    "stance_target": "Camera trap positioning for movement corridor inference in Nona search",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Feeding station camera setup",
+    "quoted_support": "Try to get the camera far enough back from the food so that you can determine which way your dog is entering the scene and which way he is leaving.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "trail-cameras-help-monitor-lost-dog-behavior-part-7-in-a-series-lost-dogs-of-ame"
+  },
+  {
+    "claim": "Low-tech track evidence at feeding stations (wet sand, cornstarch, fireplace ash, damp white towel under bowls) provides confirmation of dog presence and basic movement data before or instead of cameras.",
+    "stance": "supports",
+    "stance_target": "Low-cost monitoring fallback for Nona station deployment in resource-limited contexts",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog feeding station monitoring",
+    "quoted_support": "By placing the bowls in some wet sand or mud, you will be able to check for dog tracks... You can also sprinkle fireplace ash or cornstarch around the bowls, or place a damp white towel under the bowls to watch for footprints.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "trail-cameras-help-monitor-lost-dog-behavior-part-7-in-a-series-lost-dogs-of-ame"
+  },
+  {
+    "claim": "Inexpensive trail cameras ($60–100) with infrared flash and date/time stamp are adequate for lost dog monitoring; simpler models are preferred over complex ones.",
+    "stance": "supports",
+    "stance_target": "Camera trap hardware budget planning for Nona deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog trail camera deployment",
+    "quoted_support": "they are now readily available for less than $100, sometimes as low as $60 if you happen to catch a sale... It doesn't need to be a fancy model, and actually, simpler is probably better. It does need to have the ability to take daytime and nighttime pictures (infrared flash) with a date/time stamp.",
+    "numbers": ["$60-$100"],
+    "entities": [],
+    "time_period": "Current",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "trail-cameras-help-monitor-lost-dog-behavior-part-7-in-a-series-lost-dogs-of-ame"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "In the temperature range 0–25°C and humidity range 18–90%, temperature and humidity did NOT significantly affect olfactory performance in N=411 untrained family dogs tested on the Natural Detection Task (Scientific Reports, 2024).",
+    "stance": "refutes",
+    "stance_target": "Claim that moderate temperature and humidity variation impairs SAR dog olfactory performance",
+    "evidence_type": "empirical",
+    "scope_conditions": "N=411 untrained family dogs; temperature 0–25°C; humidity 18–90%; NDT task; may not apply above 30°C or below 18% humidity",
+    "quoted_support": "Temperature (0–25 °C) and humidity (18–90%) did not affect olfactory performance.",
+    "numbers": ["N=411", "0-25°C", "18-90% humidity"],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "success-in-the-natural-detection-task-is-influenced-by-only-a-few-factors-genera"
+  },
+  {
+    "claim": "At temperatures above 30–35°C and relative humidities below 50%, olfactory specificity decreases in dogs — relevant for Algarve summer peak hours when temperatures regularly exceed 35°C.",
+    "stance": "supports",
+    "stance_target": "SAR dog deployment timing in Algarve summer — avoid midday peak heat for scent work",
+    "evidence_type": "empirical",
+    "scope_conditions": "Cited within paper from Wohlfahrt et al.; temperatures >30°C and RH <50%",
+    "quoted_support": "Wohlfahrt et al. found that olfactory sensitivity was not influenced by temperature below 30 °C and humidity higher than 50%, but decreased olfactory specificity was observed at higher temperatures (30–35 °C) and lower relative humidities.",
+    "numbers": ["30°C threshold", "35°C upper threshold", "50% relative humidity threshold"],
+    "entities": ["Wohlfahrt et al."],
+    "time_period": "Prior literature, reviewed 2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "success-in-the-natural-detection-task-is-influenced-by-only-a-few-factors-genera"
+  },
+  {
+    "claim": "Higher temperatures negatively affect SAR dog search performance through increased panting frequency and dehydration risk, which reduces nasal enzyme activity and mucosal fluidity.",
+    "stance": "supports",
+    "stance_target": "Physiological mechanism explaining why Algarve midday heat degrades SAR dog scent work",
+    "evidence_type": "empirical",
+    "scope_conditions": "Higher temperature conditions; from prior studies cited in paper",
+    "quoted_support": "higher temperatures negatively affected dogs' search performance and their olfactory abilities due to more frequent panting and due to the risk of dehydration resulting in decreased enzyme activity and nasal mucosal fluidity",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Prior literature, reviewed 2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "success-in-the-natural-detection-task-is-influenced-by-only-a-few-factors-genera"
+  },
+  {
+    "claim": "Dogs performed significantly better on olfactory tasks indoors than outdoors, indicating outdoor environmental variability (wind, temperature gradients, terrain) imposes real detection performance cost.",
+    "stance": "supports",
+    "stance_target": "Outdoor terrain conditions in Algarve as additional complexity layer for SAR dog work vs. controlled conditions",
+    "evidence_type": "empirical",
+    "scope_conditions": "Untrained family dogs; NDT task; indoor vs. outdoor comparison",
+    "quoted_support": "Dogs performed better in both metrics when tested indoors compared to outdoors.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "success-in-the-natural-detection-task-is-influenced-by-only-a-few-factors-genera"
+  },
+  {
+    "claim": "Olfactory performance declines with age in dogs — young adult dogs surpassed other age groups; elderly dogs are the most vulnerable to performance decline.",
+    "stance": "neutral",
+    "stance_target": "SAR dog age selection criteria; relevance to a lost dog's self-navigation and scent-following ability by age",
+    "evidence_type": "empirical",
+    "scope_conditions": "N=411 family dogs across age groups; NDT task",
+    "quoted_support": "Young adult dogs surpassed other age groups in reaching the Top Level... We confirmed on untrained companion dogs that olfactory performance declines with age.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "success-in-the-natural-detection-task-is-influenced-by-only-a-few-factors-genera"
+  }
+]

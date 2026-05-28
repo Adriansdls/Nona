@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "In the Lord 2007 Dayton Ohio study, 71% of 187 lost dogs were recovered vs. 53% of 138 lost cats, in a 4-month prospective study.",
+    "stance": "supports",
+    "stance_target": "empirical baseline recovery rate for lost dogs (pre-social-media, 2005 data)",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lord et al. 2007 JAVMA, Dayton OH + surrounding county, 4-month prospective study, data collected 2005; access by classified ads + county dog warden + 2 humane societies",
+    "quoted_support": "In one city in southwestern Ohio, researchers found that 71 percent of lost dogs were found, compared to just 53 percent of lost cats.",
+    "numbers": ["71% of 187 lost dogs found", "53% of 138 lost cats found"],
+    "entities": ["Linda Lord", "Ohio State University"],
+    "time_period": "2005 (data), 2007 (publication)",
+    "region": "Dayton, Ohio, USA",
+    "confidence": "high",
+    "source_note_id": "lost-dogs-found-more-often-than-lost-cats-study-suggests-sciencedaily"
+  },
+  {
+    "claim": "More than 35% of recovered dogs in Lord 2007 were found via shelter call or visit, making the animal shelter the single most important institutional recovery channel for lost dogs.",
+    "stance": "supports",
+    "stance_target": "shelter visit as high-value early action in lost dog recovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lord 2007, Dayton OH, data from 2005",
+    "quoted_support": "More than a third of the recovered dogs were found by a call or visit to an animal shelter.",
+    "numbers": [">35% of recovered dogs via shelter", "<10% of dogs returned home on own (8% per JAVMA text)", ">50% of cats returned on own"],
+    "entities": ["Linda Lord", "Ohio State University"],
+    "time_period": "2005–2007",
+    "region": "Dayton, Ohio",
+    "confidence": "high",
+    "source_note_id": "lost-dogs-found-more-often-than-lost-cats-study-suggests-sciencedaily"
+  },
+  {
+    "claim": "Only 41% of lost dogs in Lord 2007 wore a license tag at time of disappearance, despite Ohio law requiring licensing — indicating real-world ID compliance is well below legal requirements.",
+    "stance": "supports",
+    "stance_target": "identification gap as a systemic barrier to reunion",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lord 2007, Dayton OH, 2005",
+    "quoted_support": "Although Ohio law requires that dogs be licensed, just 41 percent of the lost dogs in the study wore a license at the time of their disappearance. Less than half (48 percent) of dogs had an identification tag or microchip when they went missing.",
+    "numbers": ["41% wore license at time of loss", "48% had any ID or microchip"],
+    "entities": ["Linda Lord", "Ohio State University"],
+    "time_period": "2005",
+    "region": "Dayton, Ohio",
+    "confidence": "high",
+    "source_note_id": "lost-dogs-found-more-often-than-lost-cats-study-suggests-sciencedaily"
+  },
+  {
+    "claim": "Posted neighborhood signs resulted in recovery of 15% of found dogs and 11% of found cats, making visible signage a high-yield recovery method relative to newspaper ads (4.5% dogs, 3% cats).",
+    "stance": "supports",
+    "stance_target": "physical signage as high-return-on-investment recovery action",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lord 2007, Dayton OH, 2005; fewer than half of owners hung signs",
+    "quoted_support": "Posted signs resulted in the return of 15 percent of recovered dogs and 11 percent of found cats. Six dogs (4.5 percent) and two cats (3 percent) made it home because of an advertisement in the newspaper.",
+    "numbers": ["15% of recovered dogs via posted signs", "11% cats via posted signs", "4.5% dogs via newspaper ad", "3% cats via newspaper ad"],
+    "entities": ["Linda Lord", "Ohio State University"],
+    "time_period": "2005",
+    "region": "Dayton, Ohio",
+    "confidence": "high",
+    "source_note_id": "lost-dogs-found-more-often-than-lost-cats-study-suggests-sciencedaily"
+  },
+  {
+    "claim": "Dog owners waited approximately 1 day before contacting an animal shelter after losing their dog, vs. ~3 days for cat owners — timing that directly affects whether the animal is still alive in a stray hold.",
+    "stance": "supports",
+    "stance_target": "time-to-shelter-contact as a determinant of outcome",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lord 2007, Dayton OH, 2005",
+    "quoted_support": "Cat owners waited about three days before contacting a local animal shelter, while dog owners waited about a day to do so.",
+    "numbers": ["~1 day for dog owners to contact shelter", "~3 days for cat owners to contact shelter"],
+    "entities": ["Linda Lord"],
+    "time_period": "2005",
+    "region": "Dayton, Ohio",
+    "confidence": "high",
+    "source_note_id": "lost-dogs-found-more-often-than-lost-cats-study-suggests-sciencedaily"
+  }
+]

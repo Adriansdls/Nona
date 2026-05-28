@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Algarve summer winds average 5–10 knots with occasional 15-knot gusts near Ponta da Piedade, Lagos; within 1 nautical mile of the Algarve coast, winds average 7 knots.",
+    "stance": "supports",
+    "stance_target": "Quantified Algarve wind speed for scent plume dispersion modeling",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve coast, Portugal; summer season; from yachting operational data",
+    "quoted_support": "Winds here average 5-10 knots in summer, with occasional 15-knot gusts near Ponta da Piedade in Lagos... winds are lighter within 1 nautical mile of the coast, averaging 7 knots",
+    "numbers": ["5-10 knots average summer wind", "15-knot gusts at Ponta da Piedade", "7 knots average within 1 nm of coast"],
+    "entities": ["Ponta da Piedade", "Lagos", "Algarve"],
+    "time_period": "Summer",
+    "region": "Algarve, Portugal",
+    "confidence": "medium",
+    "source_note_id": "navigating-portugal-atlantic-winds-tips-for-yachters-getboat-blog"
+  },
+  {
+    "claim": "Algarve sea breezes strengthen to 12 knots in the afternoon as land heats up — morning conditions (before 2 PM) are calmer at 5–10 knots, then wind peaks in the afternoon.",
+    "stance": "supports",
+    "stance_target": "Search timing recommendation: SAR dog searches and scent detection should be conducted in early morning before Nortada/sea breeze strengthening",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve coastal sailing; daytime thermal wind cycle",
+    "quoted_support": "monitor sea breezes—they strengthen to 12 knots in the afternoon as land heats up, so plan longer sails before 2 PM",
+    "numbers": ["12 knots afternoon", "before 2 PM for calmer conditions"],
+    "entities": ["Algarve"],
+    "time_period": "Summer afternoons",
+    "region": "Algarve, Portugal",
+    "confidence": "medium",
+    "source_note_id": "navigating-portugal-atlantic-winds-tips-for-yachters-getboat-blog"
+  },
+  {
+    "claim": "The Nortada in Cascais/northern Portugal reaches 15–20 knots in the afternoon with gusts up to 30 knots, while the Algarve experiences a lighter, more sheltered version of the same northerly wind pattern.",
+    "stance": "supports",
+    "stance_target": "Calibrating scent plume dispersion intensity for Algarve vs. northern Portuguese coast",
+    "evidence_type": "empirical",
+    "scope_conditions": "Portuguese coast; summer Nortada; Cascais vs. Algarve regional comparison",
+    "quoted_support": "strong westerly winds, averaging 10-20 knots in summer, with gusts up to 30 knots during the Nortada in Cascais... the Algarve's flat coastline allows for more consistent breezes, averaging 7 knots near Lagos",
+    "numbers": ["10-20 knots average summer (Cascais)", "30-knot gusts (Cascais)", "7 knots (Algarve, Lagos)"],
+    "entities": ["Nortada", "Cascais", "Algarve", "Lagos"],
+    "time_period": "Summer",
+    "region": "Portugal coast",
+    "confidence": "medium",
+    "source_note_id": "navigating-portugal-atlantic-winds-tips-for-yachters-getboat-blog"
+  },
+  {
+    "claim": "The Levante (east wind) can push temperatures past 40°C in the Algarve with no sea breeze for relief — creating extreme dehydration risk windows distinct from the Nortada northerly pattern.",
+    "stance": "supports",
+    "stance_target": "Levante episodes as extreme dehydration accelerator for lost dogs, warranting emergency water station activation",
+    "evidence_type": "empirical",
+    "scope_conditions": "Algarve; episodic Levante wind events, distinct from Nortada",
+    "quoted_support": "short spells of east wind called Levante can push temperatures past 40°C with no sea breeze for relief",
+    "numbers": ["40°C Levante temperature threshold"],
+    "entities": ["Levante", "Algarve"],
+    "time_period": "Summer episodes",
+    "region": "Algarve, Portugal",
+    "confidence": "high",
+    "source_note_id": "navigating-portugal-atlantic-winds-tips-for-yachters-getboat-blog"
+  }
+]

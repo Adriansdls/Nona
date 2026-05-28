@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "A crowd of well-meaning people at the first sighting of a panicked, fearful dog caused her to bolt 7 miles in a single hour from her escape point — a quantified displacement event caused by human interference.",
+    "stance": "supports",
+    "stance_target": "crowd-at-sighting as a measurable displacement trigger for fearful lost dogs",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Xenophobic/trauma-history dog (puppy mill background); single observed incident",
+    "quoted_support": "The well-meaning crowd of people trying to 'help' Winnie actually triggered her flight instinct. In a single hour, Winnie bolted and ran 7 miles from her escape point to Leisure World.",
+    "numbers": ["7 miles in 1 hour", "from escape point to Leisure World"],
+    "entities": ["Winnie", "Tailed Treasures of Maryland", "Kat Albrecht"],
+    "time_period": "Thanksgiving 2025 – February 2026",
+    "region": "Silver Spring, Maryland, United States",
+    "confidence": "high",
+    "source_note_id": "dog-befriends-a-fox-while-lost-in-blizzard"
+  },
+  {
+    "claim": "After initial panic flight, a fearful lost dog settled into a stable territory on a quiet farm property for weeks/months — demonstrating a transition from active flight phase to territorial resting phase.",
+    "stance": "supports",
+    "stance_target": "temporal phase transition in lost dogs — flight phase to settled/territorial phase",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Trauma-history dog; territory settlement occurred after displacement from initial sighting area; required quiet, human-sparse environment",
+    "quoted_support": "Eventually, she settled on a beautiful property bordered by quiet farms. It was a sanctuary, of sorts, for a dog who feared four walls.",
+    "numbers": ["69 days total before recovery"],
+    "entities": ["Winnie", "Tailed Treasures of Maryland"],
+    "time_period": "Thanksgiving 2025 – February 2026",
+    "region": "Maryland, United States",
+    "confidence": "medium",
+    "source_note_id": "dog-befriends-a-fox-while-lost-in-blizzard"
+  },
+  {
+    "claim": "A dog with prior confinement trauma (puppy mill background) refused to enter humane traps for months due to conditioned fear of enclosures — temperament/trauma history modulates trap susceptibility.",
+    "stance": "supports",
+    "stance_target": "prior trauma history as a modifier of trap-based recovery protocol effectiveness",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Puppy mill background = confinement trauma; applies to any dog with prior negative confinement experience",
+    "quoted_support": "Winnie continued to refuse to enter our enclosure trap, known as 'The Missy Trap.' This was likely due to her past trauma with confinement.",
+    "numbers": ["months of trap refusal"],
+    "entities": ["Winnie", "Tailed Treasures of Maryland"],
+    "time_period": "2025-2026",
+    "region": "Maryland, United States",
+    "confidence": "medium",
+    "source_note_id": "dog-befriends-a-fox-while-lost-in-blizzard"
+  },
+  {
+    "claim": "A familiar rescue dog from the lost dog's original rescue organization served as the social bridge that enabled capture when all traps and other dogs had failed — 'social lure' via conspecific with shared history.",
+    "stance": "supports",
+    "stance_target": "conspecific social lure as a recovery method for trap-shy, fear-aggressive lost dogs",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Trap-shy, trauma-history dog; specific familiar conspecific (same rescue) required — other dogs failed",
+    "quoted_support": "Where other dogs had failed to spark a connection with Winnie, Phoebe was the key! The dog who had outmaneuvered every trap we had set and feared every technique we had tried began to follow Phoebe with pure, wagging excitement.",
+    "numbers": ["69 days total recovery time"],
+    "entities": ["Winnie", "Phoebe", "Liza Kudel", "A Home of Their Own Rescue"],
+    "time_period": "2026",
+    "region": "Maryland, United States",
+    "confidence": "medium",
+    "source_note_id": "dog-befriends-a-fox-while-lost-in-blizzard"
+  },
+  {
+    "claim": "Thermal drones provide continuous nighttime surveillance of a skittish lost dog's movement patterns — 16 hours of continuous drone monitoring used in this case to track territorial behavior.",
+    "stance": "supports",
+    "stance_target": "thermal drone as a non-intrusive surveillance method for tracking settled fearful lost dogs",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Night surveillance; thermal lens required for detection; Arkcan Drone Services cited",
+    "quoted_support": "We brought in Ryan from Arkcan Drone Services, watching Winnie through a thermal lens for 16 hours straight. We watched her fiercely patrol her food, chasing off foxes to claim her territory.",
+    "numbers": ["16 hours straight drone surveillance"],
+    "entities": ["Arkcan Drone Services", "Tailed Treasures of Maryland"],
+    "time_period": "2025-2026",
+    "region": "Maryland, United States",
+    "confidence": "high",
+    "source_note_id": "dog-befriends-a-fox-while-lost-in-blizzard"
+  }
+]

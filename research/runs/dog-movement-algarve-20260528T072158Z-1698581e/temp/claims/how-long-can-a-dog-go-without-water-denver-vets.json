@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "A dog can survive approximately 72 hours (3 days) without water, but permanent organ damage can begin after just 24 hours of water deprivation.",
+    "stance": "supports",
+    "stance_target": "Water source gravity modeling — radius of fatal convergence by day 3 for lost dog in Algarve",
+    "evidence_type": "empirical",
+    "scope_conditions": "Healthy adult dogs; from veterinary source",
+    "quoted_support": "Typically, your dog can survive without drinking water for about 72 hours (three days), but going longer than 24 hours without water could lead to permanent organ damage.",
+    "numbers": ["72 hours (3 days) survival limit", "24 hours before organ damage risk"],
+    "entities": ["Pets on Broadway Animal Hospital", "Denver"],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-long-can-a-dog-go-without-water-denver-vets"
+  },
+  {
+    "claim": "A dog requires approximately 1 ounce of water per pound of body weight per day (a 25 lb dog needs ~25 oz/3 cups; a 75 lb dog needs ~2 liters).",
+    "stance": "supports",
+    "stance_target": "Quantifying water deficit accumulation and forced convergence timeline for lost dog search",
+    "evidence_type": "empirical",
+    "scope_conditions": "Healthy adult dogs at rest in normal conditions",
+    "quoted_support": "A good guideline for dogs is about an ounce of water for every pound of body weight. So, a 25-lb dog needs about 25 oz. of water (or 3 cups), while a 75-lb dog needs almost 2 liters of water daily.",
+    "numbers": ["1 oz water per pound body weight per day", "25 lb dog = 25 oz (3 cups)", "75 lb dog = ~2 liters/day"],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-long-can-a-dog-go-without-water-denver-vets"
+  },
+  {
+    "claim": "Hot and humid climate accelerates water loss through panting; more heat means more panting, which means faster water depletion and earlier dehydration.",
+    "stance": "supports",
+    "stance_target": "Algarve summer heat as an accelerant of water-source convergence behavior in lost dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dogs in hot/humid environments vs. mild climates",
+    "quoted_support": "If you live in a mild climate, your dog will be fine without water for longer than that same dog living in a hot, dry, or humid environment. More heat means more panting, which means more water loss.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-long-can-a-dog-go-without-water-denver-vets"
+  },
+  {
+    "claim": "Dehydration signs appear within the first 24 hours — including dry/tacky gums, low skin elasticity (skin-tent test), dark yellow urine, sunken eyes, lethargy, and loss of appetite.",
+    "stance": "supports",
+    "stance_target": "Field assessment of found dog dehydration state to estimate time since last water source",
+    "evidence_type": "empirical",
+    "scope_conditions": "Clinical dehydration markers in dogs",
+    "quoted_support": "your dog will show signs of dehydration after the first 24 hours... Dry, tacky gums and pasty saliva... Low skin elasticity... Sunken, dry eyes.",
+    "numbers": ["24 hours"],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-long-can-a-dog-go-without-water-denver-vets"
+  },
+  {
+    "claim": "Water makes up more than 70% of a dog's body weight, making hydration the single most critical survival variable — above food.",
+    "stance": "supports",
+    "stance_target": "Priority ranking of water vs. food stations in lost dog search infrastructure",
+    "evidence_type": "empirical",
+    "scope_conditions": "General canine physiology",
+    "quoted_support": "Water makes up more than 70% of your dog's body by weight, so your dog needs to maintain this water content by consuming plenty daily.",
+    "numbers": ["70% body weight is water"],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "how-long-can-a-dog-go-without-water-denver-vets"
+  }
+]

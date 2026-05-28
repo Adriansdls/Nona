@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Humane trapping is the recommended capture method for lost dogs that will not approach voluntarily — approaching or entering wooded search areas triggers fight-or-flight and counterproductively drives the dog further.",
+    "stance": "supports",
+    "stance_target": "passive/trap-based recovery protocol over active pursuit",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MAR training doctrine; Kat Albrecht's 'Stay Out of the Woods' principle; field experience from MAR network cases",
+    "quoted_support": "When a lost dog has been sighted in an area of the woods, we strongly advise people to STAY OUT of the WOODS for various reasons. First, many dogs become triggered into the 'fight or flight' mode when they become separated from their owners and when people enter an area to search for them.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Animal Response Network", "MARN"],
+    "time_period": "Founded 2005; ongoing",
+    "region": "United States (global network)",
+    "confidence": "high",
+    "source_note_id": "missing-animal-response-network-lost-pet-recovery-training-by-kat-albrecht"
+  },
+  {
+    "claim": "MAR training applies law enforcement forensic search-and-rescue methodology to lost pet recovery, including behavioral analysis, K9 tracking dogs, and thermal drone technology for hard-to-reach areas.",
+    "stance": "neutral",
+    "stance_target": "professionalization and methodology of lost pet recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MARN organization description; founded 2005 by Kat Albrecht (former police K9 officer)",
+    "quoted_support": "MAR training breaks down the process of a pet being lost, then shows us how to understand lost pet behavior along with time tested techniques in recovering those lost pets.",
+    "numbers": ["2005"],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "2005-present",
+    "region": "Worldwide",
+    "confidence": "high",
+    "source_note_id": "missing-animal-response-network-lost-pet-recovery-training-by-kat-albrecht"
+  }
+]

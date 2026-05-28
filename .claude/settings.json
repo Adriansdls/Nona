@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/adriandelasierra/Nona/.claude/hooks/research_postprocess.py"
+          }
+        ]
+      }
+    ]
+  }
+}

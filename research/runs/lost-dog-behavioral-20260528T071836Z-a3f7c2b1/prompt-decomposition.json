@@ -1,0 +1,78 @@
+{
+  "sub_questions": [
+    "SQ1: What does the literature say about behavioral phase transitions in lost dogs? (Key sources: Kat Albrecht/MAR, Lord 2007 JAVMA)",
+    "SQ2: At what hour/day thresholds does a lost dog's behavior typically shift between phases?",
+    "SQ3: What are the behavioral signatures of each phase (movement radius, activity timing, response to stimuli, feeding behavior)?",
+    "SQ4: How does fear/stress level at time of loss affect phase progression speed or character?",
+    "SQ5: What percentage of dogs found alive are found within each phase (0–24h / 24h–7d / 7d+)?",
+    "SQ6: What documented differences exist in lost dog behavior by breed category (sighthounds, scent hounds, toy breeds, herding breeds, guardian breeds, mixed/unknown)?",
+    "SQ7: For each breed category, what is: typical movement radius by day, tendency to approach humans vs hide, tendency to follow roads vs terrain, typical survival behavior?",
+    "SQ8: What specific empirical or documented data exists on galgo behavior when lost?",
+    "SQ9: What specific empirical or documented data exists on podenco behavior when lost?",
+    "SQ10: What published studies compare breed-type outcomes (recovery rate, distance found, method of recovery)?",
+    "SQ11: How does Missing Animal Response / professional lost dog recovery incorporate sighting data into search strategy?",
+    "SQ12: Are there published frameworks for weighing sighting reliability (eyewitness accuracy, distance estimation errors, timing accuracy)?",
+    "SQ13: How should a confirmed sighting at time T update expected position distribution at time T+12h?",
+    "SQ14: What factors make a sighting reliable vs unreliable (description specificity, distance, lighting, observer type)?",
+    "SQ15: What triggers the behavioral shift from 'lost and searching for home' to 'traumatized evasion mode'?",
+    "SQ16: What is the scientific basis for the 'never chase' rule in lost dog recovery?",
+    "SQ17: At what point does active human searching become counterproductive to recovery?",
+    "SQ18: What behavioral signals indicate a dog has entered evasion mode vs is approachable?",
+    "SQ19: What documented cases or studies exist on recovery failure caused by incorrect owner behavior?"
+  ],
+  "entities": [
+    {"name": "Kat Albrecht / Missing Animal Response (MAR)", "type": "researcher+organization", "required_fields": ["publications", "methodology", "sighting frameworks"]},
+    {"name": "Lord 2007 JAVMA study", "type": "primary-source", "required_fields": ["sample size", "key findings", "phase thresholds", "recovery statistics"]},
+    {"name": "Albrecht 2002", "type": "primary-source", "required_fields": ["key findings", "methodology", "data on behavior phases"]},
+    {"name": "ASPCA", "type": "organization", "required_fields": ["lost pet research", "recovery statistics"]},
+    {"name": "Missing Pet Partnership", "type": "organization", "required_fields": ["recovery methodology", "behavioral frameworks"]},
+    {"name": "Galgo (Spanish Greyhound)", "type": "breed", "required_fields": ["movement radius by day", "human approach tendency", "terrain preference", "trauma baseline", "evasion behavior"]},
+    {"name": "Podenco", "type": "breed", "required_fields": ["movement radius by day", "human approach tendency", "prey drive impact", "terrain preference", "evasion behavior"]},
+    {"name": "Sighthounds (galgo, greyhound)", "type": "breed-category", "required_fields": ["movement radius by day", "human approach vs hide", "road vs terrain tendency", "survival behavior"]},
+    {"name": "Scent hounds (podenco, beagle)", "type": "breed-category", "required_fields": ["movement radius by day", "human approach vs hide", "road vs terrain tendency", "survival behavior"]},
+    {"name": "Toy breeds", "type": "breed-category", "required_fields": ["movement radius by day", "human approach vs hide", "road vs terrain tendency", "survival behavior"]},
+    {"name": "Herding breeds", "type": "breed-category", "required_fields": ["movement radius by day", "human approach vs hide", "road vs terrain tendency", "survival behavior"]},
+    {"name": "Guardian breeds", "type": "breed-category", "required_fields": ["movement radius by day", "human approach vs hide", "road vs terrain tendency", "survival behavior"]},
+    {"name": "Mixed/unknown breeds", "type": "breed-category", "required_fields": ["movement radius by day", "human approach vs hide", "road vs terrain tendency", "survival behavior"]}
+  ],
+  "required_formats": [
+    "Per-topic sections, each containing 4 named subsections: Key Empirical Findings, Calibration Numbers, Knowledge Gaps, Practical Encoding",
+    "Calibration numbers must be expressed as specific quantitative values (probabilities, distances in km, time windows in hours/days) suitable for direct encoding",
+    "Knowledge gaps must distinguish empirically validated claims from anecdotal or practitioner consensus",
+    "Practical encoding must describe how to represent findings as scoring/weighting parameters in a software system"
+  ],
+  "required_sections": [
+    "## 1. Temporal Behavioral Phases — Empirical Data",
+    "## 2. Breed-Specific Behavioral Priors",
+    "## 3. Bayesian Updating from Sightings",
+    "## 4. Fear Escalation Dynamics"
+  ],
+  "required_section_headings": [
+    "## 1. Temporal Behavioral Phases — Empirical Data",
+    "## 2. Breed-Specific Behavioral Priors",
+    "## 3. Bayesian Updating from Sightings",
+    "## 4. Fear Escalation Dynamics"
+  ],
+  "required_subsection_headings_per_section": [
+    "### Key Empirical Findings",
+    "### Calibration Numbers",
+    "### Knowledge Gaps",
+    "### Practical Encoding"
+  ],
+  "time_horizons": ["historical: 2002-present (research literature span)"],
+  "time_periods": [
+    {"period": "2007", "type": "publication-year", "primary_source": "Lord LK 2007 JAVMA — stray dog study", "issuer": "JAVMA"},
+    {"period": "2002", "type": "publication-year", "primary_source": "Albrecht 2002 — Missing Animal Response foundational work", "issuer": "Missing Pet Partnership"},
+    {"period": "present", "type": "current", "primary_source": "Current MAR practitioner methodology and case databases", "issuer": "Missing Animal Response / Kat Albrecht"}
+  ],
+  "scope_conditions": [
+    "Lost dogs specifically (not shelter behavior, training behavior, or companion behavior in stable environments)",
+    "Behavior under stress/fear specifically (lost + disoriented context)",
+    "Galgo and podenco data prioritized for Algarve, Portugal operational context",
+    "All calibration numbers must be encodable as discrete parameters (probabilities, km radii, hour thresholds)",
+    "Output feeds directly into AI system prompt and hardcoded behavioral priors — must be actionable, not qualitative"
+  ],
+  "pipeline_tier": "full",
+  "response_format": "structured",
+  "citation_style": "wikilink"
+}

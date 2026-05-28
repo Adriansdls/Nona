@@ -1,0 +1,106 @@
+{
+  "loci": [
+    {
+      "name": "breed-prior-individual-vs-population",
+      "one_line": "Does breed predict evasion/flight behavior well enough for Nona's intake scoring? Morrill 2022 shows agonistic threshold is 'almost uninformative' for breed at individual level; Normando 2024 shows galgo stranger-fear significantly elevated at group level (p=0.009, n=410). Which analytical level should govern Nona's breed prior weighting?",
+      "flavor": "dialectical",
+      "importance": 9,
+      "uncertainty": 8,
+      "disagreement": 8,
+      "decision_impact": 10,
+      "composite_score": 35,
+      "source_budget": 9,
+      "rationale": "This is the most design-critical contradiction in the corpus. Resolution determines whether breed is an input variable in Nona's engine and how strongly to weight it. If individual-level analysis governs (Morrill), breed gets near-zero weight for fear/evasion classification. If group-level analysis governs (Normando), galgo/podenco/sighthound categories get meaningful priors. Both studies are empirically sound; they operate at different levels of analysis. The depth investigation must extract Morrill's agonistic threshold h² value and the galgo-group mean effect size from Normando 2024, then produce a defensible recommendation for the Nona encoding."
+    },
+    {
+      "name": "galgo-vs-greyhound-behavioral-equivalence",
+      "one_line": "Can English greyhound chase research (OR=8.34 last-known-location fixation after prey disappears) transfer directly to galgo behavioral priors, or does the galgo trauma baseline — systematic abandonment, abuse, consistently higher stranger-fear — make it a distinct behavioral model requiring independent priors?",
+      "flavor": "dialectical",
+      "importance": 9,
+      "uncertainty": 7,
+      "disagreement": 7,
+      "decision_impact": 9,
+      "composite_score": 32,
+      "source_budget": 8,
+      "rationale": "The galgo is the primary breed in Nona's Algarve operational context. The corpus's best quantitative data for galgo prey-triggered displacement comes from PMC7760772 (English greyhound chase study, OR=8.34 fixation at last-known-location). But Normando 2024 shows rescued galgos have categorically different fear baselines vs. other rescue dogs (p=0.009 for stranger-fear). The predatory fixation mechanism likely transfers; the approach-avoidance behavior may not. Depth investigation must synthesize whether these are separable behavioral systems, producing an explicit dual-prior recommendation: galgo_chase_prior (greyhound data applies) and galgo_evasion_prior (independent galgo data required)."
+    },
+    {
+      "name": "dog-phase-transition-thresholds",
+      "one_line": "What are empirically calibrated hour/day thresholds for behavioral phase transitions in lost dogs? No dog-specific published study provides these. Can Huang 2018's cat temporal curve (34% found alive by day 7, 50% by day 30, then plateau) be defensibly adapted as a dog proxy, and what do animal stress physiology timelines (cortisol half-life, serotonin depletion) contribute?",
+      "flavor": "convergent",
+      "importance": 10,
+      "uncertainty": 9,
+      "disagreement": 3,
+      "decision_impact": 10,
+      "composite_score": 32,
+      "source_budget": 8,
+      "rationale": "The 0-24h/24h-7d/7d+ phase model underpins all of Nona's temporal scenario evolution. This is the largest confirmed knowledge gap in the corpus — no empirical dog study provides calibrated phase thresholds. The depth investigation must: (1) extract Huang 2018's full temporal curve and assess cat-to-dog transferability; (2) investigate whether cortisol/serotonin half-lives give physiological anchor points for phase boundaries; (3) identify any survival data from shelter hold-period studies (Kremer 2021 91% RTO within 5 days) that implies a behavioral urgency cliff. The investigation must produce defensible hour/day numbers with explicit uncertainty caveats — the report cannot encode 'practitioners use 0-24h/24h-7d' without flagging that this is heuristic-only."
+    },
+    {
+      "name": "bayesian-sighting-update",
+      "one_line": "How should a confirmed sighting at time T update a lost dog's spatial probability distribution at time T+Δ? Lin & Goodrich 2010 provides the WiSAR Bayesian update framework for humans; what adaptation is needed for dogs, what reliability weight distinguishes eyewitness from camera evidence, and how does crowd-displacement risk modify whether to act on a sighting at all?",
+      "flavor": "convergent",
+      "importance": 9,
+      "uncertainty": 8,
+      "disagreement": 5,
+      "decision_impact": 9,
+      "composite_score": 31,
+      "source_budget": 7,
+      "rationale": "SQ13 explicitly asks for this update framework and it is load-bearing for Nona's sighting-integration module. The corpus has the formal framework (Lin & Goodrich 2010, SARBayes MapScore 0.81) but validated on humans, not dogs. The crowd-displacement cases (Winnie: 7-mile displacement from sighting crowd) complicate even the basic observation model — a sighting cannot be cleanly incorporated as a position update if acting on it causes the dog to move. Depth must: (1) extract the Lin & Goodrich posterior update equation; (2) propose a reliability likelihood function for different sighting qualities (camera > specific description > vague sighting); (3) resolve the action-on-sighting paradox (single coordinator response is safe; public response destabilizes position)."
+    },
+    {
+      "name": "search-mode-temperament-sighting-protocol",
+      "one_line": "For which temperament/phase combinations does active searching increase vs. decrease recovery probability — and when a sighting arrives, what is the precise decision rule that distinguishes safe individual response from dangerous crowd-broadcast response?",
+      "flavor": "dialectical",
+      "importance": 7,
+      "uncertainty": 6,
+      "disagreement": 7,
+      "decision_impact": 7,
+      "composite_score": 27,
+      "source_budget": 4,
+      "rationale": "The Lord 2007/Weiss 2012 empirical data (49% recovery via neighborhood search) conflicts with MAR doctrine (group searching kills panicked dogs). Both are right for different temperament/phase combos. The corpus partially resolves this but lacks a decision threshold Nona can encode. The sighting-response sub-question (individual quiet approach vs. crowd broadcast) is the sharpest operational version, with direct case evidence (Winnie, Princess). Depth should extract the formal MAR protocol for sighting triage and produce a decision tree: temperament × phase × sighting_quality → action_recommendation."
+    },
+    {
+      "name": "podenco-lost-movement-pattern",
+      "one_line": "When a Podenco runs lost in Algarve scrubland, does it primarily follow scent trails (extended nose-down meandering, large circular search area) or make sight-triggered sprints (directional displacement to last-visual-contact point)? McLennan's Hunt/Chase 69%/Consume 8% data exists but the spatial movement implication is unresolved.",
+      "flavor": "convergent",
+      "importance": 8,
+      "uncertainty": 8,
+      "disagreement": 4,
+      "decision_impact": 8,
+      "composite_score": 28,
+      "source_budget": 4,
+      "rationale": "Podenco is the native Algarve breed and Nona's second most critical breed case after galgo. The corpus documents podenco as triple-sensory hunter (sight + scent + hearing) with endurance-trotting movement pattern, but does not resolve the key lost-dog spatial question: is the search-area shape circular (scent meander) or linear (sprint to visual contact)? This changes whether the search area is described as a radius vs. a corridor. McLennan's predatory motor sequence data (Chase 69%, Consume 8%) implies sustained pursuit, but pursuit of what direction in a scrubland with abundant rabbits? Depth must synthesize the triple-sensory hunting profile with terrain-specific movement predictions for Algarve maquis."
+    }
+  ],
+  "skip_loci": [
+    {
+      "name": "signage-timing-effectiveness",
+      "reason": "Contradiction-graph rated low relevance. Resolved: signs most useful for sighting-call generation immediately, not direct recovery before day 7 (Lord 2007). Nona is a behavioral engine not a marketing platform. Adding depth here would not change any encodable parameter."
+    },
+    {
+      "name": "food-lure-effectiveness-timing",
+      "reason": "Medium-relevance contradiction. Resolved in corpus: food lures work when dog is at rest (settled); fail during active arousal/prey drive (McLennan, arousal literature). Encoding is already established: food_lure_effectiveness ~ f(arousal_state). Depth investigation would confirm not change."
+    },
+    {
+      "name": "survival-mode-onset-predictability",
+      "reason": "Apparent contradiction between Albrecht (category-predictable) and Buddha Dog (individual-unpredictable). Both are right at different analytical levels. Resolved: temperament category predicts onset probability; individual timing is unpredictable within category. Depth would be repetitive of existing corpus."
+    },
+    {
+      "name": "distance-distribution-scope-mismatch",
+      "reason": "Contradiction between Kremer 2021 (70%/<1mi for all dogs) and Albrecht 1999 (14mi for hard cases) is a scope difference, not genuine disagreement. Both figures are valid for their populations. Corpus already provides the bimodal prior: short-tail for gregarious/recovered-quickly; long-tail for xenophobic/panicked/sighthound. No additional depth needed."
+    },
+    {
+      "name": "microchip-rto-factor",
+      "reason": "Kremer 2021 (1.82x RTO multiplier, n=13,794) is definitive. Mechanism and number established. No further depth adds value to Nona's core behavioral model."
+    },
+    {
+      "name": "herding-guardian-breed-depth",
+      "reason": "Coverage-gaps.md confirms these breeds have minimal data, but they are not primary concerns for Nona/Red Cão Algarve where the population is dominated by galgos, podencos, and mixed hounds. Depth would dilute budget from higher-priority cases without meaningful operational payoff."
+    },
+    {
+      "name": "active-vs-passive-search-standalone",
+      "reason": "Merged into the broader search-mode-temperament-sighting-protocol locus. The Lord/Weiss vs. MAR contradiction is addressed there with temperament conditioning, which is the proper level of resolution. Standalone treatment would duplicate that locus."
+    }
+  ]
+}

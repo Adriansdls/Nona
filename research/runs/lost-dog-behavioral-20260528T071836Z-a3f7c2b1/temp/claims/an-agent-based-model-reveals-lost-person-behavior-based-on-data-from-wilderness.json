@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Lost person behavior can be modeled as a random variable drawing from a distribution of 6 known reorientation strategies; fitting these distributions to real incident data produces an empirically validated behavioral profile that predicts probable location over time.",
+    "stance": "supports",
+    "stance_target": "Bayesian/probabilistic behavioral prior as the correct framework for lost-entity location estimation",
+    "evidence_type": "empirical",
+    "scope_conditions": "Hashimoto et al. 2022 Scientific Reports; validated against ISRID (International SAR Incident Database); human lost-person behavior; adaptation to dogs requires domain-specific behavioral distribution fitting",
+    "quoted_support": "The behavior random variable selects from a distribution of six known lost person reorientation strategies to simulate the agent's trajectory. We systematically simulate a range of possible behavior distributions and find a best-fit behavioral profile for a hiker with the International Search and Rescue Incident Database.",
+    "numbers": ["6 reorientation strategies", "46,609 people lost in US National Parks 2004–2014", "$51.4M total cost"],
+    "entities": ["Amanda Hashimoto", "Robert Koester", "Nicole Abaid", "Virginia Tech", "International Search and Rescue Incident Database (ISRID)"],
+    "time_period": "2022",
+    "region": "US wilderness SAR",
+    "confidence": "high",
+    "source_note_id": "an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness"
+  },
+  {
+    "claim": "As time passes after a lost-entity event, the probability distribution of location expands, survival probability declines, and the area to be searched grows — establishing temporal urgency as a first-order variable in lost-subject operations.",
+    "stance": "supports",
+    "stance_target": "temporal decay in recovery probability as a key driver of search prioritization",
+    "evidence_type": "empirical",
+    "scope_conditions": "Hashimoto 2022 SAR context; wilderness humans; analogous principle applies to lost dogs",
+    "quoted_support": "As time passes, the search area grows, survival rate decreases, and searchers are faced with an increasingly daunting task of searching large areas in a short amount of time.",
+    "numbers": [],
+    "entities": ["Hashimoto", "Koester"],
+    "time_period": "2022",
+    "region": "US wilderness",
+    "confidence": "high",
+    "source_note_id": "an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness"
+  },
+  {
+    "claim": "The ISRID behavioral database is the primary empirical source for lost-person reorientation strategy distributions; Koester's work (2008 book + this 2022 model) represents the state of the art in SAR behavioral prior construction.",
+    "stance": "supports",
+    "stance_target": "existence of validated empirical priors for SAR behavioral modeling that can anchor analogous lost-dog priors",
+    "evidence_type": "empirical",
+    "scope_conditions": "Hashimoto 2022; human SAR; ISRID is the authoritative database",
+    "quoted_support": "We validate these results with a leave-one-out analysis. This work represents the first time-discrete model of lost person dynamics validated with data from real SAR incidents.",
+    "numbers": [],
+    "entities": ["Robert Koester", "ISRID", "Amanda Hashimoto"],
+    "time_period": "2022",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Trail cameras provide behavioral intelligence — confirming whether a lost dog will enter a trap, what time it visits a feeding station, and from which direction it approaches and departs.",
+    "stance": "supports",
+    "stance_target": "Camera trap deployment strategy for lost dog movement corridor mapping",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost pet recovery using feeding stations and humane traps",
+    "quoted_support": "They can help provide evidence that the lost pet is in the area and whether s/he will enter a humane trap if one is set up.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Animal Response Network", "Missing Pet Partnership"],
+    "time_period": "Current",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "using-cameras-for-lost-pets-missing-animal-response-network"
+  },
+  {
+    "claim": "Standard deer-hunting camera height of 24–36 inches is too high for detecting small dogs and cats; cameras must be positioned lower to capture the animal reliably.",
+    "stance": "supports",
+    "stance_target": "Camera trap setup parameters for lost dog detection",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Trail cameras deployed for lost pet recovery near feeding stations",
+    "quoted_support": "Since their website is aimed primarily at deer hunters, the height that they suggest placing the camera (24\"-36\") is too high for cats and small dogs, but most of the information is applicable to setting up a camera to locate missing pets.",
+    "numbers": ["24-36 inches (too high for cats/small dogs)"],
+    "entities": ["TrailCamPro.com"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "using-cameras-for-lost-pets-missing-animal-response-network"
+  },
+  {
+    "claim": "Camera must be positioned far enough back from the food or bait that both the entry and exit direction of the animal are visible in the frame — not just the animal at the bait.",
+    "stance": "supports",
+    "stance_target": "Camera trap field positioning to capture movement corridor intelligence",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Camera deployment at lost dog feeding stations",
+    "quoted_support": "Try to get the camera far enough back from the food so that you can determine which way your dog is entering the scene and which way he is leaving.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "using-cameras-for-lost-pets-missing-animal-response-network"
+  },
+  {
+    "claim": "The Browning Dark Ops Elite trail camera is recommended for lost pet work because its adaptive flash adjusts strength based on animal proximity, avoiding image whiteout that loses identity confirmation.",
+    "stance": "supports",
+    "stance_target": "Camera hardware selection for Nona lost dog monitoring infrastructure",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Wildlife trail camera selection for lost pet recovery",
+    "quoted_support": "My current favorite camera is the Browning Dark Ops Elite. The Browning has a feature that adjusts the strength of the flash based on how close the animal is to the camera. A too bright flash that whites out the animal in the photo is a common problem with many wildlife cameras.",
+    "numbers": [],
+    "entities": ["Browning Dark Ops Elite", "Reconyx"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "medium",
+    "source_note_id": "using-cameras-for-lost-pets-missing-animal-response-network"
+  },
+  {
+    "claim": "Using surveillance cameras (trail cameras, motion alarms, baby monitors) drastically increases success rate of locating and catching lost pets when combined with feeding stations or traps.",
+    "stance": "supports",
+    "stance_target": "Camera trap + feeding station combination as a core Nona search tactic",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost pet recovery operations",
+    "quoted_support": "Using some method of surveillance can drastically increase the success of locating and catching your missing pet when using feeding stations and/or trapping.",
+    "numbers": [],
+    "entities": ["Kat Albrecht"],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "using-cameras-for-lost-pets-missing-animal-response-network"
+  }
+]

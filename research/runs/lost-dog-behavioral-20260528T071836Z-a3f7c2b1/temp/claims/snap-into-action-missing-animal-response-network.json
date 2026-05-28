@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Three behaviors that actively cause panicked stray dogs to flee — calling the dog's name, making direct eye contact, and walking directly toward the dog — are the most common mistakes rescuers make.",
+    "stance": "supports",
+    "stance_target": "behavioral protocol for approaching displaced dogs: indirect, non-threatening approach is superior to direct recall",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Missing Pet Partnership (MPP) practitioner training; not a controlled study; Kat Albrecht methodology",
+    "quoted_support": "He was careful to NOT call the dog, to NOT look at the dog, and to NOT walk directly towards the dog. These are three biggest mistakes that would-be rescuers make when trying to capture a loose dog.",
+    "numbers": [],
+    "entities": ["Missing Pet Partnership (MPP)", "Kat Albrecht", "Missing Animal Response Network (MARN)", "Brian Newsham"],
+    "time_period": null,
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "snap-into-action-missing-animal-response-network"
+  },
+  {
+    "claim": "Indirect food-luring (dropping treats on ground + vocalizing 'nummy nummy' sounds while averting gaze) can calm panicked stray dogs enough to allow close approach.",
+    "stance": "supports",
+    "stance_target": "food-as-bait with indirect approach as primary behavioral technique for phase-2 dog capture",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "MPP case study; single anecdotal case; technique may not work on all panic-mode dogs",
+    "quoted_support": "we train volunteer pet detectives to ignore the dog, to approach slowly but by 'curving' and to focus their attention on the ground as they drop treats while making 'nummy, nummy' noises.",
+    "numbers": [],
+    "entities": ["Missing Pet Partnership", "Kat Albrecht"],
+    "time_period": null,
+    "region": "Federal Way, WA, USA",
+    "confidence": "low",
+    "source_note_id": "snap-into-action-missing-animal-response-network"
+  },
+  {
+    "claim": "Some panicked dogs that resist food lures will approach a friendly 'magnet dog' — a calm, sociable decoy dog — enabling capture via a snappy snare at the moment of nose-to-nose contact.",
+    "stance": "supports",
+    "stance_target": "magnet-dog technique as alternative to food luring for dogs in high-arousal flight states",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "MPP case study, single anecdotal case",
+    "quoted_support": "They get tunnel vision and never notice us because they're so focused on making eye contact with the magnet dog. This enables us to position a Snappy Snare over them and right as they are sniffing noses with our magnet dog, zing, we release the snappy snare and capture the dog.",
+    "numbers": [],
+    "entities": ["Missing Pet Partnership", "Kat Albrecht", "Kody (magnet dog)"],
+    "time_period": null,
+    "region": "Federal Way, WA, USA",
+    "confidence": "low",
+    "source_note_id": "snap-into-action-missing-animal-response-network"
+  },
+  {
+    "claim": "Some lost dogs remain in a home range for extended periods without returning to the owner's house, expecting to re-encounter the owner there — the 'dog returned before' behavioral pattern.",
+    "stance": "supports",
+    "stance_target": "dog habituation to prior escape and expectation of self-return as behavioral variable modifying search urgency",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Single anecdotal case from the MoMo recovery — dog had escaped and self-returned previously",
+    "quoted_support": "When asked why she wasn't driving around in search of her dog, she said, 'Because he's gotten out before and has always come home. I didn't want to leave my house in case he came home.'",
+    "numbers": [],
+    "entities": ["Missing Pet Partnership"],
+    "time_period": null,
+    "region": "USA",
+    "confidence": "low",
+    "source_note_id": "snap-into-action-missing-animal-response-network"
+  }
+]

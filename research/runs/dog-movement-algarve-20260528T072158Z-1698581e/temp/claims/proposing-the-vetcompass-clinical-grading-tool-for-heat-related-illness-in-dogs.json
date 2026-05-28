@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Dogs presenting to UK veterinary practices with heat-related illness show altered respiration/panting in 68.73% of cases and lethargy in 47.79%, making these the dominant early clinical signs.",
+    "stance": "supports",
+    "stance_target": "field-observable behavioral signs for identifying heat-stressed lost dogs before collapse",
+    "evidence_type": "statistical",
+    "scope_conditions": "856 HRI events in primary-care UK veterinary practices, 2016–2018",
+    "quoted_support": "the most commonly recorded clinical signs were respiratory changes (68.73%) and lethargy (47.79%).",
+    "numbers": ["68.73% (altered respiration)", "47.79% (lethargy)", "31.5% (intermittent collapse)", "856 HRI events", "828 dogs"],
+    "entities": ["UK dogs", "VetCompass"],
+    "time_period": "2016–2018",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "proposing-the-vetcompass-clinical-grading-tool-for-heat-related-illness-in-dogs"
+  },
+  {
+    "claim": "Severe HRI has a case fatality rate of 56.76% in dogs, compared to 5.46% for moderate and 2.21% for mild cases.",
+    "stance": "supports",
+    "stance_target": "time-to-intervention is critical: severity escalates rapidly and late-stage HRI is frequently fatal",
+    "evidence_type": "statistical",
+    "scope_conditions": "856 HRI events graded using VetCompass tool, UK primary care 2016–2018",
+    "quoted_support": "The fatality rate (death overall) for canine HRI events classified using the novel VetCompass HRI Grading Tool was 2.21% for mild events, 5.46% for moderate events and 56.76% for severe events.",
+    "numbers": ["56.76% (severe fatality)", "5.46% (moderate fatality)", "2.21% (mild fatality)", "39.92% mild", "46.10% moderate", "13.98% severe"],
+    "entities": ["VetCompass", "UK dogs"],
+    "time_period": "2016–2018",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "proposing-the-vetcompass-clinical-grading-tool-for-heat-related-illness-in-dogs"
+  },
+  {
+    "claim": "Dogs presenting with body temperature ≥43°C have a relative risk of death 7.98x higher than those with lower temperatures; ≥41°C raises risk 4.23x.",
+    "stance": "supports",
+    "stance_target": "the 41–43°C range is the actionable danger threshold for triage decisions",
+    "evidence_type": "statistical",
+    "scope_conditions": "629 HRI events with body temperature recorded at presentation, UK primary care",
+    "quoted_support": "Dogs presenting with a body temperature ≥ 43 °C had a higher relative risk of death and unassisted death compared to dogs with a temperature ≥ 41 °C.",
+    "numbers": ["RR 7.98 (≥43°C)", "RR 4.23 (≥41°C)", "73.68% fatality at ≥43°C", "28.03% fatality at ≥41°C"],
+    "entities": ["UK dogs", "VetCompass"],
+    "time_period": "2016–2018",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "proposing-the-vetcompass-clinical-grading-tool-for-heat-related-illness-in-dogs"
+  },
+  {
+    "claim": "Neurological signs (unresponsive, coma, stupor, multiple seizures) are the strongest predictors of death in canine HRI, with unresponsive dogs showing 84.31% fatality.",
+    "stance": "supports",
+    "stance_target": "neurological status is the most important triage indicator in field HRI assessment",
+    "evidence_type": "statistical",
+    "scope_conditions": "793 HRI events with recorded clinical signs",
+    "quoted_support": "Dogs presenting with abnormal mentation (including unresponsive, coma, stupor, multiple seizures and status epilepticus), gastrointestinal haemorrhage and petechiae/purpura had at least three times the relative risk of death compared to dogs presenting without those clinical signs.",
+    "numbers": ["84.31% (unresponsive fatality)", "93.33% (coma fatality)", "66.67% (multiple seizures fatality)", "RR 13.31 (unresponsive)", "RR 9.55 (coma)"],
+    "entities": ["UK dogs", "VetCompass"],
+    "time_period": "2016–2018",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "proposing-the-vetcompass-clinical-grading-tool-for-heat-related-illness-in-dogs"
+  },
+  {
+    "claim": "Almost one-third (30%) of canine HRI cases had no specific trigger documented, suggesting owners often fail to recognize heat exposure as the precipitating cause.",
+    "stance": "supports",
+    "stance_target": "rescue responders should consider HRI even when the owner/finder cannot identify a clear heat event",
+    "evidence_type": "statistical",
+    "scope_conditions": "UK primary care dogs with HRI, 2016–2018",
+    "quoted_support": "No specific triggers for HRI were reported in the clinical records for almost a third of the dogs presented in the primary-care study, potentially demonstrating a lack of recognition of early signs of HRI by owners or veterinary professionals.",
+    "numbers": ["~30% (no trigger documented)"],
+    "entities": ["UK dogs", "VetCompass", "Hall et al."],
+    "time_period": "2016–2018",
+    "region": "United Kingdom",
+    "confidence": "medium",
+    "source_note_id": "proposing-the-vetcompass-clinical-grading-tool-for-heat-related-illness-in-dogs"
+  }
+]

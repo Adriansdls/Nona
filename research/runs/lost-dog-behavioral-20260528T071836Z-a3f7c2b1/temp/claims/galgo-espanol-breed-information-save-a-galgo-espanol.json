@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Galgos with stranger-reserve tendencies that are not socialized early risk that caution hardening into fear — making unsocialized/traumatized rescue galgos significantly harder to approach when lost.",
+    "stance": "supports",
+    "stance_target": "galgo trauma baseline amplifies evasion behavior; rescue galgos are categorically harder to recover than socialized dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo breed trait; amplified in rescue/unsocialized individuals",
+    "quoted_support": "With strangers, he commonly behaves reserved and careful, but not aggressive. He wants to decide who may pet him. Because Galgos incline to caution and reserve, puppies should be exposed to different situations early in their life. It is also important for them to learn to know other people, so that caution does not change to fear.",
+    "numbers": [],
+    "entities": ["galgo"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "galgo-espanol-breed-information-save-a-galgo-espanol"
+  },
+  {
+    "claim": "Galgo rescue galgos require at minimum a 6-foot fence due to their natural agility and jumping ability.",
+    "stance": "supports",
+    "stance_target": "galgos have high vertical escape capacity — search radius must account for their ability to clear standard fencing",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo breed containment requirements",
+    "quoted_support": "Galgos are also very agile in general and for most at least a six foot fence or just leash walking is necessary.",
+    "numbers": ["6-foot fence minimum"],
+    "entities": ["galgo"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "galgo-espanol-breed-information-save-a-galgo-espanol"
+  },
+  {
+    "claim": "Galgos' prey drive means animals encountered outdoors are treated as targets, increasing the risk that a lost galgo will chase and extend its displacement distance from the last known location.",
+    "stance": "supports",
+    "stance_target": "galgo hunt instinct causes active pursuit displacement when lost, extending search radius",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo breed trait; especially in rural/semi-rural environments with wildlife",
+    "quoted_support": "they were bred to hunt so outside animals may be fair game.",
+    "numbers": [],
+    "entities": ["galgo"],
+    "time_period": "contemporary",
+    "region": "rural Spain / Algarve",
+    "confidence": "high",
+    "source_note_id": "galgo-espanol-breed-information-save-a-galgo-espanol"
+  },
+  {
+    "claim": "Many rescue galgos have had their microchips physically removed by hunters to prevent tracing, making standard chip scanning unreliable for galgo identification.",
+    "stance": "supports",
+    "stance_target": "microchip scans cannot be relied upon as a primary identification method for lost galgos with hunting backgrounds",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgos with galguero hunting backgrounds in Spain and Algarve",
+    "quoted_support": "Dogs are required to be microchipped but many have these chips cut out so the hunter can avoid being traced.",
+    "numbers": [],
+    "entities": ["galgo", "galguero"],
+    "time_period": "contemporary",
+    "region": "Spain / Algarve",
+    "confidence": "high",
+    "source_note_id": "galgo-espanol-breed-information-save-a-galgo-espanol"
+  }
+]

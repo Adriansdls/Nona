@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Placing the search dog on the downwind side of the search area allows it to detect scent from a distance without needing physical coverage of every point, significantly extending effective search radius.",
+    "stance": "supports",
+    "stance_target": "Wind-aware SAR dog deployment for Algarve with consistent Nortada northwesterly",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Wind-assisted SAR dog operations in open or semi-open terrain",
+    "quoted_support": "In windy environments, dogs can take advantage of the wind direction to cover more ground by scenting from a distance. For instance, placing the dog on the downwind side of the search area can allow it to catch scent cues without covering every inch of ground.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "k9-search-and-rescue-advanced-techniques-to-master-sar-deployment-dogbase-blog"
+  },
+  {
+    "claim": "Well-planned search patterns increase search efficiency by up to 40%, reducing area needed to cover while maintaining high probability of detection.",
+    "stance": "supports",
+    "stance_target": "Value of systematic search pattern planning vs. ad-hoc searching",
+    "evidence_type": "statistical",
+    "scope_conditions": "SAR operations; cited from International Journal of Disaster Risk Science",
+    "quoted_support": "According to a study by the International Journal of Disaster Risk Science, well-planned search patterns can increase a team's search efficiency by up to 40%, reducing the area that needs to be covered while still maintaining a high probability of detection.",
+    "numbers": ["40% efficiency increase"],
+    "entities": ["International Journal of Disaster Risk Science"],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "medium",
+    "source_note_id": "k9-search-and-rescue-advanced-techniques-to-master-sar-deployment-dogbase-blog"
+  },
+  {
+    "claim": "SAR dogs trained with realistic mock scenarios (rubble, confined spaces, varied weather) have up to 50% higher success rates in real deployments than dogs with less practical experience.",
+    "stance": "supports",
+    "stance_target": "Training investment for lost dog rescue volunteers and K9 teams",
+    "evidence_type": "statistical",
+    "scope_conditions": "National Search Dog Alliance data",
+    "quoted_support": "The National Search Dog Alliance reports that search dogs trained with mock scenarios have up to a 50% higher success rate in real deployments compared to those with less practical experience.",
+    "numbers": ["50% higher success rate"],
+    "entities": ["National Search Dog Alliance"],
+    "time_period": "2024",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "k9-search-and-rescue-advanced-techniques-to-master-sar-deployment-dogbase-blog"
+  },
+  {
+    "claim": "GPS collar tracking of SAR dogs during operations reduced search time by 20% in a documented Montana wilderness case by identifying already-covered sectors and enabling targeted redeployment.",
+    "stance": "supports",
+    "stance_target": "GPS tracking integration for systematic Nona search documentation",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Large-scale wilderness SAR operation, Montana",
+    "quoted_support": "In a large-scale operation in Montana's wilderness, GPS tracking allowed the team to see which areas had been fully searched and re-deploy the SAR dogs to areas that had not been thoroughly covered. This method reduced the search time by 20% and ensured that no area was left unchecked.",
+    "numbers": ["20% reduction in search time"],
+    "entities": [],
+    "time_period": "2024",
+    "region": "Montana, USA",
+    "confidence": "medium",
+    "source_note_id": "k9-search-and-rescue-advanced-techniques-to-master-sar-deployment-dogbase-blog"
+  },
+  {
+    "claim": "The expanding square/spiral search pattern is the most appropriate for areas with limited visibility or rough terrain, starting at a central point and working outward.",
+    "stance": "supports",
+    "stance_target": "Search pattern selection for Algarve scrubland and eucalyptus terrain",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rough or low-visibility terrain SAR",
+    "quoted_support": "Expanding Square/Spiral Search: The team starts at a central point and works outward in an expanding square or spiral, ideal for areas with limited visibility or rough terrain.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2024",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "k9-search-and-rescue-advanced-techniques-to-master-sar-deployment-dogbase-blog"
+  }
+]

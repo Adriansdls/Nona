@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Podencos are multi-sensory hunters (bred for rabbit and wild boar) with stubborn but eager-to-please temperament, contrasting with the galgo's sight-only sprint hunting profile — this produces different prey-chase movement patterns when lost.",
+    "stance": "supports",
+    "stance_target": "podenco and galgo require distinct behavioral priors in lost dog models — podenco follows scent trails, galgo follows visual movement at speed",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "podenco and galgo breeds; hunting background context",
+    "quoted_support": "The general temperament of the Podenco is similar to the galgo and greyhounds. They are very smart and eager to please, but they are sometimes stubborn. Podencos are gentle, loyal and love to relax, but they love exercise and interactive playtime too.",
+    "numbers": [],
+    "entities": ["podenco", "galgo", "GRIN"],
+    "time_period": "contemporary",
+    "region": "Spain / Algarve",
+    "confidence": "high",
+    "source_note_id": "podencos-galgo-rescue-international-network"
+  },
+  {
+    "claim": "Podencos share the same galguero-driven trauma baseline as galgos — kept on short chains, starved, kept in dark overcrowded sheds, and abandoned or killed post-season — making their behavioral priors equally trauma-conditioned.",
+    "stance": "supports",
+    "stance_target": "podenco trauma baseline is equivalent to galgo; cannot assume lower trauma prior for podenco in Algarve rescue population",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "podencos in galguero hunting system in Spain",
+    "quoted_support": "A podenco's life is typically spent on a short chain with no shelter from scorching heat or freezing cold temperatures or in dark sheds, sometimes packed so tightly with other dogs that they cannot even lie down. Since there is a belief among galgueros that dogs hunt better when they are hungry, the podenco is usually starved or fed and watered just enough to keep them alive.",
+    "numbers": [],
+    "entities": ["podenco", "galguero", "GRIN"],
+    "time_period": "contemporary",
+    "region": "Spain / Algarve",
+    "confidence": "high",
+    "source_note_id": "podencos-galgo-rescue-international-network"
+  }
+]

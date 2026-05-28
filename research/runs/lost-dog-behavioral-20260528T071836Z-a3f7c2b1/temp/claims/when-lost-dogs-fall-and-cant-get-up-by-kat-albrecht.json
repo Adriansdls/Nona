@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "A significant subset of 'missing' dogs have not run away but are trapped nearby — in culverts, under structures, in pools, sheds, or entangled in infrastructure — and typically do not bark or call for help.",
+    "stance": "supports",
+    "stance_target": "close-proximity entrapment as an underdiagnosed scenario prior to expanding search radius",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Multiple documented cases; entrapment especially at culverts, under decks/houses, in sheds, fenced pools",
+    "quoted_support": "In one case, a dog was trapped inside an owner's gazebo for five days and never whined or barked, but was found and lived. A former coworker of mine had their Dachshund disappear... two years later, when they flushed out a culvert pipe, the bones of their dear dog flushed out. They had walked by that culvert pipe routinely (it was right next to their mailbox), calling for their dog...but their dog never barked.",
+    "numbers": ["5 days trapped without barking", "2 years before discovery"],
+    "entities": ["Kat Albrecht", "Lost Dogs of Wisconsin", "Tito and Jelly Bean"],
+    "time_period": "2025",
+    "region": "United States (Wisconsin, Texas cases cited)",
+    "confidence": "medium",
+    "source_note_id": "when-lost-dogs-fall-and-cant-get-up-by-kat-albrecht"
+  },
+  {
+    "claim": "Before expanding the search radius outward, rescuers must conduct a slow methodical search of the owner's property and immediate neighborhood for potential entrapment points.",
+    "stance": "supports",
+    "stance_target": "Phase 1 search protocol — local/entrapment check before radius expansion",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applies especially when escape was not directly witnessed; owner believes dog 'ran away'",
+    "quoted_support": "We should never forget that even when a family believes that their dog 'ran away' from home (or 'was stolen')—especially if the dog's escape was not witnessed—the family... needs to conduct a slow, methodical search of the family's property, as well as the neighborhood, for potential places where the dog could have become trapped.",
+    "numbers": [],
+    "entities": ["Kat Albrecht"],
+    "time_period": "2025",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "when-lost-dogs-fall-and-cant-get-up-by-kat-albrecht"
+  }
+]

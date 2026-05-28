@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Approaching a panicked dog straight-on mimics predator stalking behavior; instead, the searcher must move sideways with their hip facing the dog to reduce threat perception.",
+    "stance": "supports",
+    "stance_target": "approach behavior protocol for panicked dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Panicked or fearful lost dogs",
+    "quoted_support": "If you stare at the dog, walk really slow and directly at it, and talk in a monotone voice, you will likely freak the dog out and cause it to bolt... you should stop, talk normally in various tones to the dog, and do not advance forward... always shuffling sideways with your hip facing the dog.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Pet FBI", "MAR Technicians"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "Finders transporting stray dogs to shelters outside the immediate search area create a time-critical displacement problem that delays or prevents reunion.",
+    "stance": "supports",
+    "stance_target": "vehicle transport by finders as major undermodeled displacement factor",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Urban and suburban lost dog scenarios where finders transport dogs",
+    "quoted_support": "One complicating factor with lost dogs is that people who pick up stray dogs often transport them out of the immediate search area. Because a large amount of lost dogs end up in foster homes and rescue adoption programs, you should contact all rescue groups and breed rescue groups within your area.",
+    "numbers": [],
+    "entities": ["Pet FBI", "Kat Albrecht"],
+    "time_period": "2014-2024",
+    "region": "USA (generalizable)",
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "Real-time cell phone coordination between a witness who has visual contact and the dog's owner is highly effective for recovering mobile lost dogs.",
+    "stance": "supports",
+    "stance_target": "real-time communication as high-leverage recovery tactic",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog sighted in a specific location",
+    "quoted_support": "Ask the caller if they are calling from a cell phone and if they are, ask them to remain on the phone with you to keep you updated on the dog's location. This tactic alone (cell phone to cell phone communication between a witness and a dog owner) has proven to be a highly effective method of recovering lost dogs.",
+    "numbers": [],
+    "entities": ["Pet FBI", "Kat Albrecht"],
+    "time_period": "2014-2024",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "lost-dog-behavior-pet-fbi-pets-found-by-internet"
+  }
+]

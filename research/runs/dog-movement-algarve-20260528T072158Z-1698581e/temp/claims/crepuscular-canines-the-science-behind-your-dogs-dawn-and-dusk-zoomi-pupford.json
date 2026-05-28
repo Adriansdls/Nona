@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Dogs are crepuscular animals with peak activity windows at dawn and dusk, a trait inherited from wolf ancestors who hunted at twilight.",
+    "stance": "supports",
+    "stance_target": "dawn and dusk are the primary search windows for lost dogs — they are most mobile, most willing to approach, and most responsive to calls at these times",
+    "evidence_type": "empirical",
+    "scope_conditions": "domestic dogs generally, more pronounced in dogs in hot climates or with limited midday activity",
+    "quoted_support": "Dogs are crepuscular animals... peak activity during the transitional periods of dawn and dusk. This behavior is rooted in evolution and helps animals avoid predators or extreme environmental conditions while maximizing their survival opportunities.",
+    "numbers": ["12–14 hours total daily sleep"],
+    "entities": ["domestic dogs", "wolves", "Canis lupus"],
+    "time_period": "2024",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "crepuscular-canines-the-science-behind-your-dogs-dawn-and-dusk-zoomi-pupford"
+  },
+  {
+    "claim": "Temperature regulation is a key driver of crepuscular behavior — dogs in hot climates especially restrict activity to cooler dawn/dusk hours.",
+    "stance": "supports",
+    "stance_target": "in Algarve summer conditions (peak temperature 35–42°C), midday movement by lost dogs is thermally suppressed; active search should focus on the first 2 hours after dawn and the last 2 hours before sunset",
+    "evidence_type": "empirical",
+    "scope_conditions": "dogs in warm or hot climates, particularly during summer months",
+    "quoted_support": "Another reason dogs exhibit crepuscular tendencies is temperature. For many dogs, especially those with thick coats, being active during the cooler hours of dawn and dusk is more comfortable. This behavior is particularly noticeable in hot climates or during summer months.",
+    "numbers": [],
+    "entities": ["domestic dogs"],
+    "time_period": "2024",
+    "region": "hot climates",
+    "confidence": "high",
+    "source_note_id": "crepuscular-canines-the-science-behind-your-dogs-dawn-and-dusk-zoomi-pupford"
+  },
+  {
+    "claim": "Dogs are not nocturnal — nighttime is primarily a rest period, with peak activity concentrated at dawn and dusk, not midnight.",
+    "stance": "refutes",
+    "stance_target": "the assumption that lost dogs are most active at night (common in rescue guidance) is incorrect — activity peaks are at dusk and dawn, not 1–3am",
+    "evidence_type": "empirical",
+    "scope_conditions": "domestic dogs under normal conditions",
+    "quoted_support": "While dogs may sometimes be active at night, they are not nocturnal. Their peak activity times are during dawn and dusk, not the middle of the night.",
+    "numbers": [],
+    "entities": ["domestic dogs"],
+    "time_period": "2024",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "crepuscular-canines-the-science-behind-your-dogs-dawn-and-dusk-zoomi-pupford"
+  },
+  {
+    "claim": "Dogs' heightened alertness and territorial scanning behaviors are concentrated during twilight hours, making this the optimal window for search calls and auditory luring techniques.",
+    "stance": "supports",
+    "stance_target": "acoustic search methods (owner voice calls, familiar sounds) should be deployed at dawn/dusk for maximum response probability",
+    "evidence_type": "empirical",
+    "scope_conditions": "domestic dogs in familiar territory",
+    "quoted_support": "You may notice your dog becoming more vigilant during these hours, barking at noises or shadows. This heightened alertness is a remnant of their instinct to hunt or guard their territory during twilight.",
+    "numbers": [],
+    "entities": ["domestic dogs"],
+    "time_period": "2024",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "crepuscular-canines-the-science-behind-your-dogs-dawn-and-dusk-zoomi-pupford"
+  }
+]

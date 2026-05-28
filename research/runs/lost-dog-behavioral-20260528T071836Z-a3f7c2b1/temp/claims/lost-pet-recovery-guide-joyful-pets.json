@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Lost dogs enter a 'survival mode' behavioral state that causes them to avoid human contact even with their owners, become nocturnal, hide in small dark spaces, and potentially travel significant distances — making them behaviorally different from their normal baseline.",
+    "stance": "supports",
+    "stance_target": "Lost animal behavioral state diverges from baseline, requiring adjusted search strategies that account for avoidance behavior",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs (and cats), all temperaments once frightened",
+    "quoted_support": "Lost pets often enter what's known as survival mode—a natural, instinct-driven state that drastically changes their behavior. Even the most friendly and well-trained pets may become fearful, avoidant, or unwilling to approach people they know, including their own pet parent.",
+    "numbers": [],
+    "entities": ["Joyful Pets"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-recovery-guide-joyful-pets"
+  },
+  {
+    "claim": "Confirmed sightings in a specific area constitute a 'major breakthrough' that triggers a strategic shift from broadcast search to localized feeding station setup and camera surveillance at that location.",
+    "stance": "supports",
+    "stance_target": "Sighting confirmation triggers a Bayesian update that concentrates resources to the sighting area",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost pet recovery, professional practitioner guidance",
+    "quoted_support": "If you have confirmed sightings in a specific area, this is a major breakthrough. Switch to strategic recovery mode: Setting Up a Feeding Station. Location Selection: Quiet area away from foot traffic and loud noises... Near the last confirmed sighting.",
+    "numbers": [],
+    "entities": ["Joyful Pets"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-recovery-guide-joyful-pets"
+  },
+  {
+    "claim": "Lost pet distance patterns: most dogs found within 2-mile radius; large dogs 3-5+ miles; small dogs 1-2 miles; indoor-only cats within 300 yards; outdoor-access cats 1-3 miles.",
+    "stance": "supports",
+    "stance_target": "Species- and size-specific spatial priors for lost animal position exist and differ significantly",
+    "evidence_type": "statistical",
+    "scope_conditions": "Dogs and cats, US",
+    "quoted_support": "Most dogs are found within a 2-mile radius of where they went missing. Cats typically stay closer to home, often within a few blocks. Indoor-only cats: Usually within 300 yards, often hiding nearby. Outdoor-access cats: 1-3 miles from home. Small dogs: 1-2 miles. Large dogs: 3-5 miles or more.",
+    "numbers": ["2 miles", "300 yards", "1-3 miles", "1-2 miles", "3-5 miles"],
+    "entities": ["Joyful Pets"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "lost-pet-recovery-guide-joyful-pets"
+  },
+  {
+    "claim": "Camera surveillance at feeding stations enables confirmation of species (your pet vs other animals), timing patterns, behavioral condition assessment, and readiness for trapping — making it a higher-quality evidence source than eyewitness sighting.",
+    "stance": "supports",
+    "stance_target": "Camera confirmation provides more reliable sighting evidence than eyewitness reports for triggering recovery interventions",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost pets, confirmed sighting area",
+    "quoted_support": "Camera Benefits: Confirm your pet's visits vs. other animals. Track timing patterns. Observe behavior and condition. Determine readiness for trapping.",
+    "numbers": [],
+    "entities": ["Joyful Pets"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-recovery-guide-joyful-pets"
+  },
+  {
+    "claim": "PawBoost reports 45% of pets posted to its platform are reunited with their owners; the platform reaches 7M+ local rescue squad members and generates automatic Facebook alerts.",
+    "stance": "neutral",
+    "stance_target": "Digital broadcast platforms provide measurable recovery rate improvement over no digital presence",
+    "evidence_type": "statistical",
+    "scope_conditions": "PawBoost platform users, US",
+    "quoted_support": "PawBoost – FREE 'AMBER Alert for pets'. Reaches 7M+ local rescue squad members. Automatic Facebook page posting. Email alerts to local pet lovers. Success rate: 45% of posted pets are reunited.",
+    "numbers": ["45%", "7M+"],
+    "entities": ["PawBoost"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "low",
+    "source_note_id": "lost-pet-recovery-guide-joyful-pets"
+  }
+]

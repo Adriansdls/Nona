@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Sighthounds as a group show very low aggressive behavior with little variation among breeds, combined with high predatory drive and a fair level of attachment/affection toward owners.",
+    "stance": "supports",
+    "stance_target": "sighthounds having a distinctive behavioral profile relevant to lost-dog search strategy (low threat to public, high flight/chase risk)",
+    "evidence_type": "empirical",
+    "scope_conditions": "n=768 convenience sample of 10 sighthound breeds plus Lurchers; C-BARQ-derived online survey; 2025 publication",
+    "quoted_support": "Sighthounds exhibited a very low level of aggressive behaviour, with little variation among breeds, combined with high predatory drive and a fair level of attachment/affection.",
+    "numbers": ["768 hounds", "10 breeds plus Lurchers", "p<0.001 for predatory differences across breeds"],
+    "entities": ["Normando", "Mukhambetova", "Walsh", "Saluki", "Piccolo Levriero Italiano", "Cirneco", "Irish Wolfhound", "Lurcher", "C-BARQ"],
+    "time_period": "2025",
+    "region": "International (survey)",
+    "confidence": "medium",
+    "source_note_id": "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+  },
+  {
+    "claim": "Predatory behavior in sighthounds (chasing cats and birds) differs significantly by breed within the sighthound group, with Saluki and Cirneco showing highest predatory behaviors and Piccolo Levriero Italiano showing the lowest.",
+    "stance": "supports",
+    "stance_target": "within-type breed differences being real and measurable, contra assumption of homogeneous sighthound behavioral profile",
+    "evidence_type": "empirical",
+    "scope_conditions": "Kruskal-Wallis tests on nine breeds; n=768; C-BARQ predatory subscales",
+    "quoted_support": "Breeds differed in chasing cats and birds (both p<0.001), with Saluki (and Cirneco for birds) showing the behaviours more and the Piccolo Levriero Italiano less than most other breeds.",
+    "numbers": ["p<0.001"],
+    "entities": ["Saluki", "Cirneco", "Piccolo Levriero Italiano"],
+    "time_period": "2025",
+    "region": "International",
+    "confidence": "medium",
+    "source_note_id": "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+  },
+  {
+    "claim": "Owner-shadowing and interaction-soliciting behavior differs significantly among sighthound breeds, with Piccolo Levriero Italiano showing the highest attachment-proximity behaviors and most other breeds showing less.",
+    "stance": "supports",
+    "stance_target": "sighthound breed subtype modulating approach-to-humans tendency, which affects whether a lost dog will approach strangers or avoid them",
+    "evidence_type": "empirical",
+    "scope_conditions": "Kruskal-Wallis tests; C-BARQ attachment/affection subscales; n=768",
+    "quoted_support": "Also shadowing the owner and soliciting interactions differed (both p<0.001) with Piccolo Levriero Italiano and, to a lesser extent, Irish Wolfhound and Cirneco, showing the behaviours more often than most other breeds.",
+    "numbers": ["p<0.001"],
+    "entities": ["Piccolo Levriero Italiano", "Irish Wolfhound", "Cirneco"],
+    "time_period": "2025",
+    "region": "International",
+    "confidence": "medium",
+    "source_note_id": "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+  },
+  {
+    "claim": "A companion 2024 paper by the same Normando lab examined prevalence of behavioral problems specifically in rescue galgos from Spain vs. other rescue dogs, providing galgo-specific behavioral baseline data.",
+    "stance": "neutral",
+    "stance_target": "galgo behavioral data availability — signals a primary source exists",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "cited within the 2025 sighthound survey paper; Dog Behavior vol 10 no 1 (2024)",
+    "quoted_support": "Prevalence of some behavioural problems in two groups of rescue dogs: galgos from Spain and other dogs. Dog behavior: Vol. 10 No. 1 (2024)",
+    "numbers": [],
+    "entities": ["Normando", "Bertomoro", "Bonetti", "Walsh", "Zanetti", "Meers", "Contalbrigo", "galgo"],
+    "time_period": "2024",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+  },
+  {
+    "claim": "The role of breed/functional type in determining dog behavior remains controversial, with published studies reporting effect sizes ranging from negligible to substantial.",
+    "stance": "neutral",
+    "stance_target": "breed as behavioral predictor — establishes genuine scientific uncertainty",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Literature review framing in 2025 study introduction",
+    "quoted_support": "The role of breed/functional type remains controversial, with studies reporting effects ranging from negligible to substantial.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2025",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha"
+  }
+]

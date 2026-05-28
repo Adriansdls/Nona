@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "14% of US dog-owning households lost a dog in a 5-year period (2005-2010), not the widely-cited 1-in-3.",
+    "stance": "refutes",
+    "stance_target": "claim that 1 in 3 pets go missing in their lifetime",
+    "evidence_type": "statistical",
+    "scope_conditions": "US, 2010, random-digit-dial telephone survey, n=1,015 pet-owning households, 5-year recall period",
+    "quoted_support": "14 percent for dogs and 15 percent for cats; and Cat guardians were less likely to find their cat – only 74 percent of lost cats were recovered, while 93 percent of lost dogs were recovered.",
+    "numbers": ["14%", "15%", "93%", "74%", "85%", "1,015 households"],
+    "entities": ["ASPCA", "Weiss et al. 2012", "Animals journal", "Emily Weiss"],
+    "time_period": "September–November 2010 (published June 2012)",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "how-many-pets-are-lost-how-many-find-their-way-home-aspca-survey-has-answers-asp"
+  },
+  {
+    "claim": "49% of lost dogs in the US are found by neighborhood search, making it the dominant recovery method — not shelter visits.",
+    "stance": "supports",
+    "stance_target": "neighborhood proximity search as primary recovery strategy for lost dogs",
+    "evidence_type": "statistical",
+    "scope_conditions": "US, 2010, Weiss et al. 2012, n=1,015 pet-owning households",
+    "quoted_support": "Forty-nine percent of dog guardians found their dog by searching the neighborhood, and 15 percent of the dogs were recovered because they were wearing an ID tag or had a micro-chip.",
+    "numbers": ["49%", "15%", "6%"],
+    "entities": ["ASPCA", "Weiss et al. 2012"],
+    "time_period": "2010",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "how-many-pets-are-lost-how-many-find-their-way-home-aspca-survey-has-answers-asp"
+  },
+  {
+    "claim": "Only 6% of lost dogs and 2% of lost cats in the US are found at a shelter, despite shelters being the default recommendation.",
+    "stance": "refutes",
+    "stance_target": "shelter-first search strategy as sufficient for recovering lost pets",
+    "evidence_type": "statistical",
+    "scope_conditions": "US, 2010, Weiss et al. 2012",
+    "quoted_support": "Only 6 percent of dog guardians and 2 percent of cat guardians found their lost pets at a shelter.",
+    "numbers": ["6%", "2%"],
+    "entities": ["ASPCA", "Weiss et al. 2012"],
+    "time_period": "2010",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "how-many-pets-are-lost-how-many-find-their-way-home-aspca-survey-has-answers-asp"
+  },
+  {
+    "claim": "Overall 85% of lost dogs and cats (combined) are recovered when owners actively search.",
+    "stance": "supports",
+    "stance_target": "high recovery probability justifying intensive search effort",
+    "evidence_type": "statistical",
+    "scope_conditions": "US, 2010, Weiss et al. 2012, n=1,015",
+    "quoted_support": "85 percent of those lost dogs and cats were recovered",
+    "numbers": ["85%"],
+    "entities": ["ASPCA", "Weiss et al. 2012"],
+    "time_period": "2010",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "how-many-pets-are-lost-how-many-find-their-way-home-aspca-survey-has-answers-asp"
+  }
+]

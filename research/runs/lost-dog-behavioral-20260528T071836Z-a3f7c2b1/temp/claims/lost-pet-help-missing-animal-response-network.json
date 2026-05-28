@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The Missing Animal Response (MAR) Network was founded by Kat Albrecht in 1997 by applying her professional search-and-rescue (SAR) training methodology to lost pet behavioral patterns, establishing the first formal behavioral profiling framework for lost dog and cat recovery.",
+    "stance": "supports",
+    "stance_target": "SAR methodology is directly transferable to lost pet recovery and forms the basis of professional lost pet search strategy",
+    "evidence_type": "historical",
+    "scope_conditions": "Lost pet recovery, US-based, since 1997",
+    "quoted_support": "Back in 1997, MAR Network Director Kat Albrecht began to study the behavioral patterns of lost cats and dogs. Due to a background in search-and-rescue (searching for lost people), Kat understood the...",
+    "numbers": ["1997"],
+    "entities": ["Kat Albrecht", "Missing Animal Response Network", "MARN"],
+    "time_period": "1997-present",
+    "region": "US, global",
+    "confidence": "high",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  },
+  {
+    "claim": "Calling a loose or frightened dog by name triggers a 'flight response' — the dog interprets it as being chased and runs further away — making the search action itself counterproductive to recovery.",
+    "stance": "supports",
+    "stance_target": "Searcher behavior affects animal movement and therefore the temporal evolution of the position distribution",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Frightened or stray dogs",
+    "quoted_support": "Also, calling a pet's name, clapping or whistling can also trigger a panicked 'Oh no – they're looking for me!' flight response in a pet and can be counterproductive.",
+    "numbers": [],
+    "entities": ["MARN", "Kat Albrecht"],
+    "time_period": "operational",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  },
+  {
+    "claim": "Scent-tracking dogs used by MARN practitioners narrow the search area by identifying where a lost pet has recently traveled, providing a spatial update that complements eyewitness sightings.",
+    "stance": "supports",
+    "stance_target": "Multiple evidence types (scent trail, eyewitness sighting) can be combined to update position estimates",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Professional MAR searches, multiple case testimonials",
+    "quoted_support": "With the Missing Animal Response Network, & their pet detective, Jamie Bozzi, & search-dog Indy, we were able to narrow down & focus our search efforts on specific locations of where our lost cat had recently been. Watching Indy react to certain areas &, later, hearing from witnesses who had seen our cat, cemented the...",
+    "numbers": [],
+    "entities": ["MARN", "Kat Albrecht"],
+    "time_period": "operational",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  },
+  {
+    "claim": "MARN identifies a 'Missing Cat Study' as an original research product by Kat Albrecht studying spatial patterns of lost cats, developed from her SAR background and available at missinganimalresponse.com/missing-cat-study/.",
+    "stance": "neutral",
+    "stance_target": "Primary research on lost animal spatial behavior exists and is accessible",
+    "evidence_type": "historical",
+    "scope_conditions": "Lost cats",
+    "quoted_support": "My background in search-and-rescue work began in 1989 when I set out to train my dog to find lost people and ultimately... WHY THE MISSING CAT STUDY WAS DEVELOPED — By MARN Director Kat Albrecht.",
+    "numbers": ["1989"],
+    "entities": ["Kat Albrecht", "MARN", "Missing Cat Study"],
+    "time_period": "1997-ongoing",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-help-missing-animal-response-network"
+  }
+]

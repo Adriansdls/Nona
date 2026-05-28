@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Microchipped dogs and cats are significantly more likely to be returned to owners from a shelter than non-microchipped animals, providing causal evidence for microchip interventions.",
+    "stance": "supports",
+    "stance_target": "microchip as a causal driver of shelter return-to-owner outcome",
+    "evidence_type": "statistical",
+    "scope_conditions": "Hill et al. 2023, JSMCAH; retrospective DAG-adjusted logistic regression; n=5,960 dogs, n=3,489 cats; large municipal shelter in Utah, USA; single-shelter generalizability concern",
+    "quoted_support": "Dogs and cats with microchips, older animals, healthy animals, neutered animals, and animals brought to the shelter via another public agency were more likely to return to their owners.",
+    "numbers": ["n=5,960 dog impounds", "n=3,489 cat impounds"],
+    "entities": ["C. Ryan Hill", "Hsin-Yi Weng", "Alexandra Protopopova", "Purdue University", "University of British Columbia"],
+    "time_period": "2023 study",
+    "region": "Utah, USA",
+    "confidence": "high",
+    "source_note_id": "factors-affecting-the-likelihood-of-dogs-and-cats-returning-to-their-owners-at-a"
+  },
+  {
+    "claim": "Animal sex and season of impound did not affect return-to-owner likelihood for either dogs or cats at a large US municipal shelter.",
+    "stance": "refutes",
+    "stance_target": "hypothesis that male/intact animals or seasonal timing predict differential RTO rates",
+    "evidence_type": "statistical",
+    "scope_conditions": "Hill et al. 2023; single municipal Utah shelter; DAG-adjusted logistic regression",
+    "quoted_support": "Animal sex and season of impound did not affect either dogs' or cats' RTO likelihood.",
+    "numbers": [],
+    "entities": ["Hill", "Purdue University"],
+    "time_period": "2023",
+    "region": "Utah, USA",
+    "confidence": "medium",
+    "source_note_id": "factors-affecting-the-likelihood-of-dogs-and-cats-returning-to-their-owners-at-a"
+  },
+  {
+    "claim": "Healthy condition and older age significantly increase RTO likelihood at shelters, suggesting that younger and sick animals are at highest risk of non-reunion.",
+    "stance": "supports",
+    "stance_target": "health status and age as risk stratifiers for shelter RTO outcomes",
+    "evidence_type": "statistical",
+    "scope_conditions": "Hill et al. 2023; retrospective; single Utah shelter",
+    "quoted_support": "Older animals, healthy animals [were] more likely to return to their owners.",
+    "numbers": [],
+    "entities": ["Hill", "Weng", "Protopopova"],
+    "time_period": "2023",
+    "region": "Utah, USA",
+    "confidence": "medium",
+    "source_note_id": "factors-affecting-the-likelihood-of-dogs-and-cats-returning-to-their-owners-at-a"
+  },
+  {
+    "claim": "Animals brought to shelters via another public agency (vs. direct impound) had higher RTO rates, suggesting the intake pathway modulates reunion probability and that stray hold periods should be stratified by source type.",
+    "stance": "supports",
+    "stance_target": "impound source type as a confounding variable in lost-dog shelter outcomes",
+    "evidence_type": "statistical",
+    "scope_conditions": "Hill et al. 2023; Utah shelter; DAG-adjusted model",
+    "quoted_support": "Animals brought to the shelter via another public agency were more likely to return to their owners... encouraging implementation of new practices, such as modifying stray hold periods based on source type or health status.",
+    "numbers": [],
+    "entities": ["Hill", "Protopopova"],
+    "time_period": "2023",
+    "region": "Utah, USA",
+    "confidence": "medium",
+    "source_note_id": "factors-affecting-the-likelihood-of-dogs-and-cats-returning-to-their-owners-at-a"
+  }
+]

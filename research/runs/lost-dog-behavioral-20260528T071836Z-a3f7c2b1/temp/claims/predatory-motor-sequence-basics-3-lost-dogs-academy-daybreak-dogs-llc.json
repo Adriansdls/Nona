@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "The Chase phase of the predatory motor sequence is the most arousing stage — arousal peaks the instant before the dog catches (or thinks it is about to catch) prey — meaning a dog in full chase mode is at maximum physiological arousal.",
+    "stance": "supports",
+    "stance_target": "A lost prey-drive dog in active chase/search mode is at peak arousal and maximally resistant to recall/distraction",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All dogs with functional predatory motor sequence",
+    "quoted_support": "This is the most arousing section of the PMS, with arousal peaking the instant before the dog catches (or thinks they're about to catch) their prey.",
+    "numbers": [],
+    "entities": ["3 Lost Dogs Academy", "Daybreak Dogs LLC"],
+    "time_period": "September 2022",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "predatory-motor-sequence-basics-3-lost-dogs-academy-daybreak-dogs-llc"
+  },
+  {
+    "claim": "The Grab-bite and Kill-bite phases produce endorphins and begin the arousal downward slope — the act of holding prey produces endorphins; Dissect and Consume further activate the neuroendocrine system (HPA-axis) with endorphins and dopamine to counteract chase-phase adrenaline.",
+    "stance": "supports",
+    "stance_target": "A prey-drive dog that cannot complete the predatory sequence (no prey to catch) will not self-regulate back to calm — explaining sustained hypervigilance in a lost dog that never completes a hunt",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dogs with intact predatory motor sequence; HPA-axis neurological grounding",
+    "quoted_support": "The act of holding prey in their mouths produces endorphins, and begins the downward slope of the arousal curve... Dissect and Consume are important self-soothers that activate the neuroendocrine system. Digestive systems are closely related to neurological systems of stress response and management, such as the HPA (hypothalamic-pituitary-adrenal)-axis.",
+    "numbers": [],
+    "entities": ["3 Lost Dogs Academy", "Daybreak Dogs LLC"],
+    "time_period": "September 2022",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "predatory-motor-sequence-basics-3-lost-dogs-academy-daybreak-dogs-llc"
+  },
+  {
+    "claim": "The Orient stage (beginning of predatory sequence) is triggered by short, quick, erratic movements — applicable to attracting a lost dog's attention using movement-based lures rather than voice or scent alone.",
+    "stance": "supports",
+    "stance_target": "Movement-based stimuli (erratic motion) are more likely to engage a lost prey-drive dog's attention than static food lures or voice calls",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs with prey drive; Orient stage specifically",
+    "quoted_support": "Orient: Eyes, ears, nose. Can get their attention using short, quick, erratic movements. Think prey animal darting from one safe spot to another.",
+    "numbers": [],
+    "entities": ["3 Lost Dogs Academy", "Daybreak Dogs LLC"],
+    "time_period": "September 2022",
+    "region": "North America",
+    "confidence": "medium",
+    "source_note_id": "predatory-motor-sequence-basics-3-lost-dogs-academy-daybreak-dogs-llc"
+  },
+  {
+    "claim": "If there are too many direction changes or failures in the chase sequence, the dog reverts to the beginning (Orient/Search stage) — meaning an active search that pushes a lost dog may reset it into extended searching rather than self-settlement.",
+    "stance": "supports",
+    "stance_target": "Human search activity that triggers failed chase responses in a lost predatory dog will extend and intensify its searching behavior",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs in chase-mode predatory sequence",
+    "quoted_support": "Warning: adding in too many direction changes may take the dog out of Doing mode, and put them back in Thinking mode... If there's too much direction change, too much unpredictable movement, or too much failure, this tells the dog they need to go back to the beginning of the sequence.",
+    "numbers": [],
+    "entities": ["3 Lost Dogs Academy", "Daybreak Dogs LLC"],
+    "time_period": "September 2022",
+    "region": "North America",
+    "confidence": "medium",
+    "source_note_id": "predatory-motor-sequence-basics-3-lost-dogs-academy-daybreak-dogs-llc"
+  }
+]

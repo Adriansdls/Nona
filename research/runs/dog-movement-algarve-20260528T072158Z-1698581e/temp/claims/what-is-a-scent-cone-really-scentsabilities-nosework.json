@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Scent does not form a cone shape but an irregular, wispy plume that shifts constantly with micro-wind changes, making static cone visualizations misleading for SAR and detection work.",
+    "stance": "supports",
+    "stance_target": "Scent diffusion modeling for search and rescue dog deployment",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Outdoor and indoor scent work; written for nosework sport but principles apply to SAR",
+    "quoted_support": "The REAL Scent Cone is a plume. It's wispy in nature and changes directions seemingly randomly at times... Scent cones are NOT static and they DO move and shift.",
+    "numbers": [],
+    "entities": ["Stacy Barnett", "Fenzi Dog Sports Academy"],
+    "time_period": "2018",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "what-is-a-scent-cone-really-scentsabilities-nosework"
+  },
+  {
+    "claim": "The size of the scent plume is determined primarily by wind speed and how long the odor source has been present (aging time).",
+    "stance": "supports",
+    "stance_target": "Scent station and camera trap placement strategy",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General outdoor scent behavior",
+    "quoted_support": "the size of the scent cone is determined by the wind speed and the length of time the source odor has been available (wind speed and aging).",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "what-is-a-scent-cone-really-scentsabilities-nosework"
+  },
+  {
+    "claim": "Scent particles are heavier than air and fall slowly, but remain susceptible to upward air drafts — so plumes from elevated sources drift downward at an angle, requiring searchers to position farther from the source than intuition suggests.",
+    "stance": "supports",
+    "stance_target": "Search dog and detection handler positioning relative to source",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applies to outdoor scent work and elevated source locations",
+    "quoted_support": "Because target odor is at the same temperature as the surrounding environment, temperature is taken out of the equation. Therefore, lift (or fall) of odor depends on density and something called reduced gravity. Essentially odor is heavier than air, therefore it will fall at a slow rate.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "what-is-a-scent-cone-really-scentsabilities-nosework"
+  },
+  {
+    "claim": "Temperature differentials (sun vs. shade, warm vs. cool zones) drive convection currents that redirect scent plumes vertically, causing scent from one zone to lift and then fall in an adjacent zone.",
+    "stance": "supports",
+    "stance_target": "Scent behavior in Algarve terrain with sun-exposed scrub vs. shaded ravines",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Outdoor environments with mixed sun and shade",
+    "quoted_support": "Air in warmer areas such as in the sun, rise, causing more air to backfill the volume left by the rising air. Then when the air encounters cooler temperatures such as in the shade, the air falls. Scent cones will ride the temperature differentials causing the scent profile to change.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "what-is-a-scent-cone-really-scentsabilities-nosework"
+  },
+  {
+    "claim": "Air flow follows the Ideal Gas Law: it moves from high pressure to low pressure, and hot air rises while cool air sinks — these two forces are the primary drivers of scent plume shape and movement both indoors and outdoors.",
+    "stance": "supports",
+    "stance_target": "Physical principles governing scent diffusion for search planning",
+    "evidence_type": "theoretical",
+    "scope_conditions": "General physics of air and scent movement",
+    "quoted_support": "air will move from an area of high pressure to an area of low pressure... hot air rises and cool air sinks. These are the two primary forces driving air movement, both indoors and out!",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "what-is-a-scent-cone-really-scentsabilities-nosework"
+  }
+]

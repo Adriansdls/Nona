@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Greyhounds characteristically display the freeze response under threat — standing frozen with stiff posture, dilated pupils, trembling, ears back, tail tucked, leaning backward — rather than fleeing or approaching, making them appear unresponsive when encountered by rescuers.",
+    "stance": "supports",
+    "stance_target": "greyhounds in lost-dog context appearing unresponsive or 'stuck' even when visible — freeze phase preceding flight",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Practitioner guidance from Greyhounds as Pets NZ (GAP); applies to recently transitioned ex-racing greyhounds",
+    "quoted_support": "Greyhounds are known for displaying the freeze response... Frozen or stiff posture, pupils dilated, increased respiratory rate, trembling, tense closed mouth, ears back, tail tucked, body hunched, might have all feet stuck to the floor and leaning backwards.",
+    "numbers": [],
+    "entities": ["Greyhounds as Pets", "GAP"],
+    "time_period": "Current",
+    "region": "New Zealand (applies broadly)",
+    "confidence": "medium",
+    "source_note_id": "2-fear-and-anxiety-greyhounds-as-pets"
+  },
+  {
+    "claim": "Flight response in greyhounds is characterized by ears back, tail tucked, and active escape running — and is distinguished from the freeze response that precedes it; direct approach by humans triggers flight not approach.",
+    "stance": "supports",
+    "stance_target": "lost greyhound/sighthound avoidance of direct human approach requiring specific passive trap strategies",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Greyhounds as Pets NZ practitioner guide; ex-racing greyhound context",
+    "quoted_support": "Flight: this is attempting to get further away from the threat to hide or avoid it. Ears back, tail tucked, actively trying to escape — slinking away or running.",
+    "numbers": [],
+    "entities": ["Greyhounds as Pets", "GAP"],
+    "time_period": "Current",
+    "region": "New Zealand",
+    "confidence": "medium",
+    "source_note_id": "2-fear-and-anxiety-greyhounds-as-pets"
+  },
+  {
+    "claim": "Most ex-racing greyhounds have grown up in rural environments with no exposure to urban stimuli (traffic, stairs, glass doors, washing machines, children, varied dog breeds), making urban post-escape environments intrinsically threatening.",
+    "stance": "supports",
+    "stance_target": "greyhounds when lost in urban/peri-urban settings experiencing high stress that escalates avoidance and flight behaviors",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Greyhounds as Pets NZ; ex-racing greyhound background; applies to galgo/podenco racing/hunting backgrounds analogously",
+    "quoted_support": "Most greyhound puppies grow up in a rural environment and likely haven't encountered everyday urban and domestic things such as washing machines, traffic, different floor surfaces, stairs, glass doors, different breeds of dogs, other species of animals and a wide variety of people, including children.",
+    "numbers": [],
+    "entities": ["Greyhounds as Pets", "GAP"],
+    "time_period": "Current",
+    "region": "New Zealand",
+    "confidence": "high",
+    "source_note_id": "2-fear-and-anxiety-greyhounds-as-pets"
+  },
+  {
+    "claim": "Effective approach to a fearful greyhound requires counter-intuitive body language: crouch or sit down, turn body away, avoid direct eye contact, and ignore the dog rather than approaching directly.",
+    "stance": "supports",
+    "stance_target": "field rescue protocol for loose sighthounds — direct approach is counter-productive and increases flight risk",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Greyhounds as Pets NZ practitioner guide",
+    "quoted_support": "If your dog is displaying signs of stress, anxiety or fear, you are less threatening to your dog by ignoring them, crouching or sitting down, turning your body away, and avoiding direct eye contact.",
+    "numbers": [],
+    "entities": ["Greyhounds as Pets", "GAP"],
+    "time_period": "Current",
+    "region": "New Zealand",
+    "confidence": "high",
+    "source_note_id": "2-fear-and-anxiety-greyhounds-as-pets"
+  },
+  {
+    "claim": "Food (treats) is often ineffective as a lure for greyhounds in a fear state, as frightened dogs typically will not eat.",
+    "stance": "supports",
+    "stance_target": "food-lure trapping strategy being less reliable for lost sighthounds in fear/panic phase",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Greyhounds as Pets NZ; applies to acute fear state",
+    "quoted_support": "You can toss treats onto the floor for your dog to eat if they are uncomfortable approaching your hand or snatching food, though many dogs will not eat if they are fearful.",
+    "numbers": [],
+    "entities": ["Greyhounds as Pets", "GAP"],
+    "time_period": "Current",
+    "region": "New Zealand",
+    "confidence": "medium",
+    "source_note_id": "2-fear-and-anxiety-greyhounds-as-pets"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Dog temperament type is the primary predictor of nighttime behavior when lost: gregarious dogs approach humans, aloof dogs travel long distances, xenophobic dogs flee all strangers.",
+    "stance": "supports",
+    "stance_target": "rescue approach must be adapted to dog temperament — xenophobic dogs require passive capture methods, not direct approach",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "lost domestic dogs, nighttime behavioral patterns",
+    "quoted_support": "Gregarious dogs tend to be more friendly and will go to the person who calls them. With an aloof temperament, dogs try to avoid human contact and travel great distances. And xenophobic dogs will then move away from strangers and behave more strangely.",
+    "numbers": [],
+    "entities": ["lost dogs", "xenophobic dogs", "gregarious dogs", "aloof dogs"],
+    "time_period": "2024 guidance",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "what-do-lost-dogs-do-at-night"
+  },
+  {
+    "claim": "Lost dogs use scent to follow familiar routes back toward home or known locations, suggesting they navigate by olfactory memory of their previous territory.",
+    "stance": "supports",
+    "stance_target": "scent trail corridors from the point of escape toward the dog's home territory are the primary movement vectors for lost dogs",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "lost domestic dogs in familiar or semi-familiar terrain",
+    "quoted_support": "When dogs become lost, they rely on their strong sense of smell to find their way. They follow familiar scents from places they know, such as their home or favorite spots. These familiar smells provide comfort and help them navigate back.",
+    "numbers": [],
+    "entities": ["lost dogs"],
+    "time_period": "2024",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "what-do-lost-dogs-do-at-night"
+  },
+  {
+    "claim": "Lost dogs increase movement and exploration at night due to reduced traffic and human activity, using heightened hearing and smell to navigate.",
+    "stance": "supports",
+    "stance_target": "nighttime is peak movement window for lost dogs — tracking/camera trapping should account for nocturnal displacement",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "lost domestic dogs with some nocturnal wolf ancestry behavioral tendencies",
+    "quoted_support": "The quietness of nighttime allows lost dogs to use their acute senses of hearing and smell to navigate and help them return home to their master. Sometimes, they also move at night to find more food and water.",
+    "numbers": ["12–14 hours average daily sleep"],
+    "entities": ["lost dogs"],
+    "time_period": "2024",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "what-do-lost-dogs-do-at-night"
+  },
+  {
+    "claim": "Lost dogs seek shelter preferentially in abandoned structures in urban areas and in vegetation/brush in rural areas.",
+    "stance": "supports",
+    "stance_target": "search priority zones should include abandoned buildings, field margins, and dense Mediterranean scrub (maquis/garrigue) in the Algarve",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "lost urban and rural domestic dogs",
+    "quoted_support": "In urban settings, these dogs try to find abandoned homes or places without humans. In rural areas, they tend to go to fields or bushes with minimal distractions.",
+    "numbers": [],
+    "entities": ["lost dogs"],
+    "time_period": "2024",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "what-do-lost-dogs-do-at-night"
+  }
+]

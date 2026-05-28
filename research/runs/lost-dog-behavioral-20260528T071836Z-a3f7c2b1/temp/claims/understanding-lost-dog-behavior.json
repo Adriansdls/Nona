@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "MAR classifies lost dog temperament into three types — gregarious (found close to home, often informally adopted), aloof (travel long distances, found weeks/months later, require patient food-based luring), xenophobic (farthest travel, highest car-strike risk, require traps or calm dogs) — each requiring a fundamentally different search strategy.",
+    "stance": "supports",
+    "stance_target": "temperament-based stratification of search protocols",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MAR (Missing Animal Response) framework by Kat Albrecht; basis is extensive field case experience, not controlled study",
+    "quoted_support": "MAR classifies dog temperament into three types: Gregarious dogs exhibit friendlier lost house dog behavior... Aloof dogs would be wary of strangers and are ones most likely to travel long distances... The most fearful type of dogs are classified as xenophobic... dogs with xenophobia will travel the farthest and because of their fearful behavior, they are also the most likely to be hit by a moving vehicle.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Animal Response", "MAR"],
+    "time_period": "Framework developed 2004-present",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "understanding-lost-dog-behavior"
+  },
+  {
+    "claim": "86-97% of lost dogs are eventually found, suggesting most lost dogs survive and are recoverable with appropriate methodology.",
+    "stance": "neutral",
+    "stance_target": "baseline lost dog survival/recovery rate",
+    "evidence_type": "statistical",
+    "scope_conditions": "PawMaw article citing survival rate studies; no specific study named in this article",
+    "quoted_support": "86% to 97% of lost dogs are eventually found, and this high percentage closely reflects a strong survival rate.",
+    "numbers": ["86%", "97%"],
+    "entities": ["PawMaw"],
+    "time_period": "2026",
+    "region": "United States",
+    "confidence": "low",
+    "source_note_id": "understanding-lost-dog-behavior"
+  },
+  {
+    "claim": "Survival mode can activate instantly upon getting lost or may take weeks to develop; the sooner the search begins, the more likely the dog has not yet entered survival mode and will respond normally to owner.",
+    "stance": "supports",
+    "stance_target": "urgency of early-phase search response",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "MAR framework; Kat Albrecht; field experience",
+    "quoted_support": "Lost dogs may enter survival mode instantly while for some, it may take weeks before it kicks in. So, what does this tell you? The sooner you start looking for your dog, the more likely that he hasn't been in survival mode yet.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Animal Response"],
+    "time_period": "2026",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "understanding-lost-dog-behavior"
+  }
+]

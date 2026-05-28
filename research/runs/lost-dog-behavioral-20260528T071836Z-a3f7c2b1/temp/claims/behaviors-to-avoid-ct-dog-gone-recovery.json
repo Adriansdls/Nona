@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Yelling a dog's name and chasing a lost dog causes it to run in the opposite direction, especially when the disappearance was fear-triggered.",
+    "stance": "supports",
+    "stance_target": "never-chase rule for lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Fear-based disappearances; particularly dogs already in 'survival mode'",
+    "quoted_support": "Many dogs become terrified and go into a 'survival' mode when they go missing. This is especially true if they went missing because they were frightened by something. Therefore, when people yell out or call for their dog, or chase after a dog more often than not, will cause the dog to run in the other direction.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers", "CTDGRV"],
+    "time_period": null,
+    "region": "Connecticut, USA",
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "The first few hours after a dog goes missing are the best opportunity window to locate the dog or find witnesses.",
+    "stance": "supports",
+    "stance_target": "critical early action in lost dog recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "General lost dog recovery",
+    "quoted_support": "it is important to understand the first few hours when a dog goes missing is the best opportune time to be able to locate the dog, or to find someone who may have seen the dog.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "Publicly posting sighting locations on Facebook causes well-meaning people to flood the area calling the dog's name, which pushes the dog further away from its known location.",
+    "stance": "supports",
+    "stance_target": "sighting information must be kept private and channeled only to the search coordinator",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Active sighting management phase",
+    "quoted_support": "Many times people who think they are being 'helpful' may flood the area looking for this missing dog, often calling out the name, unaware that they could actually be scaring the dog even more, and more than likely pushing the dog out of the area.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers", "Facebook"],
+    "time_period": null,
+    "region": null,
+    "confidence": "high",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "Small paper flyers are ineffective for lost dog recovery because they are not readable by people driving past; large neon-colored posters at strategic locations significantly increase recovery chances.",
+    "stance": "supports",
+    "stance_target": "large neon poster strategy over standard flyers",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Urban and suburban search areas",
+    "quoted_support": "Creating effective extra large brightly colored posters that are placed in strategic locations can significantly increase the chance of recovering lost dogs. DGR does NOT recommend using small flyers as posters. The majority of these flyers are not readable by the people who drive by them.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  },
+  {
+    "claim": "Owners who give up the search prematurely based on false beliefs (theft, death, extreme distance) are a documented failure mode in lost dog recovery.",
+    "stance": "supports",
+    "stance_target": "persistence and correct belief framework in search behavior",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Recovery mindset and search duration",
+    "quoted_support": "They are discouraged and believe they will never see their dog again, that someone must have stolen their dog, the dog is miles and miles away, or that the dog is deceased. With these beliefs, they decide to stop the search all altogether.",
+    "numbers": [],
+    "entities": ["CT Dog Gone Recovery Volunteers"],
+    "time_period": null,
+    "region": null,
+    "confidence": "medium",
+    "source_note_id": "behaviors-to-avoid-ct-dog-gone-recovery"
+  }
+]

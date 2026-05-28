@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Galgos from Spanish rescue programs 'almost universally' have experienced maltreatment and neglect — the trauma baseline is not an exceptional case but the statistical norm.",
+    "stance": "supports",
+    "stance_target": "galgo trauma baseline should be treated as default prior (P≈1.0), not a case-by-case variable; all rescue galgos in Algarve should be modeled as high-trauma individuals",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgos rescued from Spain by US/international adoption organizations",
+    "quoted_support": "these dogs have almost universally seen maltreatment and neglect, these dogs may come with additional veterinary and behavioral costs.",
+    "numbers": [],
+    "entities": ["Minnesota Greyhound Rescue", "Fundacion Benjamin Mehnert", "galgo"],
+    "time_period": "contemporary",
+    "region": "Spain / US international rescue",
+    "confidence": "high",
+    "source_note_id": "what-is-a-galgo-minnesota-greyhound-rescue"
+  },
+  {
+    "claim": "Galgos require minimum 5-foot fence (preferably 6-foot) for containment — organizations enforce this as a hard adoption requirement, not a recommendation.",
+    "stance": "supports",
+    "stance_target": "galgo vertical escape capacity is high enough that 5-foot fence is the floor, not the ceiling, for containment; search area modeling must account for this",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo adoption requirements; all adoption homes in Minnesota Greyhound Rescue program",
+    "quoted_support": "We will only consider homes for our Galgos with a MINIMUM 5-foot fence (prefer 6-foot, or leashed walking only).",
+    "numbers": ["5-foot fence minimum", "6-foot preferred"],
+    "entities": ["Minnesota Greyhound Rescue", "galgo"],
+    "time_period": "contemporary",
+    "region": "US (applicable globally)",
+    "confidence": "high",
+    "source_note_id": "what-is-a-galgo-minnesota-greyhound-rescue"
+  },
+  {
+    "claim": "Up to 60,000 galgos are discarded annually in Spain, representing over 10% of all abandoned animals — confirming the scale of the trauma-baseline population that feeds Algarve rescue networks.",
+    "stance": "supports",
+    "stance_target": "galgo population in Iberian rescue system (including Algarve) has a structurally high trauma baseline due to scale of annual abandonment",
+    "evidence_type": "statistical",
+    "scope_conditions": "Spain; annual hunting season cycle",
+    "quoted_support": "Some organizations estimate the number may reach 60,000 Galgos discarded annually. Over 10% of all animals abandoned in Spain are Galgos.",
+    "numbers": ["60,000 galgos discarded annually", "over 10% of all abandoned animals in Spain"],
+    "entities": ["galgo", "Spain"],
+    "time_period": "contemporary",
+    "region": "Spain",
+    "confidence": "medium",
+    "source_note_id": "what-is-a-galgo-minnesota-greyhound-rescue"
+  }
+]

@@ -1,0 +1,235 @@
+{
+  "recommendations": [
+    {
+      "id": "rec-1",
+      "category": "remove-hr",
+      "severity": "high",
+      "rationale": "Reference articles should not use horizontal rules between H2 sections; the heading itself provides visual separation and the HR fragments scan flow.",
+      "current": "## Research Brief 02 — Nona / Red Cão Algarve Lost Dog Rescue OS\n\n---\n\n## 1. Terrain Corridor Modeling — How Dogs Move Through Landscape",
+      "recommended": "## Research Brief 02 — Nona / Red Cão Algarve Lost Dog Rescue OS\n\n## 1. Terrain Corridor Modeling — How Dogs Move Through Landscape"
+    },
+    {
+      "id": "rec-2",
+      "category": "remove-hr",
+      "severity": "high",
+      "rationale": "HR between sections 1 and 2 fragments the visual flow; H2 heading is sufficient separation.",
+      "current": "5. **Barrier mapping**: mark N125, major rivers, and dense scrub as directional constraints to narrow the search sector.\n\n---\n\n## 2. Scent Diffusion and Wind — Implications for Search and Station Placement",
+      "recommended": "5. **Barrier mapping**: mark N125, major rivers, and dense scrub as directional constraints to narrow the search sector.\n\n## 2. Scent Diffusion and Wind — Implications for Search and Station Placement"
+    },
+    {
+      "id": "rec-3",
+      "category": "remove-hr",
+      "severity": "high",
+      "rationale": "HR between sections 2 and 3 fragments visual flow; H2 heading is sufficient separation.",
+      "current": "5. **In valley terrain**: run searching dogs at night when scent pools in valley bottoms.\n\n---\n\n## 3. Water Source Gravity — Survival Convergence Behavior",
+      "recommended": "5. **In valley terrain**: run searching dogs at night when scent pools in valley bottoms.\n\n## 3. Water Source Gravity — Survival Convergence Behavior"
+    },
+    {
+      "id": "rec-4",
+      "category": "remove-hr",
+      "severity": "high",
+      "rationale": "HR between sections 3 and 4 fragments visual flow; H2 heading is sufficient separation.",
+      "current": "4. **Survival mode dogs near water**: if confirmed at a water source via camera, do NOT send searchers. Set humane trap at water source with food. Dog will return.\n\n---\n\n## 4. Vehicle Transport Inference — The Most Under-Modeled Factor",
+      "recommended": "4. **Survival mode dogs near water**: if confirmed at a water source via camera, do NOT send searchers. Set humane trap at water source with food. Dog will return.\n\n## 4. Vehicle Transport Inference — The Most Under-Modeled Factor"
+    },
+    {
+      "id": "rec-5",
+      "category": "remove-hr",
+      "severity": "high",
+      "rationale": "HR between sections 4 and 5 fragments visual flow; H2 heading is sufficient separation.",
+      "current": "5. **Alert all Algarve canis on day 1** regardless of escape location. Do not restrict to a municipal radius.\n\n---\n\n## 5. Heat, Temperature, and Activity Cycles",
+      "recommended": "5. **Alert all Algarve canis on day 1** regardless of escape location. Do not restrict to a municipal radius.\n\n## 5. Heat, Temperature, and Activity Cycles"
+    },
+    {
+      "id": "rec-6",
+      "category": "remove-hr",
+      "severity": "medium",
+      "rationale": "Final HR before the Sources block is unnecessary visual noise; an italic source list reads cleanly as a footer paragraph.",
+      "current": "6. **Breed flags**: alert owners of brachycephalic and large (>30 kg) dogs that their dogs are at heightened risk of heatstroke if they continue to move even at dawn.\n\n---\n\n*Sources:",
+      "recommended": "6. **Breed flags**: alert owners of brachycephalic and large (>30 kg) dogs that their dogs are at heightened risk of heatstroke if they continue to move even at dawn.\n\n## Sources\n\n*"
+    },
+    {
+      "id": "rec-7",
+      "category": "merge-paragraphs",
+      "severity": "medium",
+      "rationale": "Two short paragraphs both introduce the corridor-modeling framework; merging them removes a redundant pause at the top of the section.",
+      "current": "Lost dogs do not diffuse randomly from their escape point. Movement is shaped by a combination of behavioral temperament, terrain features, and a strong tendency toward the path of least resistance.\n\nThe foundational framework for lost dog movement comes from Kat Albrecht's Missing Animal Response methodology, which classifies lost dogs into three behavioral categories based on their response to strangers [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]]:",
+      "recommended": "Lost dogs do not diffuse randomly from their escape point. Movement is shaped by a combination of behavioral temperament, terrain features, and a strong tendency toward the path of least resistance. The foundational framework comes from Kat Albrecht's Missing Animal Response methodology, which classifies lost dogs into three behavioral categories based on their response to strangers [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]]:"
+    },
+    {
+      "id": "rec-8",
+      "category": "make-list",
+      "severity": "medium",
+      "rationale": "The six factors are an enumerated list embedded in prose; converting to a bullet list improves scannability and lets each factor stand alone.",
+      "current": "Six factors influence total distance traveled: Temperament, Circumstances (panic vs. wanderlust vs. opportunism), Weather, Terrain, Appearance, and Population Density [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]].",
+      "recommended": "Six factors influence total distance traveled [[lost-dog-behavior-kat-albrecht-missing-animal-response-network]]:\n\n- **Temperament**\n- **Circumstances** (panic vs. wanderlust vs. opportunism)\n- **Weather**\n- **Terrain**\n- **Appearance**\n- **Population Density**"
+    },
+    {
+      "id": "rec-9",
+      "category": "split-sentence",
+      "severity": "medium",
+      "rationale": "Sentence exceeds 250 characters with two distinct claims (study findings + interpretation); splitting at the em-dash improves readability.",
+      "current": "Albrecht's 1999 informal study of 254 cases found a striking breed-class effect: mixed-breed dogs traveled an average of 14 miles before being recovered, versus only 2 miles for purebred dogs — a 7× difference interpreted as selective Good Samaritan pickup (strangers are less likely to intervene with an unfamiliar-looking mixed breed) [[what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal]]. Toy breeds were the least likely to travel beyond 0.75 miles; pointing breeds traveled farther than retrieving breeds.",
+      "recommended": "Albrecht's 1999 informal study of 254 cases found a striking breed-class effect: mixed-breed dogs traveled an average of 14 miles before being recovered, versus only 2 miles for purebred dogs. This 7× difference is interpreted as selective Good Samaritan pickup — strangers are less likely to intervene with an unfamiliar-looking mixed breed [[what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal]]. Toy breeds were the least likely to travel beyond 0.75 miles; pointing breeds traveled farther than retrieving breeds."
+    },
+    {
+      "id": "rec-10",
+      "category": "break-paragraph",
+      "severity": "medium",
+      "rationale": "Paragraph exceeds 700 characters and contains two distinct GPS studies (Wales farm dogs and Indonesia/Guatemala urban dogs); splitting at the study boundary aids scanning.",
+      "current": "GPS telemetry studies on free-roaming domestic dogs confirm the corridor principle. A 2024 pilot study of farm dogs in Wales found that dogs spent 60–71% of their time within 25 meters of field boundaries, displaying strong edge-following behavior [[where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-farm-dogs-pm]]. A multi-country GPS study of 321 free-roaming urban and rural dogs in Indonesia and Guatemala found a consistent preference for buildings and roads over vegetation, open fields, and steep terrain — dogs are synanthropic and move along anthropogenic corridors [[habitat-selection-by-free-roaming-domestic-dogs-in-rabies-endemic-countries-in-r]].",
+      "recommended": "GPS telemetry studies on free-roaming domestic dogs confirm the corridor principle. A 2024 pilot study of farm dogs in Wales found that dogs spent 60–71% of their time within 25 meters of field boundaries, displaying strong edge-following behavior [[where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-farm-dogs-pm]].\n\nA multi-country GPS study of 321 free-roaming urban and rural dogs in Indonesia and Guatemala found a consistent preference for buildings and roads over vegetation, open fields, and steep terrain — dogs are synanthropic and move along anthropogenic corridors [[habitat-selection-by-free-roaming-domestic-dogs-in-rabies-endemic-countries-in-r]]."
+    },
+    {
+      "id": "rec-11",
+      "category": "split-sentence",
+      "severity": "low",
+      "rationale": "Sentence exceeds 200 characters with two clauses about survival mode (definition + behavioral consequence); splitting improves rhythm.",
+      "current": "Regarding survival mode: a dog that has been frightened, chased, or repeatedly failed to be caught shifts from normal behavior to a state where training, recognition, and affection are overridden by survival instincts [[understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic]]. In survival mode, the dog's priorities become food/water, shelter, and avoidance of perceived threats (including owners). This shift can occur within hours of a traumatic escape and deepens with each unsuccessful capture attempt.",
+      "recommended": "Survival mode is a discrete behavioral shift. A dog that has been frightened, chased, or repeatedly failed to be caught moves from normal behavior to a state where training, recognition, and affection are overridden by survival instincts [[understanding-survival-mode-behavior-in-lost-dogs-k9s-on-call-missing-pet-servic]]. Priorities become food/water, shelter, and avoidance of perceived threats — including owners. The shift can occur within hours of a traumatic escape and deepens with each unsuccessful capture attempt."
+    },
+    {
+      "id": "rec-12",
+      "category": "merge-paragraphs",
+      "severity": "medium",
+      "rationale": "The fence/quintas paragraph (240 chars) is a small follow-on observation to the Algarve terrain bullet list and should be merged into a single Algarve-factors summary rather than stand alone.",
+      "current": "- **Algarve is dry season in summer**: range expansion expected — equivalent to the dry-season pattern documented in GPS studies.\n\nFences on quintas and vineyards primarily redirect movement rather than stop it — gaps, gates, and corners attract dogs following edges, and these become predictable detection points.",
+      "recommended": "- **Algarve is dry season in summer**: range expansion expected — equivalent to the dry-season pattern documented in GPS studies.\n- **Fences redirect rather than stop**: gaps, gates, and corners on quintas and vineyards attract dogs following edges, making them predictable detection points."
+    },
+    {
+      "id": "rec-13",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Three short standalone paragraphs (Edge-detection, Dry season, Barriers) under Actionable Parameters cover discrete actionable items and read better as a bullet list than as fragmentary paragraphs.",
+      "current": "Edge-detection probability: place cameras and flyers at 25m intervals around fencelines, road shoulders, and irrigation channel crossings — these are where boundary-following dogs will appear [[where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-farm-dogs-pm]].\n\nDry season (July–August) range expansion: increase xenophobic/aloof radius by 20–30% versus a winter baseline.\n\nBarriers: N125 is a strong directional constraint. Assume directional movement runs parallel to it, not across unless there is a known crossing point (roundabout, pedestrian crossing, service road).",
+      "recommended": "- **Edge-detection probability**: place cameras and flyers at 25m intervals around fencelines, road shoulders, and irrigation channel crossings — these are where boundary-following dogs will appear [[where-did-my-dog-go-a-pilot-study-exploring-the-movement-ecology-of-farm-dogs-pm]].\n- **Dry season (July–August) range expansion**: increase xenophobic/aloof radius by 20–30% versus a winter baseline.\n- **Barriers**: N125 is a strong directional constraint. Assume directional movement runs parallel to it, not across unless there is a known crossing point (roundabout, pedestrian crossing, service road)."
+    },
+    {
+      "id": "rec-14",
+      "category": "split-sentence",
+      "severity": "low",
+      "rationale": "First sentence of scent diffusion is over 200 characters with four conjoined concepts; splitting eases entry into the section.",
+      "current": "Scent does not form a cone. It behaves as an irregular, wispy plume governed by buoyancy, temperature differentials, gravity, and air momentum — constantly shifting with micro-wind changes [[what-is-a-scent-cone-really-scentsabilities-nosework]]. Key mechanics:",
+      "recommended": "Scent does not form a cone. It behaves as an irregular, wispy plume governed by buoyancy, temperature differentials, gravity, and air momentum, constantly shifting with micro-wind changes [[what-is-a-scent-cone-really-scentsabilities-nosework]].\n\nKey mechanics:"
+    },
+    {
+      "id": "rec-15",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Three short Actionable Parameters sub-blocks under Scent (scent station, camera trap, humidity correction) read better as a bulleted list of discrete deployment rules.",
+      "current": "**Scent station placement**: Place owner's worn clothing UPWIND of the suspected dog location. Given Nortada direction (NNW), place the station to the north/northwest of the expected dog zone — scent carries southward toward the dog. A station placed south of the dog is useless in this regime.\n\n**Camera trap placement**: position at fenceline/corridor crossings facing the direction of approach. Given afternoon NNW wind, position cameras facing south on north-facing fence gaps. Set at 30–50 cm height for medium dogs.\n\n**Humidity correction**: in summer (RH <40%), reduce scent-radius estimates by 30–40% compared to winter baseline.",
+      "recommended": "- **Scent station placement**: place owner's worn clothing UPWIND of the suspected dog location. Given Nortada direction (NNW), place the station to the north/northwest of the expected dog zone — scent carries southward toward the dog. A station placed south of the dog is useless in this regime.\n- **Camera trap placement**: position at fenceline/corridor crossings facing the direction of approach. Given afternoon NNW wind, position cameras facing south on north-facing fence gaps. Set at 30–50 cm height for medium dogs.\n- **Humidity correction**: in summer (RH <40%), reduce scent-radius estimates by 30–40% compared to winter baseline."
+    },
+    {
+      "id": "rec-16",
+      "category": "split-sentence",
+      "severity": "low",
+      "rationale": "Levante description fuses two distinct claims (temperature behavior + scent implication); splitting clarifies the operational takeaway.",
+      "current": "**Levante** (east wind episodes): occurs several times per season; pushes temperatures past 40°C inland with no coastal relief. Scent conditions during Levante are worst possible (high T + low humidity).",
+      "recommended": "**Levante** (east wind episodes): occurs several times per season and pushes temperatures past 40°C inland with no coastal relief. Scent conditions during Levante are the worst possible — high temperature combined with low humidity."
+    },
+    {
+      "id": "rec-17",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Two short paragraphs both open Section 3 with one-sentence claims about water as a survival constraint and daily requirement; merging produces a single coherent opener.",
+      "current": "Water is the critical survival constraint for lost dogs in a hot environment.\n\nDaily water requirement: approximately 1 oz (30 ml) per pound of body weight, or ~60 ml/kg per day under normal conditions [[how-long-can-a-dog-go-without-water-denver-vets]]. A 20 kg dog needs ~1.2 liters/day; a 30 kg dog needs ~1.8 liters.\n\nIn high heat (35°C+), panting sharply increases water loss — water requirements may double or triple. A 30 kg dog in extreme summer heat requires an estimated 3.6–5.4 liters/day.",
+      "recommended": "Water is the critical survival constraint for lost dogs in a hot environment. Daily water requirement is approximately 1 oz (30 ml) per pound of body weight, or ~60 ml/kg per day under normal conditions [[how-long-can-a-dog-go-without-water-denver-vets]]: a 20 kg dog needs ~1.2 liters/day; a 30 kg dog needs ~1.8 liters. In high heat (35°C+), panting sharply increases water loss and requirements may double or triple — a 30 kg dog in extreme summer heat requires an estimated 3.6–5.4 liters/day."
+    },
+    {
+      "id": "rec-18",
+      "category": "break-paragraph",
+      "severity": "low",
+      "rationale": "The spatial memory paragraph fuses two distinct ideas (cognitive recall mechanism + practical implication for lost dogs); a sentence-level break aids scanning.",
+      "current": "Dogs use spatial memory to return to known locations [[observational-spatial-memory-in-wolves-and-dogs-plos-one]]. They reliably recall the first 3–4 previously experienced cache/water/resource locations. Beyond that, they switch to scent-based searching. A dog lost from home will attempt to return to water sources it knows from prior walks before seeking unfamiliar sources.",
+      "recommended": "Dogs use spatial memory to return to known locations [[observational-spatial-memory-in-wolves-and-dogs-plos-one]]. They reliably recall the first 3–4 previously experienced cache/water/resource locations; beyond that, they switch to scent-based searching.\n\nThe operational implication: a dog lost from home will attempt to return to water sources it knows from prior walks before seeking unfamiliar sources."
+    },
+    {
+      "id": "rec-19",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Three short standalone paragraphs (Convergence radius, Water source priority, blank) under Section 3 Actionable Parameters read better as a structured pair of bolded items.",
+      "current": "**Convergence radius**: no formal empirical study exists for the specific water-seeking convergence radius of lost dogs. Based on dehydration timelines and known movement ecology (dogs travel 2–14 miles per day when lost), a conservative estimate is that by day 3 in summer heat, a surviving dog is likely within 3–8 km of a permanent water source, having reorganized its location around it.\n\n**Water source priority ranking** (Algarve): irrigation reservoirs > golf course ponds > livestock troughs > swimming pools (high fence barriers) > dry riverbeds with residual pools.",
+      "recommended": "- **Convergence radius**: no formal empirical study exists for the specific water-seeking convergence radius of lost dogs. Based on dehydration timelines and known movement ecology (dogs travel 2–14 miles per day when lost), a conservative estimate is that by day 3 in summer heat, a surviving dog is likely within 3–8 km of a permanent water source, having reorganized its location around it.\n- **Water source priority ranking** (Algarve): irrigation reservoirs > golf course ponds > livestock troughs > swimming pools (high fence barriers) > dry riverbeds with residual pools."
+    },
+    {
+      "id": "rec-20",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Two short opening paragraphs of Section 4 build a single argument (standard assumption fails + the mechanism); merging tightens the section opener.",
+      "current": "The standard assumption — that a lost dog is near its escape point — systematically fails for a specific class of dog. A gregarious, small-to-medium, friendly-looking dog near a road is likely to be picked up by a stranger within hours.\n\nKey statistics [[frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc]] [[lost-pet-statistics-lost-pet-research-and-recovery]]:",
+      "recommended": "The standard assumption — that a lost dog is near its escape point — systematically fails for a specific class of dog. A gregarious, small-to-medium, friendly-looking dog near a road is likely to be picked up by a stranger within hours. Key statistics [[frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc]] [[lost-pet-statistics-lost-pet-research-and-recovery]]:"
+    },
+    {
+      "id": "rec-21",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Three short paragraphs after the statistics list (real-world mechanism + data gap) belong together as the interpretive close of the empirical evidence.",
+      "current": "The real-world mechanism: a Good Samaritan finds a friendly dog, decides it \"looks lost,\" and takes it home or to a vet. The dog is now 10–80 km from its escape point, reported nowhere, and invisible to any radius-based search.\n\nThere is no formal study on what exact fraction of lost dog cases involve third-party transport before the owner makes contact. This is a genuine data gap [[what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal]].",
+      "recommended": "The real-world mechanism is unforgiving: a Good Samaritan finds a friendly dog, decides it \"looks lost,\" and takes it home or to a vet. The dog is now 10–80 km from its escape point, reported nowhere, and invisible to any radius-based search. There is no formal study on what exact fraction of lost dog cases involve third-party transport before the owner makes contact — this remains a genuine data gap [[what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal]]."
+    },
+    {
+      "id": "rec-22",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Transport distance estimate and Timing-to-vet are two short follow-on data points under Actionable Parameters; bulleting them aligns with the section's formatting elsewhere.",
+      "current": "**Transport distance estimate**: local finder (Portuguese) = 5–20 km to nearest vet or canil; tourist/foreign finder = 20–80 km along N125; tourists returning home = potentially 500+ km (dog goes abroad — rare but documented in rescue network).\n\n**Timing to vet/shelter**: same-day for most finders (within 4–8 hours of pickup). Delay if finder \"keeps the dog for the night\" before reporting — can be 12–72 hours.",
+      "recommended": "- **Transport distance estimate**: local finder (Portuguese) = 5–20 km to nearest vet or canil; tourist/foreign finder = 20–80 km along N125; tourists returning home = potentially 500+ km (dog goes abroad — rare but documented in rescue network).\n- **Timing to vet/shelter**: same-day for most finders (within 4–8 hours of pickup). Delay if finder \"keeps the dog for the night\" before reporting — can be 12–72 hours."
+    },
+    {
+      "id": "rec-23",
+      "category": "split-sentence",
+      "severity": "low",
+      "rationale": "First sentence of Section 5 exceeds 160 characters and fuses two ideas (cooling mechanisms + their hard limits); splitting gives a cleaner section opener.",
+      "current": "Dogs regulate body temperature primarily through panting and limited sweat gland activity in the paw pads. This system has hard limits [[frontiers-heat-stress-in-domestic-dogs-morphological-and-environmental-risk-fact]]:",
+      "recommended": "Dogs regulate body temperature primarily through panting and limited sweat gland activity in the paw pads. This cooling system has hard physiological limits [[frontiers-heat-stress-in-domestic-dogs-morphological-and-environmental-risk-fact]]:"
+    },
+    {
+      "id": "rec-24",
+      "category": "break-paragraph",
+      "severity": "low",
+      "rationale": "Activity rhythm paragraph exceeds 500 characters and combines (1) crepuscular definition, (2) ancestral source, and (3) confirming field data; a split clarifies the logic.",
+      "current": "Activity rhythm: dogs are crepuscular, with peak activity at dawn and dusk [[crepuscular-canines-the-science-behind-your-dogs-dawn-and-dusk-zoomi-pupford]]. This is ancestral behavior from wolf hunting patterns and is reinforced by temperature regulation needs in hot climates. Field data from free-roaming dogs confirms this: early morning and late afternoon/evening peaks, with midday movement significantly reduced [[investigation-of-the-temporal-roaming-behaviour-of-free-roaming-domestic-dogs-in]].",
+      "recommended": "Activity rhythm: dogs are crepuscular, with peak activity at dawn and dusk [[crepuscular-canines-the-science-behind-your-dogs-dawn-and-dusk-zoomi-pupford]]. This is ancestral behavior from wolf hunting patterns, reinforced by temperature regulation needs in hot climates.\n\nField data from free-roaming dogs confirms this: early morning and late afternoon/evening peaks, with midday movement significantly reduced [[investigation-of-the-temporal-roaming-behaviour-of-free-roaming-domestic-dogs-in]]."
+    },
+    {
+      "id": "rec-25",
+      "category": "merge-paragraphs",
+      "severity": "low",
+      "rationale": "Two short Section 5 Actionable Parameters blocks (Activity windows + Dehydration immobility) sit together under the same table-supported sub-section; bulleting unifies them.",
+      "current": "**Activity windows (Algarve July-August)**:\n- Dawn peak: 5:30–9:00 am\n- Dusk peak: 7:30–9:30 pm\n- Dead zone: 11 am–6 pm\n\n**Dehydration immobility**: after 36–48 hours in summer heat without water, assume dog is stationary at or near a water source or shade structure. Movement probability approaches zero during midday.",
+      "recommended": "**Activity windows (Algarve July-August)**:\n\n- **Dawn peak**: 5:30–9:00 am\n- **Dusk peak**: 7:30–9:30 pm\n- **Dead zone**: 11 am–6 pm\n\n**Dehydration immobility**: after 36–48 hours in summer heat without water, assume the dog is stationary at or near a water source or shade structure. Movement probability approaches zero during midday."
+    },
+    {
+      "id": "rec-26",
+      "category": "bold-keyterms",
+      "severity": "low",
+      "rationale": "The 'Daily water requirement' lead phrase opens a quantitative claim and currently lacks the bold treatment used for similar lead phrases elsewhere; bolding aligns with section style.",
+      "current": "Daily water requirement: approximately 1 oz (30 ml) per pound of body weight, or ~60 ml/kg per day under normal conditions [[how-long-can-a-dog-go-without-water-denver-vets]].",
+      "recommended": "**Daily water requirement**: approximately 1 oz (30 ml) per pound of body weight, or ~60 ml/kg per day under normal conditions [[how-long-can-a-dog-go-without-water-denver-vets]]."
+    },
+    {
+      "id": "rec-27",
+      "category": "bold-keyterms",
+      "severity": "low",
+      "rationale": "'Activity rhythm' is the topic sentence of a paragraph in a section where similar lead labels (Daily water requirement, Convergence radius) carry bold treatment; consistency improves scannability.",
+      "current": "Activity rhythm: dogs are crepuscular, with peak activity at dawn and dusk",
+      "recommended": "**Activity rhythm**: dogs are crepuscular, with peak activity at dawn and dusk"
+    }
+  ],
+  "summary": {
+    "total_recommendations": 27,
+    "by_category": {
+      "merge-paragraphs": 9,
+      "break-paragraph": 3,
+      "make-list": 1,
+      "make-table": 0,
+      "bold-keyterms": 2,
+      "split-sentence": 6,
+      "remove-hr": 6,
+      "add-whitespace": 0
+    },
+    "highest_severity": "high",
+    "expected_net_char_delta": -180
+  }
+}

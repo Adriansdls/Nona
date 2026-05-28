@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Herding and Terrier breed groups are statistically overrepresented for behavioral medicine referrals at Cornell (1997-2017), while Toy and Sporting groups are underrepresented, suggesting population-level breed-group associations with behavioral problems.",
+    "stance": "supports",
+    "stance_target": "weak/conditional validity of breed-group priors for behavioral risk",
+    "evidence_type": "empirical",
+    "scope_conditions": "Cornell University Hospital for Animals, 1997-2017; 822 behavioral cases vs. 51,052 general hospital cases; US-specific referral population; confounded by dog size, geography, owner motivation",
+    "quoted_support": "The Herding (p=0.0124) and Terrier (p<0.0001) groups were over-represented in the behavioral medicine service as compared to all other services while Toy (p<0.0001) and Sporting (p<0.0001) groups were under-represented.",
+    "numbers": ["p=0.0124 (Herding)", "p<0.0001 (Terrier)", "p<0.0001 (Toy)", "p<0.0001 (Sporting)", "822 behavior cases", "51,052 general cases"],
+    "entities": ["Cornell University Hospital for Animals", "Katherine H Anderson", "Katherine A Houpt"],
+    "time_period": "1997-2017",
+    "region": "United States (Cornell, Ithaca NY)",
+    "confidence": "medium",
+    "source_note_id": "case-distribution-sources-and-breeds-of-dogs-presenting-to-a-veterinary-behavior"
+  },
+  {
+    "claim": "72.2% of dogs referred to veterinary behavioral medicine presented for aggression (overwhelmingly human-directed), consistent across multiple decades — aggression is the dominant behavioral problem requiring specialist referral.",
+    "stance": "neutral",
+    "stance_target": "prevalence of aggression as behavioral problem in clinical context",
+    "evidence_type": "empirical",
+    "scope_conditions": "Cornell University Hospital, 1997-2017, n=1,923 cases; US referral population; selection bias toward larger/more dangerous dogs acknowledged",
+    "quoted_support": "Over twenty years, 72.2% of dogs presented for aggression, 20.1% for anxieties/fears/phobias, and 7.4% for miscellaneous behavioral problems.",
+    "numbers": ["72.2%", "20.1%", "7.4%", "1923 cases", "20 years"],
+    "entities": ["Cornell University Hospital for Animals"],
+    "time_period": "1997-2017",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "case-distribution-sources-and-breeds-of-dogs-presenting-to-a-veterinary-behavior"
+  },
+  {
+    "claim": "Breed overrepresentation in behavioral referrals is heavily confounded by dog size and perceived bite risk — owners are more motivated to seek specialist help for large aggressive dogs than small ones, distorting breed statistics.",
+    "stance": "refutes",
+    "stance_target": "breed-specific behavioral referral statistics as unbiased signals",
+    "evidence_type": "empirical",
+    "scope_conditions": "Cornell University behavioral clinic; expert author commentary on confounders",
+    "quoted_support": "One could theorize that genetic predisposition might play a role in the incidence of behavioral problems. However, while there is certainly a genetic contribution to behavior and specific breeds might be over-represented for behavioral phenotypes, it is important to avoid placing too much emphasis on breed as a sole risk factor.",
+    "numbers": [],
+    "entities": ["Katherine H Anderson", "Katherine A Houpt"],
+    "time_period": "2022 (published)",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "case-distribution-sources-and-breeds-of-dogs-presenting-to-a-veterinary-behavior"
+  },
+  {
+    "claim": "Shelter- and rescue-acquired dogs significantly increased as a proportion of behavioral clinic referrals from 1997 to 2017, while breeder-acquired dogs decreased, indicating the rescue population is a growing behavioral medicine concern.",
+    "stance": "neutral",
+    "stance_target": "behavioral risk profile of shelter/rescue dogs vs. breeder dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Cornell University Hospital, n=1,923 over 20 years; source information available for 1,457 dogs; p<0.0001 for both trends",
+    "quoted_support": "Dogs acquired from breeders decreased and dogs from shelters, rescues, or adopted as a stray increased over twenty years (p<0.0001).",
+    "numbers": ["p<0.0001"],
+    "entities": ["Cornell University Hospital for Animals"],
+    "time_period": "1997-2017",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "case-distribution-sources-and-breeds-of-dogs-presenting-to-a-veterinary-behavior"
+  }
+]

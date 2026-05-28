@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Dogs in flight/panic mode are active primarily at dusk and dawn, hiding ('hunkering down') during daylight hours.",
+    "stance": "supports",
+    "stance_target": "dusk/dawn temporal windows as highest-probability detection and trapping periods for panicked lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applies specifically to shy, frightened, or newly-adopted dogs in active flight mode; practitioner-derived advice, not formal study",
+    "quoted_support": "Dogs tend to appear during dusk and at dawn. During the day, they may 'hunker down' and stay out of sight.",
+    "numbers": [],
+    "entities": ["PetFBI", "Julia Gomez"],
+    "time_period": "published 2015, updated 2025",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "advice-on-trapping-a-runaway-dog-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "Dogs in flight mode stabilize around areas with food, water, and shelter, and will not wander far once those needs are locally met.",
+    "stance": "supports",
+    "stance_target": "resource availability as anchor point limiting movement radius of displaced dogs — relevant to Algarve rural search scenarios",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applies specifically to shy/frightened dogs in flight mode (not friendly wandering dogs); practitioner-derived",
+    "quoted_support": "Dogs will stay in areas where there is food and water, shelter and safety. If they feel that those needs are met, then they won't wander far from that location.",
+    "numbers": [],
+    "entities": ["PetFBI"],
+    "time_period": "2015/2025",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "advice-on-trapping-a-runaway-dog-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "Newly-adopted dogs that escape before bonding with their new territory present the highest flight risk and are hardest to lure back — humane trapping is often necessary.",
+    "stance": "supports",
+    "stance_target": "bond-formation status as a behavioral prior affecting displacement radius and recapture difficulty",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Practitioner observation, PetFBI; not a controlled study",
+    "quoted_support": "Newly adopted dogs pose a special problem because they have not yet bonded with their new family or their new territory. It may be necessary to use a humane trap to recover such dogs.",
+    "numbers": [],
+    "entities": ["PetFBI"],
+    "time_period": "2015/2025",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "advice-on-trapping-a-runaway-dog-pet-fbi-pets-found-by-internet"
+  },
+  {
+    "claim": "Creating a regular feeding station in the area of sightings anchors a displaced dog to a location and enables trapping; trap timelines range from one night to several weeks.",
+    "stance": "supports",
+    "stance_target": "feeding station deployment as a phase-2 (stabilization) intervention for displaced dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Practitioner advice; no controlled study cited",
+    "quoted_support": "When there is a sighting in an area, it's important to get high value food and water (like chicken nuggets, plain cheeseburgers, Vienna sausage, hot dogs) out in that area to keep dog well fed and to keep them from roaming.",
+    "numbers": [],
+    "entities": ["PetFBI"],
+    "time_period": "2015/2025",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "advice-on-trapping-a-runaway-dog-pet-fbi-pets-found-by-internet"
+  }
+]

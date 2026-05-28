@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Swift action combined with broad community networking maximizes recovery odds for lost pets — immediate outreach to animal control, shelters, vet hospitals, and social media within hours of loss is recommended.",
+    "stance": "supports",
+    "stance_target": "Early and broad broadcasting of lost pet alerts increases the probability of receiving sighting information",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs and cats, US",
+    "quoted_support": "Swift action, coupled with major neighborhood networking, will increase the odds of having your furry friend back in your arms. The key is to get the word out to as many people in as many places as possible.",
+    "numbers": [],
+    "entities": ["ASPCA"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "finding-a-lost-pet-aspca"
+  },
+  {
+    "claim": "Children are more observant than adults when it comes to animals — posting flyers at eye level near schools is recommended as an effective sighting-generation strategy.",
+    "stance": "supports",
+    "stance_target": "Observer characteristics (age, attention patterns) affect sighting generation probability",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost pet recovery, US communities",
+    "quoted_support": "Put up flyers around schools or at kids'-eye level. Children can be more observant than adults, especially when it comes to animals.",
+    "numbers": [],
+    "entities": ["ASPCA"],
+    "time_period": "current",
+    "region": "US",
+    "confidence": "low",
+    "source_note_id": "finding-a-lost-pet-aspca"
+  }
+]

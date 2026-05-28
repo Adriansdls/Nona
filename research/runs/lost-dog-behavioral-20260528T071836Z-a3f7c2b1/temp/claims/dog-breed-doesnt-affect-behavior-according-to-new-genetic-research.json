@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Breed explains only 9% of the variation in individual dog behavior across 18,385 dogs studied via GWAS and owner surveys.",
+    "stance": "refutes",
+    "stance_target": "breed-based behavioral prediction as a reliable method for individual dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "2,155 genome-sequenced dogs + 18,385 surveyed; 78 breeds via Darwin's Ark database; published Science 2022",
+    "quoted_support": "They found breed explains only about 9 percent of the variation in an individual dogs' behavior. 'It's a major advance in how we think about dog behavior. No breed owns any particular trait.'",
+    "numbers": ["9%", "18,385", "2,155", "78 breeds"],
+    "entities": ["Morrill K", "Elinor Karlsson", "UMass Chan Medical School", "Broad Institute", "Darwin's Ark", "Elaine Ostrander", "Marc Bekoff"],
+    "time_period": "Published April 28, 2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-breed-doesnt-affect-behavior-according-to-new-genetic-research"
+  },
+  {
+    "claim": "Some behavioral tendencies correlate with breed at the population level (Border collies more responsive to direction; German shorthaired pointers more likely to point), but these are probabilistic nudges, not destinies.",
+    "stance": "neutral",
+    "stance_target": "partial validity of breed priors at population level",
+    "evidence_type": "empirical",
+    "scope_conditions": "Morrill et al. 2022 GWAS study; behavioral traits assessed via owner surveys",
+    "quoted_support": "'Genetics matter, but genetics are a nudge in a given direction. They're not a destiny,' Evan MacLean, director of the Arizona Canine Cognition Center, tells NPR.",
+    "numbers": ["9%"],
+    "entities": ["Evan MacLean", "Arizona Canine Cognition Center", "Kathryn Lord"],
+    "time_period": "2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-breed-doesnt-affect-behavior-according-to-new-genetic-research"
+  },
+  {
+    "claim": "No behavioral trait was present in all dogs of a breed or absent from all dogs of a breed in the Morrill et al. 2022 study.",
+    "stance": "refutes",
+    "stance_target": "breed-specific behavioral determinism",
+    "evidence_type": "empirical",
+    "scope_conditions": "18,385 owner surveys + genome sequencing; Darwin's Ark data",
+    "quoted_support": "Researchers found no behavioral trait was present in all dogs in a breed or missing from all of them either.",
+    "numbers": [],
+    "entities": ["Morrill K", "Broad Institute", "Darwin's Ark"],
+    "time_period": "2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-breed-doesnt-affect-behavior-according-to-new-genetic-research"
+  }
+]

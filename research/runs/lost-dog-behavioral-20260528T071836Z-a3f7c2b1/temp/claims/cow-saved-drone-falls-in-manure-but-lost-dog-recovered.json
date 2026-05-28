@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "AI-generated fake photos of lost dogs at vet offices are being used by scammers to extort payment from desperate pet owners — a documented risk in the lost pet industry requiring owner verification protocols.",
+    "stance": "supports",
+    "stance_target": "sighting verification protocol — fake sighting reports as an operational risk in lost pet recovery",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Lost dog cases in the United States; documented case May 2026",
+    "quoted_support": "Someone used AI to generate a fake photo of Posty lying on a table at a vet's office. Desperate and hopeful, Kurt paid their asking price and rushed there… only to find out Posty had never been there at all.",
+    "numbers": [],
+    "entities": ["Chesapeake Thermal Drone Recovery", "Kat Albrecht"],
+    "time_period": "May 2026",
+    "region": "Pennsylvania/West Virginia, United States",
+    "confidence": "high",
+    "source_note_id": "cow-saved-drone-falls-in-manure-but-lost-dog-recovered"
+  },
+  {
+    "claim": "Scent trail setup for food stations uses liquid smoke, BBQ sauce, and hot dogs — confirmed as standard MAR-network practice across multiple independent recovery teams.",
+    "stance": "supports",
+    "stance_target": "scent station protocol for lost dog food lure — specific compound combination",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Used by local volunteer trapper (Carole) in Pennsylvania case, May 2026",
+    "quoted_support": "Local volunteer and trapper Carole joined the effort, setting trail cameras and creating an irresistible scent trail of liquid smoke, BBQ sauce, and hot dogs.",
+    "numbers": [],
+    "entities": ["Chesapeake Thermal Drone Recovery"],
+    "time_period": "May 2026",
+    "region": "Pennsylvania, United States",
+    "confidence": "high",
+    "source_note_id": "cow-saved-drone-falls-in-manure-but-lost-dog-recovered"
+  },
+  {
+    "claim": "Final recovery of a lost dog was achieved via a neighbor tip rather than thermal drone or trail camera — human social network remains the primary recovery mechanism even in high-tech searches.",
+    "stance": "supports",
+    "stance_target": "human social network vs. technology as primary recovery mechanism",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Single case; Golden Retriever, multi-state escape; Amish community and neighbor network involved",
+    "quoted_support": "Flyers went up everywhere, the Amish community was alerted, neighbors spread the word, and an incredible network of people came together to help bring Posty home.",
+    "numbers": [],
+    "entities": ["Chesapeake Thermal Drone Recovery", "Jim Thompson"],
+    "time_period": "May 2026",
+    "region": "Pennsylvania, United States",
+    "confidence": "medium",
+    "source_note_id": "cow-saved-drone-falls-in-manure-but-lost-dog-recovered"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "63% of all stray dogs received by Dallas Animal Services came from just 7 zip codes, enabling geographically targeted reunification programs.",
+    "stance": "supports",
+    "stance_target": "geographic concentration of strays as basis for targeted outreach and search radius prioritization",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dallas Animal Services, fiscal year 2019; Kremer 2021; n=30,609 dogs",
+    "quoted_support": "63% of the stray dogs DAS took in came from seven zip codes. Seventy percent of the stray dogs were found less than one mile from their homes. Forty-two percent were less than 400 feet from their homes.",
+    "numbers": ["63%", "7 zip codes", "70%", "42%", "400 feet"],
+    "entities": ["Dallas Animal Services", "HASS", "Kremer 2021"],
+    "time_period": "Fiscal year 2019 (Oct 2018-Sep 2019)",
+    "region": "Dallas, Texas, USA",
+    "confidence": "high",
+    "source_note_id": "new-study-most-lost-dogs-are-found-less-than-a-mile-from-their-homes-hass"
+  },
+  {
+    "claim": "Over 90% of dogs who were returned to their owners completed the reunion in less than 5 days — DAS's hold period revision was data-confirmed.",
+    "stance": "supports",
+    "stance_target": "5-day temporal window as the critical intervention threshold; search effort should be maximum-intensity in first 5 days",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dallas Animal Services, fiscal year 2019; Kremer 2021 Shelter RTOs",
+    "quoted_support": "Over 90% of the dogs who got home to their families, did so in less than five days.",
+    "numbers": ["90%", "5 days"],
+    "entities": ["Dallas Animal Services", "HASS"],
+    "time_period": "Fiscal year 2019",
+    "region": "Dallas, Texas, USA",
+    "confidence": "high",
+    "source_note_id": "new-study-most-lost-dogs-are-found-less-than-a-mile-from-their-homes-hass"
+  }
+]

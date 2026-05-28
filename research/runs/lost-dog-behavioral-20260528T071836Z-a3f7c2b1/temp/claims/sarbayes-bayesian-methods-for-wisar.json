@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "SARBayes MapScore framework evaluates probability maps of lost person location against historical searches; the ISRID Distance Ring model scored 0.78 (95%CI: 0.74-0.82, n=376 cases), while a Combined Distance+Watershed model scored 0.81 (95%CI: 0.77-0.84).",
+    "stance": "supports",
+    "stance_target": "Bayesian probability maps can be validated empirically against historical SAR data",
+    "evidence_type": "empirical",
+    "scope_conditions": "Wilderness SAR (WiSAR), human lost persons, ISRID database",
+    "quoted_support": "On a metric where random maps score 0 and perfect maps score 1, the ISRID Distance Ring model scored 0.78 (95%CI: 0.74-0.82, on 376 cases). The Combined model was slightly better at .81 (95%CI: 0.77-0.84).",
+    "numbers": ["0.78", "0.81", "376 cases", "95%CI: 0.74-0.82", "95%CI: 0.77-0.84"],
+    "entities": ["SARBayes", "ISRID", "MapScore"],
+    "time_period": "2014-2016",
+    "region": "wilderness SAR globally",
+    "confidence": "high",
+    "source_note_id": "sarbayes-bayesian-methods-for-wisar"
+  },
+  {
+    "claim": "Lost person spatial distribution in WiSAR follows a lognormal distance model fit to ISRID Euclidean distance data by subject category, enabling a prior probability distribution for location.",
+    "stance": "supports",
+    "stance_target": "Formal prior distributions over lost subject location can be derived from historical incident databases",
+    "evidence_type": "statistical",
+    "scope_conditions": "Wilderness SAR, human lost persons, ISRID subject categories",
+    "quoted_support": "Examining the Euclidean Distance data for different categories, it was found that a lognormal curve roughly captured the shape of the data. The Log-Normal (LN) is a two parameter distribution which assumes that the logarithm of your data follows a normal distribution.",
+    "numbers": [],
+    "entities": ["SARBayes", "ISRID", "lognormal distance model"],
+    "time_period": "2013-2016",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sarbayes-bayesian-methods-for-wisar"
+  },
+  {
+    "claim": "Sava, Twardy, Koester, and Sonwalkar (2016) published 'Evaluating Lost Person Behavior Models' in Transactions in GIS, providing a peer-reviewed methodology for validating behavioral prediction models against ISRID data.",
+    "stance": "supports",
+    "stance_target": "Formal published framework exists for evaluating lost person behavioral models using historical SAR data",
+    "evidence_type": "empirical",
+    "scope_conditions": "Wilderness SAR, published peer-reviewed",
+    "quoted_support": "Sava, E., Twardy, C., Koester, R., & Sonwalkar, M. (2016). Evaluating Lost Person Behavior Models. Transactions in GIS, 20(1), 38–53. http://doi.org/10.1111/tgis.12143",
+    "numbers": ["20(1)", "38-53"],
+    "entities": ["Sava", "Twardy", "Koester", "Sonwalkar", "Transactions in GIS", "ISRID"],
+    "time_period": "2016",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sarbayes-bayesian-methods-for-wisar"
+  },
+  {
+    "claim": "SAR incident time follows a von Mises distribution (circular distribution) centered near 5:30pm, indicating time-of-day patterns in lost person behavior that can inform search scheduling.",
+    "stance": "supports",
+    "stance_target": "Temporal patterns in lost subject activity can be modeled statistically to improve search timing",
+    "evidence_type": "statistical",
+    "scope_conditions": "ISRID data, wilderness SAR, human lost persons",
+    "quoted_support": "Incident times follow a von Mises distribution centered near 5:30pm.",
+    "numbers": ["5:30pm"],
+    "entities": ["SARBayes", "ISRID", "von Mises distribution"],
+    "time_period": "2013-2016",
+    "region": "global",
+    "confidence": "medium",
+    "source_note_id": "sarbayes-bayesian-methods-for-wisar"
+  },
+  {
+    "claim": "Watershed boundaries provide a superior spatial prior to Euclidean distance rings for WiSAR probability maps because they reflect actual terrain barriers to travel, though the combined model outperforms either alone.",
+    "stance": "supports",
+    "stance_target": "Terrain-aware spatial models improve sighting-to-position inference over simple distance-ring models",
+    "evidence_type": "empirical",
+    "scope_conditions": "Wilderness SAR, human lost persons",
+    "quoted_support": "Watershed boundaries follow high terrain and may better reflect actual barriers to travel. We also created a third model using the joint distribution using Euclidean and watershed features.",
+    "numbers": ["0.61 (watershed alone)", "0.81 (combined)"],
+    "entities": ["SARBayes", "ISRID", "Doke 2012 watershed model"],
+    "time_period": "2014-2016",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "sarbayes-bayesian-methods-for-wisar"
+  }
+]

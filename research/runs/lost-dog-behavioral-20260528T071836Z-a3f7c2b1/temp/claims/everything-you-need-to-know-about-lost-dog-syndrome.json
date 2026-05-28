@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Friendly dogs tend to remain close to home when lost while fearful/aloof dogs travel further; but friendly dogs are more likely to be self-adopted by strangers before the owner locates them.",
+    "stance": "supports",
+    "stance_target": "temperament effect on both distance traveled and self-adoption risk",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "general lost dog population; based on practitioner synthesis",
+    "quoted_support": "Friendly dogs tend to remain close to home while aloof and fearful pups may travel further away from their residence. That said, a friendly dog is more likely to end up in the hands of a stranger than a more aloof one who tends to avoid contact with people.",
+    "numbers": [],
+    "entities": ["DogTime", "Vishnu Warrier"],
+    "time_period": "February 2024",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "everything-you-need-to-know-about-lost-dog-syndrome"
+  },
+  {
+    "claim": "Dogs that bolted due to fireworks or thunderstorms travel substantially farther than dogs that escaped by scent-chasing, because fear-triggered flight is panic-driven rather than goal-directed.",
+    "stance": "supports",
+    "stance_target": "escape trigger as predictor of distance traveled and search radius",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs lost in varied circumstances; firework/thunder vs. scent pursuit scenarios",
+    "quoted_support": "If the pup went missing while trying to chase a scent, then they may not have traveled a lot of distance. However, if the dog ran away due to fireworks or a thunderstorm, they may end up at a place quite far away from home. This is because the noise of fireworks or thunderstorms can trigger anxiety and fear in them, causing them to flee as a fear response mechanism.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "February 2024",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "everything-you-need-to-know-about-lost-dog-syndrome"
+  },
+  {
+    "claim": "After returning home from being lost, dogs should not receive forced physical contact as they may need time to reestablish trust — confusion and non-compliance with commands is expected temporarily.",
+    "stance": "supports",
+    "stance_target": "post-recovery behavioral adjustment period for returned lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs returned after extended absence (days to weeks)",
+    "quoted_support": "It's possible they may need some time to process their emotions and trust their owners again. So, make sure you don't forcefully hug or initiate physical contact if your dog feels uncomfortable.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "February 2024",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "everything-you-need-to-know-about-lost-dog-syndrome"
+  }
+]

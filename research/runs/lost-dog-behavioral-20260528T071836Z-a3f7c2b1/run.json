@@ -1,0 +1,19 @@
+{
+  "run_id": "lost-dog-behavioral-20260528T071836Z-a3f7c2b1",
+  "vault_tag": "lost-dog-behavioral",
+  "created": "2026-05-28T07:18:36Z",
+  "status": "running",
+  "current_step": 4,
+  "artifact_dir": "research/runs/lost-dog-behavioral-20260528T071836Z-a3f7c2b1",
+  "temp_dir": "research/runs/lost-dog-behavioral-20260528T071836Z-a3f7c2b1/temp",
+  "claims_dir": "research/runs/lost-dog-behavioral-20260528T071836Z-a3f7c2b1/temp/claims",
+  "query_file_path": "research/runs/lost-dog-behavioral-20260528T071836Z-a3f7c2b1/query.md",
+  "final_report_path": "research/notes/final_report_lost-dog-behavioral.md",
+  "pipeline_tier": "full",
+  "modality": "collect",
+  "response_format": "structured",
+  "citation_style": "wikilink",
+  "notes_in_vault": 91,
+  "loci_count": 6,
+  "user_instruction": "DO NOT DELETE ANY ARTIFACTS"
+}

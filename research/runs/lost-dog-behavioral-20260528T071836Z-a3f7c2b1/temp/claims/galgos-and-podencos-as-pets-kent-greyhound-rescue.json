@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Galgos are behaviorally more similar to greyhounds (laid back, lazy) while podencos are more similar to lurchers (energetic, active, playful) — the two breeds have distinctly different behavioral profiles despite sharing similar trauma and abandonment contexts.",
+    "stance": "supports",
+    "stance_target": "galgo and podenco require different behavioral priors in the lost dog model — galgo defaults to lower arousal/higher freeze, podenco to higher arousal/more active movement",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Spanish sighthounds; rescue and adoption context; Kent Greyhound Rescue field experience",
+    "quoted_support": "In general galgos tend to be more greyhound like (laid back and lazy) and podencos more lurcher like (full of fun for the more active family).",
+    "numbers": [],
+    "entities": ["galgo", "podenco", "Kent Greyhound Rescue"],
+    "time_period": "contemporary",
+    "region": "Spain / UK",
+    "confidence": "high",
+    "source_note_id": "galgos-and-podencos-as-pets-kent-greyhound-rescue"
+  },
+  {
+    "claim": "Both galgos and podencos can cohabit with cats when introduced correctly, but behavioral assessment is difficult for dogs coming directly from a pound or hunter — meaning behavioral profiling at rescue intake is inherently uncertain.",
+    "stance": "supports",
+    "stance_target": "galgo/podenco behavioral data from hunting/rescue backgrounds has high uncertainty at intake; probabilistic priors must carry wide confidence intervals",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo and podenco from non-home environments (shelter, hunter direct)",
+    "quoted_support": "It is really difficult to assess dogs to live with young children when they have come from a non home environment, for example the dog pound or direct from a hunter.",
+    "numbers": [],
+    "entities": ["galgo", "podenco", "Kent Greyhound Rescue"],
+    "time_period": "contemporary",
+    "region": "Spain / UK",
+    "confidence": "high",
+    "source_note_id": "galgos-and-podencos-as-pets-kent-greyhound-rescue"
+  }
+]

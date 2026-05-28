@@ -1,0 +1,236 @@
+{
+  "analyst_id": "a",
+  "loci": [
+    {
+      "name": "breed-prior-validity-individual-vs-population",
+      "flavor": "dialectical",
+      "one_line": "Does breed predict evasion/flight behavior well enough to use as a prior in Nona's intake scoring, or does Morrill 2022 invalidate breed-based priors at the individual level?",
+      "rationale": "This is the load-bearing design question for Nona's intake form. Morrill 2022 (source: ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc) establishes that agonistic threshold — the exact trait that governs whether a lost dog will flee from rescuers — is the LEAST breed-predictable behavioral factor (breed 'almost uninformative', 9% individual variance). Yet Normando 2024 (source: prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from) shows galgos have significantly higher stranger-fear than other rescue dogs at the population level (p=0.009, n=410). The fight is genuine because the two findings operate at different analytical levels (individual vs. population mean) and the resolution has direct design consequences: Nona should encode breed as a weak population-level prior, not a strong individual classifier. The depth-investigator needs to find: (a) the exact ges/h² values for agonistic threshold from Morrill's supplement, (b) the C-BARQ galgo baseline for stranger-fear as a calibrated probability, and (c) any breed-outcome studies (even informal) that test whether breed assignment improves or degrades recovery probability prediction.",
+      "corpus_evidence": [
+        "ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc",
+        "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+        "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+        "breed-is-not-a-good-predictor-of-individual-dog-behavior-study-finds",
+        "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+      ],
+      "opposing_positions": [
+        {
+          "position": "Breed is almost uninformative for agonistic threshold (fear/reactivity) at the individual level. Morrill 2022 (Science, n=18,385) shows breed explains only 9% of individual behavioral variance overall, and agonistic threshold is specifically the least breed-predictable trait. No breed-exclusive behavioral variant exists. The 67.2% within-1-SD overlap across breeds means individual breed assignment yields poor predictive resolution.",
+          "sources": [
+            "ancestry-inclusive-dog-genomics-challenges-popular-breed-stereotypes-pmc",
+            "breed-is-not-a-good-predictor-of-individual-dog-behavior-study-finds",
+            "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+          ]
+        },
+        {
+          "position": "Breed-group means on specific fear/evasion traits differ significantly and provide valid weak population-level priors. Normando 2024 (n=410, p=0.009) shows galgo rescue dogs have significantly elevated stranger-fear versus non-galgo rescue dogs. Normando 2025 (n=768) shows sighthound predatory drive differs significantly by breed subtype (p<0.001). Albrecht 1999 shows mixed-breed dogs average 14 miles traveled vs. purebred 2 miles (7x). Population-level priors are valid even when individual prediction is noisy.",
+          "sources": [
+            "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+            "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+            "what-we-need-to-learn-about-missing-dogs-iaabc-foundation-journal"
+          ]
+        }
+      ],
+      "suggested_starting_urls": [
+        "https://www.science.org/doi/10.1126/science.abk0639",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8892677/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC10977601/"
+      ],
+      "suggested_searches": [
+        "Morrill 2022 agonistic threshold heritability supplement table",
+        "C-BARQ galgo stranger fear scores calibrated probability",
+        "breed outcome study lost dog recovery rate galgo greyhound sighthound",
+        "dog breed behavioral prediction individual vs population prior Bayesian"
+      ]
+    },
+    {
+      "name": "galgo-vs-greyhound-trauma-baseline-transfer",
+      "flavor": "dialectical",
+      "one_line": "Can English greyhound chase and freeze-flight research (including OR=8.34 last-known-location fixation) transfer directly to galgo behavioral priors, or does galgo's trauma baseline invalidate the transfer?",
+      "rationale": "The corpus uses the greyhound chase PMC study (effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc, OR=8.34) as the primary quantitative anchor for predicting where a triggered galgo will stop after a chase. This transfer is load-bearing for Nona's search-radius model in Algarve rabbit habitat. But Normando 2024 (prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from, p=0.009) establishes that rescue galgos have a significantly elevated stranger-fear baseline versus English racing greyhounds — which were professionally handled from birth, not semi-feral working dogs abandoned en masse. The fight is genuine: the chase/predatory-fixation behavior (OR=8.34) likely transfers because it's driven by appetitive predatory mechanics; but the fear/approach-avoidance behavior does not transfer because the trauma history is fundamentally different. The depth-investigator needs to find: (a) any direct galgo field behavior studies in Iberian context, (b) English greyhound vs. galgo comparative fear-of-strangers data, (c) whether the freeze-at-last-known-location behavior is documented in galgos specifically.",
+      "corpus_evidence": [
+        "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc",
+        "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+        "galgo-espaol-animal-corner",
+        "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+        "sos-galgos-adopt-a-survivor"
+      ],
+      "opposing_positions": [
+        {
+          "position": "Galgos and English greyhounds share the same sighthound predatory motor sequence (chase-fixation on last-known-location, OR=8.34 for last-known-location fixation, appetitive self-reinforcing chase). Greyhound research provides valid priors for galgo chase displacement, prey-triggered flight direction, and post-chase location. Modern galgos are partially interbred with Irish greyhounds. Normando 2025 clusters diverse sighthounds similarly on predatory drive dimensions.",
+          "sources": [
+            "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc",
+            "behavioural-characteristics-of-sighthounds-an-exploratory-investigation-dog-beha",
+            "galgos-galgo-rescue-international-network"
+          ]
+        },
+        {
+          "position": "Rescue galgos have a systematically different trauma baseline from racing greyhounds. Normando 2024 (p=0.009, n=410) shows galgo stranger-fear significantly exceeds non-galgo rescue dogs. Galgos 'almost universally' experienced maltreatment; microchips are cut out by hunters; they are abandoned en masse at end of hunting season. Racing greyhounds were professionally socialized from birth. The freeze-to-corner and human-avoidance behavior documented in galgo rescue intake is not documented for English greyhounds at equivalent severity. The trauma-fear layer modifies predatory behavior expression and recovery timeline in galgo-specific ways not captured by greyhound research.",
+          "sources": [
+            "prevalence-of-some-behavioural-problems-in-two-groups-of-rescue-dogs-galgos-from",
+            "sos-galgos-adopt-a-survivor",
+            "galgo-espaol-animal-corner",
+            "what-is-a-galgo-galgos-del-sol"
+          ]
+        }
+      ],
+      "suggested_starting_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/?term=galgo+espa%C3%B1ol+behavior",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7760772/",
+        "https://www.dogbehavior.it/wp-content/uploads/2024/04/Normando-et-al-2024-Galgos.pdf",
+        "https://www.sos-galgos.org/en/"
+      ],
+      "suggested_searches": [
+        "galgo espanol behavior lost field study Iberian Peninsula",
+        "galgo vs greyhound fear strangers comparative study",
+        "galgo running behavior prey drive hunt distance",
+        "trauma effects predatory motor sequence sighthound",
+        "greyhound last known location fixation prey loss field observation"
+      ]
+    },
+    {
+      "name": "dog-phase-thresholds-empirical-anchor",
+      "flavor": "convergent",
+      "one_line": "What are the empirically-calibrated hour and day thresholds for behavioral phase transitions in lost dogs (not cats), and what percentage of dogs are found in each phase?",
+      "rationale": "The corpus explicitly flags this as its most critical knowledge gap. Coverage-gaps.md (SQ2, SQ5) states: 'No empirical dog-specific threshold data published. Only practitioner heuristics (0-24h/24h-7d). Huang 2018 cat data available as proxy.' The Huang 2018 source analysis (search-methods-used-to-locate-missing-cats-search-methods-locations) provides the only quantitative temporal curve: 34% found alive by day 7, 50% by day 30, 56% by day 61 — but this is for cats, with explicit caveats about transfer. The width corpus has no dog-equivalent temporal study despite citing Lord 2007 repeatedly. Nona's temporal scenario evolution requires specific hour/day thresholds (e.g., 0-4h acute flight, 4-24h transition, 24h+ survival mode) to drive phase-appropriate recommendations. Finding even a single peer-reviewed dog-specific temporal study would change the quantitative scaffolding of the entire engine. The depth-investigator should seek: Lord 2007 full text (paywalled), any shelter-based temporal study of lost dog recovery decay curves, and any phase-threshold framework with citation-backed numbers.",
+      "corpus_evidence": [
+        "search-methods-used-to-locate-missing-cats-search-methods-locations",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+        "lost-pet-statistics-lost-pet-research-and-recovery",
+        "frontiers-a-new-web-based-tool-for-rto-focused-animal-shelter-data-analysis"
+      ],
+      "suggested_starting_urls": [
+        "https://avmajournals.avma.org/doi/10.2460/javma.2007.230.1703",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6054297/",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=lost+dog+recovery+time+days+behavior",
+        "https://missinganimalresponse.com/lost-dog-behavior/",
+        "https://www.animalsheltering.org/page/pet-recovery"
+      ],
+      "suggested_searches": [
+        "Lord 2007 JAVMA lost dog recovery time days empirical",
+        "lost dog temporal phase behavioral transition hours days empirical study",
+        "lost dog survival rate by day week recovery curve",
+        "dog missing behavior change over time day 1 vs day 7",
+        "shelter lost dog intake timeline stray hold period recovery decay"
+      ]
+    },
+    {
+      "name": "bayesian-sighting-update-lost-dog",
+      "flavor": "convergent",
+      "one_line": "How should a confirmed sighting at time T update the spatial probability distribution for a lost dog at time T+Δ, and what is the correct reliability weighting for eyewitness sightings vs. trail camera evidence?",
+      "rationale": "The corpus has the forward model (Hashimoto 2022 agent-based, source: an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness; Lin & Goodrich 2010 Bayesian WiSAR, source: a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features) but explicitly lacks the sighting update layer. The Hashimoto analysis states: 'No sighting/update mechanism in this paper. The model generates a prior spatial probability distribution from IPP but provides no framework for updating that distribution when a sighting (confirmed or unconfirmed) is received.' The width corpus covers the crowd-displacement danger (contradiction cluster: sighting-response-crowd-vs-privacy), but does not resolve how to mathematically update the position distribution from a valid sighting. This is SQ12-SQ14 from the prompt-decomposition. Nona's sighting integration module needs: (a) the Bayesian posterior update equation for a position distribution from a sighting at (x,y,t), (b) a reliability weighting scheme for different sighting types (trail camera > cellphone photo > verbal description), (c) how movement uncertainty grows between sighting time T and query time T+Δ based on breed/phase behavioral profile.",
+      "corpus_evidence": [
+        "an-agent-based-model-reveals-lost-person-behavior-based-on-data-from-wilderness",
+        "a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features",
+        "lost-dog-behavior-kat-albrecht-missing-animal-response-network",
+        "stay-out-of-the-woods-missing-animal-response-network",
+        "dog-befriends-a-fox-while-lost-in-blizzard"
+      ],
+      "suggested_starting_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/?term=SARBayes+Bayesian+search+rescue",
+        "https://www.researchgate.net/publication/220434289_A_Bayesian_Approach_to_Modeling_Lost_Person_Behaviors",
+        "https://www.dbsproductions.com/lost-person-behavior.html",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=eyewitness+accuracy+animal+sighting+reliability"
+      ],
+      "suggested_searches": [
+        "SARBayes Bayesian sighting update lost person spatial distribution",
+        "Lin Goodrich 2010 Bayesian WiSAR posterior update sighting observation",
+        "lost dog sighting reliability eyewitness camera photo comparison",
+        "Bayesian position update wildlife tracking observation uncertainty",
+        "search and rescue sighting integration probability distribution update formula"
+      ]
+    },
+    {
+      "name": "active-search-vs-passive-monitoring-conditioned-on-temperament",
+      "flavor": "dialectical",
+      "one_line": "For which temperament/phase combinations does active searching increase vs. decrease recovery probability — and does the corpus evidence support a threshold rule for Nona's recommendation engine?",
+      "rationale": "The contradiction cluster active-search-vs-passive-monitoring is high-relevance and both sides have peer-reviewed backing. Lord 2007 (lost-pet-statistics-lost-pet-research-and-recovery) shows 49% of dogs recovered by neighborhood search (highest single recovery method, Weiss 2012); MAR/Lost Dogs of America (never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america, stay-out-of-the-woods-missing-animal-response-network) document that group searching pushes panicked dogs into traffic (top 3 death causes: car, train, drowning). The fight is genuine but both sides are right for different subpopulations. The corpus gestures at the resolution (temperament + phase determines which protocol applies) but does not provide a calibrated threshold rule. Nona's recommendation engine needs a decision boundary: at what temperament score and at what elapsed time should the recommendation switch from 'active neighborhood search' to 'passive food station + trail camera'? The depth-investigator should find whether any source has quantified this threshold or whether it remains purely practitioner heuristic.",
+      "corpus_evidence": [
+        "lost-pet-statistics-lost-pet-research-and-recovery",
+        "never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america",
+        "stay-out-of-the-woods-missing-animal-response-network",
+        "dont-call-your-dog-missing-animal-response-network",
+        "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"
+      ],
+      "opposing_positions": [
+        {
+          "position": "Active searching (neighborhood canvassing, sign posting, shelter visits, calling dog's name) significantly improves recovery probability. Lord 2007 (n=187): owners more likely to recover dogs when they called animal agencies, visited, and posted signs. Weiss 2012 (n=1,015): 49% of dog recoveries attributed to neighborhood search — the single highest recovery method. Signs become particularly effective after day 7.",
+          "sources": [
+            "lost-pet-statistics-lost-pet-research-and-recovery",
+            "frequency-of-lost-dogs-and-cats-in-the-united-states-and-the-methods-used-to-loc"
+          ]
+        },
+        {
+          "position": "Active group searching triggers flight response in panicked dogs, displaces them from safe areas, and causes vehicle strikes. Lost Dogs of America documents car/train/drowning as top 3 death causes following search-party activity. Calling the dog's name becomes an adrenaline-conditioned flight cue (MAR named cases: Lucy 10-264, Lacey 10-267, KoKo). Stay Out of the Woods principle: even solo approach to a hiding area triggers fight-or-flight in a settled survival-mode dog. Active searching is contraindicated for xenophobic temperament and for any dog post 24-48h that has entered evasion mode.",
+          "sources": [
+            "never-follow-chase-or-pressure-a-lost-dog-lost-dogs-of-america",
+            "stay-out-of-the-woods-missing-animal-response-network",
+            "dont-call-your-dog-missing-animal-response-network",
+            "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+          ]
+        }
+      ],
+      "suggested_starting_urls": [
+        "https://avmajournals.avma.org/doi/10.2460/javma.2007.230.1703",
+        "https://www.missinganimalresponse.com/",
+        "https://www.lostdogsofamerica.org/",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3363745/"
+      ],
+      "suggested_searches": [
+        "Lord 2007 lost dog active search recovery method empirical",
+        "lost dog search strategy temperament passive active recovery evidence",
+        "Weiss 2012 ASPCA lost dog recovery method neighborhood search statistics",
+        "lost dog evasion mode trigger active search counterproductive evidence",
+        "xenophobic dog passive monitoring food station trail camera effectiveness"
+      ]
+    },
+    {
+      "name": "podenco-movement-pattern-scent-vs-sight-hunting",
+      "flavor": "convergent",
+      "one_line": "When a podenco runs lost in Algarve scrubland, does it move on scent trails (extended meandering, nose-down) or in sight-triggered bursts (directional sprint to visual contact point), and what search radius and terrain preference does each pattern imply?",
+      "rationale": "The corpus documents podenco as a triple-sensory hunter (sight + scent + hearing, source: prey-drive-in-podencos, about-podenco-dogs-hope-for-podencos) with Consume=8% (food lure unreliable mid-chase). But it does not resolve whether the dominant lost-dog movement pattern is scent-trail-following (which would produce a meandering trajectory following rabbit runs, staying close to established trails) or sight-triggered sprint (which would produce directional displacement to last-visual-contact point, similar to greyhound OR=8.34). This distinction changes the search area shape from a circle (random walk from IPP) to a directed lobe (prey-triggered directional displacement). The Algarve has dense rabbit warrens and maquis scrub — the terrain is maximally ambiguous for this question. The corpus gestures at this via the predatory motor sequence sources (arousal-and-predatory-motor-patterns) but does not produce a movement model. Coverage-gaps.md notes podenco-specific lost behavior as thin. This is load-bearing for Nona's search-radius and terrain-priority output for podenco cases.",
+      "corpus_evidence": [
+        "prey-drive-in-podencos",
+        "about-podenco-dogs-hope-for-podencos",
+        "podenco-dogs-agile-and-ancient-mediterranean-sighthounds",
+        "arousal-and-predatory-motor-patterns",
+        "podencos-galgo-rescue-international-network"
+      ],
+      "suggested_starting_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/?term=podenco+hunting+behavior+movement",
+        "https://www.hopeforpodencos.com/",
+        "https://pubmed.ncbi.nlm.nih.gov/?term=scent+hound+tracking+movement+GPS",
+        "https://www.sciencedirect.com/science/article/pii/S0168159123002356"
+      ],
+      "suggested_searches": [
+        "podenco hunting movement pattern GPS tracking scent vs sight",
+        "scent hound vs sighthound movement pattern lost dog displacement",
+        "beagle hound wandering scent trail lost dog radius",
+        "podenco Ibiza Canario hunting behavior field study distance",
+        "McLennan predatory motor sequence scent hound sight hound movement lost"
+      ]
+    }
+  ],
+  "skip_loci": [
+    {
+      "slug": "signage-effectiveness-timing",
+      "reason": "Contradiction cluster exists (Lord 2007 day-7 threshold vs. immediate posting) but decision-relevance is low — this is a secondary operational recommendation and the corpus already resolves it adequately. The resolution (post signs for sighting-call generation immediately; do not expect direct recovery before day 7) is already clear from existing sources. Depth investigation would not change Nona's core model."
+    },
+    {
+      "slug": "food-lure-effectiveness-timing",
+      "reason": "Medium-relevance contradiction cluster. Both sides are right for their arousal states (lure works when settled, fails mid-chase). The corpus already resolves this via the consensus claim on olfactory shutdown + McLennan arousal data. Depth investigation would add color but not change the encoding: food_lure_effectiveness ~ f(arousal_state) is already established."
+    },
+    {
+      "slug": "survival-mode-onset-predictability",
+      "reason": "Medium-relevance contradiction cluster. Resolved adequately by the existing corpus: temperament predicts PROBABILITY of onset, not timing. The Albrecht 3-category system handles this as a prior. Further depth would be repetitive of the existing Albrecht/Buddha Dog sources and would not yield a new encodable parameter."
+    },
+    {
+      "slug": "crowd-displacement-quantification",
+      "reason": "The sighting-response-crowd-vs-privacy contradiction cluster is well-resolved by the corpus (Side B wins on evidence quality — Winnie 7-mile/1-hour case, Princess fatal vehicle strike). The operational rule is clear: single coordinator only, never broadcast sighting location publicly. Depth investigation would confirm rather than change this rule. Covered under the bayesian-sighting-update locus instead."
+    },
+    {
+      "slug": "microchip-rto-mechanism",
+      "reason": "Kremer 2021 (1.82x RTO multiplier, n=13,794) is already the definitive quantitative anchor. The mechanism (identification enables reunion) and the number are established. No depth needed."
+    }
+  ]
+}

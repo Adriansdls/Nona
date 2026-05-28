@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Lost dogs, even initially friendly ones, shift into survival/flight mode over time, prioritizing food, water, shelter, and threat avoidance over social behavior.",
+    "stance": "supports",
+    "stance_target": "survival mode as universal behavioral progression in lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dogs remaining unrecovered for an extended period",
+    "quoted_support": "Lost dogs, even the friendliest dog which has been missing for a period of time, will start using their natural instincts in order to survive. When dogs begin to use their natural instincts, their behavior towards humans changes and they become focused on three things; food/water, shelter and keeping themselves safe from perceived threats, which sadly can include his/her owner/good Samaritans.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "feral-survival-or-flight-mode-what-does-that-mean-lost-dogs-of-america"
+  },
+  {
+    "claim": "Each failed capture attempt (calling, approaching, chasing) increases a lost dog's fear level and deepens its avoidance behavior, making future recovery harder.",
+    "stance": "supports",
+    "stance_target": "escalating fear conditioning as barrier to recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Survival-mode lost dogs in any environment",
+    "quoted_support": "Each time something like this happens it increases the dog's level of fear towards people. When this behavior is being exhibited the dog is said to be in feral, survival or flight mode. The dog will do whatever it needs to do to escape the threat whether that be disappearing into the woods or frantically running into traffic.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "general",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "feral-survival-or-flight-mode-what-does-that-mean-lost-dogs-of-america"
+  }
+]

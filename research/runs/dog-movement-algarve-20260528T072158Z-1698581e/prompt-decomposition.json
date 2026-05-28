@@ -1,0 +1,75 @@
+{
+  "sub_questions": [
+    "What terrain features act as movement corridors for lost dogs (roads, paths, riverbeds, fencelines, trails, field edges)?",
+    "What terrain features act as movement barriers for lost dogs (major roads, rivers, dense urban blocks, cliffs)?",
+    "Do sighthound, scent hound, and toy breed types use terrain differently when lost?",
+    "How does panic/flight mode vs survival mode affect a dog's use of terrain features?",
+    "What published models or empirical data exist on lost dog movement paths through varied terrain?",
+    "How do fences and enclosures (cattle fences, quintas, vineyards) affect lost dog movement?",
+    "Is there documented evidence that lost dogs follow water courses (rivers, irrigation channels)?",
+    "What are the basic physics of scent diffusion in outdoor environments (Gaussian plume or equivalent)?",
+    "How do wind speed and direction affect the scent cone geometry from a stationary dog?",
+    "How does terrain (valleys, hills, buildings) disrupt wind patterns and trap or concentrate scent?",
+    "What are thermal inversion effects on scent (nighttime trapping at ground level vs daytime thermal lift)?",
+    "How does humidity affect scent persistence — and how does Algarve seasonality (dry summer, wet winter) modify this?",
+    "Where should a scent station (owner's worn clothing) be placed to maximize effectiveness given prevailing wind?",
+    "Where should a camera trap be placed for best detection probability given scent and movement corridors?",
+    "What SAR dog handler guidelines exist for scent work in Mediterranean or comparable terrain?",
+    "What are Algarve and southern Portugal wind patterns by season (including Nortada in summer)?",
+    "What is the documented daily water requirement for a medium/large dog in summer heat at 35°C+?",
+    "Within what radius and time frame does a survival-mode dog converge on a water source?",
+    "What water source types (rivers, irrigation channels, troughs, pools, ponds) attract lost dogs?",
+    "Is there evidence that dogs memorize water locations from prior walks and return to them when lost?",
+    "How should water source proximity affect radius recommendations on day 3+ of a search?",
+    "Are there documented cases of lost dogs found near water sources after extended survival periods?",
+    "What fraction of lost dog cases involve unintended or intentional vehicle transport by a third party?",
+    "What dog characteristics (size, breed appearance, friendly vs frightened behavior) predict pickup likelihood?",
+    "What context characteristics (road proximity, tourist vs local zone, time of day, bystanders) predict pickup likelihood?",
+    "Are there data or patterns specific to the Algarve regarding foreign tourists or residents picking up dogs they believe are abandoned?",
+    "How far do people typically transport a found dog before stopping (taking home, dropping at nearest town, taking to vet)?",
+    "What are the most likely destinations for a picked-up dog (vet clinic, shelter, private home, secondary dump)?",
+    "How quickly do picked-up dogs end up at vets vs shelters vs private homes?",
+    "How should vehicle transport probability affect the radius for shelter and vet alerts?",
+    "At what ambient temperatures do dogs significantly reduce movement?",
+    "What documented behavioral shifts occur at high temperatures — when does a dog stop moving and seek shade?",
+    "What empirical data exists on dawn/dusk activity peaks and nocturnal vs diurnal movement in stressed dogs in warm climates?",
+    "How does heat stress change search strategy: when are sightings most likely and when should cameras be checked?",
+    "At what point does heat combined with dehydration affect a dog's ability to move at all?"
+  ],
+  "entities": [
+    {"name": "Algarve", "type": "region", "required_fields": ["terrain types", "climate", "seasonal wind patterns", "tourist context"]},
+    {"name": "N125 national road", "type": "infrastructure", "required_fields": ["barrier effect", "vehicle transport vector"]},
+    {"name": "coastal plains / eucalyptus hills / cork oak montado / agricultural quintas", "type": "terrain_categories", "required_fields": ["corridor potential", "barrier potential"]},
+    {"name": "sighthound", "type": "breed_type", "required_fields": ["terrain use pattern"]},
+    {"name": "scent hound", "type": "breed_type", "required_fields": ["terrain use pattern"]},
+    {"name": "toy breed", "type": "breed_type", "required_fields": ["terrain use pattern"]},
+    {"name": "Nortada", "type": "wind_pattern", "required_fields": ["season", "direction", "speed", "scent implications"]},
+    {"name": "Kat Albrecht / Lost Pet Research & Recovery", "type": "source", "required_fields": ["movement categories", "terrain behavior findings"]},
+    {"name": "IPMA", "type": "source", "required_fields": ["Algarve climate data"]},
+    {"name": "SAR dog handlers", "type": "practitioner_community", "required_fields": ["scent work guidelines for Mediterranean terrain"]}
+  ],
+  "required_formats": [
+    "Per sub-topic structure with 4 sub-sections each: (1) Physical/empirical principles, (2) Algarve-specific factors, (3) Actionable parameters (specific numbers, distances, time windows, probability adjustments), (4) Search strategy implications (concrete recommended actions)"
+  ],
+  "required_sections": [
+    "4 sub-sections per main topic in this order: Physical/empirical principles → Algarve-specific factors → Actionable parameters → Search strategy implications"
+  ],
+  "required_section_headings": [
+    "## 1. Terrain Corridor Modeling — How Dogs Move Through Landscape",
+    "## 2. Scent Diffusion and Wind — Implications for Search and Station Placement",
+    "## 3. Water Source Gravity — Survival Convergence Behavior",
+    "## 4. Vehicle Transport Inference — The Most Under-Modeled Factor",
+    "## 5. Heat, Temperature, and Activity Cycles"
+  ],
+  "time_horizons": ["present-state empirical findings", "applicable to 2024-2026 rescue operations"],
+  "time_periods": [],
+  "scope_conditions": [
+    "Algarve, Portugal geography and climate specifically",
+    "Lost/escaped domestic dogs (not feral or wild canids)",
+    "Output must be encodable as system prompt parameters and probability model inputs",
+    "Numbers must be specific where literature allows (distances, temperatures, time windows, probability ranges)"
+  ],
+  "pipeline_tier": "light",
+  "response_format": "structured",
+  "citation_style": "wikilink"
+}

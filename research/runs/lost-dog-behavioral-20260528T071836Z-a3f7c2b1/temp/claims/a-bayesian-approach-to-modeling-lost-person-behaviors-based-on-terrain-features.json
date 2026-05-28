@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "A Bayesian model using publicly available terrain features can generate probability distribution maps for lost-person location, with expert priors updated by behavioral observation data via a first-order Markov transition matrix.",
+    "stance": "supports",
+    "stance_target": "Bayesian terrain-conditioned spatial prior as the methodological framework for lost-subject location modeling",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Lin & Goodrich 2010, BYU; Wilderness SAR (WiSAR); validated on synthetic dataset; direct application to lost dogs requires domain adaptation",
+    "quoted_support": "We propose a Bayesian model that uses publicly available terrain features data to help model lost-person behaviors. This approach enables domain experts to encode uncertainty in their prior estimations and also makes it possible to incorporate human behavior data collected in the form of posterior distributions, which are used to build a first-order Markov transition matrix for generating a temporal, posterior predictive probability distribution map.",
+    "numbers": [],
+    "entities": ["Lanny Lin", "Michael A. Goodrich", "Brigham Young University"],
+    "time_period": "2010",
+    "region": "US (wilderness context)",
+    "confidence": "high",
+    "source_note_id": "a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features"
+  },
+  {
+    "claim": "The Bayesian WiSAR framework produces a temporal, posterior predictive probability distribution map that can be updated as new search information arrives — directly analogous to sighting-based Bayesian updating for lost dog location.",
+    "stance": "supports",
+    "stance_target": "sighting integration as Bayesian posterior update in lost-dog search probability",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Lin & Goodrich 2010; designed for wilderness humans; translatable to lost animals with behavioral prior adaptation",
+    "quoted_support": "The map can work as a base to be augmented by search and rescue workers to incorporate additional information.",
+    "numbers": [],
+    "entities": ["Lanny Lin", "Goodrich"],
+    "time_period": "2010",
+    "region": "Wilderness SAR",
+    "confidence": "medium",
+    "source_note_id": "a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features"
+  },
+  {
+    "claim": "The framework is extensible to incorporate season and weather as additional factors affecting lost-subject movement probabilities.",
+    "stance": "supports",
+    "stance_target": "weather and season as Bayesian covariates in temporal lost-dog movement model",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Lin & Goodrich 2010; stated as future extension direction",
+    "quoted_support": "This model also serves as a foundation for a larger framework that allows for easy expansion to incorporate additional factors such as season and weather conditions that affect the lost-person's behaviors.",
+    "numbers": [],
+    "entities": ["Lanny Lin", "Goodrich"],
+    "time_period": "2010",
+    "region": "WiSAR",
+    "confidence": "medium",
+    "source_note_id": "a-bayesian-approach-to-modeling-lost-person-behaviors-based-on-terrain-features"
+  }
+]

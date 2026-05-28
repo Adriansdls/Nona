@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Even a single step toward a lost dog in fight-or-flight mode constitutes 'chasing' in the dog's perception, triggering flight.",
+    "stance": "supports",
+    "stance_target": "never-chase rule — operational definition of chasing for recovery protocols",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs in fight-or-flight; any forward movement toward the dog",
+    "quoted_support": "Chasing a lost dog is simply any forward movement in the direction of the dog, even as little as one step could, in the dog's mind, be considered chasing.",
+    "numbers": [],
+    "entities": ["MAR Network"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+  },
+  {
+    "claim": "A lost dog in fight-or-flight does not distinguish its owner from a predator — the owner is perceived as a threat, not a rescuer.",
+    "stance": "supports",
+    "stance_target": "fear escalation dynamics — owner recognition failure in panic mode",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs in active fight-or-flight state; recognition typically restores as cortisol drops",
+    "quoted_support": "For lost dogs it is FIGHT or FLIGHT, most will choose flight. They are going to run, they do not take the time and say to themselves you're their Mom or Dad, but to them at that moment, you are a PREDATOR.",
+    "numbers": [],
+    "entities": ["MAR Network"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+  },
+  {
+    "claim": "Chasing a lost dog moves it further from the escape/last-seen point, compounding displacement and delaying recovery.",
+    "stance": "supports",
+    "stance_target": "chase behavior as the primary cause of extended displacement from origin point",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All temperament types; effect most pronounced in fearful dogs",
+    "quoted_support": "The downside of chasing them, you are pushing them away from the location they were lost. This will further delay their return home.",
+    "numbers": [],
+    "entities": ["MAR Network"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+  },
+  {
+    "claim": "Calming signals — the term coined by Norwegian trainer Turid Rugaas — are the operationally recommended technique for approaching and recovering a lost panicked dog.",
+    "stance": "supports",
+    "stance_target": "calming signals as the primary behavioral intervention for lost dog recovery",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applied by MAR-trained individuals; derived from Turid Rugaas's ethological framework",
+    "quoted_support": "'Calming signals' is a term coined by Norwegian dog trainer Turid Rugaas to group a large number of behavior patterns that she says dogs use to avoid conflict... MAR trained individuals use calming signals to try and lure instead of chase a lost or panicked dog to safety.",
+    "numbers": [],
+    "entities": ["Turid Rugaas", "MAR Network", "Kat Albrecht"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+  },
+  {
+    "claim": "Keeping poster/social media information vague enough to require caller verification prevents well-meaning people from converging on the dog's location and pushing it further away.",
+    "stance": "supports",
+    "stance_target": "sighting management protocol — information restriction as protective measure",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Active recovery operation; applies to social media, flyers, and verbal communications",
+    "quoted_support": "Never be too specific that way when you do get sightings you can question the caller to make sure the information is legit... you also want to limit location information because some people trying to be helpful may drive to the area and scare your dog away not knowing your recovery plan.",
+    "numbers": [],
+    "entities": ["MAR Network"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "lure-lost-or-stray-dogs-do-not-chase-after-them-missing-animal-response-network"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Core home range of free-roaming domestic dogs (50% BRB kernel) ranged from 0.17 to 2.33 ha (median 0.35 ha); extended home range (95% BRB kernel) ranged 0.86-40.46 ha (median 4.48 ha) in Aboriginal communities in northern Australia.",
+    "stance": "supports",
+    "stance_target": "quantitative home range parameters for free-roaming dogs in rural settings",
+    "evidence_type": "empirical",
+    "scope_conditions": "135 free-roaming domestic dogs, 8 Aboriginal/Torres Strait Islander communities, northern Australia, Sept 2013-June 2015, 215 GPS datasets",
+    "quoted_support": "The core HR size (50% isopleth of the BRB density kernel) ranged from 0·17 to 2·33 ha with a median of 0·35 ha... The range of the extended HRs was 0·86–40·46 ha with a median of 4·48 ha.",
+    "numbers": ["0.17-2.33 ha core range", "median 0.35 ha", "0.86-40.46 ha extended range", "median 4.48 ha", "135 dogs", "215 GPS datasets"],
+    "entities": ["Dürr S", "Dhand NK", "Ward MP", "University of Bern", "University of Sydney"],
+    "time_period": "Sept 2013 - June 2015",
+    "region": "Northern Australia (Aboriginal communities, Torres Strait and Northern Territory)",
+    "confidence": "high",
+    "source_note_id": "what-influences-the-home-range-size-of-free-roaming-domestic-dogs-epidemiology-i"
+  },
+  {
+    "claim": "Non-castrated male dogs have the largest home ranges among free-roaming domestic dogs; non-castrated males roam significantly more than neutered males, and the majority of dogs do not roam beyond 250 m diameter from their owner's house.",
+    "stance": "supports",
+    "stance_target": "sex and reproductive status as primary predictors of roaming distance",
+    "evidence_type": "empirical",
+    "scope_conditions": "135 GPS-tracked dogs in northern Australia Aboriginal communities",
+    "quoted_support": "Entire males were found to have a significantly larger core HR than neutered males... The dogs spent most of their time around their owner's house and the majority of dogs did not roam further than 250 m in diameter; however, a small number of dogs roamed more extensively.",
+    "numbers": ["250 m diameter"],
+    "entities": ["Dürr S", "Ward MP"],
+    "time_period": "2013-2015",
+    "region": "Northern Australia",
+    "confidence": "high",
+    "source_note_id": "what-influences-the-home-range-size-of-free-roaming-domestic-dogs-epidemiology-i"
+  },
+  {
+    "claim": "Free-roaming dogs have significantly larger extended home ranges in the pre-wet (dry) season than in the post-wet season, with standing water during the wet season acting as a physical barrier to movement.",
+    "stance": "supports",
+    "stance_target": "dry season expanded range — directly applicable to Algarve summer conditions",
+    "evidence_type": "empirical",
+    "scope_conditions": "Free-roaming dogs in tropical/monsoonal climate (Northern Australia). The monsoonal rainy season occurs November-March; pre-wet season = September-November and September-October.",
+    "quoted_support": "The extended HR was estimated to be larger in the pre- than in the post-wet season... One explanation might be the physical nature of the wet (monsoonal) season in this environment: large areas of standing water could present a barrier to roaming. Another may be the abundance of water diminishes the need for animals to travel in search of resources.",
+    "numbers": [],
+    "entities": ["Dürr S", "Ward MP"],
+    "time_period": "2013-2015",
+    "region": "Northern Australia (monsoonal climate)",
+    "confidence": "high",
+    "source_note_id": "what-influences-the-home-range-size-of-free-roaming-domestic-dogs-epidemiology-i"
+  },
+  {
+    "claim": "Food availability and water access are hypothesized as key drivers of seasonal home range variation — scarce water and food in dry conditions force dogs to travel further to find resources.",
+    "stance": "supports",
+    "stance_target": "water source gravity as survival convergence behavior — hot/dry season intensifies water convergence",
+    "evidence_type": "theoretical",
+    "scope_conditions": "Free-roaming dogs in semi-arid and tropical climates",
+    "quoted_support": "The abundance of water diminishes the need for animals to travel in search of resources. In addition, following rains there is increased food availability (both for herbivores and carnivores) and this further reduces HR size.",
+    "numbers": [],
+    "entities": ["Dürr S", "Ward MP"],
+    "time_period": "2017",
+    "region": "Northern Australia (generalizable to hot dry climates including Algarve summer)",
+    "confidence": "medium",
+    "source_note_id": "what-influences-the-home-range-size-of-free-roaming-domestic-dogs-epidemiology-i"
+  }
+]

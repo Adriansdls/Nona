@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "93% of lost dogs and 74% of lost cats are eventually recovered, based on a nationally representative US survey of 1,015 pet-owning households.",
+    "stance": "supports",
+    "stance_target": "high recovery rates for dogs confirm that active search is worth sustained effort",
+    "evidence_type": "statistical",
+    "scope_conditions": "random-digit-dial telephone survey, September–November 2010, 1,015 US households",
+    "quoted_support": "85 percent of those lost dogs and cats were recovered; The percentage of lost dogs compared to lost cats was quite similar – 14 percent for dogs and 15 percent for cats; and Cat guardians were less likely to find their cat – only 74 percent of lost cats were recovered, while 93 percent of lost dogs were recovered.",
+    "numbers": ["93% dog recovery", "74% cat recovery", "15% of households lost a dog or cat in 5 years", "85% overall recovery"],
+    "entities": ["ASPCA", "Weiss et al. 2012"],
+    "time_period": "September–November 2010",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "how-many-pets-are-lost-how-many-find-their-way-home-aspca-survey-has-answers-asp"
+  },
+  {
+    "claim": "49% of dogs are found by the owner searching the neighborhood; ID tags or microchips account for 15% of recoveries; only 6% are found at shelters.",
+    "stance": "supports",
+    "stance_target": "the dominant recovery pathway is owner-led local physical search, not shelter intake — Nona search teams should prioritise local canvassing over institutional channels",
+    "evidence_type": "statistical",
+    "scope_conditions": "nationally representative US survey, 2010",
+    "quoted_support": "Forty-nine percent of dog guardians found their dog by searching the neighborhood, and 15 percent of the dogs were recovered because they were wearing an ID tag or had a micro-chip... Only 6 percent of dog guardians and 2 percent of cat guardians found their lost pets at a shelter.",
+    "numbers": ["49% neighborhood search", "15% ID tag/microchip", "6% shelter"],
+    "entities": ["ASPCA", "Dr. Emily Weiss"],
+    "time_period": "2010",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "how-many-pets-are-lost-how-many-find-their-way-home-aspca-survey-has-answers-asp"
+  }
+]

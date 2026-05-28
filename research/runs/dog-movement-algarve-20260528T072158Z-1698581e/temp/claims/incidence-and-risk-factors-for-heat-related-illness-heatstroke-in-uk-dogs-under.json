@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "40% of all annual canine HRI cases in the UK occur in July, with zero cases in February, October, or December — confirming sharp seasonal concentration in peak summer.",
+    "stance": "supports",
+    "stance_target": "Algarve lost dog searches in June–September operate under a qualitatively different heat risk regime than off-season searches",
+    "evidence_type": "statistical",
+    "scope_conditions": "395 HRI events from 905,543 UK dogs under primary veterinary care in 2016",
+    "quoted_support": "There were no HRI events during February, October or December, while 40% (158/395) of the incident cases were in July, corresponding with a heatwave event thought to have been triggered by a particularly strong El Nino.",
+    "numbers": ["40% of cases in July", "0.04% annual incidence", "0% in February, October, December"],
+    "entities": ["Hall et al. 2020", "VetCompass", "UK dogs"],
+    "time_period": "2016",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "incidence-and-risk-factors-for-heat-related-illness-heatstroke-in-uk-dogs-under"
+  },
+  {
+    "claim": "Brachycephalic dogs have 2.10x the odds of HRI vs mesocephalic; dogs >50 kg have 3.42x the odds; dogs ≥12 years have 1.75x the odds.",
+    "stance": "supports",
+    "stance_target": "breed type, weight, and age are the three strongest predictor variables for heat triage prioritisation in field rescue",
+    "evidence_type": "statistical",
+    "scope_conditions": "multivariable logistic regression, 905,543 UK dogs under vet care, 2016",
+    "quoted_support": "Brachycephalic dogs had higher odds of HRI (OR 2.10, 95% CI 1.68-2.64) compared to mesocephalic dogs. Dogs over 50 kg in bodyweight had 3.42 times the odds.",
+    "numbers": ["OR 2.10 (brachycephalic)", "OR 3.42 (>50 kg)", "OR 1.75 (≥12 years)", "OR 1.42 (at/above breed/sex weight mean)", "OR 1.86 (purebred vs crossbred)"],
+    "entities": ["VetCompass", "Hall et al. 2020", "brachycephalic breeds"],
+    "time_period": "2016",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "incidence-and-risk-factors-for-heat-related-illness-heatstroke-in-uk-dogs-under"
+  },
+  {
+    "claim": "Overall HRI event fatality rate in UK primary care is 14.18%; 64.81% of deaths were by euthanasia rather than unassisted death, suggesting cases reach vets in time for triage.",
+    "stance": "supports",
+    "stance_target": "when owners identify HRI and take dogs to a vet, most survive (85.82%); the critical gap is owner recognition and rapid transport",
+    "evidence_type": "statistical",
+    "scope_conditions": "395 HRI events from 905,543 UK dogs, 2016",
+    "quoted_support": "The event fatality rate for HRI in dogs during 2016 was 14.18% (95% CI 11.08 – 17.96%). Of the remaining 54 deaths, 35 (64.81%) were by euthanasia and 19 (35.19%) were unassisted deaths.",
+    "numbers": ["14.18% event fatality", "64.81% euthanasia of deaths", "35.19% unassisted deaths", "56 deaths from 395 events"],
+    "entities": ["Hall et al. 2020", "VetCompass", "UK dogs"],
+    "time_period": "2016",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "incidence-and-risk-factors-for-heat-related-illness-heatstroke-in-uk-dogs-under"
+  },
+  {
+    "claim": "Chow Chow has the highest HRI incidence rate of any breed at 0.50%, followed by Bulldog (0.42%) and French Bulldog (0.18%); Greyhound is also high at 0.15%.",
+    "stance": "supports",
+    "stance_target": "breed-specific HRI incidence rates are actionable for triage prioritisation when a lost dog's breed is known",
+    "evidence_type": "statistical",
+    "scope_conditions": "breed-specific incidence from UK primary care VetCompass data 2016",
+    "quoted_support": "Breeds with the highest incidence of HRI were the Chow Chow (0.50%, 95% CI 0.21-1.16%), Bulldog (0.42%, 95% CI 0.30-0.58%), French Bulldog (0.18%, 95% CI 0.12-0.25%), Dogue de Bordeaux (0.17%, 95% CI 0.07-0.39%), Greyhound (0.15%, 95% CI 0.07-0.29%).",
+    "numbers": ["Chow Chow 0.50%", "Bulldog 0.42%", "French Bulldog 0.18%", "Greyhound 0.15%", "Cavalier King Charles Spaniel 0.12%"],
+    "entities": ["Chow Chow", "Bulldog", "French Bulldog", "Greyhound", "Golden Retriever", "Pug"],
+    "time_period": "2016",
+    "region": "United Kingdom",
+    "confidence": "high",
+    "source_note_id": "incidence-and-risk-factors-for-heat-related-illness-heatstroke-in-uk-dogs-under"
+  }
+]

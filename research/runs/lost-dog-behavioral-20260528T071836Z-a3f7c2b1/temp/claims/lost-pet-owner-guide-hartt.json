@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Approximately 70-80% of lost pets stay within 1 mile of their escape point, forming the operational prior for search concentration in professional lost pet recovery.",
+    "stance": "supports",
+    "stance_target": "Search effort should be concentrated within 1-mile radius as a prior probability mass before sighting data updates the distribution",
+    "evidence_type": "statistical",
+    "scope_conditions": "Dogs and cats, HARTT operational experience (Arizona), includes cases where pet was lost far from home territory",
+    "quoted_support": "Even if your pet was lost from an unfamiliar area, approximately 70% of the lost pets we help stay within 1 mile of where they went missing (even if this location is hundreds of miles from their home). Using that probability, we will concentrate on this area first.",
+    "numbers": ["70-80%", "1 mile"],
+    "entities": ["HARTT"],
+    "time_period": "operational, ongoing",
+    "region": "Arizona, US",
+    "confidence": "medium",
+    "source_note_id": "lost-pet-owner-guide-hartt"
+  },
+  {
+    "claim": "Professional lost pet recovery practice requires capturing date, time, exact location, and direction of travel for every sighting — this data is used for spatial triangulation to update search area.",
+    "stance": "supports",
+    "stance_target": "Sighting data must encode time and direction of travel, not just location, to enable Bayesian position updating",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog/cat recovery, professional practitioner guidance",
+    "quoted_support": "Have there been any sightings? We will need to know the date, time, exact location, and direction of travel. Please also be sure to keep the name and phone number of the person who called in each sighting.",
+    "numbers": [],
+    "entities": ["HARTT"],
+    "time_period": "operational",
+    "region": "Arizona, US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-owner-guide-hartt"
+  },
+  {
+    "claim": "Large-group searches cause frightened lost dogs to flee the area, making team size a search strategy variable that must be weighted against detection probability.",
+    "stance": "supports",
+    "stance_target": "Search approach (team presence) affects the animal's behavior and therefore the expected position distribution",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Shy or frightened dogs, professional recovery practice",
+    "quoted_support": "HARTT in general discourages rigorous ground searches with large teams because their presence may cause a frightened dog to flee the area.",
+    "numbers": [],
+    "entities": ["HARTT"],
+    "time_period": "operational",
+    "region": "Arizona, US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-owner-guide-hartt"
+  },
+  {
+    "claim": "Search strategy must be differentiated by dog temperament (confident/social vs shy/skittish), health status, and familiarity with the lost location — these factors shift both behavior and search method.",
+    "stance": "supports",
+    "stance_target": "Behavioral profiling variables (temperament, health, area familiarity) are load-bearing inputs to lost animal search strategy",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog recovery",
+    "quoted_support": "The strategy also may be a bit different if your dog is young/healthy, or old/sick/medically compromised, and if your dog is confident/social or shy/skittish.",
+    "numbers": [],
+    "entities": ["HARTT"],
+    "time_period": "operational",
+    "region": "Arizona, US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-owner-guide-hartt"
+  },
+  {
+    "claim": "Humane trapping is indicated only when trail camera confirms the dog is eating at a specific location, not at point of first sighting — demonstrating that sighting reliability must be high before resource-intensive actions are triggered.",
+    "stance": "supports",
+    "stance_target": "Confirmed camera observation constitutes higher-quality evidence than eyewitness sighting for triggering recovery action",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog recovery, shy or frightened dogs",
+    "quoted_support": "When do you set a trap for a lost dog? The short and simple answer is when you have the dog eating on a trail camera in a specific location.",
+    "numbers": [],
+    "entities": ["HARTT", "Missing Animal Response Network"],
+    "time_period": "operational",
+    "region": "US",
+    "confidence": "high",
+    "source_note_id": "lost-pet-owner-guide-hartt"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Dogs lost from loud noises or scary situations bolt and then hide, and may remain safely in their hiding spot for several hours to several days without intervention.",
+    "stance": "supports",
+    "stance_target": "hiding phase duration after panic-trigger escape",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs that bolted from noise/fright stimulus; hiding behavior in first days post-escape",
+    "quoted_support": "Dogs lost from loud noises or scary situations usually bolt and then hide. They may remain in hiding for several hours or several days. This is okay. Dogs are safe in their hiding spots. They are safe from being hit by cars or from running and getting overheated.",
+    "numbers": ["several hours", "several days"],
+    "entities": ["Lost Dogs of America", "Kathy Pobloskie"],
+    "time_period": "undated (ongoing)",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "shy-lost-dog-strategies-lost-dogs-of-america"
+  },
+  {
+    "claim": "Overfeeding a dog by well-meaning neighbors undermines humane trap efforts — dogs in survival mode must be hungry enough to take the risk of entering a trap.",
+    "stance": "supports",
+    "stance_target": "food management as prerequisite for successful trap capture of lost dog",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "lost dogs that are sighted but reluctant to enter humane trap",
+    "quoted_support": "Is your missing dog staying in one area but reluctant to enter a humane trap? 'Helpful' neighbors may be overfeeding your dog and undermining your efforts to successfully catch him. Lost dogs in survival mode need to be hungry enough to take the risk to enter a humane trap.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "undated",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "shy-lost-dog-strategies-lost-dogs-of-america"
+  },
+  {
+    "claim": "The number one cause of lost dog death is being hit by a car, frequently resulting from too much pressure (following, calling, whistling, approaching) applied by searchers.",
+    "stance": "supports",
+    "stance_target": "pressure/chasing as primary cause of lost dog traffic mortality",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "shy/survival-mode lost dogs under active pursuit by searchers",
+    "quoted_support": "The number one cause of death of lost dogs is being hit by a car. This is often the result of too much pressure on the dog by people who are following, calling, whistling or approaching him/her.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "undated",
+    "region": "North America",
+    "confidence": "high",
+    "source_note_id": "shy-lost-dog-strategies-lost-dogs-of-america"
+  },
+  {
+    "claim": "Establishing a consistent daily feeding routine at the same time and location is a prerequisite step before deploying a humane trap to capture a lost dog in survival mode.",
+    "stance": "supports",
+    "stance_target": "food-routine conditioning as pre-trap strategy",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "lost dogs that will not come to owner; survival mode confirmed",
+    "quoted_support": "Are you getting sightings of your dog but he won't come to you? Don't take it personally! Dogs can quickly go into survival mode after being lost and may not come to anyone, including their owner. Simply feed your lost dog at the same time each day.",
+    "numbers": [],
+    "entities": ["Lost Dogs of America"],
+    "time_period": "undated",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "shy-lost-dog-strategies-lost-dogs-of-america"
+  }
+]

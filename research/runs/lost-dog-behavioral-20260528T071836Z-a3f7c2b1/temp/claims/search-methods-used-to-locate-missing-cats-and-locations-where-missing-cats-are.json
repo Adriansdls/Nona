@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "75% of lost cats were found within 500m of their escape point, establishing a tight displacement radius as the primary spatial prior for a displaced indoor animal.",
+    "stance": "supports",
+    "stance_target": "short-radius prior for displaced/frightened animals; analogous prior for xenophobic lost dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "Huang et al. 2018 Animals; n=1,210 cats globally; self-selected retrospective online survey; applies to all cat categories combined; cats not dogs",
+    "quoted_support": "75% of cats were found within 500 m of the point of escape.",
+    "numbers": ["75% of cats within 500m of escape point", "75th percentile outdoor-access cat travel: 1,609m", "indoor-only cat 75th percentile: 137m"],
+    "entities": ["Liyan Huang", "Marcia Coradini", "Jacquie Rand", "Kat Albrecht", "Missing Pet Partnership", "University of Queensland"],
+    "time_period": "2018",
+    "region": "Global (online survey)",
+    "confidence": "high",
+    "source_note_id": "search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are"
+  },
+  {
+    "claim": "Outdoor-access cats traveled significantly farther than indoor-only cats when lost: 75th-percentile distance 1,609m vs. 137m (p≤0.001), demonstrating that prior habitat and behavioral freedom sharply bifurcate expected displacement radius.",
+    "stance": "supports",
+    "stance_target": "prior behavioral freedom (outdoor vs. indoor) as a key predictor of lost animal travel distance",
+    "evidence_type": "empirical",
+    "scope_conditions": "Huang 2018; n=1,210 cats; global self-selected sample; translatable to lost-dog prior calibration by activity/roaming history",
+    "quoted_support": "Up to 75% of cats with outdoor access traveled 1609 m, further than the distance traveled by indoor-only cats (137 m; p ≤ 0.001).",
+    "numbers": ["outdoor-access: 75th percentile = 1,609m", "indoor-only: 75th percentile = 137m", "p ≤ 0.001"],
+    "entities": ["Huang", "Coradini", "Rand"],
+    "time_period": "2018",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are"
+  },
+  {
+    "claim": "Recovery probability for missing cats decays sharply after 7 days: 34% recovered alive within 7 days; very few found alive after 90 days — establishing a temporal phase transition around day 7.",
+    "stance": "supports",
+    "stance_target": "temporal decay in recovery probability and the critical early-phase window",
+    "evidence_type": "empirical",
+    "scope_conditions": "Huang 2018; n=1,210 cats; global retrospective online survey",
+    "quoted_support": "Only 61% were found within one year, with 34% recovered alive by the owner within 7 days. Few cats were found alive after 90 days.",
+    "numbers": ["61% found within 1 year", "34% recovered alive within 7 days", "very few alive after 90 days"],
+    "entities": ["Huang", "Coradini", "Rand"],
+    "time_period": "2018",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are"
+  },
+  {
+    "claim": "Physical search is the most effective evidence-supported recovery method for missing cats; a physical search within the first week significantly increases probability of finding the cat alive.",
+    "stance": "supports",
+    "stance_target": "early physical ground search as highest-value intervention in lost pet recovery",
+    "evidence_type": "empirical",
+    "scope_conditions": "Huang 2018; effect size borderline (p=0.073); global self-selected sample",
+    "quoted_support": "There was evidence that physical searching increased the chance of finding the cat alive (p = 0.073)... These findings suggest that thorough physical searching is a useful strategy, and should be conducted within the first week after cats go missing.",
+    "numbers": ["p=0.073 for physical search effect on alive recovery"],
+    "entities": ["Huang", "Rand"],
+    "time_period": "2018",
+    "region": "Global",
+    "confidence": "medium",
+    "source_note_id": "search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are"
+  },
+  {
+    "claim": "Cats considered 'highly curious' by personality were significantly more likely to be found inside someone else's home, demonstrating that personality/temperament type predicts specific recovery location category.",
+    "stance": "supports",
+    "stance_target": "personality/temperament as a predictor of spatial settling location for lost animals",
+    "evidence_type": "empirical",
+    "scope_conditions": "Huang 2018; subjective owner-reported personality; global sample; cats only",
+    "quoted_support": "Cats considered to be highly curious in nature were more likely to be found inside someone else's house compared to other personality types.",
+    "numbers": [],
+    "entities": ["Huang", "Coradini"],
+    "time_period": "2018",
+    "region": "Global",
+    "confidence": "medium",
+    "source_note_id": "search-methods-used-to-locate-missing-cats-and-locations-where-missing-cats-are"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Most healthy adult dogs can survive 3–5 days without water, but dehydration symptoms appear within 24 hours; in high temperatures, dehydration can manifest in as little as 6 hours.",
+    "stance": "supports",
+    "stance_target": "Water-source convergence timeline modeling for Algarve summer lost dog searches",
+    "evidence_type": "empirical",
+    "scope_conditions": "Healthy adult dogs; extreme heat threshold is a separate condition",
+    "quoted_support": "Most healthy adult dogs can survive 3 to 5 days without water, but that's pushing it. Dehydration symptoms can show up in just 24 hours... In high temperatures, dogs can show dehydration in as little as 6 hours.",
+    "numbers": ["3-5 days without water (survival)", "24 hours (symptom onset)", "6 hours (high temperature symptom onset)"],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "dog-dehydration-max-survival-time-without-water"
+  },
+  {
+    "claim": "Physiological dehydration cascade: body pulls water from cells to maintain blood volume → blood thickens → kidneys cannot flush urea → electrolyte collapse → organ shutdown → coma or death.",
+    "stance": "supports",
+    "stance_target": "Urgency rationale for water station deployment radius within 3-day search priority window",
+    "evidence_type": "empirical",
+    "scope_conditions": "Prolonged water deprivation in dogs",
+    "quoted_support": "The blood thickens, making the heart work much harder to pump it. Kidneys, which are basically the body's filtration system, can't properly flush out toxins like urea. These toxins build up, putting immense stress on the entire body. Dehydration is a cascading failure.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "dog-dehydration-max-survival-time-without-water"
+  },
+  {
+    "claim": "Refusal to drink water can be caused by fear, stress, a new environment, or loud noises — meaning a lost dog under flight stress may not drink even when water is available, compounding dehydration risk.",
+    "stance": "supports",
+    "stance_target": "Behavioral interference with water intake for lost dogs in survival mode",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dogs in stressful or unfamiliar environments",
+    "quoted_support": "Fear or stress – Loud noises or a new environment can freak them out.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "medium",
+    "source_note_id": "dog-dehydration-max-survival-time-without-water"
+  },
+  {
+    "claim": "Dogs on dry kibble diet require significantly more daily water intake than dogs on wet or raw food diets, because dry food provides almost no moisture content.",
+    "stance": "neutral",
+    "stance_target": "Baseline water requirement for lost dogs with unknown prior diet",
+    "evidence_type": "empirical",
+    "scope_conditions": "Comparison of dietary water contribution in dogs",
+    "quoted_support": "Compared to dogs on wet or raw diets, dogs on dry kibble require more water.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "medium",
+    "source_note_id": "dog-dehydration-max-survival-time-without-water"
+  },
+  {
+    "claim": "Hot and humid days or intense exercise can double or triple a dog's water requirements beyond the baseline 1 oz/lb/day formula.",
+    "stance": "supports",
+    "stance_target": "Algarve summer heat as a multiplier on water requirement and convergence urgency",
+    "evidence_type": "empirical",
+    "scope_conditions": "Active dogs or dogs in high temperature environments",
+    "quoted_support": "Factors like age, diet, weather, and activity level can double or even triple that number. Example: Lazy indoor pug? Maybe less. Hyper Labrador chasing squirrels in 90°F weather? Double it.",
+    "numbers": ["1 oz water per pound body weight (baseline)", "2-3x multiplier for heat/activity"],
+    "entities": [],
+    "time_period": "Current",
+    "region": "General",
+    "confidence": "high",
+    "source_note_id": "dog-dehydration-max-survival-time-without-water"
+  }
+]

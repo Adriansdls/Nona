@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Galgos must always be leashed outside an enclosed area due to their capacity to jump fences and their high speed — making recovery of a loose galgo extremely difficult.",
+    "stance": "supports",
+    "stance_target": "loose galgo is effectively unrecoverable by human pursuit; requires containment-based recovery strategies",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo breed; all environments outside secure enclosures",
+    "quoted_support": "They are capable of jumping fences and must always be leashed when outside an enclosed area.",
+    "numbers": [],
+    "entities": ["galgo", "GRIN"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "galgos-galgo-rescue-international-network"
+  },
+  {
+    "claim": "Galgos are wary of people initially due to lack of early socialization and positive human experiences, but bond strongly with their adoptive families once trust is established.",
+    "stance": "supports",
+    "stance_target": "galgo approach pattern: initial wariness/evasion of all strangers transitions to trust only after prolonged positive exposure",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "rescue galgos with limited prior positive human socialization",
+    "quoted_support": "Due to lack of socializing and positive experiences with people when young, galgos can be leery of people at first. However, they bond strongly with their adoptive families and the emergence of their comical personalities is a wonderful experience!",
+    "numbers": [],
+    "entities": ["galgo", "GRIN"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "galgos-galgo-rescue-international-network"
+  },
+  {
+    "claim": "Galgos do best living with other dogs because they are accustomed to living in close quarters with conspecifics — a familiar dog used as a lure may improve approach success.",
+    "stance": "supports",
+    "stance_target": "conspecific lure strategy may be effective for galgo recovery given their social orientation toward other dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo breed trait rooted in kennel/pack living conditions",
+    "quoted_support": "Galgos generally do best living with others dogs as they are used to living in close quarters with others of their breed.",
+    "numbers": [],
+    "entities": ["galgo"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "galgos-galgo-rescue-international-network"
+  },
+  {
+    "claim": "Modern hunting galgos are typically mixed with Irish racing greyhounds to increase coursing speed, meaning behavioral profiles of 'galgo' vary significantly between purebred and mixed individuals.",
+    "stance": "neutral",
+    "stance_target": "galgo behavioral priors must be treated as a distribution, not a fixed profile, given widespread crossbreeding",
+    "evidence_type": "historical",
+    "scope_conditions": "Spain, contemporary hunting population",
+    "quoted_support": "Most of the galgos used for hunting today are mixed with Irish racing greyhounds or other breeds to produce a fast coursing dog.",
+    "numbers": [],
+    "entities": ["galgo", "Irish racing greyhound"],
+    "time_period": "contemporary",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "galgos-galgo-rescue-international-network"
+  }
+]

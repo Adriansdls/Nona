@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Beagles have approximately 220 million scent receptors, the same number as German Shepherds and second only to Bloodhounds — their olfactory bulb is also proportionally larger than other breeds.",
+    "stance": "supports",
+    "stance_target": "Beagle scent-following behavior when lost is driven by exceptional olfactory hardware, not behavioral quirk",
+    "evidence_type": "statistical",
+    "scope_conditions": "Beagle breed specifically; compared across dog breeds",
+    "quoted_support": "Beagles have approximately 220 million scent receptors, which is more than any other dog breed... According to a study, Beagles have the same number of scent receptors as the much larger German Shepherd and are only second to Bloodhounds in the overall number of scent receptors.",
+    "numbers": ["220 million scent receptors"],
+    "entities": ["Beagle", "German Shepherd", "Bloodhound"],
+    "time_period": "Contemporary",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "the-amazing-scent-tracking-abilities-of-the-beagles-nose"
+  },
+  {
+    "claim": "Beagles can distinguish a single person's scent from a mixed scent environment — they can follow a specific scent trail even when contaminated by other scents and people.",
+    "stance": "supports",
+    "stance_target": "A lost Beagle following a specific scent trail will not be easily diverted by other competing scents in the environment",
+    "evidence_type": "empirical",
+    "scope_conditions": "Beagle scent tracking; demonstrated in law enforcement and search-and-rescue contexts",
+    "quoted_support": "Beagles are also unique in their scent tracking abilities because they are able to distinguish different odors. This means that they can follow a specific scent trail even if it is mixed with other scents.",
+    "numbers": [],
+    "entities": ["Beagle"],
+    "time_period": "Contemporary",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "the-amazing-scent-tracking-abilities-of-the-beagles-nose"
+  },
+  {
+    "claim": "Beagle physical anatomy — long droopy ears, long neck, short legs, compact body — is specifically evolved for efficient ground-level scent tracking through dense underbrush, meaning lost Beagles move along scent trails close to the ground and through dense terrain.",
+    "stance": "supports",
+    "stance_target": "Lost Beagles will follow ground-level scent trails through undergrowth and dense terrain rather than crossing open ground",
+    "evidence_type": "empirical",
+    "scope_conditions": "Beagle breed",
+    "quoted_support": "Their long ears help them catch scent particles in the air, while their long necks allow them to keep their noses close to the ground. Their short legs and compact bodies enable them to move quickly and efficiently through dense underbrush.",
+    "numbers": [],
+    "entities": ["Beagle"],
+    "time_period": "Contemporary",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "the-amazing-scent-tracking-abilities-of-the-beagles-nose"
+  },
+  {
+    "claim": "Environmental factors — wind direction, humidity, and temperature — significantly affect the strength and direction of a scent trail, meaning search strategies for lost scent hounds must account for weather conditions affecting scent dispersal.",
+    "stance": "supports",
+    "stance_target": "Scent hound movement patterns when lost are mediated by weather conditions, not just prey location",
+    "evidence_type": "empirical",
+    "scope_conditions": "Scent tracking in search and rescue; applicable to Beagle and other scent hounds",
+    "quoted_support": "Environmental factors and terrains can affect a Beagle's ability to track scents. For example, wind direction, humidity, and temperature can all impact a scent's strength and direction.",
+    "numbers": [],
+    "entities": ["Beagle"],
+    "time_period": "Contemporary",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "the-amazing-scent-tracking-abilities-of-the-beagles-nose"
+  }
+]

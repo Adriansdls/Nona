@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "GWAS on 2,155 dog genomes identified 11 genetic loci strongly associated with behavior, none of which were specific to any breed, suggesting behavioral traits predate modern canine breeds by thousands of years.",
+    "stance": "refutes",
+    "stance_target": "breed as primary driver of behavioral genetics",
+    "evidence_type": "empirical",
+    "scope_conditions": "2,155 dog genomes, 18,385 owner surveys, 78 breeds, Darwin's Ark; published Science 2022, DOI: 10.1126/science.abk0639",
+    "quoted_support": "'The majority of behaviors that we think of as characteristics of specific modern dog breeds have most likely come about from thousands of years of evolution from wolf to wild canine to domesticated dog, and finally to modern breeds,' said Karlsson.",
+    "numbers": ["11 loci", "136 suggestively associated loci", "2,155", "18,385", "9%", "78 breeds"],
+    "entities": ["Elinor Karlsson", "Kathleen Morrill", "UMass Chan Medical School", "Broad Institute", "Darwin's Ark"],
+    "time_period": "Published April 28, 2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+  },
+  {
+    "claim": "Physical traits are more than 5x more likely to be predicted by breed than behavioral traits.",
+    "stance": "refutes",
+    "stance_target": "equivalence of physical and behavioral breed predictability",
+    "evidence_type": "empirical",
+    "scope_conditions": "Morrill et al. 2022, GWAS of 2,155 genomes; breed ancestry vs. trait correlation analysis",
+    "quoted_support": "Physical traits like coat color were more than five times more likely to be predicted by breed than behavioral traits.",
+    "numbers": ["5x", "9%"],
+    "entities": ["Kathleen Morrill", "Elinor Karlsson"],
+    "time_period": "2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+  },
+  {
+    "claim": "Biddability (response to human direction) is more heritable and breed-correlated than agonistic threshold (ease of provocation), meaning breed priors are weakest for fear/reactivity prediction in rescue contexts.",
+    "stance": "neutral",
+    "stance_target": "differential usefulness of breed priors across behavioral dimensions",
+    "evidence_type": "empirical",
+    "scope_conditions": "Morrill et al. 2022; analysis of mixed-breed genetic ancestry vs. behavioral trait heritability",
+    "quoted_support": "For less heritable, less breed differentiated traits, like agonistics threshold (which measures how easily a dog is provoked by frightening, uncomfortable, or annoying stimuli), breed was almost useless as a predictor of behavior.",
+    "numbers": [],
+    "entities": ["Kathleen Morrill", "Elinor Karlsson"],
+    "time_period": "2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+  },
+  {
+    "claim": "Even in Labrador Retrievers (lowest propensity to howl), 8% of owners reported their dog sometimes howls, illustrating that breed cannot predict individual behavioral absence.",
+    "stance": "refutes",
+    "stance_target": "breed-based behavioral determinism",
+    "evidence_type": "empirical",
+    "scope_conditions": "Darwin's Ark survey data; Morrill et al. 2022",
+    "quoted_support": "Even in Labrador retrievers, which had the lowest propensity for howling, 8 percent of owners reported their Labrador's sometimes howl.",
+    "numbers": ["8%"],
+    "entities": ["Kathleen Morrill"],
+    "time_period": "2022",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+  },
+  {
+    "claim": "Modern dog breed physical standardization began in the Victorian era (~1800s), meaning only 150 years of intentional breed-specific physical selection; behavioral traits reflect much older evolutionary pressures.",
+    "stance": "supports",
+    "stance_target": "explanation for why breed explains little behavioral variance",
+    "evidence_type": "historical",
+    "scope_conditions": "Historical framing from Morrill et al. 2022; wolves to dogs ~10,000-15,000 years ago, work-role breeding ~2,000 years ago, Victorian physical standardization ~150 years ago",
+    "quoted_support": "It was not until the Victorian era in the 1800s that humans began selecting dogs consistently for the physical and aesthetic traits that today we commonly associate with modern breeds.",
+    "numbers": ["10,000-15,000 years", "2,000 years", "150 years"],
+    "entities": ["Elinor Karlsson"],
+    "time_period": "Historical",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "dog-genetics-suggest-that-behavior-is-more-than-just-breed-broad-institute"
+  }
+]

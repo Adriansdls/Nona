@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Over 50,000 galgos are destroyed annually by galguero hunters in Spain, primarily at the end of the one-season hunting cycle — producing a large population of recently traumatized/abandoned individuals in the Iberian peninsula.",
+    "stance": "supports",
+    "stance_target": "galgo trauma baseline in Iberian/Algarve population is high by structural necessity, not individual variation",
+    "evidence_type": "statistical",
+    "scope_conditions": "Spain; annual hunting season cycle",
+    "quoted_support": "There is a very cruel and barbaric custom amongst many Spanish hunters, or 'Galgueros,' that destroys more than 50,000 Galgos every year.",
+    "numbers": ["50,000 galgos destroyed annually"],
+    "entities": ["galguero", "galgo", "Spain"],
+    "time_period": "contemporary",
+    "region": "Spain / Iberian Peninsula",
+    "confidence": "medium",
+    "source_note_id": "project-galgo-spanish-greyhound-sighthound-rescue"
+  },
+  {
+    "claim": "Rescued galgos show overt trauma behavior immediately visible at intake — one rescued galga described as 'very frightened and had clearly suffered at the hands of her Galguero.'",
+    "stance": "supports",
+    "stance_target": "galgo trauma baseline is observable at intake and directly shapes behavior in lost/rescue scenarios",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "galgos rescued from galguero abandonment in Spain",
+    "quoted_support": "This Galga was very frightened and had clearly suffered at the hands of her Galguero.",
+    "numbers": [],
+    "entities": ["galgo", "Galgos en Familia"],
+    "time_period": "contemporary",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "project-galgo-spanish-greyhound-sighthound-rescue"
+  }
+]

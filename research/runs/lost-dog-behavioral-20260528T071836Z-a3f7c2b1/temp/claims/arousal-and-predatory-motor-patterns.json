@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Sniffing is NOT always calming for high-prey-drive dogs — dogs actively searching for prey using their nose will have HIGHER arousal levels, contrary to the common training advice that sniffing reduces arousal.",
+    "stance": "refutes",
+    "stance_target": "The assumption that nose-led searching calms a lost scent hound; in fact it elevates arousal and perpetuates the search state",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dogs with high prey drive specifically; does not apply to general sniffing/decompression walks for non-prey-drive dogs",
+    "quoted_support": "Dogs with a high prey drive who are searching for prey using their nose will probably have higher levels of arousal.",
+    "numbers": [],
+    "entities": ["Tracey McLennan", "Best Dog Learning and Stuff"],
+    "time_period": "November 2024",
+    "region": "UK",
+    "confidence": "high",
+    "source_note_id": "arousal-and-predatory-motor-patterns"
+  },
+  {
+    "claim": "Broseghini et al. (2024) found that the Search phase of predatory behavior in scent hounds involves moving fast while barking and becoming focused on a scent trail — this phase was absent in sighthounds studied.",
+    "stance": "supports",
+    "stance_target": "Scent hounds (Beagle, Podenco partial) actively search large areas when in predatory mode; sighthounds react to visible prey without a search phase",
+    "evidence_type": "empirical",
+    "scope_conditions": "Scent hounds and sighthounds; video analysis study; 2024",
+    "quoted_support": "In both the pointing dogs and the scent hounds, this stage was characterised by the dogs moving and covering large areas of ground... what the scent hounds would do which was to bark more while becoming focused on a scent trail... This phase wasn't seen in the sighthounds.",
+    "numbers": [],
+    "entities": ["Broseghini", "Applied Animal Behaviour Science"],
+    "time_period": "2024",
+    "region": "Europe",
+    "confidence": "high",
+    "source_note_id": "arousal-and-predatory-motor-patterns"
+  },
+  {
+    "claim": "The four stress responses for dogs — Fight, Flight, Freeze, Fawn — are all driven by the sympathetic nervous system in a high-arousal state; Flight mode is specifically the 'escape the situation' response, explaining why a panicked lost dog runs blindly.",
+    "stance": "supports",
+    "stance_target": "Trauma-triggered lost dogs are in Flight stress response — their movement is escape-driven, not goal-directed scent following",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dogs under high stress; physiologically grounded in autonomic nervous system",
+    "quoted_support": "Flight — Your dog would be trying to escape the situation. They might run away or run around you if they are on a lead. Here again, the sympathetic nervous system is in control.",
+    "numbers": [],
+    "entities": ["Tracey McLennan"],
+    "time_period": "November 2024",
+    "region": "UK",
+    "confidence": "high",
+    "source_note_id": "arousal-and-predatory-motor-patterns"
+  },
+  {
+    "claim": "Dogs in high arousal may refuse food rewards even if normally food motivated — this is a key indicator of high arousal state and explains why food lures often fail during lost dog recovery attempts.",
+    "stance": "supports",
+    "stance_target": "Food lures are unreliable for recalling highly aroused dogs in prey/flight mode",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Dogs in high arousal state (predatory, stress, or fear)",
+    "quoted_support": "Being unwilling to take and eat food rewards is a big flag that your dog is highly aroused - especially if your dog is normally food motivated.",
+    "numbers": [],
+    "entities": ["Tracey McLennan"],
+    "time_period": "November 2024",
+    "region": "UK",
+    "confidence": "high",
+    "source_note_id": "arousal-and-predatory-motor-patterns"
+  },
+  {
+    "claim": "Broseghini et al. (2024) published the first formal ethogram of predatory behavior in dogs, covering pointing breeds, scent hounds, and sighthounds — but excluding terriers, dachshunds, retrievers, and flushing dogs due to insufficient video data.",
+    "stance": "neutral",
+    "stance_target": "Primary empirical source for predatory motor sequence in scent hounds and sighthounds; study design limitation noted",
+    "evidence_type": "empirical",
+    "scope_conditions": "Pointing breeds, scent hounds, sighthounds; video analysis methodology; 2024",
+    "quoted_support": "Broseghini et al. (2024) published a proposed ethogram for a predatory motor pattern in dogs... their research included pointing breeds, scent hounds and sighthounds. They did not have enough videos to be able to include terriers, dachshunds, retrievers or flushing dogs.",
+    "numbers": ["2024", "4 stages"],
+    "entities": ["Broseghini", "McLennan", "Applied Animal Behaviour Science"],
+    "time_period": "2024",
+    "region": "Europe",
+    "confidence": "high",
+    "source_note_id": "arousal-and-predatory-motor-patterns"
+  }
+]

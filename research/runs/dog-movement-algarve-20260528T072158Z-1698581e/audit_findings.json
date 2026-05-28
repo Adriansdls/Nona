@@ -1,0 +1,20 @@
+{
+  "mode": "hyperresearch-v8",
+  "run_id": "dog-movement-algarve-20260528T072158Z-1698581e",
+  "pipeline_tier": "light",
+  "timestamp": "2026-05-28T08:05:00Z",
+  "loci_count": 0,
+  "critical_findings_applied": 0,
+  "critical_findings_skipped": 0,
+  "polish_edits_applied": 2,
+  "polish_escalations": 0,
+  "final_word_count": 3451,
+  "lint_results": {
+    "wrapper-report": "pass",
+    "locus-coverage": "pass",
+    "scaffold-prompt": "false-positive — run source is brief-file (not harness-pinned). Lint rule applies to harness runs where prompt.txt is gospel; not applicable here.",
+    "patch-surgery": "pass"
+  },
+  "source_count": 31,
+  "notes_tagged": "dog-movement-algarve"
+}

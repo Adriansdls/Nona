@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "Dogs and wolves use observational spatial memory (OSM) to remember the locations of observed food caches, enabling faster and more efficient retrieval of the first 3–4 locations.",
+    "stance": "supports",
+    "stance_target": "lost dogs will preferentially return to previously known water/food locations (home, familiar yards, water sources) using spatial memory",
+    "evidence_type": "empirical",
+    "scope_conditions": "9 wolves and 8 dogs at Wolf Science Center Austria, controlled cache-retrieval experiments",
+    "quoted_support": "both wolves and dogs not only left fewer caches unrecovered but were also faster and walked shorter distances to recover a cache in test conditions where they could observe the caching process as compared with the control condition... This was only true for the first three to four caches recovered indicating that OSM in both species is limited.",
+    "numbers": ["p<0.001 (OSM effect on retrieval success)", "first 3–4 caches use memory", "beyond 4th–5th cache, olfactory/random search dominates"],
+    "entities": ["wolves", "dogs", "Wolf Science Center", "Vetter et al. 2023"],
+    "time_period": "2009, 2013, 2014 experiments; published 2023",
+    "region": "Ernsbrunn, Austria",
+    "confidence": "high",
+    "source_note_id": "observational-spatial-memory-in-wolves-and-dogs-plos-one"
+  },
+  {
+    "claim": "Wolves significantly outperform domestic dogs in cache retrieval success in both memory and non-memory conditions (p=0.001), interpreted as greater persistence/motivation rather than better memory.",
+    "stance": "supports",
+    "stance_target": "domestication has reduced dogs' food-seeking persistence relative to wolves — lost dogs may give up searching for hidden water/food more readily than wild canids would",
+    "evidence_type": "empirical",
+    "scope_conditions": "wolves vs. hand-raised mongrel dogs in identical controlled conditions",
+    "quoted_support": "wolves outperformed dogs irrespective of whether the caching could be observed or not. We suggest that this result is due to a difference in motivation/persistence between wolves and dogs rather than observational spatial memory.",
+    "numbers": ["p=0.001 (wolves > dogs in cache retrieval)"],
+    "entities": ["wolves", "dogs", "Wolf Science Center"],
+    "time_period": "2009–2014",
+    "region": "Ernsbrunn, Austria",
+    "confidence": "high",
+    "source_note_id": "observational-spatial-memory-in-wolves-and-dogs-plos-one"
+  },
+  {
+    "claim": "Both dogs and wolves use a multi-cue search system combining spatial memory and olfaction — olfactory search becomes dominant after the first 3–4 spatially remembered locations are exhausted.",
+    "stance": "supports",
+    "stance_target": "scent-based search strategies (scent attractants at known water points) will engage dogs in terrain exploration after their spatial memory list is depleted",
+    "evidence_type": "empirical",
+    "scope_conditions": "cache retrieval experiments with 4, 6, and 8 hidden food items",
+    "quoted_support": "while canids seem to rely preferably on visual cues when those are provided, they do have a well-developed sense of smell... using a multi-cue system involving both memory and visual/olfactory cues while searching for hidden food has been proven to be more effective than relying only on memory.",
+    "numbers": [],
+    "entities": ["wolves", "dogs"],
+    "time_period": "2009–2014, published 2023",
+    "region": "Austria",
+    "confidence": "high",
+    "source_note_id": "observational-spatial-memory-in-wolves-and-dogs-plos-one"
+  },
+  {
+    "claim": "Dogs demonstrated OSM-driven spatial learning improvement over trials: initial success with 8 caches matched 4-cache success after practice, suggesting plasticity in spatial search strategy.",
+    "stance": "supports",
+    "stance_target": "lost dogs in a territory they have partially explored will improve their navigation efficiency over days — early search windows are critical before dogs develop efficient escape patterns",
+    "evidence_type": "empirical",
+    "scope_conditions": "36 sessions per animal, increasing number of cache sites",
+    "quoted_support": "the success rate with the eight caches in the later trials with increasing experience... both their latency and distance travelled to find a single cache decreased over trials. These results show that both wolves and dogs remained motivated to look for caches throughout the experiment.",
+    "numbers": ["4 caches (baseline)", "8 caches (learned to equal 4-cache success by late trials)"],
+    "entities": ["wolves", "dogs"],
+    "time_period": "2009–2014",
+    "region": "Austria",
+    "confidence": "medium",
+    "source_note_id": "observational-spatial-memory-in-wolves-and-dogs-plos-one"
+  }
+]

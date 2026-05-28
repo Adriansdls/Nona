@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Abandoned galgos living rough require weeks to months of patient observation and food-coaxing before allowing any human approach.",
+    "stance": "supports",
+    "stance_target": "galgos in lost/feral state show extreme approach avoidance requiring prolonged habituation",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Galgos abandoned in Spain, rescued by Galgos del Sol; feral or semi-feral state after abandonment",
+    "quoted_support": "An abandoned galgo that has been living rough may need to be patiently observed and coaxed with food for weeks—or sometimes months—before allowing a human to come near.",
+    "numbers": [],
+    "entities": ["Galgos del Sol", "galgo", "Spain"],
+    "time_period": "contemporary",
+    "region": "Spain / Algarve-relevant",
+    "confidence": "high",
+    "source_note_id": "what-is-a-galgo-galgos-del-sol"
+  },
+  {
+    "claim": "Abandoned galgos are found in extreme locations — wells, traffic, fields, roadsides — confirming a wide-ranging flight pattern rather than staying in one place.",
+    "stance": "supports",
+    "stance_target": "galgos when lost/abandoned do not shelter in place but move into dangerous terrain",
+    "evidence_type": "anecdotal",
+    "scope_conditions": "Galgos del Sol rescue operations in Spain",
+    "quoted_support": "GDS has rescued galgos found in wells, lying injured in fields, abandoned in dumpsters, running terrified through traffic, giving birth on roadsides, or left to die in deserted breeding camps.",
+    "numbers": [],
+    "entities": ["Galgos del Sol"],
+    "time_period": "contemporary",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "what-is-a-galgo-galgos-del-sol"
+  },
+  {
+    "claim": "Galgos are athletic jumpers capable of clearing 4-foot barriers, making standard containment measures insufficient when searching for a lost galgo's refuge.",
+    "stance": "supports",
+    "stance_target": "galgo containment/search radius modeling must account for high vertical mobility",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "galgo breed trait",
+    "quoted_support": "they are curious and surprisingly athletic jumpers, meaning baby gates and low fences (such as four-foot barriers) are often not sufficient to contain them.",
+    "numbers": ["4-foot fence insufficient"],
+    "entities": ["galgo"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "what-is-a-galgo-galgos-del-sol"
+  },
+  {
+    "claim": "Galgo rescue operations require round-the-clock availability because sightings of lost/abandoned dogs occur unpredictably at any hour.",
+    "stance": "supports",
+    "stance_target": "galgo rescue logistics: time-of-day unpredictability requires 24/7 alert protocols",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Galgos del Sol rescue operations",
+    "quoted_support": "Because sightings can occur at any time, the GDS rescue team remains on call around the clock.",
+    "numbers": [],
+    "entities": ["Galgos del Sol"],
+    "time_period": "contemporary",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "what-is-a-galgo-galgos-del-sol"
+  },
+  {
+    "claim": "Some galgos exhibit specific fear responses including fear of men and fear of passing through open doors when a person is nearby, consistent with trauma-conditioned avoidance.",
+    "stance": "supports",
+    "stance_target": "galgo trauma baseline produces specific approach avoidance triggers beyond generalized fear",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "rescue galgos from abusive backgrounds",
+    "quoted_support": "Some may exhibit a fear of men. Others may be scared to go through an open door while you are standing next to it.",
+    "numbers": [],
+    "entities": ["galgo"],
+    "time_period": "contemporary",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "galgo-espanol-breed-information-save-a-galgo-espanol"
+  }
+]

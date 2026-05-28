@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Free-roaming dogs exhibit a crepuscular activity pattern with daily peaks in roaming distance in the early morning and late afternoon/evening, and reduced movement during midday heat.",
+    "stance": "supports",
+    "stance_target": "heat and temperature effects on activity cycle — dogs avoid midday heat",
+    "evidence_type": "empirical",
+    "scope_conditions": "132 GPS-tracked free-roaming dogs in Torres Strait and Northern Peninsula Area communities, northern Australia",
+    "quoted_support": "Daily peaks in mean roaming distance were observed twice per day — early morning and late afternoon/evening — consistent with crepuscular activity pattern.",
+    "numbers": [],
+    "entities": ["Maher EK", "Ward MP", "Brookes VJ"],
+    "time_period": "2019",
+    "region": "Torres Strait and Northern Peninsula Area, Australia (tropical)",
+    "confidence": "high",
+    "source_note_id": "investigation-of-the-temporal-roaming-behaviour-of-free-roaming-domestic-dogs-in"
+  },
+  {
+    "claim": "Free-roaming dogs roam significantly farther during the dry season than the wet season, with season being a statistically significant risk factor for distance from residence.",
+    "stance": "supports",
+    "stance_target": "Algarve hot dry summer produces expanded roaming range for lost dogs",
+    "evidence_type": "empirical",
+    "scope_conditions": "132 GPS-tracked dogs, Torres Strait and Northern Peninsula Area, northern Australia",
+    "quoted_support": "Dogs roamed furthest in the NPA and during the dry season.",
+    "numbers": [],
+    "entities": ["Maher EK", "Ward MP", "Brookes VJ"],
+    "time_period": "2019",
+    "region": "Torres Strait, Northern Peninsula Area, Australia",
+    "confidence": "high",
+    "source_note_id": "investigation-of-the-temporal-roaming-behaviour-of-free-roaming-domestic-dogs-in"
+  },
+  {
+    "claim": "Sex, age, season, and hour of day are all statistically significant predictors of roaming distance in free-roaming dogs.",
+    "stance": "supports",
+    "stance_target": "multi-factor model for lost dog movement prediction",
+    "evidence_type": "empirical",
+    "scope_conditions": "132 dogs, GPS regression analysis, northern Australia",
+    "quoted_support": "The influence of risk factors (including age, sex, location, season and hour of day) on dogs' distance from their residences were assessed.",
+    "numbers": ["132 dogs"],
+    "entities": ["Maher EK", "Ward MP", "Brookes VJ"],
+    "time_period": "2019",
+    "region": "Northern Australia",
+    "confidence": "high",
+    "source_note_id": "investigation-of-the-temporal-roaming-behaviour-of-free-roaming-domestic-dogs-in"
+  }
+]

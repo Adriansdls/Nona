@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Stress causes serotonin depletion in dogs, which impairs short-term memory and is the primary physiological mechanism driving Lost Dog Syndrome / survival mode.",
+    "stance": "supports",
+    "stance_target": "neurochemical basis for behavioral phase transition in lost dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "all dogs; mechanism proposed as universal",
+    "quoted_support": "Serotonin is a hormone responsible for a number of bodily functions including depression, sleep, sensory perception and short-term memory. When serotonin is suddenly depleted, i.e., due to stress, short-term memory is compromised. A-ha! Stress and the resulting short-term memory loss is the perfect storm for your dog to go into survival mode.",
+    "numbers": [],
+    "entities": ["Holiday Barn", "serotonin"],
+    "time_period": "2018 (article published)",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "The onset of survival mode in lost dogs is variable: some enter it almost immediately, others after a week or more, depending on temperament, breed, and circumstances.",
+    "stance": "supports",
+    "stance_target": "behavioral phase transition timing is not fixed and varies by individual",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "all dogs; no specific breed data",
+    "quoted_support": "Some dogs go into survival mode almost immediately when separated from their owner. Some do not go into survival mode for a week or more. It depends on the dog, his past experiences, his breed, and the circumstances surrounding him being lost.",
+    "numbers": ["0 hours (immediate)", "1 week or more"],
+    "entities": [],
+    "time_period": "2018",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "Dogs in survival mode will not respond to their name, trained commands, or favorite toys, because the familiar 'domestic' persona is suppressed by primal survival instincts.",
+    "stance": "supports",
+    "stance_target": "why standard recall methods fail for lost dogs in fear state",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs that have entered survival mode",
+    "quoted_support": "After developing Lost Dog Syndrome, even dogs that are well trained, who would never think of disobeying a 'come' command, will not come. Their favorite squeak toy will not lure them from the woods. Hearing their name will not spur their recollection.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "Survival mode is temporary: once a lost dog in survival mode is captured, it returns to normal personality with very little lasting change.",
+    "stance": "supports",
+    "stance_target": "reversibility of behavioral phase regression",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "applies after successful capture",
+    "quoted_support": "Survival mode is only temporary. Once your dog is captured, he will return to normal with very little change in personality.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  },
+  {
+    "claim": "The correct approach to a dog in survival mode requires sitting on the ground, avoiding eye contact, placing food around oneself, and waiting for the dog to approach voluntarily — not calling or moving toward it.",
+    "stance": "supports",
+    "stance_target": "non-confrontational capture protocol for fear-state dogs",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "dogs in survival mode",
+    "quoted_support": "Go quietly to the area he was last seen. Take some food that would smell good to him, like canned dog food, steak or hot dogs. Don't call for him or move towards him; that could frighten him. Place the food around you and sit on the ground. Put your head down, don't make eye contact, and avoid any sudden movements.",
+    "numbers": [],
+    "entities": [],
+    "time_period": "2018",
+    "region": "general",
+    "confidence": "high",
+    "source_note_id": "lost-dog-syndrome-understanding-your-dogs-survival-behaviors-holiday-barn"
+  }
+]

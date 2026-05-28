@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "Podencos are multi-sensory hunters that use sight, scent, and hearing simultaneously — not purely sighthounds — making them distinct from Galgos which rely primarily on vision.",
+    "stance": "supports",
+    "stance_target": "Podencos use multiple sensory channels when hunting/tracking, meaning they will both scent-track and visually pursue when lost",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All Podenco subtypes (Andaluz, Canario, Ibicenco, Maneto, etc.)",
+    "quoted_support": "Multi-sensory specialised hunters, they have large, highly-mobile pricked ears, keen eyesight and an acute sense of smell.",
+    "numbers": [],
+    "entities": ["Podenco", "Podenco Andaluz", "Podenco Canario", "Podenco Ibicenco", "Hope for Podencos"],
+    "time_period": "Contemporary breed description",
+    "region": "Spain, Algarve",
+    "confidence": "high",
+    "source_note_id": "about-podenco-dogs-hope-for-podencos"
+  },
+  {
+    "claim": "Podencos can jump over 6-foot fences from a standing position, meaning standard residential fencing is insufficient to contain a prey-driven Podenco.",
+    "stance": "supports",
+    "stance_target": "Lost Podencos will cover large distances and can exit seemingly secured areas",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All Podenco subtypes; particularly relevant in Algarve rural/semi-rural terrain",
+    "quoted_support": "They are agile to the point they have been known to climb trees in pursuit of prey and can even jump great heights from a stand. A secure garden with 6' fence is typically required for this breed.",
+    "numbers": ["6 feet (fence height)"],
+    "entities": ["Podenco"],
+    "time_period": "Contemporary",
+    "region": "Spain, Portugal, Algarve",
+    "confidence": "high",
+    "source_note_id": "about-podenco-dogs-hope-for-podencos"
+  },
+  {
+    "claim": "Podencos are bred with 'endless endurance for trotting rather than galloping', meaning a lost Podenco can sustain movement over large areas for extended periods unlike sprint-specialized sighthounds.",
+    "stance": "supports",
+    "stance_target": "Lost Podencos have wide movement radii due to high endurance, not just burst speed",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "All Podenco subtypes",
+    "quoted_support": "All have been bred with a combination of speed and agility with endless endurance for trotting rather than galloping.",
+    "numbers": [],
+    "entities": ["Podenco"],
+    "time_period": "Contemporary",
+    "region": "Spain, Portugal",
+    "confidence": "high",
+    "source_note_id": "about-podenco-dogs-hope-for-podencos"
+  },
+  {
+    "claim": "Hunting dogs including Podencos were explicitly excluded from Spain's 2023 animal rights law overhaul, meaning they are legally classified as tools with no protection — a welfare context that also signals they are commonly kept in harsh conditions and may be more fearful/feral when lost.",
+    "stance": "neutral",
+    "stance_target": "Podenco baseline temperament when lost — trauma and fear response likely higher than pet-raised dogs",
+    "evidence_type": "legal",
+    "scope_conditions": "Spain, post-2023",
+    "quoted_support": "In 2023, there was an overhaul to the Spanish animal rights laws but devastatingly hunting dogs were excluded from these rights as they are viewed as tools and therefore not protected.",
+    "numbers": ["2023"],
+    "entities": ["Spain", "Podenco", "Spanish animal rights laws"],
+    "time_period": "2023 onwards",
+    "region": "Spain",
+    "confidence": "high",
+    "source_note_id": "about-podenco-dogs-hope-for-podencos"
+  },
+  {
+    "claim": "Podencos have a profound awareness of their surroundings and sensitivity to their humans, making them likely to use sensory cues (voice, familiar scent) when near bonded owners even when in flight/stress mode.",
+    "stance": "supports",
+    "stance_target": "Familiar-person approach behavior in Podencos may be triggered by multi-sensory recognition even after flight",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Rescue/rehomed Podencos with established human bond",
+    "quoted_support": "Smart, curious and clownish, they have a profound awareness of their surroundings and a sensitivity to their humans. Podencos reward their human companions with great loyalty, love, affection.",
+    "numbers": [],
+    "entities": ["Podenco", "Hope for Podencos"],
+    "time_period": "Contemporary",
+    "region": "Spain, UK, Europe",
+    "confidence": "medium",
+    "source_note_id": "about-podenco-dogs-hope-for-podencos"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Operational pre-study data (Missing Pet Partnership, 2013): 84% of 128 lost outdoor-access cats found within a 5-house radius of their home; 92% of 158 displaced indoor-only cats also found within a 5-house radius.",
+    "stance": "supports",
+    "stance_target": "Tight spatial priors exist for lost cats — the primary search area should be concentrated extremely close to the last-seen point",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lost cats, 2013 Missing Pet Partnership operational data, US",
+    "quoted_support": "Missing Pet Partnership finally compiled statistics on lost cat behaviors and discovered that 84% of 128 lost outdoor-access cats were found within a five-house radius of their home, and that 92% of 158 cases of displaced, indoor-only cats who'd escaped outside were also found within a five-house radius of their home.",
+    "numbers": ["84%", "128 cases", "92%", "158 cases", "5-house radius"],
+    "entities": ["Missing Pet Partnership", "Kat Albrecht"],
+    "time_period": "2013",
+    "region": "US",
+    "confidence": "medium",
+    "source_note_id": "missing-cat-study-missing-animal-response-network"
+  },
+  {
+    "claim": "The formal Missing Cat Study (2017-2018, Albrecht and Prof. Jacquie Rand, University of Queensland) confirmed Albrecht's operational finding that the primary search area for missing cats should be close to the point last seen, and the most effective method is slow methodical search of nearby neighbor yards.",
+    "stance": "supports",
+    "stance_target": "Academic-validated framework confirms practitioner priors for lost cat location distribution",
+    "evidence_type": "empirical",
+    "scope_conditions": "Lost cats, formal study with University of Queensland",
+    "quoted_support": "The study which verifies nearly everything I discovered so many years ago—the primary search area for a missing cat needs to be close to the point where it was last seen and the most successful search method to find a missing cat a slow, methodical search of the nearby areas (i.e. neighbor's yards).",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Prof. Jacquie Rand", "University of Queensland", "MARN"],
+    "time_period": "2017-2018",
+    "region": "US, global",
+    "confidence": "high",
+    "source_note_id": "missing-cat-study-missing-animal-response-network"
+  },
+  {
+    "claim": "No equivalent 'Missing Dog Study' exists as of 2018 — Albrecht identified this as a critical research gap, meaning dog spatial distribution priors rest on practitioner heuristics rather than formal empirical studies.",
+    "stance": "neutral",
+    "stance_target": "Lost dog spatial distribution data is less empirically grounded than lost cat data",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost dog research literature as of 2018",
+    "quoted_support": "My next goal is to collaborate to conduct a much-needed 'Missing Dog Study' to learn more about the distances and most effective search methods used to recover lost dogs.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "2018",
+    "region": "global",
+    "confidence": "high",
+    "source_note_id": "missing-cat-study-missing-animal-response-network"
+  }
+]

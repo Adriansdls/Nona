@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "The C-BARQ validated behavioral questionnaire compares an individual dog's scores against population averages from 50,000+ dogs — demonstrating that individual-level behavioral assessment requires population reference data, not breed stereotypes.",
+    "stance": "supports",
+    "stance_target": "individual temperament signals should outweigh breed priors in behavioral assessment",
+    "evidence_type": "empirical",
+    "scope_conditions": "C-BARQ database, University of Pennsylvania; 50,000 dogs, 300+ breeds; Hsu & Serpell 2003, operational since 2005",
+    "quoted_support": "Because each dog's results are based on calculated population averages, the C-BARQ assessment provides a truly objective diagnosis of the relative severity of the dog's problems. Its scores are compared automatically with this very large reference sample of dogs using standard algorithms.",
+    "numbers": ["50,000", "300+ breeds", "14 behavioral factors", "70+ published studies"],
+    "entities": ["Hsu Y", "Serpell J", "University of Pennsylvania", "CIAS"],
+    "time_period": "2003-present",
+    "region": "United States (global applicability)",
+    "confidence": "high",
+    "source_note_id": "about-the-c-barq-c-barq-canine-behavioral-assessment-research-questionnaire"
+  },
+  {
+    "claim": "Behavioral problems are the leading cause of premature death by euthanasia in companion dogs and the primary reason dogs are surrendered to shelters — establishing behavioral assessment at intake as a high-stakes rescue intervention.",
+    "stance": "supports",
+    "stance_target": "prioritization of behavioral intake assessment in rescue operations",
+    "evidence_type": "empirical",
+    "scope_conditions": "C-BARQ documentation citing broader veterinary behavioral medicine consensus; widely acknowledged in field",
+    "quoted_support": "Behavior problems are widely acknowledged to be the most important cause of premature death (by euthanasia) in companion dogs, as well as being the primary reason why dogs are surrendered to animal shelters and rescue groups.",
+    "numbers": [],
+    "entities": ["Hsu Y", "Serpell J", "University of Pennsylvania"],
+    "time_period": "2003-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "about-the-c-barq-c-barq-canine-behavioral-assessment-research-questionnaire"
+  },
+  {
+    "claim": "The mini C-BARQ (Duffy, Kruger & Serpell, 2015) is specifically designed for shelter intake screening and provides more reliable behavioral data than in-house temperament tests or breed assessment alone.",
+    "stance": "supports",
+    "stance_target": "structured behavioral intake instruments over breed-based assumptions",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "C-BARQ documentation; mini C-BARQ published 2015; shelter/adoption center context",
+    "quoted_support": "The C-BARQ, and especially its short form (the mini C-BARQ; Duffy, Kruger & Serpell, 2015), provides shelters and adoption centers with a valuable tool for screening dogs on intake; and when used in combination with in-house temperament tests, can help to guide rational intervention and adoption strategies.",
+    "numbers": [],
+    "entities": ["Duffy DL", "Kruger", "Serpell J"],
+    "time_period": "2015-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "about-the-c-barq-c-barq-canine-behavioral-assessment-research-questionnaire"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "claim": "95% of dogs who wander beyond safe zones travel at most 1.8 miles (≈2 km) from home, per Fi GPS-collar data.",
+    "stance": "supports",
+    "stance_target": "1-2 mile search radius captures vast majority of lost dog locations",
+    "evidence_type": "empirical",
+    "scope_conditions": "Fi GPS collar data (US), 2025 report by HASS; represents dogs that triggered safe-zone alerts",
+    "quoted_support": "95% of dogs who wander beyond their designated safe zones travel at most 1.8 miles (≈ 2 km) away from home",
+    "numbers": ["95%", "1.8 miles", "≈2 km"],
+    "entities": ["Fi (GPS collar company)", "Human Animal Support Services (HASS)", "Amanda Foster"],
+    "time_period": "2025 (data collection period not specified)",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "most-lost-dogs-are-just-around-the-corner-literally-hass"
+  },
+  {
+    "claim": "Average recovery distance for lost dogs is 0.13 miles (700 feet / ~2 city blocks) from home.",
+    "stance": "supports",
+    "stance_target": "hyper-local search (within 2 blocks) should be the first search action for any lost dog",
+    "evidence_type": "empirical",
+    "scope_conditions": "Fi GPS collar data, 2025; average across dogs recovered after safe-zone breach",
+    "quoted_support": "on average, lost dogs are recovered just 0.13 miles from home. That's about 700 feet, or a little over two city blocks.",
+    "numbers": ["0.13 miles", "700 feet", "~2 city blocks"],
+    "entities": ["Fi", "HASS"],
+    "time_period": "2025",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "most-lost-dogs-are-just-around-the-corner-literally-hass"
+  },
+  {
+    "claim": "60% of stray dogs reunited with owners after entering a shelter were found less than 1 mile from home; 42% were spotted just one block away.",
+    "stance": "supports",
+    "stance_target": "proximity-first search strategy, consistent with Fi GPS data and Lord 2007b",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS shelter data, 2017-2021; US; citing Kremer 2019 for 42% figure",
+    "quoted_support": "60% of lost dogs that were reunited with their owner after entering a shelter were picked up less than 1 mile from home... 42% spotted just a single block away (Kremer, 2019).",
+    "numbers": ["60%", "42%", "1 mile", "1 block"],
+    "entities": ["HASS", "Kremer 2019"],
+    "time_period": "2017-2021",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "most-lost-dogs-are-just-around-the-corner-literally-hass"
+  },
+  {
+    "claim": "Finder-to-Foster programs (where finders temporarily hold lost dogs near the point of discovery) double or triple return-to-home rates versus direct shelter surrender.",
+    "stance": "supports",
+    "stance_target": "proximity-based retention of found dogs as superior alternative to shelter intake",
+    "evidence_type": "empirical",
+    "scope_conditions": "HASS Finder-to-Foster program data, 2022 report",
+    "quoted_support": "return-to-home rates doubling or tripling, and often the dog avoids the shelter altogether (Human Animal Support Services, 2022).",
+    "numbers": ["doubling", "tripling"],
+    "entities": ["HASS", "Finder-to-Foster program"],
+    "time_period": "2022",
+    "region": "United States",
+    "confidence": "medium",
+    "source_note_id": "most-lost-dogs-are-just-around-the-corner-literally-hass"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "claim": "Displaced indoor-only cats hide in silence very close to the escape point — they will not meow because meowing would reveal their location to predators; this behavior is independent of whether the cat recognizes the owner's voice or can smell them.",
+    "stance": "supports",
+    "stance_target": "Frightened animal concealment behavior suppresses both movement and sound, making proximity-based detection strategies essential",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Indoor-only cats escaped outdoors, or displaced cats in unfamiliar territory",
+    "quoted_support": "When cats are displaced into an unfamiliar area, the cat is most likely hiding in silence, often not far from the escape point, and they will not meow! This is because cats are territorial and their primary protective measure from predators is to hide in silence.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "1997-present",
+    "region": "US, global",
+    "confidence": "high",
+    "source_note_id": "lost-cat-behavior-missing-animal-response-network"
+  },
+  {
+    "claim": "The primary recovery method for displaced indoor-only cats is humane trapping ('trap-and-reunite'), not active calling or searching — because the cat's hiding behavior is hard-wired predator evasion that cannot be overridden by voice recognition.",
+    "stance": "supports",
+    "stance_target": "Behavioral state of frightened animal determines the appropriate recovery intervention method independently of normal owner-pet relationship",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Displaced indoor-only cats, MARN practitioner framework",
+    "quoted_support": "The method that Kat Albrecht and her network have pioneered (starting back in 1999) that has resulted in the recovery of thousands of 'missing' indoor-only cats (and displaced outdoor-access cats) is the same method used to capture feral cats–the use of a humane trap.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "1999-present",
+    "region": "US, global",
+    "confidence": "high",
+    "source_note_id": "lost-cat-behavior-missing-animal-response-network"
+  },
+  {
+    "claim": "Three distinct behavioral categories of lost cats require different spatial priors and search methods: (1) Displaced indoor-only cat — hides very close, trap-and-reunite; (2) Outdoor-access cat with territory — hunkers close to home, waits to return; (3) Traveling/transplanted outdoor cat — may move further.",
+    "stance": "supports",
+    "stance_target": "Behavioral typology with indoor/outdoor history determines prior distribution over search distance for lost cats",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Lost cats, MARN framework",
+    "quoted_support": "There are 3 Types of Lost Cat Behavior or Missing Cat Behavior: Displaced Indoor-Only Cats (i.e. Cats Who've Escaped Outdoors)... If your indoor-only cat has escaped and is somewhere outside or in unfamiliar territory there is good news — your cat is probably not 'lost' at all!",
+    "numbers": ["3"],
+    "entities": ["Kat Albrecht", "MARN"],
+    "time_period": "1997-present",
+    "region": "US, global",
+    "confidence": "high",
+    "source_note_id": "lost-cat-behavior-missing-animal-response-network"
+  }
+]

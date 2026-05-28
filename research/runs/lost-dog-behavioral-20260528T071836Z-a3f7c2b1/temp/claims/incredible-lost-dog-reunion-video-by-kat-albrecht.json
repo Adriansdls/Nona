@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "A traumatized dog in fight-or-flight mode will remain hidden even when 150-200 feet from a surveillance camera and feeding station — sensory proximity to food and monitoring equipment does not guarantee detection.",
+    "stance": "supports",
+    "stance_target": "Camera-trap and feeding station strategies have significant blind spots for trauma-response dogs in hiding",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dog involved in car accident on I-95; 3.5 days post-trauma; hiding in woods",
+    "quoted_support": "He was only 150-200 feet from our surveillance camera and feeding station, but we never saw him on camera.",
+    "numbers": ["150-200 feet", "3.5 days"],
+    "entities": ["Kat Albrecht", "Return 2 Home Lost Pet Resources", "Truman the bloodhound", "Oreo"],
+    "time_period": "April 2025",
+    "region": "Fredericksburg, Virginia, USA",
+    "confidence": "high",
+    "source_note_id": "incredible-lost-dog-reunion-video-by-kat-albrecht"
+  },
+  {
+    "claim": "Bloodhound scent tracking reveals direction of travel of a lost dog even when the tracking dog does not find the animal — this is itself actionable intelligence for concentrating poster placement and search effort.",
+    "stance": "supports",
+    "stance_target": "Scent dog tracking has operational value even when reunion does not occur during the tracking session",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Missing Animal Response (MAR) protocol; bloodhound tracking in wooded terrain",
+    "quoted_support": "We explained that it's not likely that we will actually find Oreo. Tracking with a search dog is often a tool to help determine the direction of travel of the lost dog and to decide where to concentrate search efforts with neon posters.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Truman", "Return 2 Home Lost Pet Resources"],
+    "time_period": "April 2025",
+    "region": "Virginia, USA",
+    "confidence": "high",
+    "source_note_id": "incredible-lost-dog-reunion-video-by-kat-albrecht"
+  },
+  {
+    "claim": "Working a scent-tracking dog through wooded terrain where a skittish dog is hiding can push the lost dog further away — presence of search activity in hiding zone is counterproductive for trauma-response dogs.",
+    "stance": "supports",
+    "stance_target": "Active search in hiding area of a fearful/traumatized lost dog is contraindicated; passive monitoring + familiar-person approach is preferred",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Skittish or traumatized lost dog; wooded terrain",
+    "quoted_support": "And if the dog was nearby, tracking through the woods could actually push a skittish dog further away.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Truman", "Return 2 Home Lost Pet Resources"],
+    "time_period": "April 2025",
+    "region": "Virginia, USA",
+    "confidence": "high",
+    "source_note_id": "incredible-lost-dog-reunion-video-by-kat-albrecht"
+  },
+  {
+    "claim": "A trauma-mode dog's behavior changes upon recognizing familiar family members even after days in hiding — the transition from flight to approach is triggered by familiar multi-sensory recognition (scent + voice + visual).",
+    "stance": "supports",
+    "stance_target": "Familiar-person approach remains the most effective recovery method for traumatized hidden dogs — confirming Albrecht's approach-avoidance behavioral model",
+    "evidence_type": "empirical",
+    "scope_conditions": "Dog in trauma/flight mode 3.5 days post-accident",
+    "quoted_support": "You can hear Melissa try to calm Carmella down and the change in Oreo's behavior when he got close enough to recognize family members.",
+    "numbers": ["3.5 days"],
+    "entities": ["Kat Albrecht", "Oreo", "Carmella", "Return 2 Home Lost Pet Resources"],
+    "time_period": "April 2025",
+    "region": "Fredericksburg, Virginia, USA",
+    "confidence": "high",
+    "source_note_id": "incredible-lost-dog-reunion-video-by-kat-albrecht"
+  },
+  {
+    "claim": "A Bloodhound trained for lost-pet tracking can successfully follow a trail through rough terrain and locate a dog that evaded visual search by multiple humans over 3.5 days.",
+    "stance": "supports",
+    "stance_target": "Scent-tracking dogs are operationally superior to human visual search for locating hidden trauma-response animals",
+    "evidence_type": "empirical",
+    "scope_conditions": "Bloodhound trained for lost pet recovery; wooded terrain; post-accident trauma case",
+    "quoted_support": "Laura was walking with BOTH Truman and Oreo! Truman had found Oreo on top of the hill.",
+    "numbers": [],
+    "entities": ["Truman", "Kat Albrecht", "Laura Green", "Return 2 Home Lost Pet Resources", "Oreo"],
+    "time_period": "April 2025",
+    "region": "Fredericksburg, Virginia, USA",
+    "confidence": "high",
+    "source_note_id": "incredible-lost-dog-reunion-video-by-kat-albrecht"
+  }
+]

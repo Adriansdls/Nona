@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "Kat Albrecht pioneered the application of law-enforcement search probability theory to missing pet investigations, including Feline Behavioral Profiling and the identification of patterns like 'The Silence Factor' and 'The Threshold Phenomenon'.",
+    "stance": "supports",
+    "stance_target": "methodological credibility of MAR behavioral framework as source for probabilistic lost-dog models",
+    "evidence_type": "historical",
+    "scope_conditions": "1997-present; developed from SAR background applied to lost pets",
+    "quoted_support": "Kat has solved lost pet investigations by using law enforcement-based techniques and strategies that are normally used to solve lost-person investigations... she pioneered the use of 'search probability theory' and deductive reasoning for missing cats and Feline Behavioral Profiling.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Pet Partnership", "MAR Network"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "about-kat-albrecht-kat-albrecht"
+  },
+  {
+    "claim": "Albrecht established the methodological distinction between trailing dogs (for lost dogs, following scent trail) vs. area-search dogs (for lost cats, searching cat's territory) in lost-pet recovery.",
+    "stance": "supports",
+    "stance_target": "search dog methodology for lost dog recovery — trailing vs. area search distinction",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "Applied to lost dog vs. lost cat scenarios; trailing dogs require scent discrimination training",
+    "quoted_support": "Cat detection dogs should be used to conduct what is called an 'area search' of a cat's territory for lost cats and 'trailing dogs' trained in scent discrimination trailing should be used to follow (track) the scent trail of lost dogs.",
+    "numbers": [],
+    "entities": ["Kat Albrecht"],
+    "time_period": "1997-present",
+    "region": "United States",
+    "confidence": "high",
+    "source_note_id": "about-kat-albrecht-kat-albrecht"
+  }
+]

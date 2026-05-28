@@ -1,0 +1,30 @@
+[
+  {
+    "claim": "84% of 128 lost outdoor-access cats were found within a five-house radius of their home (MPP 2013 internal data); Huang et al. 2018 formal study confirmed this finding.",
+    "stance": "supports",
+    "stance_target": "proximity as the highest-probability recovery zone for displaced pets",
+    "evidence_type": "statistical",
+    "scope_conditions": "Cats only; outdoor-access cats; US-based data; analogous dog study not yet published",
+    "quoted_support": "84% of 128 lost outdoor-access cats were found within a five-house radius of their home and... 92% of 158 cases of displaced, indoor-only cats who'd escaped outside were also found within a five-house radius of their home.",
+    "numbers": ["84% of 128 outdoor-access cats within 5-house radius", "92% of 158 indoor-only cats within 5-house radius"],
+    "entities": ["Kat Albrecht", "Missing Pet Partnership", "Jacquie Rand", "University of Queensland", "Huang et al. 2018"],
+    "time_period": "2013 (MPP data); 2018 (Huang et al. formal study)",
+    "region": "United States (MPP); Australia (Huang et al.)",
+    "confidence": "high",
+    "source_note_id": "missing-cat-study-kat-albrecht"
+  },
+  {
+    "claim": "As of Albrecht's writing, no formal 'Missing Dog Study' analogous to the Missing Cat Study has been published — the data gap for lost dog distances and search methods remains open.",
+    "stance": "neutral",
+    "stance_target": "evidence gap — absence of peer-reviewed quantitative study on lost dog distance distributions",
+    "evidence_type": "expert-opinion",
+    "scope_conditions": "State of published literature as of Albrecht's writing (pre-2026)",
+    "quoted_support": "It is my hope that this information will encourage the development of professional and volunteer lost cat recovery teams... My next goal is to collaborate to conduct a much-needed 'Missing Dog Study' to learn more about the distances and most effective search methods used to recover lost dogs.",
+    "numbers": [],
+    "entities": ["Kat Albrecht", "Missing Animal Response Network"],
+    "time_period": "Pre-2026",
+    "region": "Global",
+    "confidence": "high",
+    "source_note_id": "missing-cat-study-kat-albrecht"
+  }
+]

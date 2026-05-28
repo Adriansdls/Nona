@@ -1,0 +1,72 @@
+[
+  {
+    "claim": "After a chase, greyhounds fixate significantly on the last known location of the prey object — at straight tracks where the lure stops, fixation odds were 8.34x higher than at racetracks (p=0.009).",
+    "stance": "supports",
+    "stance_target": "a galgo that has chased a prey object (or trigger) will return to or remain near the last-known location of the stimulus — directly informing search area prediction",
+    "evidence_type": "empirical",
+    "scope_conditions": "racing greyhounds in NSW, Australia; N=626 total (89 straight track + 537 racetrack); study period 2017",
+    "quoted_support": "Fixation on the lure was significantly more likely at the straight tracks (OR = 8.34, z = 2.611, p = 0.009) than at racetracks.",
+    "numbers": ["OR=8.34", "95% CI 1.72-42.38", "p=0.009", "N=89 straight track", "N=537 racetrack"],
+    "entities": ["Melissa Starling", "University of Sydney", "greyhound", "PMC7760772"],
+    "time_period": "2017 data collection; published 2020",
+    "region": "New South Wales, Australia",
+    "confidence": "high",
+    "source_note_id": "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc"
+  },
+  {
+    "claim": "Chase behavior in sighthounds may be maintained by sound cues more than visual cues — racetrack lures emit continuous loud sound that persists after the chase, potentially competing with or confusing the last-known-location fixation.",
+    "stance": "supports",
+    "stance_target": "galgo pursuit of prey is sound-driven as well as sight-driven; recovery strategies involving sound (recorded prey calls, familiar dog sounds) may activate approach behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "racing greyhounds; Australian racetrack context",
+    "quoted_support": "Sound of the lure, rather than visual stimuli associated with it, may be the most salient stimulus in this environment... sound is believed by a majority of racing greyhound industry participants in Australia to be more important than visual stimuli.",
+    "numbers": [],
+    "entities": ["greyhound", "Melissa Starling", "University of Sydney"],
+    "time_period": "2020",
+    "region": "Australia",
+    "confidence": "medium",
+    "source_note_id": "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc"
+  },
+  {
+    "claim": "Sighthound (greyhound) chase behavior is internally motivated (appetitive) — dogs derive reinforcement from performing the chase itself, not only from capturing prey — meaning chase can be sustained even when prey is not visible.",
+    "stance": "supports",
+    "stance_target": "a lost galgo that has been triggered into flight/chase mode may sustain movement for extended periods without visible prey, greatly increasing displacement distance",
+    "evidence_type": "theoretical",
+    "scope_conditions": "greyhound breed; racing and training context",
+    "quoted_support": "Greyhounds may chase lures because of their internal motivation to perform the behaviours involved and they derive direct reinforcement from the performance of those behaviours themselves (appetitive behaviours).",
+    "numbers": [],
+    "entities": ["greyhound", "Melissa Starling"],
+    "time_period": "2020",
+    "region": "general",
+    "confidence": "medium",
+    "source_note_id": "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc"
+  },
+  {
+    "claim": "When greyhounds do gain access to a chase object (lure), frustration-related behaviors in the catching pen are reduced — suggesting that consummatory contact (e.g., catching something) terminates the chase-drive arousal state.",
+    "stance": "supports",
+    "stance_target": "a galgo that catches prey will de-escalate chase drive and may be more approachable shortly after — behavioral window for recovery may exist post-catch",
+    "evidence_type": "empirical",
+    "scope_conditions": "racing greyhounds; tracks where lure is accessible vs inaccessible",
+    "quoted_support": "Handler-assisted rise was significantly less likely to occur at tracks with chase objects accessible in the catching pen (OR = 0.04, z = −3.796, p < 0.001).",
+    "numbers": ["OR=0.04", "p<0.001"],
+    "entities": ["greyhound", "Melissa Starling", "University of Sydney"],
+    "time_period": "2020",
+    "region": "Australia",
+    "confidence": "medium",
+    "source_note_id": "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc"
+  },
+  {
+    "claim": "Greyhound hare-coursing success rate is approximately 13% — meaning the chase drive is maintained even at very low prey capture success rates, with the chase itself being self-reinforcing.",
+    "stance": "supports",
+    "stance_target": "a galgo will persist in chase/flight behavior even without successful prey capture; repeated failed approaches will not extinguish the behavior",
+    "evidence_type": "empirical",
+    "scope_conditions": "greyhound coursing with live hares in Éire; Reid et al. 2007",
+    "quoted_support": "Evidence from hare-coursing competitions in Éire suggests that greyhounds capture approximately 13% of hares in that context.",
+    "numbers": ["13% hare capture rate"],
+    "entities": ["greyhound", "Reid et al. 2007"],
+    "time_period": "2007 citation",
+    "region": "Ireland (Éire)",
+    "confidence": "high",
+    "source_note_id": "effects-of-lure-type-on-chase-related-behaviour-in-racing-greyhounds-pmc"
+  }
+]
