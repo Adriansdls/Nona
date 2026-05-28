@@ -107,6 +107,21 @@ function ZoneCardSkeleton() {
   )
 }
 
+// ─── Types ───────────────────────────────────────────────────────────
+interface ProbabilityScenario {
+  title: string
+  probability: number
+  reasoning?: string
+  actions: string[]
+}
+
+interface BehavioralProfile {
+  sociability?: string
+  environment?: string
+  stress_level?: string
+  scenarios?: ProbabilityScenario[]
+}
+
 // ─── Props ───────────────────────────────────────────────────────────
 interface CaseImage {
   id: string
@@ -148,6 +163,7 @@ interface CaseRow {
   reporter_contact_public: string | null
   created_at: string
   resolved_at: string | null
+  behavioral_profile?: BehavioralProfile | null
   case_images: CaseImage[]
 }
 
@@ -376,11 +392,19 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {/* Confidence badge */}
+            {/* Confidence badge + behavioral phase */}
             {intel && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.confidence === 'high' ? '#16a34a' : intel.confidence === 'medium' ? '#d97706' : N.ink3 }}>
-                <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
-                confiança {intel.confidence === 'high' ? 'alta' : intel.confidence === 'medium' ? 'média' : 'baixa'}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.confidence === 'high' ? '#16a34a' : intel.confidence === 'medium' ? '#d97706' : N.ink3 }}>
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
+                  confiança {intel.confidence === 'high' ? 'alta' : intel.confidence === 'medium' ? 'média' : 'baixa'}
+                </div>
+                {intel.behavioral_phase && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.behavioral_phase === 'panic' ? '#dc2626' : intel.behavioral_phase === 'survival' ? '#d97706' : N.ink3 }}>
+                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
+                    fase {intel.behavioral_phase === 'panic' ? 'pânico · 0-24h' : intel.behavioral_phase === 'survival' ? 'sobrevivência · 24h-7d' : 'recuperação · 7d+'}
+                  </div>
+                )}
               </div>
             )}
 
@@ -455,6 +479,62 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           </div>
         </div>
       </section>
+
+      {/* BEHAVIORAL SCENARIOS */}
+      {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (
+        <section style={{ padding: '0 32px 28px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
+            <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
+              Cenários por probabilidade.
+            </h2>
+            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
+              baseado no perfil comportamental
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
+            {c.behavioral_profile.sociability && (
+              <span style={{ padding: '4px 10px', borderRadius: 999, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>
+                {c.behavioral_profile.sociability}
+              </span>
+            )}
+            {c.behavioral_profile.environment && (
+              <span style={{ padding: '4px 10px', borderRadius: 999, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>
+                {c.behavioral_profile.environment.replace('_', ' ')}
+              </span>
+            )}
+            {c.behavioral_profile.stress_level && (
+              <span style={{ padding: '4px 10px', borderRadius: 999, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 10.5, color: N.ink3 }}>
+                {c.behavioral_profile.stress_level.replace('_', ' ')}
+              </span>
+            )}
+          </div>
+          {c.behavioral_profile.scenarios.map((s: ProbabilityScenario, i: number) => (
+            <div key={i} style={{ marginBottom: 18 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 120, height: 6, background: N.rule, borderRadius: 3, flexShrink: 0 }}>
+                  <div style={{ width: `${Math.round(s.probability * 100)}%`, height: '100%', background: N.ink, borderRadius: 3 }} />
+                </div>
+                <span style={{ fontFamily: N.mono, fontSize: 12, color: N.ink, fontWeight: 600 }}>
+                  {Math.round(s.probability * 100)}%
+                </span>
+                <span style={{ fontFamily: N.display, fontSize: 18, letterSpacing: '-0.015em', color: N.ink }}>
+                  {s.title}
+                </span>
+              </div>
+              {s.reasoning && (
+                <p style={{ margin: '0 0 6px', fontSize: 12.5, color: N.ink3, fontStyle: 'italic' }}>{s.reasoning}</p>
+              )}
+              <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 4 }}>
+                {s.actions.map((a: string, j: number) => (
+                  <li key={j} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 13, color: N.ink2 }}>
+                    <span style={{ color: N.ink4, fontSize: 10, marginTop: 3 }}>→</span>{a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
 
       {/* ACTIVITY + SIDEBAR */}
       <section style={{ padding: '8px 32px 48px', display: 'grid', gridTemplateColumns: '1.55fr 1fr', gap: 32, alignItems: 'flex-start' }}>

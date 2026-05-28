@@ -110,6 +110,29 @@ async def _nightly_rematch_loop(db_url: str, db_key: str) -> None:
             log.error("Nightly re-match failed", error=str(exc))
 
 
+async def _daily_briefing_loop(db_url: str, db_key: str) -> None:
+    """Send daily owner briefing for all active cases at 9am UTC."""
+    while True:
+        now = datetime.now(UTC)
+        target = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0, microsecond=0)
+        await asyncio.sleep((target - now).total_seconds())
+        try:
+            db = create_client(db_url, db_key)
+            rows = (
+                db.table("cases")
+                .select("id")
+                .in_("agent_state", _ACTIVE_STATES + ["escalated", "cold"])
+                .neq("status", "resolvido")
+                .execute()
+            )
+            count = len(rows.data or [])
+            log.info("Daily briefing sweep", count=count)
+            for row in rows.data or []:
+                await run_case_agent(row["id"], db, trigger="daily_briefing")
+        except Exception as exc:
+            log.error("Daily briefing sweep failed", error=str(exc))
+
+
 async def _realtime_listener(db_url: str, db_key: str) -> None:
     """
     Subscribe to Supabase Realtime INSERT events on cases + sightings.
@@ -197,4 +220,5 @@ async def start_runner() -> None:
         _realtime_listener(db_url, db_key),
         _escalation_loop(db_url, db_key),
         _nightly_rematch_loop(db_url, db_key),
+        _daily_briefing_loop(db_url, db_key),
     )

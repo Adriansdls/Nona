@@ -11,11 +11,19 @@ import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
 type Mode = 'lost' | 'found'
 type Phase = 0 | 1 | 2 | 3 | 4
 
+interface ProbabilityScenario {
+  title: string
+  probability: number
+  reasoning?: string
+  actions: string[]
+}
+
 interface ChatMessage {
   from: 'user' | 'agent'
   text: string
   time: string
   quickReplies?: string[] | undefined
+  scenarios?: ProbabilityScenario[]
 }
 interface ActionItem { label: string; detail?: string; live?: boolean }
 interface RecentReunido {
@@ -78,6 +86,41 @@ function InlineActionList({ items }: { items: ActionItem[] }) {
   )
 }
 
+function ScenarioPanel({ scenarios }: { scenarios: ProbabilityScenario[] }) {
+  return (
+    <div style={{ marginTop: 14, padding: '16px 18px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
+      <p style={{ margin: '0 0 14px', fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        cenários por probabilidade
+      </p>
+      {scenarios.map((s, i) => (
+        <div key={i} style={{ marginBottom: i < scenarios.length - 1 ? 16 : 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+            <div style={{ width: 100, height: 5, background: N.rule, borderRadius: 3, flexShrink: 0 }}>
+              <div style={{ width: `${Math.round(s.probability * 100)}%`, height: '100%', background: s.probability >= 0.5 ? N.ink : s.probability >= 0.25 ? N.ink2 : N.ink3, borderRadius: 3 }} />
+            </div>
+            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink, fontWeight: 600, minWidth: 28 }}>
+              {Math.round(s.probability * 100)}%
+            </span>
+            <span style={{ fontFamily: N.display, fontSize: 14, letterSpacing: '-0.01em', color: N.ink }}>
+              {s.title}
+            </span>
+          </div>
+          {s.reasoning && (
+            <p style={{ margin: '0 0 5px', fontSize: 12, color: N.ink3, fontStyle: 'italic', paddingLeft: 114 }}>{s.reasoning}</p>
+          )}
+          <ul style={{ margin: 0, paddingLeft: 114, listStyle: 'none', display: 'grid', gap: 3 }}>
+            {s.actions.map((a, j) => (
+              <li key={j} style={{ fontSize: 12.5, color: N.ink2, display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                <span style={{ color: N.ink4, fontSize: 10, marginTop: 2, flexShrink: 0 }}>→</span>{a}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 interface HomePageClientProps {
   locale: string; reunidosCount: number; recentReunidos: RecentReunido[]
 }
@@ -89,6 +132,13 @@ const _AGENT_NAMES = ["Beatriz","Rui","Margarida","Tiago","Catarina","João","So
 
 export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePageClientProps) {
   const [agentName] = useState(() => _AGENT_NAMES[Math.floor(Math.random() * _AGENT_NAMES.length)]!)
+  const [candidates] = useState<string[]>(() => {
+    const pool = _AGENT_NAMES.filter(n => n !== agentName).sort(() => Math.random() - 0.5).slice(0, 3)
+    return [...pool, agentName]
+  })
+  const [assigning, setAssigning] = useState(false)
+  const [assignStep, setAssignStep] = useState(0)
+  const [activeAgentsCount] = useState(() => Math.floor(Math.random() * 8) + 8)
   const [mode, setMode] = useState<Mode>('lost')
   const [phase, setPhase] = useState<Phase>(0)
   const [inputValue, setInputValue] = useState('')
@@ -100,6 +150,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
   const [caseSlug, setCaseSlug] = useState<string | null>(null)
   const [ownerToken, setOwnerToken] = useState<string | null>(null)
   const [streaming, setStreaming] = useState(false)
+  const [probabilityScenarios, setProbabilityScenarios] = useState<ProbabilityScenario[]>([])
   const chatRef = useRef<HTMLDivElement>(null)
 
   // Measure the hero input card to use as the canvas expansion origin
@@ -120,6 +171,14 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     return () => window.removeEventListener('resize', measure)
   }, [])
 
+  useEffect(() => {
+    if (!assigning) { setAssignStep(0); return }
+    const timers = candidates.map((_, i) =>
+      setTimeout(() => setAssignStep(i + 1), 250 + i * 380)
+    )
+    return () => timers.forEach(t => clearTimeout(t))
+  }, [assigning, candidates])
+
   const scrollChat = useCallback(() => {
     requestAnimationFrame(() => { if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight })
   }, [])
@@ -132,12 +191,22 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     // Append, never replace — preserves full conversation history in UI
     setMessages(prev => [...prev, userMsg])
     setInputValue('')
-    setPhase(2)
-    setTimeout(() => setPhase(3), 400)
     scrollChat()
+    if (messages.length === 0) {
+      setAssigning(true)
+      setTimeout(() => {
+        setAssigning(false)
+        setPhase(2)
+        setTimeout(() => setPhase(3), 400)
+      }, 1900)
+    } else {
+      setPhase(2)
+      setTimeout(() => setPhase(3), 400)
+    }
 
     setStreaming(true)
     let accumulated = ''
+    let scenariosSnap: ProbabilityScenario[] = []
     const events: AgentEvent[] = []
     const actions: ActionItem[] = []
 
@@ -180,6 +249,9 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                 actions.push({ label: last.label, detail: String(evt['result'] ?? ''), live: evt['status'] === 'live' })
               }
               setAgentEvents([...events]); setNonaActions([...actions])
+            } else if (evt['type'] === 'probability_scenarios') {
+              scenariosSnap = Array.isArray(evt['scenarios']) ? evt['scenarios'] as ProbabilityScenario[] : []
+              setProbabilityScenarios(scenariosSnap)
             } else if (evt['type'] === 'case_created') {
               setCaseSlug(String(evt['slug'] ?? ''))
               if (evt['ownerToken']) setOwnerToken(String(evt['ownerToken']))
@@ -187,7 +259,8 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               setQuickReplies(Array.isArray(evt['replies']) ? evt['replies'] as string[] : [])
             } else if (evt['type'] === 'done') {
               const qr = Array.isArray(evt['quick_replies']) ? evt['quick_replies'] as string[] : []
-              setMessages(prev => [...prev, { from: 'agent', text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}) }])
+              setMessages(prev => [...prev, { from: 'agent' as const, text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}), ...(scenariosSnap.length > 0 ? { scenarios: scenariosSnap } : {}) }])
+              setProbabilityScenarios([])
               setNonaText(''); setNonaActions([])
             }
           } catch { /* ignore */ }
@@ -243,7 +316,16 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           <p style={{ margin: '20px auto 0', maxWidth: 480, fontSize: 15.5, color: N.ink2, lineHeight: 1.55 }}>
             Cartaz, redes sociais, voluntários, monitorização de avistamentos. Em segundos, sem formulários.
           </p>
-          <div style={{ display: 'inline-flex', marginTop: 32, padding: 3, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 999, gap: 2 }}>
+          <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <span style={{ position: 'relative', display: 'inline-block', width: 7, height: 7 }}>
+              <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald }}/>
+              <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald, animation: 'nn-ping 2.2s cubic-bezier(0,0,.2,1) infinite' }}/>
+            </span>
+            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
+              {activeAgentsCount} investigadores disponíveis agora
+            </span>
+          </div>
+          <div style={{ display: 'inline-flex', marginTop: 16, padding: 3, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 999, gap: 2 }}>
             {([{ id: 'lost' as Mode, label: 'perdi um cão', accent: N.rose }, { id: 'found' as Mode, label: 'encontrei um cão', accent: N.emerald }]).map(o => (
               <button key={o.id} onClick={() => setMode(o.id)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 999, border: 'none', background: mode === o.id ? N.ink : 'transparent', color: mode === o.id ? N.paper : N.ink2, fontSize: 13, fontWeight: 500, transition: 'all .15s ease', cursor: 'pointer', fontFamily: N.sans }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: o.accent }}/>{o.label}
@@ -399,6 +481,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                     <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{agentName} · {msg.time}</span>
                   </div>
                   <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>{renderMarkdown(msg.text)}</p>
+                  {msg.scenarios && msg.scenarios.length > 0 && <ScenarioPanel scenarios={msg.scenarios}/>}
                   {msg.quickReplies && (
                     <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                       {msg.quickReplies.map(r => <button key={r} onClick={() => setInputValue(r)} style={{ padding: '8px 14px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: N.sans }}>{r}</button>)}
@@ -461,6 +544,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                 </p>
               )}
               {nonaActions.length > 0 && <InlineActionList items={nonaActions}/>}
+              {probabilityScenarios.length > 0 && <ScenarioPanel scenarios={probabilityScenarios}/>}
             </div>
           )}
         </div>
@@ -482,6 +566,32 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
         </div>
       </motion.div>
+      )}
+
+      {/* ══ AGENT ASSIGNMENT OVERLAY (#55) ══ */}
+      {assigning && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(250,250,248,0.88)', backdropFilter: 'blur(16px)' }}>
+          <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderRadius: 20, padding: '28px 36px', minWidth: 300, boxShadow: '0 24px 64px -12px rgba(11,12,16,.18)', animation: 'nn-fadeUp .4s ease both' }}>
+            <p style={{ margin: '0 0 18px', fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+              a atribuir investigador
+            </p>
+            <div style={{ display: 'grid', gap: 8 }}>
+              {candidates.map((name, i) => {
+                const revealed = assignStep > i
+                const selected = name === agentName && revealed
+                return (
+                  <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '9px 13px', borderRadius: 10, background: selected ? N.ink : revealed ? N.surface : 'transparent', border: `1px solid ${selected ? N.ink : revealed ? N.rule : 'transparent'}`, opacity: revealed ? 1 : 0.12, transition: 'all .35s ease' }}>
+                    <span style={{ width: 26, height: 26, borderRadius: '50%', background: selected ? N.paper : N.rule, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10.5, fontWeight: 700, fontFamily: N.mono, color: selected ? N.ink : N.ink3, flexShrink: 0 }}>
+                      {name[0]}
+                    </span>
+                    <span style={{ fontFamily: N.display, fontSize: 15, letterSpacing: '-0.01em', color: selected ? N.paper : N.ink, flex: 1 }}>{name}</span>
+                    {selected && <span style={{ fontFamily: N.mono, fontSize: 9.5, color: selected ? N.paper : N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>atribuído ✓</span>}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ══ ACTIVITY PANEL ══ */}

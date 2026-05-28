@@ -31,6 +31,7 @@ interface CaseRow {
   reporter_contact_public: string | null
   created_at: string
   resolved_at: string | null
+  behavioral_profile?: Record<string, unknown> | null
 }
 
 interface CaseImage {
@@ -60,7 +61,7 @@ async function getCaseData(slug: string) {
       has_chip, chip_last_3,
       last_seen_at, last_seen_municipality, last_seen_zone_approx, last_seen_coords_approx,
       description, context, reporter_contact_public,
-      created_at, resolved_at,
+      created_at, resolved_at, behavioral_profile,
       case_images (id, public_url, is_primary, quality_score)
     `)
     .eq('slug', slug)

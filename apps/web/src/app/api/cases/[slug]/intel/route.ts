@@ -66,7 +66,7 @@ const FALLBACK: SearchIntel = {
   breed_category: 'unknown',
   behavioral_phase: 'panic',
   confidence: 'low',
-  brief: 'Serviço de análise temporariamente indisponível. Iniciar busca sistemática em raios concêntricos a partir do último ponto conhecido.',
+  brief: '',
   brief_sources: [],
   zones: [
     {

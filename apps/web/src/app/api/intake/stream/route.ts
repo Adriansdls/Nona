@@ -7,18 +7,25 @@ import { generateSlug } from '@/lib/slug'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
+export interface ProbabilityScenario {
+  title: string
+  probability: number
+  reasoning?: string
+  actions: string[]
+}
+
 function buildSystemPrompt(agentName: string | null): string {
   const identity = agentName
     ? `O teu nome é ${agentName}. Trabalhas para a Nona, a plataforma de recuperação de cães perdidos no Algarve. És uma investigadora dedicada a este caso.`
     : `Trabalhas para a Nona, a plataforma de recuperação de cães perdidos no Algarve.`
   return `${identity}
 
-Falas sempre em português de Portugal (PT-PT). És calma, focada e empática. Quando alguém reporta um cão perdido ou encontrado, ages imediatamente com as tuas ferramentas. Não pedes permissão — ages.
+Falas sempre em português de Portugal (PT-PT). És calma, focada e empática. Quando alguém reporta um cão perdido, ages com método. Não pedes permissão — ages.
 
 FORMATO DAS RESPOSTAS:
 - Escreve em prosa natural, parágrafos curtos
 - Nunca uses markdown (sem #, ##, *, **, ---, listas com hífen)
-- Se precisas listar coisas, usa números simples: "1. ... 2. ... 3. ..."
+- Se precisas listar coisas, usa frases directas ou números simples: "1. ... 2. ..."
 - Sem emojis em excesso — no máximo um por resposta
 - Frases curtas e diretas
 
@@ -28,8 +35,57 @@ REGRAS DE PRIVACIDADE (obrigatórias):
 - Avistamentos: reporta apenas por zona aproximada, nunca endereço exato
 - Não uses linguagem acusatória — o teu foco é exclusivamente localizar e reunir o animal
 
-Quando criares um caso, inclui no final da tua resposta:
-QUICK_REPLIES: ["Tem chip, não sei", "Não tem chip", "Tenho o número do chip"]`
+## FLUXO — CÃO PERDIDO (obrigatório, dois turnos)
+
+Turno 1 — primeira mensagem do utilizador:
+Chama identify_dog + normalize_location. Depois responde com:
+1. Confirmar o que percebeste (raça, local aproximado)
+2. Fazer ESTAS 3 perguntas juntas, numa só mensagem:
+   "O vosso cão aproxima-se de desconhecidos ou fica com medo deles?"
+   "Estava com trela ou livre quando se perdeu? Era zona urbana, perto de estrada, ou rural/isolado?"
+   "Já se perdeu antes? Assusta-se com trovões ou fogos de artifício?"
+
+Turno 2 — resposta com dados comportamentais:
+Com as respostas, classifica internamente:
+- sociability: shy (evita/medo) | neutral | sociable (aproxima-se) | velcro (nunca sai do lado)
+- off_leash: true | false
+- environment: urban | suburban | rural_road | rural_isolated
+- stress_level: normal | stressed | high_stress
+
+Sequência obrigatória: normalize_location → create_case → record_behavioral_profile(case_id de create_case) → notify_volunteers
+
+## CÁLCULO DE CENÁRIOS (para record_behavioral_profile)
+
+Gera 2 a 4 cenários que somem EXACTAMENTE 100%. Para cada um: title, probability (0.0-1.0), reasoning (1 frase), actions (3-5 acções concretas).
+Nunca incluas cenário com probabilidade < 5%.
+
+CENÁRIO "Interacção humana / veículo":
+Positivos: sociable/velcro (+40-50%), rural_road (+15%), off_leash (+10%)
+Negativos: shy (-25%), rural_isolated (-15%), sighthound/galgo/podenco (-10%)
+Acções: veterinários raio 40km, grupos expatriados e turistas, gasolineras, estradas secundárias, quintas
+
+CENÁRIO "Ocultamento próximo":
+Positivos: shy (+40%), high_stress (+45%), rural_isolated (+20%), on_leash (não off_leash) (+10%)
+Negativos: sociable (-20%), velcro (-30%), urban (-10%)
+Acções: estação de alimentação no local exacto, câmara de movimento, cobertizos / vegetação densa / poços, silêncio total (não chamar)
+
+CENÁRIO "Deslocamento longo por instinto":
+Positivos: sighthound/galgo/podenco (+35%), scent_hound/beagle (+25%), off_leash (+15%)
+Negativos: toy/pequeno (-20%), shy (-10%)
+Acções: expandir busca a 15-20km, canils adjacentes, grupos Facebook de zonas vizinhas
+
+CENÁRIO "Encontrado não reportado":
+Positivos: urban+sociable (+30%), velcro (+20%), off_leash (+10%), suburban (+10%)
+Negativos: rural_isolated (-20%), shy (-15%)
+Acções: veterinários e clínicas da zona, perguntar a vizinhos e comércio, grupos de bairro no Facebook
+
+## CÃO ENCONTRADO
+
+Fluxo mais curto: identify_dog → search_similar → normalize_location → create_case.
+Sem perguntas comportamentais (dono não está presente).
+
+Após criar qualquer caso, inclui no final da tua resposta:
+QUICK_REPLIES: ["Enviar foto do cão", "Adicionar mais detalhes", "Como posso partilhar?"]`
 }
 
 const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
@@ -70,7 +126,7 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
   },
   {
     name: 'create_case',
-    description: 'Cria um caso oficial na plataforma Nona. Usar quando tiveres informação suficiente: raça/tipo de cão, zona aproximada, e contacto do reportante.',
+    description: 'Cria um caso oficial na plataforma Nona. Usar quando tiveres informação suficiente: raça/tipo de cão, zona aproximada, e contacto do reportante. Retorna case_id necessário para record_behavioral_profile.',
     input_schema: {
       type: 'object' as const,
       properties: {
@@ -91,6 +147,36 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
     },
   },
   {
+    name: 'record_behavioral_profile',
+    description: 'Armazena o perfil comportamental do cão e os cenários de probabilidade calculados. Chamar DEPOIS de create_case, usando o case_id retornado por create_case.',
+    input_schema: {
+      type: 'object' as const,
+      properties: {
+        case_id: { type: 'string', description: 'ID do caso criado por create_case' },
+        sociability: { type: 'string', enum: ['shy', 'neutral', 'sociable', 'velcro'] },
+        off_leash: { type: 'boolean' },
+        environment: { type: 'string', enum: ['urban', 'suburban', 'rural_road', 'rural_isolated'] },
+        stress_level: { type: 'string', enum: ['normal', 'stressed', 'high_stress'] },
+        scenarios: {
+          type: 'array',
+          minItems: 2,
+          maxItems: 4,
+          items: {
+            type: 'object',
+            required: ['title', 'probability', 'actions'],
+            properties: {
+              title: { type: 'string' },
+              probability: { type: 'number', minimum: 0.05, maximum: 1 },
+              reasoning: { type: 'string' },
+              actions: { type: 'array', items: { type: 'string' }, minItems: 2, maxItems: 6 },
+            },
+          },
+        },
+      },
+      required: ['case_id', 'sociability', 'off_leash', 'environment', 'stress_level', 'scenarios'],
+    },
+  },
+  {
     name: 'notify_volunteers',
     description: 'Notifica voluntários activos na zona do desaparecimento.',
     input_schema: {
@@ -104,7 +190,17 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
   },
 ]
 
-async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<{ result: string; code?: string; status?: 'live' | 'ok'; caseSlug?: string; ownerToken?: string }> {
+interface ToolResult {
+  result: string
+  code?: string
+  status?: 'live' | 'ok'
+  caseSlug?: string
+  ownerToken?: string
+  caseId?: string
+  probabilityScenarios?: ProbabilityScenario[]
+}
+
+async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<ToolResult> {
   try {
     switch (name) {
       case 'identify_dog': {
@@ -148,11 +244,10 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
 
       case 'create_case': {
         const supabase = createServiceClient()
-        const typeMap: Record<string, string> = { 'perdido': 'perdido', 'encontrado': 'encontrado' }
         const sexMap: Record<string, string> = { 'macho': 'macho', 'fêmea': 'fêmea', 'desconhecido': 'desconhecido' }
         const sizeMap: Record<string, string> = { 'pequeno': 'pequeno', 'médio': 'médio', 'grande': 'grande' }
 
-        const caseType = typeMap[String(input.type)] ?? 'perdido'
+        const caseType = String(input.type) === 'encontrado' ? 'encontrado' : 'perdido'
         const slug = generateSlug({
           dogName: String(input.dog_name ?? ''),
           lastSeenMunicipality: String(input.last_seen_municipality ?? 'algarve'),
@@ -160,7 +255,7 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
         } as Parameters<typeof generateSlug>[0])
         const ownerToken = randomBytes(16).toString('hex')
 
-        const { error } = await supabase.from('cases').insert({
+        const { data: inserted, error } = await supabase.from('cases').insert({
           slug,
           type: caseType,
           status: 'ativo',
@@ -179,17 +274,40 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           reporter_name: String(input.reporter_name ?? 'Anónimo'),
           agent_name: agentName ?? null,
           owner_token: ownerToken,
-        })
+        }).select('id').single()
 
-        if (error) {
-          return { code: 'case.create()', result: `Erro ao criar caso: ${error.message}`, status: 'ok' }
+        if (error || !inserted) {
+          return { code: 'case.create()', result: `Erro ao criar caso: ${error?.message ?? 'unknown'}`, status: 'ok' }
         }
         return {
           code: 'case.create(kind=' + caseType + ')',
-          result: `nona.pt/caso/${slug}`,
+          result: JSON.stringify({ url: `nona.pt/caso/${slug}`, case_id: inserted.id, slug }),
           status: 'ok',
           caseSlug: slug,
           ownerToken,
+          caseId: inserted.id as string,
+        }
+      }
+
+      case 'record_behavioral_profile': {
+        const case_id = String(input.case_id ?? '')
+        if (!case_id) {
+          return { result: 'Erro: case_id obrigatório. Chama create_case primeiro.', status: 'ok' }
+        }
+        const supabase = createServiceClient()
+        const profile = {
+          sociability: String(input.sociability ?? 'neutral'),
+          off_leash: Boolean(input.off_leash),
+          environment: String(input.environment ?? 'suburban'),
+          stress_level: String(input.stress_level ?? 'normal'),
+          scenarios: (input.scenarios ?? []) as ProbabilityScenario[],
+        }
+        await supabase.from('cases').update({ behavioral_profile: profile }).eq('id', case_id)
+        return {
+          code: `behavioral_profile.record(case=${case_id.slice(0, 8)}…)`,
+          result: `Perfil registado · ${profile.scenarios.length} cenários calculados`,
+          status: 'ok',
+          probabilityScenarios: profile.scenarios,
         }
       }
 
@@ -259,8 +377,7 @@ export async function POST(req: NextRequest) {
         ]
 
         let iterations = 0
-        const maxIterations = 6
-        const calledTools = new Set<string>()
+        const maxIterations = 8
 
         while (iterations < maxIterations) {
           iterations++
@@ -300,7 +417,6 @@ export async function POST(req: NextRequest) {
           if (finalMessage.stop_reason === 'end_turn') {
             const { cleaned, replies } = extractQuickReplies(fullText)
             if (cleaned !== fullText) {
-              // Re-emit corrected text (won't re-stream, just send correction)
               send({ type: 'text_correction', text: cleaned })
             }
             if (replies.length > 0) {
@@ -318,20 +434,7 @@ export async function POST(req: NextRequest) {
               let input: Record<string, unknown> = {}
               try { input = JSON.parse(tu.inputJson || '{}') } catch { /* ignore */ }
 
-              // Gate: normalize_location must be called before create_case
-              if (tu.name === 'create_case' && !calledTools.has('normalize_location')) {
-                send({ type: 'tool_result', tool: tu.name, code: 'gate.check()', result: 'Rejeitado: normalizar localização primeiro', status: 'ok' })
-                toolResults.push({
-                  type: 'tool_result' as const,
-                  tool_use_id: tu.id,
-                  content: 'Rejected: normalize_location must be called before create_case. Call normalize_location first, then retry create_case.',
-                  is_error: true,
-                })
-                continue
-              }
-
               const result = await executeTool(tu.name, input, agentName)
-              calledTools.add(tu.name)
               send({
                 type: 'tool_result',
                 tool: tu.name,
@@ -341,6 +444,9 @@ export async function POST(req: NextRequest) {
               })
               if (result.caseSlug) {
                 send({ type: 'case_created', slug: result.caseSlug, ownerToken: result.ownerToken ?? null })
+              }
+              if (result.probabilityScenarios && result.probabilityScenarios.length > 0) {
+                send({ type: 'probability_scenarios', scenarios: result.probabilityScenarios })
               }
               toolResults.push({
                 type: 'tool_result',
