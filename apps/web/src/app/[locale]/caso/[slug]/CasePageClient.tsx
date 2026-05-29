@@ -218,6 +218,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const { case: c, sightings, stats, geo } = data
   const [selectedImg, setSelectedImg] = useState(0)
   const [copied, setCopied] = useState(false)
+  const [fbCopied, setFbCopied] = useState(false)
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
 
@@ -269,14 +270,35 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
     })
   }
 
+  const suggestedText = `Ajuda a encontrar ${dogName}! ${caseUrl}`
+
   const share = (platform: string) => {
-    const text = encodeURIComponent(`Ajuda a encontrar ${dogName}! ${caseUrl}`)
+    const text = encodeURIComponent(suggestedText)
+    if (platform === 'facebook') {
+      // Meta removed share-dialog text prefill (2017). Copy the message so the
+      // user pastes it in one tap, then open the sharer with the (photo) link.
+      navigator.clipboard?.writeText(suggestedText).then(() => {
+        setFbCopied(true)
+        setTimeout(() => setFbCopied(false), 4000)
+      }).catch(() => {})
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(caseUrl)}`, '_blank')
+      return
+    }
     const urls: Record<string, string> = {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(caseUrl)}`,
       whatsapp: `https://wa.me/?text=${text}`,
       telegram: `https://t.me/share/url?url=${encodeURIComponent(caseUrl)}&text=${encodeURIComponent(`Ajuda a encontrar ${dogName}!`)}`,
     }
     if (urls[platform]) window.open(urls[platform], '_blank')
+  }
+
+  // Native OS share sheet (mobile: FB, WhatsApp, X, Messages, copy…). Falls back
+  // to the explicit FB/WA/TG buttons on desktop where it's unavailable.
+  const shareNative = () => {
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({ title: `${dogName} — Nona`, text: `Ajuda a encontrar ${dogName}`, url: caseUrl }).catch(() => {})
+    } else {
+      share('whatsapp')
+    }
   }
 
   return (
@@ -360,7 +382,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             <Link href={`/${locale}/caso/${c.slug}/avistamento`} style={{ textDecoration: 'none' }}>
               <Btn size="lg" variant="primary" tone="ink" icon={<Icon name="eye" size={16} color={N.paper}/>}>Vi o {dogName}</Btn>
             </Link>
-            <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={() => share('whatsapp')}>Partilhar</Btn>
+            <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={shareNative}>Partilhar</Btn>
           </div>
 
           <p style={{ margin: 0, fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>
@@ -927,14 +949,29 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               <Btn size="md" variant="ghost" icon={<Icon name="facebook" size={14}/>} full onClick={() => share('facebook')}>Facebook</Btn>
               <Btn size="md" variant="ghost" icon={<Icon name="whatsapp" size={14}/>} full onClick={() => share('whatsapp')}>WhatsApp</Btn>
               <Btn size="md" variant="ghost" icon={<Icon name="telegram" size={14}/>} full onClick={() => share('telegram')}>Telegram</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="share" size={14}/>} full>Mais</Btn>
+              <Btn size="md" variant="ghost" icon={<Icon name="share" size={14}/>} full onClick={shareNative}>Mais</Btn>
             </div>
-            <div style={{ marginTop: 14, padding: '9px 12px', borderRadius: 8, background: N.surface, fontFamily: N.mono, fontSize: 11.5, color: N.ink2, display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'center' }}>
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{shortUrl}</span>
-              <button onClick={copyUrl} style={{ background: 'transparent', border: 'none', color: N.ink, fontFamily: N.mono, fontSize: 11.5, fontWeight: 600, cursor: 'pointer' }}>
-                {copied ? 'copiado ✓' : 'copiar'}
-              </button>
+            {fbCopied && (
+              <p style={{ margin: '10px 0 0', fontSize: 12, color: N.ink2, lineHeight: 1.45, background: N.surface, padding: '8px 10px', borderRadius: 8 }}>
+                ✓ Texto copiado — cola na publicação do Facebook (o Facebook não deixa preencher o texto automaticamente).
+              </p>
+            )}
+            <div style={{ marginTop: 14 }}>
+              <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink3, lineHeight: 1.4 }}>
+                Não usas Facebook? Partilha este link em qualquer lado:
+              </p>
+              <div style={{ padding: '9px 12px', borderRadius: 8, background: N.surface, fontFamily: N.mono, fontSize: 11.5, color: N.ink2, display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'center' }}>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{shortUrl}</span>
+                <button onClick={copyUrl} style={{ background: 'transparent', border: 'none', color: N.ink, fontFamily: N.mono, fontSize: 11.5, fontWeight: 600, cursor: 'pointer' }}>
+                  {copied ? 'copiado ✓' : 'copiar'}
+                </button>
+              </div>
             </div>
+            {images[0]?.public_url && (
+              <p style={{ margin: '12px 0 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
+              </p>
+            )}
           </div>
 
           {/* QR + poster */}
