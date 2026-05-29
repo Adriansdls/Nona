@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { N } from '@/components/nona/tokens'
 import { Logo } from '@/components/nona/Logo'
 import { buildStepSequence, bucketFromHours } from '@/lib/guided/sequencer'
+import { createClient } from '@/lib/supabase/client'
 
 type DashboardData = {
   case: {
@@ -174,6 +175,39 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
 
   const dogLabel = c.dog_name ?? 'Cão sem nome'
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
+
+  // WS-F: optional account, post-acute (magic-link). Offered only after the owner
+  // has done the first guided step. On return from the email link (authenticated),
+  // auto-link the case to their account.
+  const [connectEmail, setConnectEmail] = useState('')
+  const [connectState, setConnectState] = useState<'idle' | 'sent' | 'linked' | 'error'>('idle')
+  const [connecting, setConnecting] = useState(false)
+
+  useEffect(() => {
+    // returning from the magic link → link this case to the session
+    const supabase = createClient()
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return
+      const res = await fetch(`/api/owner/${token}/connect`, { method: 'POST' })
+      if (res.ok) setConnectState('linked')
+    }).catch(() => {})
+  }, [token])
+
+  async function sendMagicLink() {
+    if (!connectEmail.trim()) return
+    setConnecting(true)
+    try {
+      const supabase = createClient()
+      const redirect = `${window.location.origin}/auth/callback?next=${encodeURIComponent(`/${locale}/meu-caso/${token}?connect=1`)}`
+      const { error } = await supabase.auth.signInWithOtp({
+        email: connectEmail.trim(),
+        options: { emailRedirectTo: redirect },
+      })
+      setConnectState(error ? 'error' : 'sent')
+    } finally {
+      setConnecting(false)
+    }
+  }
 
   async function handleResolve() {
     if (!confirm(`Confirmar: ${dogLabel} foi encontrado?`)) return
@@ -409,6 +443,42 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
         {sightings.length === 0 && events.length === 0 && !assessment && (
           <div style={{ padding: '32px 24px', textAlign: 'center', color: N.ink3, fontSize: 14, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 12, marginBottom: 28 }}>
             O investigador está a analisar o caso. Volte em breve.
+          </div>
+        )}
+
+        {/* WS-F: warm post-acute connect — only after the first action is done */}
+        {!resolved && completed.size > 0 && connectState !== 'linked' && (
+          <div style={{ marginBottom: 28, padding: '18px 20px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
+            <h3 style={{ margin: '0 0 6px', fontFamily: N.display, fontWeight: 400, fontSize: 20, letterSpacing: '-0.01em', color: N.ink }}>
+              Não percas o {dogLabel}.
+            </h3>
+            <p style={{ margin: '0 0 14px', fontSize: 13.5, color: N.ink2, lineHeight: 1.5 }}>
+              Guarda a busca na tua conta e recebe avisos por email. Assim nunca perdes o acesso a esta página.
+            </p>
+            {connectState === 'sent' ? (
+              <p style={{ margin: 0, fontSize: 13.5, color: N.emeraldDeep, background: N.emeraldBg, padding: '10px 12px', borderRadius: 8 }}>
+                ✓ Enviámos-te um link por email. Abre-o para guardares a busca do {dogLabel}.
+              </p>
+            ) : (
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <input type="email" value={connectEmail} onChange={e => setConnectEmail(e.target.value)}
+                  placeholder="o teu email"
+                  style={{ flex: 1, minWidth: 180, padding: '11px 14px', borderRadius: 9, border: `1px solid ${N.rule}`, fontSize: 14.5, color: N.ink, fontFamily: N.sans }} />
+                <button onClick={sendMagicLink} disabled={!connectEmail.trim() || connecting}
+                  style={{ padding: '11px 18px', borderRadius: 9, border: 'none', background: (connectEmail.trim() && !connecting) ? N.ink : N.rule, color: (connectEmail.trim() && !connecting) ? N.paper : N.ink4, fontSize: 14, fontWeight: 600, cursor: (connectEmail.trim() && !connecting) ? 'pointer' : 'default', fontFamily: N.sans }}>
+                  {connecting ? 'A enviar…' : 'Guardar'}
+                </button>
+              </div>
+            )}
+            {connectState === 'error' && <p style={{ margin: '8px 0 0', fontSize: 12.5, color: N.rose }}>Não foi possível enviar. Tenta de novo.</p>}
+          </div>
+        )}
+        {connectState === 'linked' && (
+          <div style={{ marginBottom: 28, padding: '12px 16px', background: N.emeraldBg, border: `1px solid ${N.emerald}33`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+            <span style={{ fontSize: 13, color: N.emeraldDeep }}>✓ Busca guardada na tua conta.</span>
+            <a href={`/${locale}/meus-caes`} style={{ fontSize: 13, color: N.emeraldDeep, textDecoration: 'none', fontWeight: 600 }}>
+              Os cães que procuras →
+            </a>
           </div>
         )}
 
