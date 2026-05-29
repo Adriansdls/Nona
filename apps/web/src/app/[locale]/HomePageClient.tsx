@@ -7,6 +7,9 @@ import { Icon } from '@/components/nona/Icon'
 import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
 import { Pill } from '@/components/nona/Pill'
 import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
+import { buildStepSequence } from '@/lib/guided/sequencer'
+
+const TELEGRAM_BOT = process.env['NEXT_PUBLIC_TELEGRAM_BOT'] ?? 'salvacao_bot'
 
 type Mode = 'lost' | 'found'
 type Phase = 0 | 1 | 2 | 3 | 4
@@ -592,6 +595,8 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
   const [quickReplies, setQuickReplies] = useState<string[]>([])
   const [caseSlug, setCaseSlug] = useState<string | null>(null)
   const [ownerToken, setOwnerToken] = useState<string | null>(null)
+  const [proAlert, setProAlert] = useState<{ canils: number; vets: number } | null>(null)
+  const [caseActionGate, setCaseActionGate] = useState<ActionGate | null>(null)
   const [streaming, setStreaming] = useState(false)
   const [probabilityScenarios, setProbabilityScenarios] = useState<ProbabilityScenario[]>([])
   const chatRef = useRef<HTMLDivElement>(null)
@@ -701,6 +706,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               const gateData = evt['type'] === 'action_gate' ? evt['gate'] : evt['card']
               if (gateData && typeof gateData === 'object') {
                 actionGateSnap = gateData as ActionGate
+                setCaseActionGate(gateData as ActionGate)
               }
             } else if (evt['type'] === 'field_guide') {
               const g = evt['guide']
@@ -710,6 +716,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               const canils = a?.canils ?? 0
               const vets = a?.vets ?? 0
               const pending = canils < 0 || vets < 0
+              setProAlert({ canils, vets })
               events.push({
                 t: formatTime(), kind: 'tool', status: 'live',
                 label: 'Rede profissional avisada',
@@ -862,7 +869,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           )}
 
           <p style={{ margin: '10px 0 0', fontFamily: N.mono, fontSize: 11, color: N.ink4 }}>
-            {locale === 'en' ? <>or <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span> · voice? <a href="https://t.me/salvacao_bot" style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a></> : <>ou <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span> · prefere voz? <a href="https://t.me/salvacao_bot" style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a></>}
+            {locale === 'en' ? <>or <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span> · voice? <a href={`https://t.me/${TELEGRAM_BOT}`} style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a></> : <>ou <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span> · prefere voz? <a href={`https://t.me/${TELEGRAM_BOT}`} style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a></>}
           </p>
 
         </div>{/* end 720 */}
@@ -1024,20 +1031,61 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             </div>
           ))}
 
-          {/* Case created CTA */}
-          {caseSlug && (
-            <div style={{ marginBottom: 16, padding: '12px 16px', background: N.emeraldBg, border: `1px solid ${N.emerald}22`, borderRadius: 12, display: 'grid', gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 13.5, color: N.emeraldDeep, fontWeight: 500 }}>Caso criado</span>
-                <a href={`/${locale}/caso/${caseSlug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, background: N.emerald, color: N.white, fontSize: 12.5, fontWeight: 500, textDecoration: 'none', fontFamily: N.sans }}>Ver caso <Icon name="arrow" size={12} color={N.white}/></a>
-              </div>
-              {ownerToken && (
-                <a href={`/${locale}/meu-caso/${ownerToken}`} style={{ fontSize: 12.5, color: N.emeraldDeep, textDecoration: 'none', fontWeight: 500 }}>
-                  → Painel do dono (privado)
+          {/* WS5: Handoff card — relief + first action + Telegram CTA */}
+          {caseSlug && (() => {
+            const en = locale === 'en'
+            // is_hard from the action gate → first step from the web mirror sequencer (fresh case = h0_6)
+            const isHard = !!caseActionGate && (caseActionGate.crowd_response_blocked === true || caseActionGate.active_search_permitted === false)
+            const firstStep = buildStepSequence('h0_6', isHard)[0]?.title
+            // honest status: -1 sentinel = pending; 0 = nothing reached yet; >0 = real confirmed
+            const canils = proAlert?.canils ?? -1
+            const vets = proAlert?.vets ?? -1
+            const pending = canils < 0 || vets < 0
+            const nobody = !pending && canils === 0 && vets === 0
+            const statusLine = pending || nobody
+              ? (en ? 'Nona is assembling your local network…' : 'A Nona está a montar a tua rede local…')
+              : (en
+                  ? `✓ Network alerted · ${canils} shelter(s) · ${vets} vet(s)`
+                  : `✓ Rede avisada · ${canils} ${canils === 1 ? 'canil' : 'canis'} · ${vets} ${vets === 1 ? 'veterinário' : 'veterinários'}`)
+            const tgUrl = ownerToken ? `https://t.me/${TELEGRAM_BOT}?start=${ownerToken}` : `https://t.me/${TELEGRAM_BOT}`
+            return (
+              <div style={{ marginBottom: 16, padding: '18px 20px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'grid', gap: 14, boxShadow: '0 8px 28px -12px rgba(11,12,16,.12)' }}>
+                {/* relief — honest status */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ position: 'relative', display: 'inline-block', width: 7, height: 7 }}>
+                    <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald }}/>
+                    {(pending || nobody) && <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald, animation: 'nn-ping 2.2s cubic-bezier(0,0,.2,1) infinite' }}/>}
+                  </span>
+                  <span style={{ fontFamily: N.mono, fontSize: 11.5, color: N.ink2 }}>{statusLine}</span>
+                </div>
+                {/* hope + first action */}
+                {firstStep && (
+                  <div>
+                    <p style={{ margin: '0 0 4px', fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                      {en ? 'your first action' : 'a tua primeira ação'}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.5, letterSpacing: '-0.005em' }}>{firstStep}</p>
+                  </div>
+                )}
+                {/* primary CTA → Telegram */}
+                <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 18px', borderRadius: 10, background: N.ink, color: N.paper, fontSize: 14, fontWeight: 600, textDecoration: 'none', fontFamily: N.sans }}>
+                  {en ? 'Continue in Telegram — one step at a time →' : 'Continua no Telegram — cada passo, um de cada vez →'}
                 </a>
-              )}
-            </div>
-          )}
+                {/* secondary — no Telegram fallback */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                  {ownerToken && (
+                    <a href={`/${locale}/meu-caso/${ownerToken}`} style={{ fontSize: 12.5, color: N.ink3, textDecoration: 'underline', textUnderlineOffset: 3, fontFamily: N.sans }}>
+                      {en ? 'Prefer to continue here' : 'Prefiro continuar aqui'}
+                    </a>
+                  )}
+                  <a href={`/${locale}/caso/${caseSlug}`} style={{ fontSize: 12.5, color: N.ink3, textDecoration: 'none', fontFamily: N.sans }}>
+                    {en ? 'View case →' : 'Ver caso →'}
+                  </a>
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Quick replies (last agent turn) */}
           {quickReplies.length > 0 && !streaming && (

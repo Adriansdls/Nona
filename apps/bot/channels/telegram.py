@@ -114,6 +114,12 @@ async def _run_brain(update: Update, state: ConvState, text: str) -> None:
 # ---------------------------------------------------------------------------
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # WS2: deep-link handoff. t.me/<bot>?start=<owner_token> arrives as context.args[0].
+    if context.args:
+        handled = await _handle_handoff(update, context, str(context.args[0]).strip())
+        if handled:
+            return  # claimed + first step sent; skip the generic welcome
+
     keyboard = [
         [
             InlineKeyboardButton("🐕 Perdi o meu cão", callback_data="flow_perdido"),
@@ -129,6 +135,225 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
     if update.message:
         await update.message.reply_text(welcome, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+
+
+# ---------------------------------------------------------------------------
+# WS2/WS3 — Web→Telegram handoff: claim case, deliver guided steps one at a time
+# ---------------------------------------------------------------------------
+
+def _step_keyboard(idx: int) -> InlineKeyboardMarkup:
+    # callback_data must be ≤64 bytes — no slug here (the chat is already bound to
+    # the case via ConvState.created_case_slug, resolved in the callback handler).
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton("Feito ✓", callback_data=f"step:{idx}:done"),
+        InlineKeyboardButton("Agora não", callback_data=f"step:{idx}:later"),
+    ]])
+
+
+async def _send_step(bot, chat_id: int, steps: list[dict], idx: int) -> None:
+    """Send ONE guided step. WAIT steps carry no advance button — they're the rest state."""
+    if idx >= len(steps):
+        await bot.send_message(
+            chat_id=chat_id,
+            text="Concluíste o protocolo das primeiras horas. 🐾\n"
+                 "A Nona continua a vigiar o caso e avisa-te assim que houver novidade.",
+        )
+        return
+    step = steps[idx]
+    n = len(steps)
+    if step.get("kind") == "wait":
+        why = step.get("why")
+        text = f"⏳ {step['title']}"
+        if why:
+            text += f"\n\n_{why}_"
+        await bot.send_message(chat_id=chat_id, text=text, parse_mode=ParseMode.MARKDOWN)
+        return
+    text = f"*Ação {idx + 1} de {n}*\n\n{step['title']}"
+    await bot.send_message(
+        chat_id=chat_id, text=text,
+        reply_markup=_step_keyboard(idx), parse_mode=ParseMode.MARKDOWN,
+    )
+
+
+def _load_guided_flow(db, slug: str) -> tuple[dict, list[dict], int]:
+    """Fetch case + rebuild the step sequence from the BUCKET PINNED AT CLAIM TIME.
+    Critical: we do NOT recompute the bucket from now() — otherwise an owner who
+    crosses a time boundary mid-flow (e.g. starts at h5, presses Feito at h7) would
+    get a different protocol's step list and the button idx would point at the wrong
+    step. The bucket is pinned in guided_flow.bucket when the flow starts."""
+    from agent.pi_tools import build_step_sequence, bucket_from_hours, sequence_for_case
+    from datetime import datetime, timezone
+    res = (
+        db.table("cases")
+        .select("id, slug, last_seen_at, behavioral_profile")
+        .eq("slug", slug)
+        .maybe_single()
+        .execute()
+    )
+    case = dict(res.data or {})
+    bp = case.get("behavioral_profile") or {}
+    gf = bp.get("guided_flow") or {}
+    pinned_bucket = gf.get("bucket")
+    if pinned_bucket:
+        steps = build_step_sequence(str(pinned_bucket), bool(gf.get("is_hard", False)))
+    else:
+        # No pinned bucket (legacy / direct dashboard start) → derive once from elapsed.
+        last_seen = case.get("last_seen_at")
+        hours = 0.0
+        if last_seen:
+            try:
+                dt = datetime.fromisoformat(str(last_seen).replace("Z", "+00:00"))
+                hours = max(0.0, (datetime.now(timezone.utc) - dt).total_seconds() / 3600.0)
+            except (ValueError, TypeError):
+                hours = 0.0
+        steps = sequence_for_case(case, hours)
+    idx = int(gf.get("step_index", 0))
+    return case, steps, idx
+
+
+def _save_step_index(
+    db, case_id: str, behavioral_profile: dict, idx: int,
+    mark_done: int | None = None, bucket: str | None = None, is_hard: bool | None = None,
+) -> None:
+    bp = dict(behavioral_profile or {})
+    gf = dict(bp.get("guided_flow") or {})
+    completed = list(gf.get("completed") or [])
+    if mark_done is not None and mark_done not in completed:
+        completed.append(mark_done)
+    gf["step_index"] = idx
+    gf["completed"] = completed
+    # Pin the bucket/is_hard the first time so callbacks never recompute from now().
+    if bucket is not None:
+        gf["bucket"] = bucket
+    if is_hard is not None:
+        gf["is_hard"] = is_hard
+    if "started_at" not in gf:
+        from datetime import datetime, timezone
+        gf["started_at"] = datetime.now(timezone.utc).isoformat()
+    bp["guided_flow"] = gf
+    db.table("cases").update({"behavioral_profile": bp}).eq("id", case_id).execute()
+
+
+async def _handle_handoff(update: Update, context: ContextTypes.DEFAULT_TYPE, owner_token: str) -> bool:
+    """Claim a web-created case via owner_token, greet as case officer, send step 0.
+    Returns True if handled (so cmd_start skips the generic welcome)."""
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                f"{WEB_APP_URL}/api/bot/cases/claim",
+                json={"owner_token": owner_token, "telegram_id": str(telegram_id)},
+                headers={"x-internal-token": INTERNAL_TOKEN},
+            )
+    except Exception:
+        logger.exception("handoff claim request failed")
+        return False
+
+    if resp.status_code != 200:
+        logger.info("handoff claim rejected: %s", resp.status_code)
+        return False
+
+    data = resp.json().get("data", {})
+    slug = data.get("slug")
+    if not slug:
+        return False
+
+    # Bind telegram_id + slug into conversation state so the chat knows the case.
+    state_dict = await load_conversation(telegram_id)
+    state = ConvState.from_json(state_dict)
+    state.telegram_id = telegram_id
+    state.created_case_slug = slug
+    await save_conversation(telegram_id, state.to_json(), state.locale)
+
+    dog = data.get("dog_name") or "o teu cão"
+    zone = data.get("zone") or data.get("municipality") or "a zona"
+    greeting = (
+        f"Sou a *Nona*, e a partir de agora trato do caso do *{dog}* contigo. 💙\n\n"
+        f"Já estou a montar a tua rede local em {zone}. "
+        f"Vou guiar-te passo a passo — uma ação de cada vez, ao teu ritmo.\n\n"
+        f"A maioria dos cães está perto, escondida. Com calma e método, maximizamos "
+        f"a probabilidade de o trazer de volta."
+    )
+    if update.message:
+        await update.message.reply_text(greeting, parse_mode=ParseMode.MARKDOWN)
+
+    # Build the sequence from claim data (bot is source of truth for order).
+    from agent.pi_tools import build_step_sequence, bucket_from_hours
+    bucket = bucket_from_hours(float(data.get("hours_elapsed", 0) or 0))
+    is_hard = bool(data.get("is_hard", False))
+    steps = build_step_sequence(bucket, is_hard)
+
+    # Pin bucket + is_hard so callbacks never recompute from now() (boundary-cross bug).
+    try:
+        from storage import get_supabase
+        db = get_supabase()
+        case = (
+            db.table("cases").select("id, behavioral_profile").eq("slug", slug).maybe_single().execute()
+        )
+        if case.data:
+            _save_step_index(
+                db, case.data["id"], case.data.get("behavioral_profile") or {}, 0,
+                bucket=bucket, is_hard=is_hard,
+            )
+    except Exception:
+        logger.exception("handoff: failed to init guided_flow")
+
+    if update.message:
+        await _send_step(context.bot, update.message.chat_id, steps, 0)
+    return True
+
+
+async def handle_step_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """WS3: advance the guided step sequence on [Feito ✓] / [Agora não]."""
+    query = update.callback_query
+    if not query:
+        return
+    await query.answer()
+
+    # callback_data = step:<idx>:done|later  (slug resolved from ConvState)
+    parts = (query.data or "").split(":")
+    if len(parts) != 3:
+        return
+    _, idx_str, verb = parts
+    try:
+        idx = int(idx_str)
+    except ValueError:
+        return
+
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+    state = ConvState.from_json(await load_conversation(telegram_id))
+    slug = state.created_case_slug
+    if not slug:
+        await context.bot.send_message(
+            chat_id=query.message.chat_id,  # type: ignore[union-attr]
+            text="Não encontrei o caso associado a esta conversa. Usa o link do teu caso para recomeçar.",
+        )
+        return
+
+    if verb == "later":
+        await context.bot.send_message(
+            chat_id=query.message.chat_id,  # type: ignore[union-attr]
+            text="Sem pressa. Quando fizeres, toca em *Feito ✓*.",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+        return
+
+    # done → mark ✓, advance, send next
+    try:
+        from storage import get_supabase
+        db = get_supabase()
+        case, steps, _cur = _load_guided_flow(db, slug)
+        next_idx = idx + 1
+        if case.get("id"):
+            _save_step_index(db, case["id"], case.get("behavioral_profile") or {}, next_idx, mark_done=idx)
+        done_title = steps[idx]["title"] if idx < len(steps) else ""
+        try:
+            await query.edit_message_text(f"✓ {done_title}")
+        except Exception:
+            pass
+        await _send_step(context.bot, query.message.chat_id, steps, next_idx)  # type: ignore[union-attr]
+    except Exception:
+        logger.exception("step callback failed for slug %s", slug)
 
 
 async def cmd_cancelar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -378,6 +603,7 @@ def build_application() -> Application:
 
     app.add_handler(CommandHandler("encontrado", cmd_encontrado))
     app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
+    app.add_handler(CallbackQueryHandler(handle_step_callback, pattern="^step:"))
 
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))

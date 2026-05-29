@@ -12,7 +12,7 @@ export async function GET(
   const { data: caseRow } = await supabase
     .from('cases')
     .select(
-      'id, slug, status, dog_name, breed, primary_color, last_seen_municipality, last_seen_zone_approx, reporter_name, agent_name, agent_state, last_seen_at, created_at, resolved_at',
+      'id, slug, status, dog_name, breed, primary_color, last_seen_municipality, last_seen_zone_approx, reporter_name, agent_name, agent_state, last_seen_at, created_at, resolved_at, behavioral_profile',
     )
     .eq('owner_token', token)
     .single()

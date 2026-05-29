@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { N } from '@/components/nona/tokens'
 import { Logo } from '@/components/nona/Logo'
+import { buildStepSequence, bucketFromHours } from '@/lib/guided/sequencer'
 
 type DashboardData = {
   case: {
@@ -19,6 +20,10 @@ type DashboardData = {
     last_seen_at: string
     created_at: string
     resolved_at: string | null
+    behavioral_profile?: {
+      action_gate?: { active_search_permitted?: boolean; crowd_response_blocked?: boolean }
+      guided_flow?: { step_index?: number; completed?: number[]; bucket?: string; is_hard?: boolean }
+    } | null
   }
   events: Array<{
     action: string
@@ -136,6 +141,37 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
     }
   }
 
+  // WS3 web fallback — guided steps as a check-off list (non-Telegram path).
+  // Prefer the bucket pinned in guided_flow (set when the flow first started, on
+  // either channel) so a page reload after a time-boundary cross doesn't switch
+  // protocols and misalign completed[] indices. Falls back to elapsed-time bucket.
+  const gf0 = c.behavioral_profile?.guided_flow
+  const gate = c.behavioral_profile?.action_gate
+  const isHard = gf0?.is_hard ?? (!!gate && (gate.crowd_response_blocked === true || gate.active_search_permitted === false))
+  const hoursElapsed = c.last_seen_at
+    ? Math.max(0, (Date.now() - new Date(c.last_seen_at).getTime()) / 3_600_000)
+    : 0
+  const activeBucket = (gf0?.bucket as ReturnType<typeof bucketFromHours> | undefined) ?? bucketFromHours(hoursElapsed)
+  const guidedSteps = buildStepSequence(activeBucket, isHard)
+  const [completed, setCompleted] = useState<Set<number>>(
+    () => new Set(c.behavioral_profile?.guided_flow?.completed ?? []),
+  )
+  const [steppingIdx, setSteppingIdx] = useState<number | null>(null)
+
+  async function handleStepDone(stepIndex: number) {
+    setSteppingIdx(stepIndex)
+    try {
+      const res = await fetch(`/api/owner/${token}/step`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stepIndex }),
+      })
+      if (res.ok) setCompleted(prev => new Set(prev).add(stepIndex))
+    } finally {
+      setSteppingIdx(null)
+    }
+  }
+
   const dogLabel = c.dog_name ?? 'Cão sem nome'
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
 
@@ -200,6 +236,60 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
             desaparecido {hoursAgo(c.last_seen_at)} · caso aberto {hoursAgo(c.created_at)}
           </p>
         </div>
+
+        {/* WS3 web fallback — guided steps (one-action checklist) */}
+        {!resolved && guidedSteps.length > 0 && (
+          <section style={{ marginBottom: 28 }}>
+            <h2 style={{ margin: '0 0 4px', fontSize: 11, fontFamily: N.mono, letterSpacing: '0.12em', textTransform: 'uppercase', color: N.ink3 }}>
+              O que fazer agora
+            </h2>
+            <p style={{ margin: '0 0 12px', fontSize: 13, color: N.ink3 }}>
+              Uma ação de cada vez. Marca quando fizeres.{' '}
+              <a href={`https://t.me/${process.env.NEXT_PUBLIC_TELEGRAM_BOT ?? 'salvacao_bot'}?start=${token}`} style={{ color: N.indigo, textDecoration: 'none' }}>
+                Preferes no Telegram? →
+              </a>
+            </p>
+            <div style={{ border: `1px solid ${N.rule}`, borderRadius: 12, overflow: 'hidden' }}>
+              {guidedSteps.map((step, i) => {
+                const done = completed.has(step.idx)
+                const isWait = step.kind === 'wait'
+                return (
+                  <div key={step.idx} style={{
+                    padding: '12px 16px',
+                    borderBottom: i < guidedSteps.length - 1 ? `1px solid ${N.ruleSoft}` : 'none',
+                    background: isWait ? N.surface : N.white,
+                    display: 'flex', alignItems: 'flex-start', gap: 12,
+                  }}>
+                    {isWait ? (
+                      <span style={{ flexShrink: 0, fontSize: 15, marginTop: 1 }}>⏳</span>
+                    ) : (
+                      <button
+                        onClick={() => !done && handleStepDone(step.idx)}
+                        disabled={done || steppingIdx === step.idx}
+                        style={{
+                          flexShrink: 0, marginTop: 1, width: 22, height: 22, borderRadius: 6,
+                          border: `1.5px solid ${done ? N.emerald : N.rule}`,
+                          background: done ? N.emerald : N.white,
+                          cursor: done ? 'default' : 'pointer', display: 'inline-flex',
+                          alignItems: 'center', justifyContent: 'center', padding: 0,
+                        }}>
+                        {done && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={N.white} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 12.5 9 17.5 20 6.5"/></svg>}
+                      </button>
+                    )}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ margin: 0, fontSize: 14, color: done ? N.ink3 : N.ink, lineHeight: 1.5, textDecoration: done ? 'line-through' : 'none' }}>
+                        {step.title}
+                      </p>
+                      {step.why && (
+                        <p style={{ margin: '4px 0 0', fontSize: 12.5, color: N.ink3, fontStyle: 'italic', lineHeight: 1.45 }}>{step.why}</p>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+        )}
 
         {/* PI Assessment */}
         {assessment && (
