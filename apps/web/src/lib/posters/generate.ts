@@ -1,5 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { renderToBuffer } = require('@react-pdf/renderer') as { renderToBuffer: (element: unknown) => Promise<Buffer> }
+// react-pdf v4 is ESM-only — must `import`, not `require` (require breaks the Next build).
+import { renderToBuffer, type DocumentProps } from '@react-pdf/renderer'
+import type { ReactElement } from 'react'
 import QRCode from 'qrcode'
 import { createElement } from 'react'
 import { PosterA4 } from './PosterA4'
@@ -55,7 +56,7 @@ export async function generatePosterA4(
     locale,
   })
 
-  return await renderToBuffer(element)
+  return await renderToBuffer(element as unknown as ReactElement<DocumentProps>)
 }
 
 export async function generateDossierPDF(
@@ -66,5 +67,5 @@ export async function generateDossierPDF(
     caseData,
     includePrivate: options.includePrivate,
   })
-  return await renderToBuffer(element)
+  return await renderToBuffer(element as unknown as ReactElement<DocumentProps>)
 }
