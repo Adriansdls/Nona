@@ -350,6 +350,7 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
         description: { type: 'string', description: 'Descrição completa do caso' },
         reporter_email: { type: 'string', description: 'Email do reportante' },
         reporter_name: { type: 'string', description: 'Nome do reportante' },
+        reporter_contact_public: { type: 'string', description: 'Contacto PÚBLICO (telefone/email) que aparece na página do caso para quem vir o cão poder avisar. Pergunta "que contacto posso mostrar publicamente para alguém que veja o {nome} te avisar?". Opcional mas importante.' },
       },
       required: ['type', 'breed', 'sex', 'size', 'primary_color', 'last_seen_municipality', 'last_seen_zone', 'description', 'reporter_email', 'reporter_name'],
     },
@@ -514,6 +515,7 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           description: String(input.description ?? ''),
           reporter_email: String(input.reporter_email ?? 'noreply@nona.pt'),
           reporter_name: String(input.reporter_name ?? 'Anónimo'),
+          reporter_contact_public: input.reporter_contact_public ? String(input.reporter_contact_public) : null,
           agent_name: agentName ?? null,
           owner_token: ownerToken,
         }).select('id').single()

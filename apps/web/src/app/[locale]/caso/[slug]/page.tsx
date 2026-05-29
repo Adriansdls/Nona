@@ -116,14 +116,21 @@ async function getCaseData(slug: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
+  const { locale, slug } = await params
   const data = await getCaseData(slug)
   if (!data) return { title: 'Caso não encontrado' }
   const { case: c } = data
   const name = c.dog_name ?? c.breed
+  const title = `${name} — ${c.last_seen_municipality}`
+  const description = `Cão ${c.type === 'perdido' ? 'perdido' : 'encontrado'} em ${c.last_seen_municipality}. Ajuda-nos a reunir ${name} com a sua família.`
+  const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://nona-deploy.vercel.app'
+  const url = `${appUrl}/${locale}/caso/${slug}`
+  // opengraph-image.tsx is auto-wired by Next as the og:image; url/type added here.
   return {
-    title: `${name} — ${c.last_seen_municipality}`,
-    description: `Cão ${c.type === 'perdido' ? 'perdido' : 'encontrado'} em ${c.last_seen_municipality}. Ajuda-nos a reunir ${name} com a sua família.`,
+    title,
+    description,
+    openGraph: { title, description, url, type: 'article', siteName: 'Nona' },
+    twitter: { card: 'summary_large_image', title, description },
   }
 }
 
