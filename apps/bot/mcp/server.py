@@ -140,3 +140,9 @@ def mark_stale(kind: str, name: str, municipality: str) -> str:
     _db().table(table).update({"email": None, "source": "stale"}) \
         .ilike("name", f"%{name}%").eq("municipality", municipality).execute()
     return f"Marked stale: {name} in {municipality}"
+
+
+if __name__ == "__main__":
+    # stdio transport for local clients (Claude Desktop). The bot's internal SSE
+    # deployment starts the `mcp` object differently; this entrypoint is for curation.
+    mcp.run()

@@ -36,7 +36,9 @@ async def discover_orgs(municipality: str, kind: str) -> list[dict[str, Any]]:
     kind: 'canil' | 'vet'. Returns [{name, address, phone, website, lat, lng}].
     Returns [] if no API key (caller handles gracefully).
     """
-    api_key = os.environ.get("GOOGLE_PLACES_API_KEY")
+    # Same Google Cloud key as the web map works for Places server-side (Places API
+    # enabled, no referrer restriction) — verified. Prefer a dedicated key if set.
+    api_key = os.environ.get("GOOGLE_PLACES_API_KEY") or os.environ.get("GOOGLE_MAPS_API_KEY")
     if not api_key:
         return []
 
