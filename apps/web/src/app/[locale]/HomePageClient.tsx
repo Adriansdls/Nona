@@ -601,6 +601,67 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
   const [probabilityScenarios, setProbabilityScenarios] = useState<ProbabilityScenario[]>([])
   const chatRef = useRef<HTMLDivElement>(null)
 
+  // Voice + image input (web parity with the Telegram bot)
+  const [stagedPhoto, setStagedPhoto] = useState<{ path: string; preview: string } | null>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [recording, setRecording] = useState(false)
+  const [transcribing, setTranscribing] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
+
+  const handlePhotoPick = useCallback(async (file: File) => {
+    setUploadingPhoto(true)
+    try {
+      const fd = new FormData()
+      fd.append('photo', file)
+      const res = await fetch('/api/intake/upload', { method: 'POST', body: fd })
+      if (res.ok) {
+        const { path } = await res.json() as { path: string }
+        setStagedPhoto({ path, preview: URL.createObjectURL(file) })
+      }
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }, [])
+
+  const toggleRecording = useCallback(async () => {
+    if (recording) {
+      mediaRecorderRef.current?.stop()
+      return
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const rec = new MediaRecorder(stream)
+      audioChunksRef.current = []
+      rec.ondataavailable = (e) => { if (e.data.size > 0) audioChunksRef.current.push(e.data) }
+      rec.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop())
+        setRecording(false)
+        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+        if (blob.size === 0) return
+        setTranscribing(true)
+        try {
+          const fd = new FormData()
+          fd.append('audio', blob, 'voice.webm')
+          fd.append('locale', locale)
+          const res = await fetch('/api/intake/transcribe', { method: 'POST', body: fd })
+          if (res.ok) {
+            const { text } = await res.json() as { text: string }
+            if (text) setInputValue(prev => (prev ? `${prev} ${text}` : text))
+          }
+        } finally {
+          setTranscribing(false)
+        }
+      }
+      mediaRecorderRef.current = rec
+      rec.start()
+      setRecording(true)
+    } catch {
+      // mic denied / unavailable — silently no-op (user can type)
+    }
+  }, [recording, locale])
+
   // Measure the hero input card to use as the canvas expansion origin
   const heroInputRef = useRef<HTMLDivElement>(null)
   const [cardRect, setCardRect] = useState<CardRect | null>(null)
@@ -632,7 +693,9 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
   }, [])
 
   const handleSubmit = useCallback(async (overrideText?: string) => {
-    const text = (typeof overrideText === 'string' ? overrideText : inputValue).trim()
+    let text = (typeof overrideText === 'string' ? overrideText : inputValue).trim()
+    // Photo-only submit: send a default message so the agent knows a photo arrived.
+    if (!text && stagedPhoto) text = locale === 'en' ? 'Here is a photo of the dog.' : 'Aqui está uma foto do cão.'
     if (!text) return
 
     const userMsg: ChatMessage = { from: 'user', text, time: formatTime() }
@@ -663,10 +726,12 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     try {
       // Pass existing messages as history so Claude maintains context across turns
       const history = messages.map(m => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text }))
+      const photoPath = stagedPhoto?.path ?? null
       const res = await fetch('/api/intake/stream', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, mode, history, agentName }),
+        body: JSON.stringify({ message: text, mode, history, agentName, stagedPhotoPath: photoPath }),
       })
+      setStagedPhoto(null)  // consumed — attaches to the case create_case fires this turn
       if (!res.ok || !res.body) throw new Error('stream failed')
 
       const reader = res.body.getReader()
@@ -744,13 +809,17 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     } finally {
       setStreaming(false); scrollChat()
     }
-  }, [inputValue, mode, messages, scrollChat])
+  }, [inputValue, mode, messages, scrollChat, stagedPhoto, locale, agentName])
 
   const inChat = phase >= 1
   const panelIn = phase >= 4
 
   return (
     <div className="nn" style={{ position: 'fixed', inset: 0, background: N.paper, overflow: 'hidden' }}>
+
+      {/* Always-mounted hidden file input — shared by hero + chat composer */}
+      <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }}
+        onChange={e => { const f = e.target.files?.[0]; if (f) void handlePhotoPick(f); e.target.value = '' }}/>
 
       {/* ══ CHROME — home nav, hero, reunidos, footer ══ */}
       {/* Chrome includes the "real" hero input the user types into.           */}
@@ -838,18 +907,28 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                 ? (locale === 'en' ? 'Describe your dog and where you lost him...' : 'Descreve o teu cão e onde o perdeste...')
                 : (locale === 'en' ? 'Describe the dog you found and where...' : 'Descreve o cão que encontraste e onde...')}
               minHeight={56} fontSize={18}/>
+            {(stagedPhoto || uploadingPhoto) && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
+                {stagedPhoto && <img src={stagedPhoto.preview} alt="" style={{ width: 34, height: 34, borderRadius: 7, objectFit: 'cover' }}/>}
+                <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>{uploadingPhoto ? 'a carregar foto…' : (locale === 'en' ? 'photo attached' : 'foto anexada')}</span>
+                {stagedPhoto && <button onClick={() => setStagedPhoto(null)} style={{ border: 'none', background: 'transparent', color: N.ink4, cursor: 'pointer', fontSize: 12 }}>{locale === 'en' ? 'remove' : 'remover'}</button>}
+              </div>
+            )}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, paddingTop: 10, borderTop: `1px solid ${N.ruleSoft}` }}>
               <div style={{ display: 'flex', gap: 4 }}>
-                {[{ icon: 'photo' as const, label: locale === 'en' ? 'photo' : 'foto' }, { icon: 'pin' as const, label: locale === 'en' ? 'location' : 'local' }, { icon: 'clock' as const, label: locale === 'en' ? 'when' : 'quando' }].map(t => (
-                  <button key={t.icon} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 10px', borderRadius: 7, border: 'none', background: 'transparent', color: N.ink3, fontSize: 12.5, cursor: 'pointer', fontFamily: N.sans }}>
-                    <Icon name={t.icon} size={14} color={N.ink3}/>{t.label}
-                  </button>
-                ))}
+                <button onClick={() => fileInputRef.current?.click()} title={locale === 'en' ? 'Attach photo' : 'Anexar foto'}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 10px', borderRadius: 7, border: 'none', background: 'transparent', color: N.ink3, fontSize: 12.5, cursor: 'pointer', fontFamily: N.sans }}>
+                  <Icon name="photo" size={14} color={N.ink3}/>{locale === 'en' ? 'photo' : 'foto'}
+                </button>
+                <button onClick={toggleRecording} title={recording ? (locale === 'en' ? 'Stop' : 'Parar') : (locale === 'en' ? 'Record voice' : 'Gravar voz')}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 10px', borderRadius: 7, border: 'none', background: recording ? N.roseBg : 'transparent', color: recording ? N.rose : N.ink3, fontSize: 12.5, cursor: 'pointer', fontFamily: N.sans }}>
+                  <Icon name="mic" size={14} color={recording ? N.rose : N.ink3}/>{transcribing ? (locale === 'en' ? 'transcribing…' : 'a transcrever…') : (locale === 'en' ? 'voice' : 'voz')}
+                </button>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
                 <span>pt · en · es</span>
-                <button onClick={() => handleSubmit()} disabled={!inputValue.trim()} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 14px', borderRadius: 8, border: 'none', background: inputValue.trim() ? N.ink : N.rule, color: inputValue.trim() ? N.paper : N.ink4, fontSize: 13, fontWeight: 500, fontFamily: N.sans, cursor: inputValue.trim() ? 'pointer' : 'default', transition: 'all .15s ease' }}>
-                  {locale === 'en' ? 'start' : 'começar'} <Icon name="enter" size={12} color={inputValue.trim() ? N.paper : N.ink4}/>
+                <button onClick={() => handleSubmit()} disabled={!inputValue.trim() && !stagedPhoto} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 14px', borderRadius: 8, border: 'none', background: (inputValue.trim() || stagedPhoto) ? N.ink : N.rule, color: (inputValue.trim() || stagedPhoto) ? N.paper : N.ink4, fontSize: 13, fontWeight: 500, fontFamily: N.sans, cursor: (inputValue.trim() || stagedPhoto) ? 'pointer' : 'default', transition: 'all .15s ease' }}>
+                  {locale === 'en' ? 'start' : 'começar'} <Icon name="enter" size={12} color={(inputValue.trim() || stagedPhoto) ? N.paper : N.ink4}/>
                 </button>
               </div>
             </div>
@@ -1132,14 +1211,31 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         {/* Reply input */}
         <div style={{ width: '100%', maxWidth: panelIn ? 680 : 760, padding: '0 36px' }}>
           <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, padding: '14px 16px 12px', boxShadow: '0 1px 0 rgba(11,12,16,.02), 0 8px 24px -8px rgba(11,12,16,.10)' }}>
-            <AutoTextarea value={inputValue} onChange={setInputValue} onSubmit={handleSubmit} placeholder="responde à nona…" minHeight={22} fontSize={14.5} disabled={streaming || !inChat}/>
+            {/* Attached photo preview */}
+            {(stagedPhoto || uploadingPhoto) && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                {stagedPhoto && <img src={stagedPhoto.preview} alt="" style={{ width: 38, height: 38, borderRadius: 8, objectFit: 'cover' }}/>}
+                <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
+                  {uploadingPhoto ? 'a carregar foto…' : 'foto anexada'}
+                </span>
+                {stagedPhoto && (
+                  <button onClick={() => setStagedPhoto(null)} style={{ border: 'none', background: 'transparent', color: N.ink4, cursor: 'pointer', fontSize: 12 }}>remover</button>
+                )}
+              </div>
+            )}
+            <AutoTextarea value={inputValue} onChange={setInputValue} onSubmit={handleSubmit} placeholder={transcribing ? 'a transcrever…' : recording ? 'a gravar — toca no micro para parar' : 'responde à nona…'} minHeight={22} fontSize={14.5} disabled={streaming || !inChat}/>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 6 }}>
               <div style={{ display: 'flex', gap: 2 }}>
-                {(['photo','camera','pin'] as const).map(ic => (
-                  <button key={ic} style={{ padding: 7, borderRadius: 7, border: 'none', background: 'transparent', color: N.ink3, cursor: 'pointer' }}><Icon name={ic} size={14} color={N.ink3}/></button>
-                ))}
+                <button onClick={() => fileInputRef.current?.click()} title="Anexar foto"
+                  style={{ padding: 7, borderRadius: 7, border: 'none', background: 'transparent', color: N.ink3, cursor: 'pointer' }}>
+                  <Icon name="photo" size={14} color={N.ink3}/>
+                </button>
+                <button onClick={toggleRecording} title={recording ? 'Parar gravação' : 'Gravar voz'}
+                  style={{ padding: 7, borderRadius: 7, border: 'none', background: recording ? N.roseBg : 'transparent', color: recording ? N.rose : N.ink3, cursor: 'pointer' }}>
+                  <Icon name="mic" size={14} color={recording ? N.rose : N.ink3}/>
+                </button>
               </div>
-              <button onClick={() => handleSubmit()} disabled={!inputValue.trim() || streaming} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 8, border: 'none', background: (!inputValue.trim() || streaming) ? N.rule : N.ink, color: N.paper, cursor: (!inputValue.trim() || streaming) ? 'default' : 'pointer', transition: 'background .15s' }}>
+              <button onClick={() => handleSubmit()} disabled={(!inputValue.trim() && !stagedPhoto) || streaming} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 8, border: 'none', background: ((!inputValue.trim() && !stagedPhoto) || streaming) ? N.rule : N.ink, color: N.paper, cursor: ((!inputValue.trim() && !stagedPhoto) || streaming) ? 'default' : 'pointer', transition: 'background .15s' }}>
                 <Icon name="arrowUp" size={15} color={N.paper} sw={2}/>
               </button>
             </div>

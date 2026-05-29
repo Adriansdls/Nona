@@ -439,7 +439,7 @@ interface ToolResult {
   professionalAlert?: { canils: number; vets: number }
 }
 
-async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<ToolResult> {
+async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null, stagedPhotoPath?: string | null): Promise<ToolResult> {
   try {
     switch (name) {
       case 'identify_dog': {
@@ -520,6 +520,36 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
 
         if (error || !inserted) {
           return { code: 'case.create()', result: `Erro ao criar caso: ${error?.message ?? 'unknown'}`, status: 'ok' }
+        }
+
+        // Attach the staged intake photo (if any) → case_images + fire ML processing
+        // (breed ID + visual match). Fire-and-forget; never blocks the chat.
+        if (stagedPhotoPath) {
+          void (async () => {
+            try {
+              const { data: img } = await supabase
+                .from('case_images')
+                .insert({
+                  case_id: inserted.id,
+                  storage_path_original: stagedPhotoPath,
+                  is_primary: true,
+                  image_type: 'referencia',
+                })
+                .select('id')
+                .single()
+              const mlUrl = process.env['ML_SERVICE_URL']
+              if (img && mlUrl) {
+                await fetch(`${mlUrl}/process-image`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ storage_path: stagedPhotoPath, case_image_id: img.id }),
+                  signal: AbortSignal.timeout(60_000),
+                }).catch((e) => console.warn('intake ML trigger failed:', e))
+              }
+            } catch (e) {
+              console.warn('intake photo attach failed:', e)
+            }
+          })()
         }
 
         // WP18 Tier 1: silent professional-network alert, minute-0. Fire-and-forget
@@ -655,11 +685,12 @@ function extractActionGateCard(text: string): { cleaned: string; card: Record<st
 }
 
 export async function POST(req: NextRequest) {
-  const { message, mode, history, agentName } = await req.json() as {
+  const { message, mode, history, agentName, stagedPhotoPath } = await req.json() as {
     message: string
     mode: 'lost' | 'found'
     history?: Array<{ role: 'user' | 'assistant'; content: string }>
     agentName?: string | null
+    stagedPhotoPath?: string | null
   }
 
   if (!message?.trim()) {
@@ -754,7 +785,7 @@ export async function POST(req: NextRequest) {
               let input: Record<string, unknown> = {}
               try { input = JSON.parse(tu.inputJson || '{}') } catch { /* ignore */ }
 
-              const result = await executeTool(tu.name, input, agentName)
+              const result = await executeTool(tu.name, input, agentName, stagedPhotoPath)
               send({
                 type: 'tool_result',
                 tool: tu.name,
