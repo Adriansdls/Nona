@@ -282,7 +282,9 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
         "description": (
             "Write the agent's current assessment and next planned actions to the case record. "
             "Call ONCE at the end of every run — summarises what was done and what comes next. "
-            "This is the PI's case file entry."
+            "This is the PI's case file entry. ALSO revises the standing INVESTIGATION PLAN: "
+            "you are shown it in the context block — mark its actions done/superseded and add new "
+            "ones via plan_actions, so next run you build on the plan instead of starting blank."
         ),
         "input_schema": {
             "type": "object",
@@ -296,6 +298,22 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
                     "type": "array", "items": {"type": "string"},
                     "description": "Scheduled next actions",
                 },
+                "plan_actions": {
+                    "type": "array",
+                    "description": "The FULL current investigation plan after this run — the agent's "
+                                   "living to-do across days. Carry forward unfinished items, mark done ones.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "action": {"type": "string"},
+                            "rationale": {"type": "string"},
+                            "status": {"type": "string", "enum": ["pending", "done", "superseded"]},
+                            "due": {"type": "string", "description": "When/condition, e.g. '48h' or 'next sighting'"},
+                        },
+                        "required": ["action", "status"],
+                    },
+                },
+                "reassessment_trigger": {"type": "string", "description": "What should prompt re-planning"},
                 "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
             },
             "required": ["assessment", "actions_taken", "next_planned"],
@@ -818,6 +836,20 @@ async def execute_pi_tool(
             "phase": harness.phase.value,
             "confidence": inputs.get("confidence", "medium"),
         }).execute()
+
+        # WS2: persist the evolving investigation plan on the case (JSONB), so next
+        # run reads the standing plan from the context block instead of re-deriving.
+        plan_actions = inputs.get("plan_actions")
+        if plan_actions is not None:
+            from datetime import datetime, timezone
+            bp = dict(harness.case.get("behavioral_profile") or {})
+            bp["investigation_plan"] = {
+                "actions": plan_actions,
+                "reassessment_trigger": inputs.get("reassessment_trigger"),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }
+            db.table("cases").update({"behavioral_profile": bp}).eq("id", case_id).execute()
+            harness.case["behavioral_profile"] = bp
         return json.dumps({"saved": True})
 
     if name == "cold_case_assessment":

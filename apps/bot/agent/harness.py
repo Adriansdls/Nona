@@ -684,6 +684,21 @@ class CaseHarness:
                 geo_lines.append(f"  CORRIDOR: {cor.get('name','?')} — {cor.get('description','')}")
         geo_str = "\n".join(geo_lines) if geo_lines else "  not available (municipality not in KB)"
 
+        # WS2: standing investigation plan — so the agent revises it, not re-derives.
+        plan = (self.case.get("behavioral_profile") or {}).get("investigation_plan") or {}
+        plan_actions = plan.get("actions") or []
+        if plan_actions:
+            plan_lines = [
+                f"  [{a.get('status', 'pending')}] {a.get('action', '?')}"
+                + (f" (due: {a['due']})" if a.get("due") else "")
+                for a in plan_actions
+            ]
+            plan_str = "\n".join(plan_lines)
+            if plan.get("reassessment_trigger"):
+                plan_str += f"\n  reassess when: {plan['reassessment_trigger']}"
+        else:
+            plan_str = "  none yet — establish the plan this run via update_case_assessment(plan_actions=...)"
+
         return (
             f"CASE: {self.case['slug']} | {self.case.get('breed', '?')} | "
             f"{self.case.get('primary_color', '?')} | {municipality}\n"
@@ -694,6 +709,7 @@ class CaseHarness:
             f"ACTION GATE RATIONALE: {ag.get('gate_rationale', 'n/a')}\n"
             f"ENVIRONMENT (WP10):\n{env_str}\n"
             f"GEOGRAPHY (WP13):\n{geo_str}\n"
+            f"INVESTIGATION PLAN (standing — revise, don't restart):\n{plan_str}\n"
             f"ACTIONS ALREADY TAKEN: {', '.join(tried)}\n"
             f"LOCAL CANILS IN KB: {canils_str}\n"
             f"LOCAL VETS IN KB: {vets_str}\n"
