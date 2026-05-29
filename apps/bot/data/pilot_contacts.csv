@@ -1,0 +1,10 @@
+kind,municipality,name,phone,email,source
+canil,Faro,Canil Municipal de Faro,289 870 600,,pilot
+canil,Loulé,Canil Municipal de Loulé,289 400 600,,pilot
+canil,Lagos,Canil Municipal de Lagos,282 780 900,,pilot
+canil,Albufeira,Canil Municipal de Albufeira,289 599 500,,pilot
+vet,Faro,Hospital Veterinário de Faro,289 821 407,,pilot
+vet,Faro,Clínica Veterinária Faro Centro,289 826 780,,pilot
+vet,Loulé,Clínica Veterinária de Loulé,289 412 970,,pilot
+vet,Lagos,Clínica Veterinária de Lagos,282 769 160,,pilot
+vet,Albufeira,Clínica Veterinária de Albufeira,289 542 700,,pilot
