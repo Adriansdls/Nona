@@ -12,7 +12,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.36.0",
     "@hookform/resolvers": "^5.4.0",
-    "@react-pdf/renderer": "^3.4.5",
+    "@react-pdf/renderer": "^4.5.1",
     "@salvacao/i18n": "workspace:*",
     "@salvacao/types": "workspace:*",
     "@salvacao/ui": "workspace:*",
@@ -40,6 +40,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

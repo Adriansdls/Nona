@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
+import React from 'react'
 import { Document, Page, View, Text, Image, StyleSheet } from '@react-pdf/renderer'
 
 const TITLES = { pt: 'PROCURA-SE', en: 'LOST DOG', es: 'SE BUSCA' }
