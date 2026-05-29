@@ -39,6 +39,7 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
         <NavLink href={`/${locale}/admin/casos`} label={t('cases')} />
         <NavLink href={`/${locale}/admin/avistamentos`} label={t('sightings')} />
         <NavLink href={`/${locale}/admin/coincidencias`} label={t('visualMatches')} />
+        <NavLink href={`/${locale}/admin/parceiros`} label="Parceiros" />
         {isAdmin && <NavLink href={`/${locale}/admin/usuarios`} label={t('users')} />}
         <div className="flex-1" />
         <p className="text-xs text-muted-foreground px-2">{user.email}</p>

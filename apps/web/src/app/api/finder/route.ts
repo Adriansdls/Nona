@@ -72,6 +72,7 @@ export async function POST(req: NextRequest) {
       reporter_contact: body.contact ?? null,
       observed_time_source: 'firsthand',
       observed_time_confidence: 'approximate',
+      found_via_partner: body.partnerId ?? null,
       is_public: false,
     })
     return NextResponse.json({
