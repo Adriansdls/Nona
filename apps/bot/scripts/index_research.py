@@ -35,6 +35,37 @@ CHUNK_CHARS = 1200
 BATCH = 64
 
 
+# Domain relevance gate. The vault has academic papers citation-chained during the dog
+# research that are OFF-TOPIC (fragile-X genetics, nanocomposites, spacetime) yet carry
+# the same 'lost-dog-behavioral' tag — so tags don't discriminate. A distinct-term count
+# also fails: academic prose shares generic words (breed/owner/search/behavior). We count
+# OCCURRENCES of SPECIFIC terms in two buckets — a note is relevant if it's genuinely
+# about dogs (ANIMAL) OR about the Algarve terrain where dogs go (PLACE). Junk papers
+# clear neither. Indexing them would let consult_research cite irrelevant science.
+_ANIMAL_TERMS = (
+    "dog", "cão", "cães", "perro", "canine", "galgo", "podenco", "sighthound",
+    "hound", "stray", "shelter", "canil", "kennel", "puppy", "scent dog",
+    "sighting", "avistamento", "microchip", "leash", "trap", "feeding station",
+)
+_PLACE_TERMS = (
+    "algarve", "faro", "loulé", "silves", "tavira", "lagos", "albufeira", "olhão",
+    "monchique", "ribeira", "barrocal", "serra", "guadiana", "arade", "sapal",
+    "garrigue", "terrain", "water source", "borehole",
+)
+MIN_OCCURRENCES = 5
+
+
+def _count(text: str, terms: tuple[str, ...]) -> int:
+    return sum(text.count(t) for t in terms)
+
+
+def is_relevant(text: str) -> tuple[bool, int]:
+    low = text.lower()
+    animal = _count(low, _ANIMAL_TERMS)
+    place = _count(low, _PLACE_TERMS)
+    return (animal >= MIN_OCCURRENCES or place >= MIN_OCCURRENCES), max(animal, place)
+
+
 def strip_frontmatter(text: str) -> str:
     if text.startswith("---"):
         end = text.find("\n---", 3)
@@ -71,6 +102,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int)
     ap.add_argument("--note", help="single note id (filename stem)")
+    ap.add_argument("--all", action="store_true", help="bypass the domain-relevance gate")
     args = ap.parse_args()
 
     if not os.environ.get("OPENAI_API_KEY"):
@@ -93,9 +125,15 @@ def main() -> int:
         return 1
 
     total_chunks = 0
+    skipped = 0
     for f in files:
         note_id = f.stem
-        chunks = chunk_text(f.read_text(encoding="utf-8"))
+        raw = f.read_text(encoding="utf-8")
+        relevant, hits = is_relevant(raw)
+        if not relevant and not args.all:
+            skipped += 1
+            continue
+        chunks = chunk_text(raw)
         if not chunks:
             continue
         # embed in batches
@@ -114,7 +152,7 @@ def main() -> int:
         total_chunks += len(rows)
         print(f"  {note_id}: {len(rows)} chunks")
 
-    print(f"✓ indexed {len(files)} note(s), {total_chunks} chunks")
+    print(f"✓ indexed {len(files) - skipped} note(s), {total_chunks} chunks · skipped {skipped} off-domain")
     return 0
 
 

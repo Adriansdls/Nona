@@ -124,7 +124,7 @@ def consult_research(query: str) -> list[dict[str, Any]]:
     res = _db().rpc("match_research_chunks", {"query_embedding": emb, "limit_count": 4}).execute()
     return [
         {"source": r["note_id"], "passage": r["chunk_text"][:600], "score": round(r["score"], 3)}
-        for r in (res.data or []) if r.get("score", 0) > 0.25
+        for r in (res.data or []) if r.get("score", 0) >= 0.35
     ]
 
 

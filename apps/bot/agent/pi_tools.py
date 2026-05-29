@@ -1615,12 +1615,19 @@ async def execute_pi_tool(
             res = db.rpc("match_research_chunks", {"query_embedding": emb, "limit_count": 4}).execute()
         except Exception as exc:
             return json.dumps({"error": f"research lookup failed: {exc}"})
+        # Floor at 0.35: below this the nearest neighbour is usually off-topic noise.
+        # Returning nothing ("no research found") is correct; citing a weak match to an
+        # owner is worse than silence (advisor catch — corpus has biomedical neighbours).
         hits = [
             {"source": r["note_id"], "passage": r["chunk_text"][:600], "score": round(r["score"], 3)}
-            for r in (res.data or []) if r.get("score", 0) > 0.25
+            for r in (res.data or []) if r.get("score", 0) >= 0.35
         ]
         harness.log_action(f"research_{query.lower().replace(' ', '_')[:24]}", name, f"{len(hits)} passages")
-        return json.dumps({"query": query, "results": hits})
+        return json.dumps({
+            "query": query,
+            "results": hits,
+            "note": "no strong match in the research vault — rely on the prompt-level protocol" if not hits else "cite these sources",
+        })
 
     if name == "mark_contact_stale":
         # WS1: agent learns the KB is wrong (email bounced / phone dead).
