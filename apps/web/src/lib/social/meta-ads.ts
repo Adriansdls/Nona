@@ -1,17 +1,15 @@
-// WP21 — Real Meta Ads Manager integration with radius-driven geo-targeting.
+// WS-E — Ad RECOMMENDATIONS for the owner to act on (Model A: the owner pays Meta
+// directly via Boost). The agent computes the right params (geo-fence from the WP17
+// posterior radius, age, suggested budget); the owner promotes the Nona Page post
+// from THEIR Facebook with THEIR card. Nona never spends or touches money.
 //
-// The ad set's geo-fence is the WP17 posterior search radius centered on the
-// highest-probability point (or last-seen). When the owner confirms a sighting
-// and the radius recomputes, the ad set targeting updates to follow it.
+// GATED by the WP9 action_gate (Tier 2): a fear-reactive dog (galgo phase_2) is
+// never advertised to crowds.
 //
-// GATED by the WP9 action_gate exactly like the public/crowd broadcast (Tier 2):
-// a fear-reactive dog (galgo phase_2) is never advertised to crowds.
-//
-// EXTERNAL DEPENDENCY: needs an ad account + budget + a token with `ads_management`.
-//   FACEBOOK_AD_ACCOUNT_ID   e.g. "act_1234567890" (or bare id, we prefix)
-//   FACEBOOK_ADS_ACCESS_TOKEN (ads_management scope)
-//   FACEBOOK_ADS_CAMPAIGN_ID  parent campaign the ad sets live under
-// Set META_ADS_DRY_RUN=1 to build + return the payload without calling Graph.
+// NOTE: syncCaseAdSet() below auto-creates ad sets in NONA's ad account (= Nona
+// spends). That contradicts the owner-pays-directly decision and is NO LONGER
+// CALLED from the app (triage uses recommendAdParams instead). Kept only behind
+// explicit creds for a possible future Nona-sponsored mode; inert without them.
 
 const GRAPH = 'https://graph.facebook.com/v19.0'
 
@@ -146,5 +144,48 @@ export async function syncCaseAdSet(args: AdSyncArgs): Promise<AdSyncResult> {
     return { action: 'created', adSetId: id }
   } catch (e) {
     return { action: 'skipped_no_creds', reason: `ad set create error: ${String(e)}` }
+  }
+}
+
+// ── WS-E: ad recommendation (the owner-pays path — no spend) ────────────────
+export interface AdRecommendation {
+  eligible: boolean
+  reason?: string
+  radiusKm?: number
+  center?: { lat: number; lng: number } | null
+  zone?: string | null
+  ageMin?: number
+  dailyBudgetEur?: number
+  rationale?: string
+  computedAt: string
+}
+
+/**
+ * Compute the ad the owner SHOULD run (params only — no Graph call, no spend).
+ * Gated by action_gate. Budget heuristic: a wider posterior radius needs a bit
+ * more reach. The owner enters these in their own Boost flow.
+ */
+export function recommendAdParams(args: {
+  radiusKm: number
+  center: { lat: number; lng: number } | null
+  zone: string | null
+  actionGate: ActionGateLike | null | undefined
+}): AdRecommendation {
+  const now = new Date().toISOString()
+  if (!isAdvertisingAllowed(args.actionGate)) {
+    return { eligible: false, reason: 'action_gate blocks public/crowd advertising', computedAt: now }
+  }
+  const radiusKm = clampRadiusKm(args.radiusKm || 5)
+  // €3–€8/day suggestion scaled by radius (more area → slightly more reach).
+  const dailyBudgetEur = Math.min(8, Math.max(3, Math.round(radiusKm / 2)))
+  return {
+    eligible: true,
+    radiusKm,
+    center: args.center,
+    zone: args.zone,
+    ageMin: 18,
+    dailyBudgetEur,
+    rationale: `Raio de ${radiusKm}km${args.zone ? ` à volta de ${args.zone}` : ''} — onde é mais provável que o vejam.`,
+    computedAt: now,
   }
 }

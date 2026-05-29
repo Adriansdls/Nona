@@ -227,7 +227,8 @@ async function triggerMLProcessing(caseId: string, imageId: string, storagePath:
       processed_at: new Date().toISOString(),
     }).eq('id', imageId)
 
-    // Post to Facebook + Instagram once primary image is ready
+    // Post to Facebook + Instagram once primary image is ready; capture the Page
+    // post id for the owner-boost deep-link (WS-E).
     if (caseA.isPrimary) {
       void postCaseToMeta({
         slug: caseA.slug,
@@ -235,6 +236,8 @@ async function triggerMLProcessing(caseId: string, imageId: string, storagePath:
         type: caseA.type as 'perdido' | 'encontrado',
         municipality: caseA.municipality,
         imageUrl: publicUrl,
+      }).then(({ fbPostId }) => {
+        if (fbPostId) supabase.from('cases').update({ fb_post_id: fbPostId }).eq('id', caseId).then(() => {})
       }).catch((e) => console.warn('Meta post failed:', e))
     }
 

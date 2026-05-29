@@ -21,9 +21,11 @@ type DashboardData = {
     last_seen_at: string
     created_at: string
     resolved_at: string | null
+    fb_post_id?: string | null
     behavioral_profile?: {
       action_gate?: { active_search_permitted?: boolean; crowd_response_blocked?: boolean }
       guided_flow?: { step_index?: number; completed?: number[]; bucket?: string; is_hard?: boolean }
+      ad_recommendation?: { eligible?: boolean; radiusKm?: number; zone?: string | null; ageMin?: number; dailyBudgetEur?: number; rationale?: string } | null
     } | null
   }
   events: Array<{
@@ -481,6 +483,37 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
             </a>
           </div>
         )}
+
+        {/* WS-E: owner-pays Boost card — only when the action_gate allows ads */}
+        {!resolved && c.behavioral_profile?.ad_recommendation?.eligible && (() => {
+          const rec = c.behavioral_profile!.ad_recommendation!
+          const boostUrl = c.fb_post_id
+            ? `https://www.facebook.com/${c.fb_post_id}`
+            : 'https://www.facebook.com/business/help/547448218658012' // how-to-boost fallback
+          return (
+            <div style={{ marginBottom: 28, padding: '18px 20px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
+              <h3 style={{ margin: '0 0 6px', fontFamily: N.display, fontWeight: 400, fontSize: 20, letterSpacing: '-0.01em', color: N.ink }}>
+                Promover no Facebook
+              </h3>
+              <p style={{ margin: '0 0 12px', fontSize: 13.5, color: N.ink2, lineHeight: 1.5 }}>
+                O pagamento é teu, direto ao Meta. A Nona prepara o anúncio certo — tu só confirmas e pagas com o teu cartão.
+              </p>
+              <div style={{ background: N.surface, borderRadius: 10, padding: '12px 14px', marginBottom: 14, fontSize: 13, color: N.ink2, lineHeight: 1.6 }}>
+                <div><strong style={{ color: N.ink }}>Raio:</strong> {rec.radiusKm}km{rec.zone ? ` · ${rec.zone}` : ''}</div>
+                <div><strong style={{ color: N.ink }}>Público:</strong> {rec.ageMin ?? 18}+ na zona</div>
+                <div><strong style={{ color: N.ink }}>Orçamento sugerido:</strong> ~€{rec.dailyBudgetEur}/dia</div>
+                {rec.rationale && <div style={{ marginTop: 4, fontStyle: 'italic', color: N.ink3 }}>{rec.rationale}</div>}
+              </div>
+              <a href={boostUrl} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 18px', borderRadius: 9, background: N.ink, color: N.paper, textDecoration: 'none', fontSize: 14, fontWeight: 600 }}>
+                Promover no Facebook →
+              </a>
+              <p style={{ margin: '10px 0 0', fontSize: 11.5, color: N.ink3 }}>
+                Sem Facebook? A tua busca já está na página da Nona e foi partilhada — os anúncios pagos são um extra opcional.
+              </p>
+            </div>
+          )
+        })()}
 
         {/* Public case link */}
         <div style={{ marginBottom: 28, padding: '12px 16px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>

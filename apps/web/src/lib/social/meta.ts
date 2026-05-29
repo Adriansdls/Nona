@@ -23,10 +23,10 @@ function buildCaption(params: MetaPostParams): string {
   )
 }
 
-async function postToFacebook(caption: string, imageUrl: string | null): Promise<void> {
+async function postToFacebook(caption: string, imageUrl: string | null): Promise<string | null> {
   const token = process.env['FACEBOOK_PAGE_ACCESS_TOKEN']
   const pageId = process.env['FACEBOOK_PAGE_ID']
-  if (!token || !pageId) return
+  if (!token || !pageId) return null
 
   const endpoint = imageUrl
     ? `${GRAPH}/${pageId}/photos`
@@ -46,6 +46,10 @@ async function postToFacebook(caption: string, imageUrl: string | null): Promise
     const err = await res.text()
     throw new Error(`FB post failed ${res.status}: ${err}`)
   }
+  // Capture the post id (WS-E): /photos returns {id, post_id}, /feed returns {id}.
+  // The boostable page-post id is post_id (photos) or id (feed).
+  const data = (await res.json()) as { id?: string; post_id?: string }
+  return data.post_id ?? data.id ?? null
 }
 
 async function postToInstagram(caption: string, imageUrl: string | null): Promise<void> {
@@ -79,10 +83,12 @@ async function postToInstagram(caption: string, imageUrl: string | null): Promis
   }
 }
 
-export async function postCaseToMeta(params: MetaPostParams): Promise<void> {
+export async function postCaseToMeta(params: MetaPostParams): Promise<{ fbPostId: string | null }> {
   const caption = buildCaption(params)
-  await Promise.allSettled([
-    postToFacebook(caption, params.imageUrl).catch((e) => console.warn('FB post failed:', e)),
+  const [fb] = await Promise.allSettled([
+    postToFacebook(caption, params.imageUrl).catch((e) => { console.warn('FB post failed:', e); return null }),
     postToInstagram(caption, params.imageUrl).catch((e) => console.warn('IG post failed:', e)),
   ])
+  const fbPostId = fb.status === 'fulfilled' ? (fb.value ?? null) : null
+  return { fbPostId }
 }

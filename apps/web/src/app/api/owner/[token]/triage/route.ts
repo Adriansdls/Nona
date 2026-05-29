@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServiceClient } from '@/lib/supabase/service'
 import { applyOwnerVerdict, type OwnerVerdict, type LatLng } from '@/lib/behavioral/belief'
-import { syncCaseAdSet, type ActionGateLike } from '@/lib/social/meta-ads'
+import { recommendAdParams, type ActionGateLike } from '@/lib/social/meta-ads'
 
 // Postgres point comes back as "(lng,lat)". Convert to {lat,lng}.
 function parsePoint(p: unknown): LatLng | null {
@@ -37,7 +37,7 @@ export async function POST(
 
   const { data: caseRow } = await supabase
     .from('cases')
-    .select('id, slug, dog_name, last_seen_municipality, last_seen_coords_approx, behavioral_profile, environment_profile')
+    .select('id, slug, dog_name, last_seen_municipality, last_seen_zone_approx, last_seen_coords_approx, behavioral_profile, environment_profile')
     .eq('owner_token', token)
     .single()
 
@@ -88,34 +88,18 @@ export async function POST(
   const bd = (updated['belief_distribution'] as Record<string, unknown>) ?? {}
   const radiusKm = Number(bd['posterior_radius_km']) || baseRadiusKm
 
-  // WP21: keep the ad geo-fence following the posterior radius. Centered on the
-  // confirmed highest-probability point if we have one, else the last-seen point.
-  // Gated by action_gate inside syncCaseAdSet (Tier 2). Never blocks the response.
+  // WS-E: recompute the ad RECOMMENDATION (owner-pays model — params only, no spend,
+  // no Graph call). The owner boosts the Nona Page post from their own FB. Gated by
+  // action_gate inside recommendAdParams (Tier 2).
   const gate = ((profile['action_gate'] as ActionGateLike) ?? null)
   const hpc = bd['highest_probability_coords'] as LatLng | null | undefined
   const center = hpc ?? parsePoint(caseRow.last_seen_coords_approx)
-  const adCampaign = (updated['ad_campaign'] as { ad_set_id?: string } | undefined) ?? undefined
-  if (center) {
-    try {
-      const sync = await syncCaseAdSet({
-        caseId: caseRow.id as string,
-        slug: caseRow.slug as string,
-        dogName: (caseRow.dog_name as string | null) ?? null,
-        municipality: (caseRow.last_seen_municipality as string) ?? 'Algarve',
-        center,
-        radiusKm,
-        actionGate: gate,
-        existingAdSetId: adCampaign?.ad_set_id ?? null,
-      })
-      if (sync.adSetId) {
-        updated['ad_campaign'] = { ad_set_id: sync.adSetId, last_radius_km: radiusKm, last_synced_at: new Date().toISOString(), last_action: sync.action }
-      } else {
-        updated['ad_campaign'] = { ...(adCampaign ?? {}), last_radius_km: radiusKm, last_synced_at: new Date().toISOString(), last_action: sync.action }
-      }
-    } catch (e) {
-      console.warn('[WP21] ad sync failed (non-fatal):', e)
-    }
-  }
+  updated['ad_recommendation'] = recommendAdParams({
+    radiusKm,
+    center,
+    zone: (bd['highest_probability_zone'] as string | null) ?? (caseRow.last_seen_zone_approx as string | null) ?? null,
+    actionGate: gate,
+  })
 
   await supabase
     .from('cases')
