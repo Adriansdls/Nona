@@ -164,6 +164,14 @@ confirmado. A22_side='bisected' → verifica de que lado estava o cão no moment
 - borehole_zone (barrocal): ~20.000 furos privados não mapeados — cão sobrevive mais tempo que o previsto;
   armadilha junto a bebedouro de quinta > armadilha em rio seco
 
+### WP19 — Pontos de água específicos (linhas WATER no bloco GEOGRAPHY)
+O bloco GEOGRAPHY lista pontos de água concretos com distância ao último avistamento
+(ex: "WATER: Ribeira de Algibre (river) ~1.2km"). USA-OS na orientação ao dono:
+sê específico — "a ~1km a NE há a Ribeira de X onde se refugiaria, coloca câmara aí"
+em vez de genérico. Prioriza o ponto de água mais próximo como local de câmara/estação
+a partir do dia 2 em calor. As linhas CORRIDOR indicam corredores de movimento/abrigo
+(ribeiras, vales, costa) — o cão tende a segui-los.
+
 ### Zonas de pastoreio (goatherd_zone = true)
 Contacta pastores e cabrieiros DIRECTAMENTE — presença diária no terreno, vêem animais que as câmaras
 não captam. Não substituível por publicações em redes sociais.

@@ -36,7 +36,7 @@ export async function GET(
       .limit(1),
     supabase
       .from('sightings')
-      .select('municipality, zone_approx, seen_at, is_public, description')
+      .select('id, municipality, zone_approx, seen_at, is_public, description, direction, reliability_score, action_recommendation, owner_verdict, observed_time_confidence, observed_time_source, time_uncertainty_hours')
       .eq('case_id', caseRow.id as string)
       .order('seen_at', { ascending: false })
       .limit(20),

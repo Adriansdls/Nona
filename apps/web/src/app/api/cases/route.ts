@@ -7,6 +7,7 @@ import { stripPrivateFields } from '@/lib/privacy'
 import { notifyVisualMatch } from '@/lib/notifications/visual-match'
 import { geocodeZone } from '@/lib/geo/geocode'
 import { postCaseToMeta } from '@/lib/social/meta'
+import { fireProfessionalAlert } from '@/lib/notifications/professional-alert'
 import type { CaseCreateInput } from '@salvacao/types'
 
 /** List cases — used by bot search and public case list. */
@@ -162,6 +163,18 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     console.warn('Email send failed (non-fatal):', e)
   }
+
+  // WP18 Tier 1: silent professional-network alert, minute-0, fire-and-forget.
+  void fireProfessionalAlert({
+    caseId: caseRow.id as string,
+    caseType: data.type,
+    slug: caseRow.slug,
+    dogName: data.dogName ?? null,
+    breed: data.breed,
+    primaryColor: data.primaryColor,
+    municipality: data.lastSeenMunicipality,
+    zone: data.lastSeenZoneApprox ?? null,
+  })
 
   return NextResponse.json({ data: { slug: caseRow.slug } }, { status: 201 })
 }

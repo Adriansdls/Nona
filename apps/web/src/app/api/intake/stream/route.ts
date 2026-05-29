@@ -4,6 +4,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import type { MessageParam, ToolResultBlockParam } from '@anthropic-ai/sdk/resources/messages/messages'
 import { createServiceClient } from '@/lib/supabase/service'
 import { generateSlug } from '@/lib/slug'
+import { fireProfessionalAlert } from '@/lib/notifications/professional-alert'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -72,6 +73,127 @@ export interface ProbabilityScenario {
   actions: string[]
 }
 
+// WP15: Time-indexed field guide — ported from apps/bot/agent/pi_tools.py BUCKET_GUIDES.
+// Structured (do/dont) so it renders as a card and can be delivered BEFORE a case exists.
+export type FieldGuideBucket = 'h0_6' | 'h6_24' | 'd2_4' | 'd5_10' | 'd10_plus'
+
+export interface FieldGuide {
+  bucket: FieldGuideBucket
+  label: string
+  isHard: boolean
+  do: string[]
+  dont: string[]
+  hardNote?: string
+  source: string
+}
+
+const FIELD_GUIDE_CONTENT: Record<FieldGuideBucket, Omit<FieldGuide, 'bucket' | 'isHard' | 'hardNote'>> = {
+  h0_6: {
+    label: 'Primeiras 6 horas',
+    do: [
+      'Roupa usada (sem perfume) no ponto exacto de desaparecimento',
+      'Cartaz A4 com foto nas 10 lojas/paragens mais próximas',
+      'Notifique canil municipal e 3 clínicas veterinárias próximas',
+      'Publique no grupo Facebook local com o cruzamento mais próximo (não GPS)',
+      'Estação de alimentação: tigela + água no local de desaparecimento',
+    ],
+    dont: [
+      'Não corra atrás — deslocação fatal',
+      'Não repita o nome — condiciona fuga',
+      'Não organize grupos de busca > 2 pessoas',
+    ],
+    source: 'Weiss 2012 (n=1015) · Albrecht/MAR 2018 IAABC',
+  },
+  h6_24: {
+    label: '6 a 24 horas',
+    do: [
+      'Visite pessoalmente o canil municipal (vá em pessoa, mostre foto) — Lord 2007: 2.1× recuperação',
+      'Verifique chip no SIAC (siac.vet.pt) — confirme dados actualizados',
+      'Expanda cartazes a raio 5km + clínicas veterinárias da área',
+      'Registe na GNR/PSP local',
+      'Estação: visite às 6h e 22h APENAS; comida consumida = cão na zona',
+    ],
+    dont: [
+      'Não visite a estação fora das 6h/22h',
+      'Sem actividade em 24h → mova 100m em cada direcção (não antes)',
+    ],
+    source: 'Albrecht/MAR 2018 IAABC · Lord 2007 JAVMA',
+  },
+  d2_4: {
+    label: 'Dias 2 a 4 — sobrevivência',
+    do: [
+      'Mínimo 2 câmaras (+22-400% detecção — Evans & Mortelliti 2019)',
+      'Altura câmara: 15-20cm cão pequeno · 30-50cm médio',
+      'Isca: hot dogs, frango BBQ, liquid smoke no chão (pico 22:00-06:00)',
+      'Verifique remotamente — NÃO visite entre reabastecimentos',
+      'Canil: visita pessoal cada 48h com novas fotos',
+    ],
+    dont: [
+      'NÃO use urina — repele cães assustados',
+      'NÃO mova nem altere a estação — consistência é chave',
+    ],
+    source: 'Evans & Mortelliti 2019 · Albrecht/MAR 2018 IAABC',
+  },
+  d5_10: {
+    label: 'Dias 5 a 10 — território estabelecido',
+    do: [
+      'Armadilha (jaula coberta com pano) se câmara confirmar actividade',
+      'Isca: roupas do dono + comida favorita',
+      'Verifique a armadilha de 2 em 2h — nunca preso mais de 2h',
+      'Verifique canils nos concelhos vizinhos + grupos Algarve regionais',
+    ],
+    dont: [
+      '⚠️ Captura após >5 dias: risco de síndrome de realimentação',
+      'NÃO alimente em excesso — contacte veterinário ANTES de alimentar',
+    ],
+    source: 'Albrecht/MAR 2018 IAABC · Marks 1994',
+  },
+  d10_plus: {
+    label: 'Dia 10 ou mais',
+    do: [
+      'Visite TODOS os canils num raio de 60km — pessoalmente',
+      'Verifique adopções recentes (últimos 30 dias) — pode estar com outra família',
+      'Contacte AMAL, APPA, associações locais de resgate',
+      'Reponha cartazes — os antigos desbotam',
+      'Mantenha estação activa — mínimo 14 dias sem avistamento',
+    ],
+    dont: [
+      'Não desista — cães são encontrados semanas e meses depois',
+      '⚠️ Captura após longa ausência: síndrome de realimentação — veterinário ANTES de alimentar',
+    ],
+    source: 'Weiss 2012 · Lord 2007 JAVMA · Marks 1994',
+  },
+}
+
+const HARD_NOTES: Record<FieldGuideBucket, string> = {
+  h0_6: 'Perfil passivo: estação de alimentação AGORA. Não procure activamente.',
+  h6_24: 'Perfil passivo: máximo 1 pessoa silenciosa para verificar a estação.',
+  d2_4: 'Perfil passivo: câmara substitui visitas. Nenhuma pessoa na área.',
+  d5_10: 'Perfil passivo: armadilha com isca familiar. Zero abordagem directa.',
+  d10_plus: 'Perfil passivo: câmara 24/7. Armadilha com isca familiar. Sem grupos.',
+}
+
+function bucketFromHours(hours: number): FieldGuideBucket {
+  if (hours < 6) return 'h0_6'
+  if (hours < 24) return 'h6_24'
+  if (hours < 96) return 'd2_4'
+  if (hours < 240) return 'd5_10'
+  return 'd10_plus'
+}
+
+function buildFieldGuide(bucket: FieldGuideBucket, isHard: boolean): FieldGuide {
+  const content = FIELD_GUIDE_CONTENT[bucket]
+  return {
+    bucket,
+    label: content.label,
+    isHard,
+    do: content.do,
+    dont: content.dont,
+    ...(isHard ? { hardNote: HARD_NOTES[bucket] } : {}),
+    source: content.source,
+  }
+}
+
 function buildSystemPrompt(agentName: string | null): string {
   const identity = agentName
     ? `O teu nome é ${agentName}. Trabalhas para a Nona, a plataforma de recuperação de cães perdidos no Algarve. És uma investigadora dedicada a este caso.`
@@ -89,9 +211,20 @@ FORMATO DAS RESPOSTAS:
 
 REGRAS DE PRIVACIDADE (obrigatórias):
 - Nunca repitas números de telefone, nomes completos ou endereços de email nas respostas
-- Para chips: pergunta apenas os últimos 4 dígitos, nunca o número completo
+- Para chips: pergunta apenas os últimos 4 dígitos, nunca o número completo; NUNCA incluas o número de microchip em distinctive_marks — usa apenas descrições físicas (cor, coleira, manchas)
 - Avistamentos: reporta apenas por zona aproximada, nunca endereço exato
 - Não uses linguagem acusatória — o teu foco é exclusivamente localizar e reunir o animal
+
+## GUIA-PRIMEIRO (WP15 — não bloqueante)
+
+A pessoa pode estar em pânico e precisar de saber O QUE FAZER já, antes de te dar todos os detalhes. NUNCA bloqueies a ajuda à espera dos dados do caso.
+
+Se a primeira mensagem pede acção imediata ("o que faço agora", "diz-me como procurar", "acabei de perder", "ajuda já") OU ainda não tens dados suficientes para create_case:
+1. Chama send_field_guide IMEDIATAMENTE (hours_since_loss=0 e is_hard_case se for galgo/podenco/medroso) — isto entrega o protocolo das primeiras horas SEM precisar de caso.
+2. Em prosa curta, tranquiliza: a rede profissional (canil, veterinários, voluntários) vai ser avisada — ela não tem de se preocupar com a comunicação.
+3. SÓ DEPOIS pergunta gentilmente os detalhes para criar o caso. A criação do caso é opcional e nunca um pré-requisito para a guia.
+
+Lema (mostra-o no espírito, não literal): maximizamos a probabilidade de o encontrar — fazendo o que a ciência diz, com calma.
 
 ## FLUXO — CÃO PERDIDO (obrigatório, dois turnos)
 
@@ -120,7 +253,8 @@ CRÍTICO — Escape trigger determina o protocolo:
 - prey_drive com podenco: estação em 4h, raio 5-15km
 - opportunistic: busca activa nas primeiras 72h é segura
 
-Sequência obrigatória: normalize_location → create_case → record_behavioral_profile(case_id de create_case) → notify_volunteers
+Sequência quando há dados suficientes: normalize_location → create_case → record_behavioral_profile(case_id de create_case) → notify_volunteers
+Nota WP15: send_field_guide pode (e deve) ser chamado ANTES de tudo isto se a pessoa pede ajuda imediata. record_behavioral_profile também funciona sem case_id (perfil provisório) — usa-o para mostrar cenários cedo se ainda não criaste o caso.
 
 ## CÁLCULO DE CENÁRIOS (para record_behavioral_profile)
 
@@ -267,6 +401,18 @@ const INTAKE_TOOLS: Anthropic.Messages.Tool[] = [
     },
   },
   {
+    name: 'send_field_guide',
+    description: 'WP15: Entrega o protocolo científico time-indexed (o que fazer / o que nunca fazer) ao utilizador. NÃO requer case_id — pode ser chamado IMEDIATAMENTE no primeiro turno, antes de create_case, quando a pessoa pede "diz-me o que fazer agora". Escolhe o bucket pelas horas desde o desaparecimento.',
+    input_schema: {
+      type: 'object' as const,
+      properties: {
+        hours_since_loss: { type: 'number', description: 'Horas desde o desaparecimento. Se desconhecido, usa 0 (primeiras 6h).' },
+        is_hard_case: { type: 'boolean', description: 'true para galgo, xenofóbico, blind_panic ou fase de sobrevivência — perfil passivo.' },
+      },
+      required: [],
+    },
+  },
+  {
     name: 'notify_volunteers',
     description: 'Notifica voluntários activos na zona do desaparecimento.',
     input_schema: {
@@ -289,6 +435,8 @@ interface ToolResult {
   caseId?: string
   probabilityScenarios?: ProbabilityScenario[]
   actionGate?: ActionGate
+  fieldGuide?: FieldGuide
+  professionalAlert?: { canils: number; vets: number }
 }
 
 async function executeTool(name: string, input: Record<string, unknown>, agentName?: string | null): Promise<ToolResult> {
@@ -335,12 +483,13 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
 
       case 'create_case': {
         const supabase = createServiceClient()
-        const sexMap: Record<string, string> = { 'macho': 'macho', 'fêmea': 'fêmea', 'desconhecido': 'desconhecido' }
-        const sizeMap: Record<string, string> = { 'pequeno': 'pequeno', 'médio': 'médio', 'grande': 'grande' }
+        const sexMap: Record<string, string> = { 'macho': 'macho', 'fêmea': 'femea', 'femea': 'femea', 'desconhecido': 'desconhecido' }
+        const sizeMap: Record<string, string> = { 'pequeno': 'pequeno', 'médio': 'medio', 'medio': 'medio', 'grande': 'grande' }
 
         const caseType = String(input.type) === 'encontrado' ? 'encontrado' : 'perdido'
         const slug = generateSlug({
-          dogName: String(input.dog_name ?? ''),
+          type: caseType,
+          breed: String(input.breed ?? 'indefinido'),
           lastSeenMunicipality: String(input.last_seen_municipality ?? 'algarve'),
           lastSeenAt: new Date().toISOString(),
         } as Parameters<typeof generateSlug>[0])
@@ -354,9 +503,11 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           dog_name: input.dog_name ? String(input.dog_name) : null,
           breed: String(input.breed ?? 'indefinido'),
           sex: sexMap[String(input.sex)] ?? 'desconhecido',
-          size: sizeMap[String(input.size)] ?? 'médio',
+          size: sizeMap[String(input.size)] ?? 'medio',
           primary_color: String(input.primary_color ?? ''),
-          distinctive_marks: input.distinctive_marks ? [String(input.distinctive_marks)] : [],
+          distinctive_marks: input.distinctive_marks
+            ? [String(input.distinctive_marks).replace(/\b\d{6,}\b/g, '***')]
+            : [],
           last_seen_at: new Date().toISOString(),
           last_seen_municipality: String(input.last_seen_municipality ?? 'Algarve'),
           last_seen_zone_approx: String(input.last_seen_zone ?? ''),
@@ -370,6 +521,21 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
         if (error || !inserted) {
           return { code: 'case.create()', result: `Erro ao criar caso: ${error?.message ?? 'unknown'}`, status: 'ok' }
         }
+
+        // WP18 Tier 1: silent professional-network alert, minute-0. Fire-and-forget
+        // so the chat stream never blocks on SMTP — the "parallel to the chat"
+        // promise. Badge is emitted optimistically (sentinel counts = -1).
+        void fireProfessionalAlert({
+          caseId: inserted.id as string,
+          caseType,
+          slug,
+          dogName: input.dog_name ? String(input.dog_name) : null,
+          breed: String(input.breed ?? 'indefinido'),
+          primaryColor: String(input.primary_color ?? ''),
+          municipality: String(input.last_seen_municipality ?? 'Algarve'),
+          zone: input.last_seen_zone ? String(input.last_seen_zone) : null,
+        })
+
         return {
           code: 'case.create(kind=' + caseType + ')',
           result: JSON.stringify({ url: `nona.pt/caso/${slug}`, case_id: inserted.id, slug }),
@@ -377,15 +543,15 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
           caseSlug: slug,
           ownerToken,
           caseId: inserted.id as string,
+          ...(caseType === 'perdido' ? { professionalAlert: { canils: -1, vets: -1 } } : {}),
         }
       }
 
       case 'record_behavioral_profile': {
+        // WP15: case_id is now OPTIONAL. Without it we still compute + emit the
+        // phase/gate/scenarios so guidance shows immediately (provisional profile);
+        // the DB write is skipped until create_case carries it forward.
         const case_id = String(input.case_id ?? '')
-        if (!case_id) {
-          return { result: 'Erro: case_id obrigatório. Chama create_case primeiro.', status: 'ok' }
-        }
-        const supabase = createServiceClient()
 
         const breedCategory = String(input.breed_category ?? 'mixed')
         const escapeTrigger = String(input.escape_trigger ?? 'opportunistic')
@@ -417,13 +583,33 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
             highest_probability_zone: null,
           },
         }
-        await supabase.from('cases').update({ behavioral_profile: profile }).eq('id', case_id)
+        if (case_id) {
+          const supabase = createServiceClient()
+          await supabase.from('cases').update({ behavioral_profile: profile }).eq('id', case_id)
+        }
         return {
-          code: `behavioral_profile.record(case=${case_id.slice(0, 8)}…, phase=${phase})`,
-          result: `Perfil WP9 registado · fase=${phase} · broadcast=${actionGate.broadcast_sighting_location} · ${profile.belief_distribution.scenarios.length} cenários`,
+          code: case_id
+            ? `behavioral_profile.record(case=${case_id.slice(0, 8)}…, phase=${phase})`
+            : `behavioral_profile.preview(phase=${phase}, provisório)`,
+          result: case_id
+            ? `Perfil WP9 registado · fase=${phase} · broadcast=${actionGate.broadcast_sighting_location} · ${profile.belief_distribution.scenarios.length} cenários`
+            : `Perfil WP9 provisório · fase=${phase} · será guardado ao criar o caso · ${profile.belief_distribution.scenarios.length} cenários`,
           status: 'ok',
           probabilityScenarios: profile.belief_distribution.scenarios,
           actionGate,
+        }
+      }
+
+      case 'send_field_guide': {
+        const hours = Number(input.hours_since_loss ?? 0)
+        const isHard = Boolean(input.is_hard_case)
+        const bucket = bucketFromHours(Number.isFinite(hours) ? Math.max(0, hours) : 0)
+        const guide = buildFieldGuide(bucket, isHard)
+        return {
+          code: `field_guide.send(bucket=${bucket}${isHard ? ', passivo' : ''})`,
+          result: `Protocolo "${guide.label}" entregue · ${guide.do.length} acções · ${guide.dont.length} proibições`,
+          status: 'ok',
+          fieldGuide: guide,
         }
       }
 
@@ -579,11 +765,17 @@ export async function POST(req: NextRequest) {
               if (result.caseSlug) {
                 send({ type: 'case_created', slug: result.caseSlug, ownerToken: result.ownerToken ?? null })
               }
+              if (result.professionalAlert) {
+                send({ type: 'professional_alert', alert: result.professionalAlert })
+              }
               if (result.probabilityScenarios && result.probabilityScenarios.length > 0) {
                 send({ type: 'probability_scenarios', scenarios: result.probabilityScenarios })
               }
               if (result.actionGate) {
                 send({ type: 'action_gate', gate: result.actionGate })
+              }
+              if (result.fieldGuide) {
+                send({ type: 'field_guide', guide: result.fieldGuide })
               }
               toolResults.push({
                 type: 'tool_result',

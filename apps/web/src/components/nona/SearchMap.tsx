@@ -21,6 +21,8 @@ export interface SearchMapProps {
     fresh?: boolean
   }>
   zones?: Array<{ radius_km: number; color: 'rose' | 'amber' | 'blue' }>
+  // WP19: known water points near the search area
+  waterPoints?: Array<{ lat: number; lng: number; name: string; type?: string }>
 }
 
 export function SearchMap({
@@ -29,6 +31,7 @@ export function SearchMap({
   lastSeenLabel = 'Última vez visto',
   sightings = [],
   zones = [],
+  waterPoints = [],
 }: SearchMapProps) {
   if (!API_KEY) {
     return (
@@ -65,6 +68,17 @@ export function SearchMap({
         <AdvancedMarker position={center} title={lastSeenLabel}>
           <Pin background={ZONE_HEX.rose} glyphColor="white" borderColor="white" />
         </AdvancedMarker>
+
+        {/* WP19: water points — teal, dogs anchor to water (esp. days 2+) */}
+        {waterPoints.map((w, i) => (
+          <AdvancedMarker
+            key={`w-${i}`}
+            position={{ lat: w.lat, lng: w.lng }}
+            title={w.type ? `💧 ${w.name} (${w.type})` : `💧 ${w.name}`}
+          >
+            <Pin background="#0EA5A4" glyphColor="white" borderColor="white" glyph="💧" />
+          </AdvancedMarker>
+        ))}
 
         {/* Sighting pins — amber */}
         {sightings.map((s, i) => (

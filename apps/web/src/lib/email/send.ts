@@ -24,6 +24,53 @@ function getTransport() {
 const FROM = process.env['EMAIL_FROM'] ?? 'noreply@salvacao.local'
 const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
 
+// WP18 Tier 1: silent professional-network alert (canil / vet). Always safe to
+// fire at minute 0 — professionals consult received animals, they don't chase.
+export async function sendProfessionalAlert({
+  to,
+  orgName,
+  orgKind,
+  caseSlug,
+  dogName,
+  breed,
+  primaryColor,
+  municipality,
+  zone,
+  locale = 'pt',
+}: {
+  to: string
+  orgName: string
+  orgKind: 'canil' | 'vet'
+  caseSlug: string
+  dogName: string | null
+  breed: string
+  primaryColor: string
+  municipality: string
+  zone: string | null
+  locale?: string
+}) {
+  const caseUrl = `${APP_URL}/${locale}/caso/${caseSlug}`
+  const kindWord = orgKind === 'canil' ? 'animais recebidos' : 'animais dados à entrada'
+  await getTransport().sendMail({
+    from: FROM,
+    to,
+    subject: `[SalvaCão] Cão perdido em ${municipality} — por favor verifiquem ${kindWord}`,
+    html: `
+      <p>Olá equipa do <strong>${orgName}</strong>,</p>
+      <p>Foi reportado um cão perdido na vossa área. Pedimos que verifiquem se o animal foi recebido recentemente.</p>
+      <table style="border-collapse:collapse;margin:16px 0;">
+        <tr><td style="padding:4px 12px 4px 0;color:#666;font-size:13px;">Nome</td><td style="font-size:13px;font-weight:600">${dogName ?? 'Sem nome'}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#666;font-size:13px;">Raça</td><td style="font-size:13px">${breed}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#666;font-size:13px;">Cor</td><td style="font-size:13px">${primaryColor}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#666;font-size:13px;">Última localização</td><td style="font-size:13px">${zone ? `${zone}, ` : ''}${municipality}</td></tr>
+      </table>
+      <p><a href="${caseUrl}" style="color:#4f46e5">Ver caso completo: ${caseUrl}</a></p>
+      <hr style="border:none;border-top:1px solid #eee;margin:24px 0"/>
+      <p style="font-size:11px;color:#999">SalvaCão — tecnologia gratuita para salvar cães no Algarve</p>
+    `,
+  })
+}
+
 export async function sendCaseConfirmation({
   to,
   caseSlug,

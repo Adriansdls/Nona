@@ -9,11 +9,24 @@ const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
 
 type SightingActionRec = 'move_camera_within_6h' | 'log_and_monitor' | 'log_only'
 
+// WP16: derive a ± uncertainty band (hours) for the observation time.
+// Social-post / secondhand times are the worst offenders (the "2h ago" that was
+// really ~10h). This band feeds the lambda weighting and the honest UI display.
+function computeTimeUncertaintyHours(
+  confidence: 'exact' | 'approximate' | 'unknown',
+  source: 'firsthand' | 'social_post' | 'secondhand',
+): number {
+  const byConfidence = confidence === 'exact' ? 0 : confidence === 'approximate' ? 2 : 6
+  const bySource = source === 'social_post' ? 4 : source === 'secondhand' ? 3 : 0
+  return byConfidence + bySource
+}
+
 function scoreSighting(data: {
   direction?: string | null
   wasMoving?: boolean | null
   description?: string | null
   reporterContact?: string | null
+  timeUncertaintyHours?: number
 }): { score: number; recommendation: SightingActionRec } {
   // Factor 1 — observer_familiarity: public submission → max 2 (can't confirm owner)
   const observerFamiliarity = data.reporterContact ? 2 : 1
@@ -34,7 +47,14 @@ function scoreSighting(data: {
     : data.wasMoving !== undefined && data.wasMoving !== null || data.direction ? 2
     : 1
 
-  const score = observerFamiliarity + descSpecificity + behavioralMatch + locationPlausibility + observationConditions
+  const raw = observerFamiliarity + descSpecificity + behavioralMatch + locationPlausibility + observationConditions
+
+  // WP16: penalise uncertain observation times — a sighting we can't place in
+  // time can't reliably move a camera. -2 if ≥6h band, -1 if ≥3h band.
+  const tu = data.timeUncertaintyHours ?? 0
+  const timePenalty = tu >= 6 ? 2 : tu >= 3 ? 1 : 0
+  const score = Math.max(0, raw - timePenalty)
+
   const recommendation: SightingActionRec =
     score >= 10 ? 'move_camera_within_6h'
     : score >= 7 ? 'log_and_monitor'
@@ -71,6 +91,11 @@ export async function POST(
 
   const sightingCoords = await geocodeZone(parsed.data.zoneApprox, parsed.data.municipality)
 
+  // WP16: time integrity
+  const observedTimeConfidence = parsed.data.observedTimeConfidence ?? 'approximate'
+  const observedTimeSource = parsed.data.observedTimeSource ?? 'firsthand'
+  const timeUncertaintyHours = computeTimeUncertaintyHours(observedTimeConfidence, observedTimeSource)
+
   const { data: sighting, error } = await supabase
     .from('sightings')
     .insert({
@@ -84,6 +109,9 @@ export async function POST(
       seemed_injured: parsed.data.seemedInjured ?? null,
       description: parsed.data.description ?? null,
       reporter_contact: parsed.data.reporterContact ?? null,
+      observed_time_confidence: observedTimeConfidence,
+      observed_time_source: observedTimeSource,
+      time_uncertainty_hours: timeUncertaintyHours,
       is_public: false,
     })
     .select('id')
@@ -99,6 +127,7 @@ export async function POST(
     wasMoving: parsed.data.wasMoving ?? null,
     description: parsed.data.description ?? null,
     reporterContact: parsed.data.reporterContact ?? null,
+    timeUncertaintyHours,
   })
   void supabase.from('sightings').update({
     reliability_score: score,

@@ -120,6 +120,8 @@ interface GeoRow {
   goatherd_zone: boolean
   fire_risk_band: string
   search_radius_modifier: number
+  water_points?: Array<{ name: string; type?: string; lat: number; lng: number }>
+  terrain_corridors?: Array<{ name: string; type?: string; description?: string }>
 }
 
 interface ProbabilityScenario {
@@ -425,6 +427,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
                 }]
               })}
               zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
+              waterPoints={(geo?.water_points ?? []).filter(w => typeof w.lat === 'number' && typeof w.lng === 'number')}
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

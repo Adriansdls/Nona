@@ -8,8 +8,10 @@ WP5: post_to_channel → real Facebook/WhatsApp post.
 from __future__ import annotations
 
 import json
+import math
 import os
 import pathlib
+import re
 import sys
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
@@ -22,6 +24,30 @@ from supabase import Client
 
 if TYPE_CHECKING:
     from agent.harness import CaseHarness
+
+
+def _parse_point(p: Any) -> tuple[float, float] | None:
+    """Parse a Postgres point '(lng,lat)' → (lat, lng)."""
+    if not p or not isinstance(p, str):
+        return None
+    m = re.match(r"\(([-\d.]+),([-\d.]+)\)", p)
+    if not m:
+        return None
+    try:
+        lng, lat = float(m.group(1)), float(m.group(2))
+        return (lat, lng)
+    except ValueError:
+        return None
+
+
+def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    """Great-circle distance in km."""
+    r = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlng = math.radians(lng2 - lng1)
+    a = (math.sin(dlat / 2) ** 2
+         + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlng / 2) ** 2)
+    return round(r * 2 * math.asin(math.sqrt(a)), 2)
 
 PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
     {
@@ -1193,6 +1219,8 @@ async def execute_pi_tool(
         # Sighting belief update
         su = inputs.get("sighting_update")
         if su and isinstance(su, dict):
+            env = harness.case.get("environment_profile") or {}
+            base_radius = env.get("search_radius_km")
             bp = update_belief_from_sighting(
                 profile=bp,
                 sighting_id=str(su.get("sighting_id", "")),
@@ -1201,6 +1229,7 @@ async def execute_pi_tool(
                 observer_type=str(su.get("observer_type", "civilian")),
                 conditions=str(su.get("conditions", "unknown")),
                 crowd_broadcast=bool(su.get("crowd_broadcast_occurred", False)),
+                base_radius_km=float(base_radius) if base_radius else None,
             )
             changed_fields.append(f"sighting_belief_update(lambda={bp.get('belief_distribution', {}).get('sighting_evidence', [{}])[-1].get('lambda', '?')})")
 
@@ -1257,6 +1286,23 @@ async def execute_pi_tool(
         geo = dict(res.data or {})
         if not geo:
             return json.dumps({"error": f"municipality '{municipality}' not in kb_geography"})
+
+        # WP19: rank water points by distance from the last-seen point so guidance
+        # can be specific ("300m NE there's a creek") rather than municipality-wide.
+        water_points = geo.get("water_points") or []
+        origin = _parse_point(harness.case.get("last_seen_coords_approx"))
+        if water_points and origin:
+            olat, olng = origin
+            for wp in water_points:
+                try:
+                    wp["distance_km"] = _haversine_km(olat, olng, float(wp["lat"]), float(wp["lng"]))
+                except (KeyError, TypeError, ValueError):
+                    wp["distance_km"] = None
+            water_points.sort(key=lambda w: (w.get("distance_km") is None, w.get("distance_km") or 0.0))
+            geo["water_points"] = water_points
+            nearest = next((w for w in water_points if w.get("distance_km") is not None), None)
+            if nearest:
+                geo["nearest_water"] = nearest
 
         current_month = datetime.now(timezone.utc).month
         if 6 <= current_month <= 10:

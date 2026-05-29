@@ -278,3 +278,29 @@ The interaction should feel less like "using software" and more like "telling a 
 - ❌ Mobile-optimized design (current is functional, not delightful)
 - ❌ SIAC chip lookup (needs research)
 - ❌ Deploy to production (Vercel + Fly.io)
+
+---
+
+## Lived-Search Insights (2026-05-28)
+
+The founder spent 2026-05-28 physically searching for a neighbour's lost dog *while* building the app — dogfooding the real problem. The search validated the entire research-driven behavioral track (WP8→WP13) and exposed six concrete gaps. These drive the WP15→WP21 build.
+
+**Product thesis (root onboarding message):** *"maximizar la probabilidad de encontrarle, no encontrarle."* The app promises the best science-based **process**, not an outcome. Emotional honesty over false hope.
+
+### The six gaps
+
+1. **Non-blocking, guidance-first intake (WP15).** A person in panic needs *"tell me how to search NOW"* before they can describe the full case. The action plan must be deliverable before a case record exists. Two entry doors: "tell me the case" and "tell me what to do now."
+
+2. **Timestamp integrity (WP16).** Founder was misled by a Facebook post showing "2h ago" when the real observation was ~10h earlier. The whole behavioral engine runs on *hours since last seen* — a wrong time poisons phase → action_gate → radius → ad placement in a chain. Capture **real observation time**, not post time; surface uncertainty honestly; never show a false relative time.
+
+3. **Closed-loop sighting triage (WP17).** A monitored feed surfaces a 65%-match photo → owner gets three buttons **clearly yes / clearly no / don't know** → Bayesian update → recompute search radius AND ad targeting. The pieces exist (ML, λ weights) but the closed owner-facing loop and posterior recompute are dead placeholders.
+
+4. **Instant minute-0 network alert (WP18).** *"Don't worry about comms — everyone is already alerted before you finish talking."* Split into two tiers: **silent professional network** (canis, vets, shelters, coordinators) fires always at minute-0; **public/crowd broadcast** stays gated by action_gate (a fear-reactive dog must not be mass-broadcast — the exact error WP9 prevents).
+
+5. **Geolocated specific guidance (WP19).** "Geolocate → look around → patterns of *this* spot," not "galgos do X." Pull WP13 GIS out of deferred: real water-point coordinates + terrain corridors, surfaced as "300m NE there's a creek where it would shelter." Camera + food passive-search recommendation (WP12) surfaced as an explicit action item, possibly with a purchase link.
+
+6. **FB group registry + monitoring (WP20) and real Meta Ads (WP21).** Curate Algarve FB groups (incremental + auto-enroll); monitor feeds for immediate sighting detection (capturing the *real* post time — closes gap #2 at source). Real Meta Ads Manager integration with geo-fence driven by the posterior search radius.
+
+### Meta-insight
+
+Living the search while building is the highest-value product input the project has had. Founder is an experienced PM but reports this is *categorically different* — the intuitive mistakes (drive around shouting) vs. the science-based behavior (passive walking, think like the dog, find water) only become obvious when you live it.

@@ -29,6 +29,16 @@ interface ActionGate {
   prohibitions?: string[]
 }
 
+interface FieldGuide {
+  bucket: string
+  label: string
+  isHard: boolean
+  do: string[]
+  dont: string[]
+  hardNote?: string
+  source: string
+}
+
 interface ChatMessage {
   from: 'user' | 'agent'
   text: string
@@ -36,6 +46,7 @@ interface ChatMessage {
   quickReplies?: string[] | undefined
   scenarios?: ProbabilityScenario[]
   actionGate?: ActionGate
+  fieldGuide?: FieldGuide
 }
 interface ActionItem { label: string; detail?: string; live?: boolean }
 interface RecentReunido {
@@ -176,6 +187,383 @@ function ProtocolCard({ gate }: { gate: ActionGate }) {
   )
 }
 
+// WP15: Time-indexed field guide card — delivered before a case exists.
+function FieldGuideCard({ guide }: { guide: FieldGuide }) {
+  const accent = guide.isHard ? '#DC2626' : '#0F766E'
+  const bg = guide.isHard ? '#FEF2F2' : '#F0FDFA'
+  return (
+    <div style={{ marginTop: 12, padding: '14px 16px', background: bg, border: `1.5px solid ${accent}33`, borderRadius: 12 }}>
+      <p style={{ margin: '0 0 10px', fontFamily: N.mono, fontSize: 10, color: accent, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>
+        protocolo · {guide.label}
+      </p>
+      {guide.hardNote && (
+        <p style={{ margin: '0 0 10px', fontSize: 12.5, color: '#991B1B', fontWeight: 500 }}>🔴 {guide.hardNote}</p>
+      )}
+      <div style={{ display: 'grid', gap: 5 }}>
+        {guide.do.map((item, i) => (
+          <div key={`d-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: '#166534' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><polyline points="4 12.5 9 17.5 20 6.5"/></svg>
+            {item}
+          </div>
+        ))}
+        {guide.dont.map((item, i) => (
+          <div key={`x-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: '#991B1B' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            {item}
+          </div>
+        ))}
+      </div>
+      <p style={{ margin: '10px 0 0', fontFamily: N.mono, fontSize: 9.5, color: N.ink4, letterSpacing: '0.04em' }}>{guide.source}</p>
+    </div>
+  )
+}
+
+// ── Protocol widget: breed + trigger → real protocol card, no signup ────────
+type BreedKey = 'galgo' | 'podenco' | 'labrador' | 'outro'
+type TriggerKey = 'susto' | 'porta' | 'perseguiu'
+
+// Pure client-side protocol compute — mirrors route.ts computePhaseAndGate.
+function computeWidgetProtocol(breed: BreedKey, trigger: TriggerKey): {
+  isHard: boolean; dos: string[]; donts: string[]; source: string
+} {
+  const isHard = breed === 'galgo' || breed === 'podenco' || trigger === 'susto'
+  if (isHard) {
+    return {
+      isHard: true,
+      dos: [
+        'Estação de alimentação no ponto exacto — comida + água',
+        'Peça de roupa com o teu cheiro (sem perfume)',
+        'Câmara de movimento a vigiar a estação',
+        'Notifica canil municipal e 3 veterinários próximos',
+        'Cartaz simples nas 10 lojas/paragens mais próximas',
+      ],
+      donts: [
+        'Não corras atrás — desloca o cão para mais longe',
+        'Não chames o nome — em stress, condiciona a fuga',
+        'Sem batidas de busca em grupo — assusta o cão',
+        'Não partilhes a localização exacta publicamente',
+      ],
+      source: 'Weiss 2012 (n=1.015) · Albrecht/MAR 2018 IAABC',
+    }
+  }
+  return {
+    isHard: false,
+    dos: [
+      'Busca activa nas primeiras 72h é segura',
+      'Cartazes nas 10 lojas/paragens mais próximas',
+      'Avisa canil municipal + 3 clínicas veterinárias',
+      'Publica no grupo local com o cruzamento mais próximo (sem GPS)',
+      'Estação de alimentação no ponto de desaparecimento',
+    ],
+    donts: [
+      'Não busques longe de carro nas primeiras horas — está perto',
+      'Grupos de busca > 2 pessoas são contraproducentes',
+    ],
+    source: 'Weiss 2012 (n=1.015) · Lord 2007 JAVMA',
+  }
+}
+
+function computeWidgetProtocolEN(breed: BreedKey, trigger: TriggerKey): {
+  isHard: boolean; dos: string[]; donts: string[]; source: string
+} {
+  const base = computeWidgetProtocol(breed, trigger)
+  if (base.isHard) {
+    return {
+      isHard: true,
+      dos: [
+        'Feeding station at the exact disappearance point — food + water',
+        'Item of clothing with your scent (no perfume)',
+        'Motion camera watching the station',
+        'Notify the nearest municipal shelter and 3 vet clinics',
+        'Simple poster in the 10 closest shops/bus stops',
+      ],
+      donts: [
+        "Don't run after the dog — it displaces them further",
+        "Don't call their name — under stress it triggers flight",
+        'No search parties — groups frighten a scared dog',
+        "Don't share the exact location publicly",
+      ],
+      source: 'Weiss 2012 (n=1,015) · Albrecht/MAR 2018 IAABC',
+    }
+  }
+  return {
+    isHard: false,
+    dos: [
+      'Active search safe in the first 72h',
+      'Posters in the 10 closest shops/bus stops',
+      'Notify the nearest shelter + 3 vet clinics',
+      'Post in local Facebook group with nearest junction (no GPS)',
+      'Feeding station at the disappearance point',
+    ],
+    donts: [
+      "Don't search far by car in the first hours — they're nearby",
+      'Search parties larger than 2 people are counterproductive',
+    ],
+    source: 'Weiss 2012 (n=1,015) · Lord 2007 JAVMA',
+  }
+}
+
+function ProtocolWidget({ locale, onStart }: { locale: string; onStart: (msg: string) => void }) {
+  const [breed, setBreed] = React.useState<BreedKey | null>(null)
+  const [trigger, setTrigger] = React.useState<TriggerKey | null>(null)
+  const en = locale === 'en'
+
+  const protocol = breed && trigger
+    ? (en ? computeWidgetProtocolEN(breed, trigger) : computeWidgetProtocol(breed, trigger))
+    : null
+
+  const breedOpts: Array<{ id: BreedKey; pt: string; en: string }> = [
+    { id: 'galgo', pt: 'Galgo', en: 'Greyhound' },
+    { id: 'podenco', pt: 'Podenco', en: 'Podenco' },
+    { id: 'labrador', pt: 'Labrador / sociável', en: 'Labrador / sociable' },
+    { id: 'outro', pt: 'Outro', en: 'Other breed' },
+  ]
+  const triggerOpts: Array<{ id: TriggerKey; pt: string; en: string }> = [
+    { id: 'susto', pt: 'Assustou-se com barulho', en: 'Scared by a noise' },
+    { id: 'porta', pt: 'Saiu por porta/portão', en: 'Slipped through a door/gate' },
+    { id: 'perseguiu', pt: 'Perseguiu um animal', en: 'Chased an animal' },
+  ]
+
+  const chipStyle = (active: boolean): React.CSSProperties => ({
+    padding: '8px 14px', borderRadius: 8, border: `1px solid ${active ? N.ink : N.rule}`,
+    background: active ? N.ink : N.white, color: active ? N.paper : N.ink2,
+    fontSize: 13, fontWeight: 500, fontFamily: N.sans, cursor: 'pointer',
+    transition: 'all .12s ease',
+  })
+
+  return (
+    <section style={{ padding: '64px 32px 0', borderTop: `1px solid ${N.rule}`, marginTop: 56 }}>
+    <div style={{ maxWidth: 720, margin: '0 auto' }}>
+      <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        {en ? 'your protocol · no signup' : 'o teu protocolo · sem registo'}
+      </p>
+      <h2 style={{ margin: '0 0 6px', fontFamily: N.display, fontWeight: 400, fontSize: 38, letterSpacing: '-0.02em', color: N.ink } as React.CSSProperties}>
+        {en ? 'See the correct first steps. Now.' : 'Vê os primeiros passos certos. Agora.'}
+      </h2>
+      <p style={{ margin: '0 0 28px', fontSize: 15, color: N.ink3, lineHeight: 1.55 }}>
+        {en
+          ? 'Two questions. Your protocol — including what never to do — in 10 seconds.'
+          : 'Duas perguntas. O teu protocolo — incluindo o que nunca fazer — em 10 segundos.'}
+      </p>
+
+      <div style={{ marginBottom: 20 }}>
+        <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 600, color: N.ink, fontFamily: N.sans }}>
+          {en ? '1. Your dog is…' : '1. O teu cão é…'}
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {breedOpts.map(b => (
+            <button key={b.id} onClick={() => setBreed(b.id)} style={chipStyle(breed === b.id)}>
+              {en ? b.en : b.pt}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 28 }}>
+        <p style={{ margin: '0 0 10px', fontSize: 13, fontWeight: 600, color: N.ink, fontFamily: N.sans }}>
+          {en ? '2. How did they get lost?' : '2. Como se perdeu?'}
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {triggerOpts.map(t => (
+            <button key={t.id} onClick={() => setTrigger(t.id)} style={chipStyle(trigger === t.id)}>
+              {en ? t.en : t.pt}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {protocol && (
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ padding: '20px 22px', background: protocol.isHard ? '#FEF2F2' : '#F0FDFA', border: `1.5px solid ${protocol.isHard ? '#DC262633' : '#0F766E33'}`, borderRadius: 14 }}>
+            {protocol.isHard && (
+              <p style={{ margin: '0 0 12px', fontFamily: N.mono, fontSize: 10.5, color: '#991B1B', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+                {en ? '🔴 Passive profile — active search will push the dog further' : '🔴 Perfil passivo — busca activa afasta o cão'}
+              </p>
+            )}
+            <div style={{ display: 'grid', gap: 6, marginBottom: 14 }}>
+              {protocol.dos.map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 13, color: '#166534' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><polyline points="4 12.5 9 17.5 20 6.5"/></svg>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'grid', gap: 5 }}>
+              {protocol.donts.map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 13, color: '#991B1B' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <p style={{ margin: '14px 0 0', fontFamily: N.mono, fontSize: 9.5, color: N.ink4 }}>{protocol.source}</p>
+          </div>
+          <button
+            onClick={() => onStart(en
+              ? "I need help. I just lost my dog. Guide me through the correct protocol right now."
+              : 'Preciso de ajuda. Acabei de perder o meu cão. Guia-me pelo protocolo correcto agora.')}
+            style={{ marginTop: 14, display: 'inline-flex', alignItems: 'center', gap: 10, padding: '12px 20px', borderRadius: 10, border: 'none', background: N.ink, color: N.paper, fontSize: 14, fontWeight: 600, fontFamily: N.sans, cursor: 'pointer' }}
+          >
+            {en ? 'This is my case — start →' : 'Este é o meu caso — começar →'}
+          </button>
+        </div>
+      )}
+    </div>
+    </section>
+  )
+}
+
+// ── "O que NÃO fazer" — high-contrast band ──────────────────────────────────
+function DontSection({ locale }: { locale: string }) {
+  const en = locale === 'en'
+  const rows = en ? [
+    { want: "Run after them", but: "It displaces a panicked dog further away", do: "Stay still. Leave scent and food." },
+    { want: "Shout their name", but: "Under stress, the name reinforces flight", do: "Silence. Let them come to you." },
+    { want: "20-person search party", but: "A crowd terrifies a lost dog", do: "Max 2 people — or just a camera." },
+    { want: "Drive around searching far", but: "In the first hours they're close, hiding", do: "Walk nearby, on foot. Look for water." },
+  ] : [
+    { want: 'Correr atrás', but: 'Desloca um cão assustado para mais longe', do: 'Fica parado. Deixa cheiro e comida.' },
+    { want: 'Gritar o nome', but: 'Em stress, o nome reforça a fuga', do: 'Silêncio. Espera que venha ter contigo.' },
+    { want: 'Batida de 20 pessoas', but: 'Uma multidão aterra um cão perdido', do: 'Máximo 2 pessoas — ou só câmara.' },
+    { want: 'Procurar longe, de carro', but: 'Nas primeiras horas está perto, escondido', do: 'Caminha a pé por perto. Procura pontos de água.' },
+  ]
+  return (
+    <section style={{ padding: '64px 32px 0', marginTop: 8 }}>
+    <div style={{ maxWidth: 900, margin: '0 auto' }}>
+      <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 11, color: N.rose, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        {en ? 'what not to do' : 'o que não fazer'}
+      </p>
+      <h2 style={{ margin: '0 0 6px', fontFamily: N.display, fontWeight: 400, fontSize: 38, letterSpacing: '-0.02em', color: N.ink } as React.CSSProperties}>
+        {en ? 'Instinct is wrong. Science is not.' : 'O instinto engana. A ciência não.'}
+      </h2>
+      <p style={{ margin: '0 0 28px', fontSize: 15, color: N.ink3 }}>
+        {en
+          ? 'These are the four things most people do. All four push the dog further away.'
+          : 'São as quatro coisas que toda a gente faz. As quatro afastam o cão.'}
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+        {rows.map((r, i) => (
+          <div key={i} style={{ padding: '18px 20px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <span style={{ fontFamily: N.mono, fontSize: 10, color: N.rose, letterSpacing: '0.1em', textTransform: 'uppercase', paddingTop: 2 }}>
+                {en ? 'want to' : 'instinto'}
+              </span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: N.ink }}>{r.want}</span>
+            </div>
+            <p style={{ margin: '0 0 8px', fontSize: 13, color: N.ink2, lineHeight: 1.5 }}>
+              <span style={{ color: N.rose, fontWeight: 600 }}>{en ? 'But: ' : 'Mas: '}</span>{r.but}
+            </p>
+            <p style={{ margin: 0, fontSize: 13, color: '#166534', lineHeight: 1.5 }}>
+              <span style={{ fontWeight: 600 }}>{en ? 'Do: ' : 'Faz: '}</span>{r.do}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p style={{ margin: '18px 0 0', fontFamily: N.mono, fontSize: 11.5, color: N.ink3, fontStyle: 'italic' }}>
+        {en
+          ? 'This is exactly what I was about to do wrong. It is what most people do. That is why we exist.'
+          : 'Foi exactamente o que ia fazer mal. É o que a maioria faz. Por isso existimos.'}
+      </p>
+    </div>
+    </section>
+  )
+}
+
+// ── 5 Pillars ────────────────────────────────────────────────────────────────
+function PillarsSection({ locale }: { locale: string }) {
+  const en = locale === 'en'
+  const pillars = en ? [
+    {
+      num: '01',
+      title: 'Start in panic, zero friction',
+      body: "Talk — don't fill out forms. And if you only want to know what to do right now, we tell you before you give us any details. Free. No account.",
+      sub: 'The first step takes seconds.',
+    },
+    {
+      num: '02',
+      title: 'Everything possible, done for you',
+      body: 'Before you finish talking, the nearest shelters, vet clinics, local groups and the GNR are already notified. Posters generated. Posts ready.',
+      sub: 'You coordinate nothing.',
+    },
+    {
+      num: '03',
+      title: 'The protocol that works',
+      body: "Not tips. A protocol calibrated to your case: breed, how they got lost, terrain, time elapsed. Backed by 1,015 cases (Weiss 2012) and field research.",
+      sub: 'Personal visit to the shelter: 2.1× more recovery (Lord 2007).',
+    },
+    {
+      num: '04',
+      title: 'We watch. You confirm.',
+      body: "We monitor sightings and local groups. When a photo matches, we alert you instantly with the probability — and you say if it's them. Every confirmation tightens the search radius.",
+      sub: 'The case stays alive around the clock.',
+    },
+    {
+      num: '05',
+      title: "We don't replace your community. We activate it.",
+      body: 'Facebook groups, volunteers, neighbours — they are the force. We give them the infrastructure: the structured case, the protocol, the coordination.',
+      sub: 'Community finds dogs. We handle the rest.',
+    },
+  ] : [
+    {
+      num: '01',
+      title: 'Começa em pânico, sem fricção',
+      body: 'Falas — não preenches formulários. E se só queres saber o que fazer agora, dizemos-te antes de nos contares fosse o que fosse. Gratuito. Sem conta.',
+      sub: 'O primeiro passo demora segundos.',
+    },
+    {
+      num: '02',
+      title: 'Tudo o que é possível, feito por ti',
+      body: 'Antes de acabares de falar, os canis, veterinários, grupos da zona e a GNR já estão avisados. Cartazes gerados. Partilhas prontas.',
+      sub: 'Não coordenas nada.',
+    },
+    {
+      num: '03',
+      title: 'O protocolo que funciona',
+      body: 'Não são "dicas". É protocolo, calibrado ao teu caso: raça, como se perdeu, terreno, tempo decorrido. Baseado em 1.015 casos (Weiss 2012) e investigação de campo.',
+      sub: 'Visita presencial ao canil: 2,1× mais recuperação (Lord 2007).',
+    },
+    {
+      num: '04',
+      title: 'Vigiamos. Tu confirmas.',
+      body: 'Vigiamos avistamentos e grupos da zona. Quando uma foto encaixa, avisamos ao instante com a probabilidade — e tu dizes se é ele. Cada confirmação estreita o raio de busca.',
+      sub: 'O caso mantém-se vivo 24/7.',
+    },
+    {
+      num: '05',
+      title: 'Não substituímos a tua comunidade. Activamo-la.',
+      body: 'Grupos de Facebook, voluntários, vizinhos — são a força. Nós damos-lhes a infraestrutura: o caso estruturado, o protocolo, a coordenação.',
+      sub: 'A comunidade encontra cães. Nós tratamos do resto.',
+    },
+  ]
+  return (
+    <section id="como" style={{ padding: '64px 32px 0', borderTop: `1px solid ${N.rule}`, marginTop: 56 }}>
+    <div style={{ maxWidth: 900, margin: '0 auto' }}>
+      <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        {en ? 'how it works' : 'como funciona'}
+      </p>
+      <h2 style={{ margin: '0 0 36px', fontFamily: N.display, fontWeight: 400, fontSize: 38, letterSpacing: '-0.02em', color: N.ink } as React.CSSProperties}>
+        {en
+          ? <>Five layers.<br/><span style={{ fontStyle: 'italic' }}>One objective.</span></>
+          : <>Cinco camadas.<br/><span style={{ fontStyle: 'italic' }}>Um objectivo.</span></>
+        }
+      </h2>
+      <div style={{ display: 'grid', gap: 2 }}>
+        {pillars.map((p) => (
+          <div key={p.num} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 20, padding: '20px 0', borderTop: `1px solid ${N.ruleSoft}` }}>
+            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink4, paddingTop: 4, letterSpacing: '0.04em' }}>{p.num}</span>
+            <div>
+              <p style={{ margin: '0 0 6px', fontSize: 16, fontWeight: 600, color: N.ink, letterSpacing: '-0.01em', fontFamily: N.sans }}>{p.title}</p>
+              <p style={{ margin: '0 0 5px', fontSize: 14, color: N.ink2, lineHeight: 1.6 }}>{p.body}</p>
+              <p style={{ margin: 0, fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>{p.sub}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    </section>
+  )
+}
+
 interface HomePageClientProps {
   locale: string; reunidosCount: number; recentReunidos: RecentReunido[]
 }
@@ -238,8 +626,8 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     requestAnimationFrame(() => { if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight })
   }, [])
 
-  const handleSubmit = useCallback(async () => {
-    const text = inputValue.trim()
+  const handleSubmit = useCallback(async (overrideText?: string) => {
+    const text = (typeof overrideText === 'string' ? overrideText : inputValue).trim()
     if (!text) return
 
     const userMsg: ChatMessage = { from: 'user', text, time: formatTime() }
@@ -263,6 +651,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     let accumulated = ''
     let scenariosSnap: ProbabilityScenario[] = []
     let actionGateSnap: ActionGate | undefined = undefined
+    let fieldGuideSnap: FieldGuide | undefined = undefined
     const events: AgentEvent[] = []
     const actions: ActionItem[] = []
 
@@ -313,6 +702,22 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               if (gateData && typeof gateData === 'object') {
                 actionGateSnap = gateData as ActionGate
               }
+            } else if (evt['type'] === 'field_guide') {
+              const g = evt['guide']
+              if (g && typeof g === 'object') fieldGuideSnap = g as FieldGuide
+            } else if (evt['type'] === 'professional_alert') {
+              const a = evt['alert'] as { canils?: number; vets?: number } | undefined
+              const canils = a?.canils ?? 0
+              const vets = a?.vets ?? 0
+              const pending = canils < 0 || vets < 0
+              events.push({
+                t: formatTime(), kind: 'tool', status: 'live',
+                label: 'Rede profissional avisada',
+                result: pending
+                  ? 'canis e veterinários da zona a ser contactados'
+                  : `${canils} ${canils === 1 ? 'canil' : 'canis'} · ${vets} ${vets === 1 ? 'veterinário' : 'veterinários'}`,
+              })
+              setAgentEvents([...events])
             } else if (evt['type'] === 'case_created') {
               setCaseSlug(String(evt['slug'] ?? ''))
               if (evt['ownerToken']) setOwnerToken(String(evt['ownerToken']))
@@ -320,7 +725,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               setQuickReplies(Array.isArray(evt['replies']) ? evt['replies'] as string[] : [])
             } else if (evt['type'] === 'done') {
               const qr = Array.isArray(evt['quick_replies']) ? evt['quick_replies'] as string[] : []
-              setMessages(prev => [...prev, { from: 'agent' as const, text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}), ...(scenariosSnap.length > 0 ? { scenarios: scenariosSnap } : {}), ...(actionGateSnap ? { actionGate: actionGateSnap } : {}) }])
+              setMessages(prev => [...prev, { from: 'agent' as const, text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}), ...(scenariosSnap.length > 0 ? { scenarios: scenariosSnap } : {}), ...(actionGateSnap ? { actionGate: actionGateSnap } : {}), ...(fieldGuideSnap ? { fieldGuide: fieldGuideSnap } : {}) }])
               setProbabilityScenarios([])
               setNonaText(''); setNonaActions([])
             }
@@ -366,42 +771,69 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
         </header>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '6vh 0 0' }}>
+        {/* ══ HERO ══ */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '6vh 32px 0' }}>
         <div style={{ width: 720, maxWidth: '90vw' }}>
-          <p style={{ margin: 0, fontFamily: N.mono, fontSize: 11.5, color: N.ink3, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-            investigador privado para cães perdidos · algarve
+
+          <p style={{ margin: 0, fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+            {locale === 'en' ? 'lost dog investigator · algarve' : 'investigador para cães perdidos · algarve'}
           </p>
-          <h1 style={{ margin: '14px 0 0', fontFamily: N.display, fontWeight: 400, fontSize: 76, letterSpacing: '-0.025em', lineHeight: 0.98, color: N.ink } as React.CSSProperties}>
-            Diz-me o que se passou.<br/><span style={{ fontStyle: 'italic' }}>Eu trato do resto.</span>
+
+          <h1 style={{ margin: '16px 0 0', fontFamily: N.display, fontWeight: 400, fontSize: 72, letterSpacing: '-0.025em', lineHeight: 0.97, color: N.ink } as React.CSSProperties}>
+            {locale === 'en'
+              ? <>There is a protocol.<br/><span style={{ fontStyle: 'italic' }}>It works. We run it.</span></>
+              : <>Há um protocolo.<br/><span style={{ fontStyle: 'italic' }}>Funciona. Nós tratamos dele.</span></>
+            }
           </h1>
-          <p style={{ margin: '20px auto 0', maxWidth: 520, fontSize: 15.5, color: N.ink2, lineHeight: 1.55 }}>
-            Um investigador privado fica atribuído ao teu caso. Protocolo científico: o que fazer e o que nunca fazer. Contacta canils, veterinários e voluntários. Monitorização 24/7 até ao regresso.
+
+          <p style={{ margin: '22px auto 0', maxWidth: 500, fontSize: 15.5, color: N.ink2, lineHeight: 1.6 }}>
+            {locale === 'en'
+              ? 'Every hour counts — but panic loses dogs. Tell us what happened and we run the plan the science says to follow.'
+              : 'Cada hora conta — mas o pânico perde cães. Diz-nos o que aconteceu e executamos o plano que a ciência diz para seguir.'
+            }
           </p>
-          <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+
+          {/* Confidence band */}
+          <p style={{ margin: '16px auto 0', maxWidth: 460, fontFamily: N.mono, fontSize: 11.5, color: N.ink3, lineHeight: 1.55, letterSpacing: '0.01em' }}>
+            {locale === 'en'
+              ? 'When you finish talking to us, you will have done everything the science says to do in the first hour.'
+              : 'Quando acabas de falar connosco, já fizeste tudo o que a ciência manda fazer na primeira hora.'
+            }
+          </p>
+
+          {/* Live counter */}
+          <div style={{ marginTop: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             <span style={{ position: 'relative', display: 'inline-block', width: 7, height: 7 }}>
               <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald }}/>
               <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: N.emerald, animation: 'nn-ping 2.2s cubic-bezier(0,0,.2,1) infinite' }}/>
             </span>
             <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
-              {activeAgentsCount} casos em monitorização activa
+              {activeAgentsCount} {locale === 'en' ? 'cases in active monitoring · free · no account needed' : 'casos em monitorização activa · gratuito · sem conta para começar'}
             </span>
           </div>
-          <div style={{ display: 'inline-flex', marginTop: 16, padding: 3, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 999, gap: 2 }}>
-            {([{ id: 'lost' as Mode, label: 'perdi um cão', accent: N.rose }, { id: 'found' as Mode, label: 'encontrei um cão', accent: N.emerald }]).map(o => (
+
+          {/* Mode toggle */}
+          <div style={{ display: 'inline-flex', marginTop: 20, padding: 3, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 999, gap: 2 }}>
+            {([
+              { id: 'lost' as Mode, label: locale === 'en' ? 'I lost a dog' : 'perdi um cão', accent: N.rose },
+              { id: 'found' as Mode, label: locale === 'en' ? 'I found a dog' : 'encontrei um cão', accent: N.emerald },
+            ]).map(o => (
               <button key={o.id} onClick={() => setMode(o.id)} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 999, border: 'none', background: mode === o.id ? N.ink : 'transparent', color: mode === o.id ? N.paper : N.ink2, fontSize: 13, fontWeight: 500, transition: 'all .15s ease', cursor: 'pointer', fontFamily: N.sans }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: o.accent }}/>{o.label}
               </button>
             ))}
           </div>
 
-          {/* Hero input — measured to anchor canvas expansion */}
-          <div ref={heroInputRef} style={{ marginTop: 16, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 18, padding: '20px 22px 14px', boxShadow: '0 1px 0 rgba(11,12,16,.02), 0 14px 36px -10px rgba(11,12,16,.10)', textAlign: 'left' }}>
+          {/* Hero input card — measured to anchor canvas expansion */}
+          <div ref={heroInputRef} style={{ marginTop: 14, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 18, padding: '20px 22px 14px', boxShadow: '0 1px 0 rgba(11,12,16,.02), 0 14px 36px -10px rgba(11,12,16,.10)', textAlign: 'left' }}>
             <AutoTextarea value={inputValue} onChange={setInputValue} onSubmit={handleSubmit}
-              placeholder={mode === 'lost' ? 'Descreve o teu cão e onde o perdeste...' : 'Descreve o cão que encontraste e onde...'}
+              placeholder={mode === 'lost'
+                ? (locale === 'en' ? 'Describe your dog and where you lost him...' : 'Descreve o teu cão e onde o perdeste...')
+                : (locale === 'en' ? 'Describe the dog you found and where...' : 'Descreve o cão que encontraste e onde...')}
               minHeight={56} fontSize={18}/>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, paddingTop: 10, borderTop: `1px solid ${N.ruleSoft}` }}>
               <div style={{ display: 'flex', gap: 4 }}>
-                {[{ icon: 'photo' as const, label: 'foto' }, { icon: 'pin' as const, label: 'local' }, { icon: 'clock' as const, label: 'quando' }].map(t => (
+                {[{ icon: 'photo' as const, label: locale === 'en' ? 'photo' : 'foto' }, { icon: 'pin' as const, label: locale === 'en' ? 'location' : 'local' }, { icon: 'clock' as const, label: locale === 'en' ? 'when' : 'quando' }].map(t => (
                   <button key={t.icon} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 10px', borderRadius: 7, border: 'none', background: 'transparent', color: N.ink3, fontSize: 12.5, cursor: 'pointer', fontFamily: N.sans }}>
                     <Icon name={t.icon} size={14} color={N.ink3}/>{t.label}
                   </button>
@@ -409,26 +841,52 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
                 <span>pt · en · es</span>
-                <button onClick={handleSubmit} disabled={!inputValue.trim()} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 14px', borderRadius: 8, border: 'none', background: inputValue.trim() ? N.ink : N.rule, color: inputValue.trim() ? N.paper : N.ink4, fontSize: 13, fontWeight: 500, fontFamily: N.sans, cursor: inputValue.trim() ? 'pointer' : 'default', transition: 'all .15s ease' }}>
-                  começar <Icon name="enter" size={12} color={inputValue.trim() ? N.paper : N.ink4}/>
+                <button onClick={() => handleSubmit()} disabled={!inputValue.trim()} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 14px', borderRadius: 8, border: 'none', background: inputValue.trim() ? N.ink : N.rule, color: inputValue.trim() ? N.paper : N.ink4, fontSize: 13, fontWeight: 500, fontFamily: N.sans, cursor: inputValue.trim() ? 'pointer' : 'default', transition: 'all .15s ease' }}>
+                  {locale === 'en' ? 'start' : 'começar'} <Icon name="enter" size={12} color={inputValue.trim() ? N.paper : N.ink4}/>
                 </button>
               </div>
             </div>
           </div>
+
+          {/* WP15: guidance-first CTA */}
+          {mode === 'lost' && (
+            <button
+              onClick={() => handleSubmit(locale === 'en'
+                ? "I just lost my dog right now. Tell me exactly what to do IMMEDIATELY, step by step, before I give you all the details."
+                : 'Acabei de perder o meu cão agora mesmo. Diz-me exatamente o que fazer JÁ, passo a passo, antes de te dar todos os detalhes.')}
+              style={{ marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 999, border: `1px solid ${N.rule}`, background: N.white, color: N.ink, fontSize: 13, fontWeight: 500, fontFamily: N.sans, cursor: 'pointer', transition: 'border-color .15s' }}
+            >
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: N.rose, flexShrink: 0 }}/>
+              {locale === 'en' ? "I'm in the field — tell me what to do now" : 'Estou no terreno — diz-me o que fazer já'}
+            </button>
+          )}
+
           <p style={{ margin: '10px 0 0', fontFamily: N.mono, fontSize: 11, color: N.ink4 }}>
-            ou <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span>
-            {' '}·{' '}prefere voz?{' '}
-            <a href="https://t.me/salvacao_bot" style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a>
-            {' '}·{' '}<span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>whatsapp</span>
+            {locale === 'en' ? <>or <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span> · voice? <a href="https://t.me/salvacao_bot" style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a></> : <>ou <span style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>cmd ↵</span> · prefere voz? <a href="https://t.me/salvacao_bot" style={{ color: N.ink, textDecoration: 'underline', textUnderlineOffset: 3 }}>telegram</a></>}
           </p>
-        </div>{/* end width-720 */}
+
+        </div>{/* end 720 */}
         </div>{/* end hero center */}
 
-        <div style={{ padding: '48px 32px 0' }}>
+        {/* ══ WIDGET: ver protocolo agora, sem registo ══ */}
+        <ProtocolWidget locale={locale} onStart={(msg) => handleSubmit(msg)}/>
+
+        {/* ══ O QUE NÃO FAZER ══ */}
+        <DontSection locale={locale}/>
+
+        {/* ══ 5 PILARES ══ */}
+        <PillarsSection locale={locale}/>
+
+        {/* ══ REUNIDOS ══ */}
+        <div style={{ padding: '56px 32px 0' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>reunidos com família · {reunidosCount}</span>
-            <a href={`/${locale}/casos`} style={{ fontSize: 12, color: N.ink2, textDecoration: 'none' }}>ver todos →</a>
+            <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              {locale === 'en' ? `reunited with family · ${reunidosCount}` : `reunidos com família · ${reunidosCount}`}
+            </span>
+            <a href={`/${locale}/casos`} style={{ fontSize: 12, color: N.ink2, textDecoration: 'none' }}>
+              {locale === 'en' ? 'see all →' : 'ver todos →'}
+            </a>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10 }}>
             {(recentReunidos.length > 0 ? recentReunidos : Array.from({ length: 7 })).map((d, i) => {
@@ -456,12 +914,23 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
               )
             })}
           </div>
-        </div>{/* end maxWidth 900 */}
-        </div>{/* end cases padding */}
+        </div>
+        </div>
 
-        <footer style={{ marginTop: 48, padding: '16px 32px', borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
-          <span>nona · investigador privado gratuito · algarve · 2026</span>
-          <span style={{ display: 'flex', gap: 18 }}><span>privacidade</span><span>como funciona</span><span>parceiros</span></span>
+        {/* ══ FOOTER ══ */}
+        <footer style={{ marginTop: 56, padding: '16px 32px', borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
+          <div>
+            <span style={{ fontWeight: 600, color: N.ink }}>nona</span>
+            {' '}·{' '}
+            {locale === 'en'
+              ? 'rescue operating system · algarve · free · open-source (MIT)'
+              : 'sistema operativo de resgate canino · algarve · gratuito · open-source (MIT)'}
+          </div>
+          <span style={{ display: 'flex', gap: 18 }}>
+            {locale === 'en'
+              ? <><span>privacy</span><span>how it works</span><span>community</span></>
+              : <><span>privacidade</span><span>como funciona</span><span>comunidade</span></>}
+          </span>
         </footer>
       </div>
 
@@ -542,6 +1011,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                     <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{agentName} · {msg.time}</span>
                   </div>
                   <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>{renderMarkdown(msg.text)}</p>
+                  {msg.fieldGuide && <FieldGuideCard guide={msg.fieldGuide}/>}
                   {msg.scenarios && msg.scenarios.length > 0 && <ScenarioPanel scenarios={msg.scenarios}/>}
                   {msg.actionGate && <ProtocolCard gate={msg.actionGate}/>}
                   {msg.quickReplies && (
@@ -621,7 +1091,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
                   <button key={ic} style={{ padding: 7, borderRadius: 7, border: 'none', background: 'transparent', color: N.ink3, cursor: 'pointer' }}><Icon name={ic} size={14} color={N.ink3}/></button>
                 ))}
               </div>
-              <button onClick={handleSubmit} disabled={!inputValue.trim() || streaming} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 8, border: 'none', background: (!inputValue.trim() || streaming) ? N.rule : N.ink, color: N.paper, cursor: (!inputValue.trim() || streaming) ? 'default' : 'pointer', transition: 'background .15s' }}>
+              <button onClick={() => handleSubmit()} disabled={!inputValue.trim() || streaming} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 8, border: 'none', background: (!inputValue.trim() || streaming) ? N.rule : N.ink, color: N.paper, cursor: (!inputValue.trim() || streaming) ? 'default' : 'pointer', transition: 'background .15s' }}>
                 <Icon name="arrowUp" size={15} color={N.paper} sw={2}/>
               </button>
             </div>

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   photoPlaceholder: { width: '100%', height: 280, backgroundColor: '#F3F4F6', marginBottom: 16, borderRadius: 4, justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 32, fontFamily: 'Helvetica-Bold', color: '#DC2626', textAlign: 'center', marginBottom: 12, letterSpacing: 2 },
   dogName: { fontSize: 22, fontFamily: 'Helvetica-Bold', textAlign: 'center', marginBottom: 6 },
-  infoRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8, justifyContent: 'center' },
+  infoRow: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 8, marginBottom: 8, justifyContent: 'center' },
   infoBadge: { backgroundColor: '#F3F4F6', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4, fontSize: 11 },
   sectionLabel: { fontSize: 10, color: '#6B7280', marginBottom: 2, marginTop: 6 },
   locationText: { fontSize: 12, marginBottom: 2 },

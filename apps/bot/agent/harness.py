@@ -11,6 +11,8 @@ Guides without forcing:
 from __future__ import annotations
 
 import json
+import math
+import re
 from datetime import datetime, timezone
 from uuid import UUID
 from typing import Any
@@ -26,6 +28,29 @@ from intel.tools import compute_behavioral_phase  # noqa: E402
 from agent.kb import lookup_canils, lookup_vets, lookup_channels, record_discovery  # noqa: E402
 
 UTC = timezone.utc
+
+
+def _parse_latlng(p: Any) -> tuple[float, float] | None:
+    """Parse a Postgres point '(lng,lat)' → (lat, lng)."""
+    if not p or not isinstance(p, str):
+        return None
+    m = re.match(r"\(([-\d.]+),([-\d.]+)\)", p)
+    if not m:
+        return None
+    try:
+        return (float(m.group(2)), float(m.group(1)))
+    except ValueError:
+        return None
+
+
+def _haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    """Great-circle distance in km."""
+    r = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlng = math.radians(lng2 - lng1)
+    a = (math.sin(dlat / 2) ** 2
+         + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlng / 2) ** 2)
+    return round(r * 2 * math.asin(math.sqrt(a)), 2)
 
 # ---------------------------------------------------------------------------
 # WP9: Temporal Behavioral Engine — pure compute functions
@@ -153,6 +178,52 @@ def score_sighting_lambda(
     return SIGHTING_LAMBDA["brief_uncertain"]
 
 
+def recompute_posterior_radius(
+    belief_distribution: dict[str, Any],
+    base_radius_km: float,
+    now: datetime | None = None,
+) -> float:
+    """
+    WP17: Posterior search radius from confirmed evidence.
+    A strong recent sighting tightens the radius around the highest-probability
+    zone; weak or stale evidence keeps it wide because the dog keeps moving.
+
+      no evidence            → base
+      weak (λ 0.20–0.70)     → base × 0.7
+      strong (λ ≥ 0.70)      → base × 0.4
+    Then widened ×1.15 per full 48h since the strongest evidence (dog moves),
+    capped at base × 1.5.
+    """
+    now = now or datetime.now(UTC)
+    evidence = belief_distribution.get("sighting_evidence") or []
+    if not evidence:
+        return round(base_radius_km, 1)
+
+    strongest = max(evidence, key=lambda e: float(e.get("lambda", 0.0)))
+    strongest_lambda = float(strongest.get("lambda", 0.0))
+    if strongest_lambda >= 0.70:
+        factor = 0.4
+    elif strongest_lambda >= 0.35:
+        factor = 0.7
+    else:
+        factor = 1.0
+
+    # Staleness widening since the strongest sighting was incorporated.
+    try:
+        ts = strongest.get("incorporated_at")
+        anchored = datetime.fromisoformat(ts) if ts else now
+        if anchored.tzinfo is None:
+            anchored = anchored.replace(tzinfo=UTC)
+        hours_since = max(0.0, (now - anchored).total_seconds() / 3600.0)
+        widen = 1.15 ** (hours_since // 48)
+    except (ValueError, TypeError):
+        widen = 1.0
+
+    posterior = base_radius_km * factor * widen
+    posterior = min(posterior, base_radius_km * 1.5)
+    return round(max(0.5, posterior), 1)
+
+
 def update_belief_from_sighting(
     profile: dict[str, Any],
     sighting_id: str,
@@ -161,17 +232,27 @@ def update_belief_from_sighting(
     observer_type: str,
     conditions: str,
     crowd_broadcast: bool = False,
+    base_radius_km: float | None = None,
 ) -> dict[str, Any]:
     """
     Add a sighting to belief_distribution.sighting_evidence with lambda weight.
-    Updates highest_probability_zone if λ ≥ 0.70.
+    Updates highest_probability_zone if λ ≥ 0.70 and recomputes posterior_radius_km.
     """
     lam = score_sighting_lambda(observer_type, conditions, crowd_broadcast)
     if lam < 0.20:
         return profile  # below noise floor, discard
 
     bd = profile.get("belief_distribution") or {}
-    evidence = bd.get("sighting_evidence") or []
+    existing = bd.get("sighting_evidence") or []
+    # Owner triage is authoritative — never let an agent civilian estimate clobber
+    # a verdict the owner already gave for this sighting.
+    prior = next((e for e in existing if e.get("sighting_id") == sighting_id), None)
+    if prior and prior.get("source") == "owner_triage":
+        return profile
+    # Dedup by sighting_id: a later entry replaces the earlier one instead of
+    # stacking. Without this the agent re-running on every sighting_added
+    # double-counts evidence and the posterior radius is computed off inflated data.
+    evidence = [e for e in existing if e.get("sighting_id") != sighting_id]
     evidence.append({
         "sighting_id": sighting_id,
         "lambda": lam,
@@ -187,6 +268,13 @@ def update_belief_from_sighting(
         bd["highest_probability_zone"] = location_approx
         if direction_of_travel:
             bd["direction_vector"] = direction_of_travel
+
+    # WP17: recompute the (previously dead) posterior radius. Fall back to a fixed
+    # default (NOT the prior posterior) so the radius can recover toward the
+    # environmental base instead of ratcheting monotonically down.
+    if base_radius_km is None:
+        base_radius_km = 5.0
+    bd["posterior_radius_km"] = recompute_posterior_radius(bd, float(base_radius_km))
 
     profile["belief_distribution"] = bd
     return profile
@@ -567,6 +655,27 @@ class CaseHarness:
                 geo_lines.append(
                     "  TOURIST_PEAK: active — elevated transport risk, multilingual posts warranted"
                 )
+            # WP19: nearest water points + corridors, ranked by distance from last-seen.
+            water_points = gc.get("water_points") or []
+            origin = _parse_latlng(self.case.get("last_seen_coords_approx"))
+            if water_points and origin:
+                olat, olng = origin
+                ranked = []
+                for wp in water_points:
+                    try:
+                        d = _haversine_km(olat, olng, float(wp["lat"]), float(wp["lng"]))
+                        ranked.append((d, wp))
+                    except (KeyError, TypeError, ValueError):
+                        continue
+                ranked.sort(key=lambda x: x[0])
+                for d, wp in ranked[:3]:
+                    geo_lines.append(f"  WATER: {wp.get('name','?')} ({wp.get('type','?')}) ~{d}km — anchor point, esp. days 2+")
+            elif water_points:
+                names = ", ".join(str(wp.get("name", "?")) for wp in water_points[:3])
+                geo_lines.append(f"  WATER: {names}")
+            corridors = gc.get("terrain_corridors") or []
+            for cor in corridors[:2]:
+                geo_lines.append(f"  CORRIDOR: {cor.get('name','?')} — {cor.get('description','')}")
         geo_str = "\n".join(geo_lines) if geo_lines else "  not available (municipality not in KB)"
 
         return (

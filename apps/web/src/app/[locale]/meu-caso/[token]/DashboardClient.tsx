@@ -36,12 +36,40 @@ type DashboardData = {
     created_at: string
   } | null
   sightings: Array<{
+    id: string
     municipality: string
     zone_approx: string
     seen_at: string
     is_public: boolean
     description: string | null
+    direction?: string | null
+    reliability_score?: number | null
+    action_recommendation?: string | null
+    owner_verdict?: 'confirmed' | 'rejected' | 'unsure' | null
+    observed_time_confidence?: 'exact' | 'approximate' | 'unknown' | null
+    observed_time_source?: 'firsthand' | 'social_post' | 'secondhand' | null
+    time_uncertainty_hours?: number | null
   }>
+}
+
+// WP16: honest observation-time string. Never present an uncertain/social time as
+// if it were precise — surface the ± band and the source so the owner isn't misled
+// the way a Facebook "há 2h" (really ~10h old) misleads.
+function honestSeenLabel(s: {
+  seen_at: string
+  time_uncertainty_hours?: number | null
+  observed_time_source?: string | null
+}): string {
+  const base = hoursAgo(s.seen_at)
+  const band = s.time_uncertainty_hours ?? 0
+  const srcLabel =
+    s.observed_time_source === 'social_post' ? 'post social'
+    : s.observed_time_source === 'secondhand' ? 'em segunda mão'
+    : null
+  const parts: string[] = []
+  if (band >= 1) parts.push(`±${Math.round(band)}h`)
+  if (srcLabel) parts.push(srcLabel)
+  return parts.length ? `visto ${base} (${parts.join(' · ')})` : `visto ${base}`
 }
 
 function hoursAgo(iso: string): string {
@@ -80,6 +108,33 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
   const { case: c, events, assessment, sightings } = data
   const [resolving, setResolving] = useState(false)
   const [resolved, setResolved] = useState(c.status === 'resolvido')
+
+  // WP17: owner triage of sightings (clearly yes / no / don't know).
+  const [verdicts, setVerdicts] = useState<Record<string, 'confirmed' | 'rejected' | 'unsure'>>(() => {
+    const seed: Record<string, 'confirmed' | 'rejected' | 'unsure'> = {}
+    for (const s of sightings) if (s.owner_verdict) seed[s.id] = s.owner_verdict
+    return seed
+  })
+  const [triaging, setTriaging] = useState<string | null>(null)
+  const [posterior, setPosterior] = useState<{ radiusKm: number | null; zone: string | null } | null>(null)
+
+  async function handleTriage(sightingId: string, verdict: 'confirmed' | 'rejected' | 'unsure') {
+    setTriaging(sightingId)
+    try {
+      const res = await fetch(`/api/owner/${token}/triage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sightingId, verdict }),
+      })
+      if (res.ok) {
+        const body = await res.json() as { posterior_radius_km: number | null; highest_probability_zone: string | null }
+        setVerdicts(prev => ({ ...prev, [sightingId]: verdict }))
+        setPosterior({ radiusKm: body.posterior_radius_km, zone: body.highest_probability_zone })
+      }
+    } finally {
+      setTriaging(null)
+    }
+  }
 
   const dogLabel = c.dog_name ?? 'Cão sem nome'
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
@@ -204,28 +259,59 @@ export function DashboardClient({ data, locale, token }: { data: DashboardData; 
           </section>
         )}
 
-        {/* Sightings */}
+        {/* Sightings + owner triage */}
         {sightings.length > 0 && (
           <section style={{ marginBottom: 28 }}>
             <h2 style={{ margin: '0 0 12px', fontSize: 11, fontFamily: N.mono, letterSpacing: '0.12em', textTransform: 'uppercase', color: N.ink3 }}>
               Avistamentos ({sightings.length})
             </h2>
+            {posterior && (
+              <div style={{ marginBottom: 12, padding: '10px 14px', background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 10, fontSize: 12.5, color: N.indigo }}>
+                Zona de busca actualizada{posterior.zone ? ` · foco: ${posterior.zone}` : ''}{posterior.radiusKm != null ? ` · raio ${posterior.radiusKm}km` : ''}
+              </div>
+            )}
             <div style={{ border: `1px solid ${N.rule}`, borderRadius: 12, overflow: 'hidden' }}>
-              {sightings.map((s, i) => (
-                <div key={i} style={{
-                  padding: '10px 16px',
-                  borderBottom: i < sightings.length - 1 ? `1px solid ${N.ruleSoft}` : 'none',
-                  background: N.white,
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 13.5, color: N.ink, fontWeight: 500 }}>{s.zone_approx}, {s.municipality}</span>
-                    <span style={{ fontSize: 11, color: N.ink4, fontFamily: N.mono }}>{hoursAgo(s.seen_at)}</span>
+              {sightings.map((s, i) => {
+                const verdict = verdicts[s.id]
+                return (
+                  <div key={s.id} style={{
+                    padding: '12px 16px',
+                    borderBottom: i < sightings.length - 1 ? `1px solid ${N.ruleSoft}` : 'none',
+                    background: N.white,
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 13.5, color: N.ink, fontWeight: 500 }}>{s.zone_approx}, {s.municipality}</span>
+                      <span style={{ fontSize: 11, color: N.ink4, fontFamily: N.mono, textAlign: 'right' }}>{honestSeenLabel(s)}</span>
+                    </div>
+                    {s.description && (
+                      <p style={{ margin: '4px 0 0', fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>{s.description}</p>
+                    )}
+                    {/* WP17 triage: did the owner recognise their dog? */}
+                    {verdict ? (
+                      <div style={{ marginTop: 8, fontSize: 12, fontFamily: N.mono, color: verdict === 'confirmed' ? N.emerald : verdict === 'rejected' ? N.rose : N.ink3 }}>
+                        {verdict === 'confirmed' ? '✓ confirmado por si' : verdict === 'rejected' ? '✕ não é o seu cão' : '? não tem a certeza'}
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: 10 }}>
+                        <div style={{ fontSize: 11, color: N.ink4, marginBottom: 6 }}>É o seu cão?</div>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                          {([
+                            { v: 'confirmed' as const, label: 'Sim, é ele', bg: N.emerald, fg: N.white },
+                            { v: 'unsure' as const, label: 'Não sei', bg: N.surface, fg: N.ink2 },
+                            { v: 'rejected' as const, label: 'Não é', bg: N.surface, fg: N.ink2 },
+                          ]).map(b => (
+                            <button key={b.v} disabled={triaging === s.id}
+                              onClick={() => handleTriage(s.id, b.v)}
+                              style={{ flex: 1, padding: '8px 10px', borderRadius: 8, border: `1px solid ${N.rule}`, background: b.bg, color: b.fg, fontSize: 12.5, fontWeight: 500, fontFamily: N.sans, cursor: triaging === s.id ? 'default' : 'pointer', opacity: triaging === s.id ? 0.6 : 1 }}>
+                              {b.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  {s.description && (
-                    <p style={{ margin: '4px 0 0', fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>{s.description}</p>
-                  )}
-                </div>
-              ))}
+                )
+              })}
             </div>
           </section>
         )}
