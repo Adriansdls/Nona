@@ -38,12 +38,27 @@ def lookup_channels(
     return q.execute().data or []  # type: ignore[return-value]
 
 
+# Columns each KB table actually has — drop anything else so an upsert never 400s
+# on a stray field (e.g. canils have no lat/lng/website; vets have lat/lng).
+_KB_COLUMNS = {
+    'kb_canils': {'municipality', 'name', 'phone', 'email', 'address', 'hours',
+                  'director_name', 'hold_period_days', 'source', 'last_verified_at', 'notes'},
+    'kb_vets': {'municipality', 'name', 'phone', 'email', 'address', 'lat', 'lng',
+                'source', 'last_verified_at'},
+    'kb_channels': {'municipality', 'channel_type', 'name', 'url', 'members_approx',
+                    'breed_focus', 'source', 'last_posted_at'},
+}
+
+
 def record_discovery(db: Client, kind: str, data: dict) -> None:
-    """Write agent-discovered resource to KB. Idempotent on (name, municipality)."""
+    """Write a discovered resource to KB. Idempotent on (name, municipality).
+    Respects an explicit data['source'] (e.g. 'places'); defaults to 'agent_discovered'.
+    Filters to real columns so extra fields (website on a canil, etc) don't error."""
     table_map = {'canil': 'kb_canils', 'vet': 'kb_vets', 'channel': 'kb_channels'}
     table = table_map.get(kind)
     if not table:
         return
-    payload = {k: v for k, v in data.items() if k != 'type'}
-    payload['source'] = 'agent_discovered'
+    allowed = _KB_COLUMNS[table]
+    payload = {k: v for k, v in data.items() if k in allowed and v is not None}
+    payload.setdefault('source', 'agent_discovered')
     db.table(table).upsert(payload, on_conflict='name,municipality').execute()

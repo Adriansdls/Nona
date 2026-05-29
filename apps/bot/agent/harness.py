@@ -376,6 +376,8 @@ _WP9_TOOL_PALETTE: dict[str, list[str]] = {
         'score_sighting_wp12',
         'update_behavioral_assessment',
         'query_geography',
+        'discover_contacts',
+        'mark_contact_stale',
     ],
     "phase_2_survival": [
         'notify_canil',
@@ -391,6 +393,8 @@ _WP9_TOOL_PALETTE: dict[str, list[str]] = {
         'score_sighting_wp12',
         'update_behavioral_assessment',
         'query_geography',
+        'discover_contacts',
+        'mark_contact_stale',
     ],
     "phase_3_entrenched": [
         'notify_canil',
@@ -405,6 +409,8 @@ _WP9_TOOL_PALETTE: dict[str, list[str]] = {
         'score_sighting_wp12',
         'update_behavioral_assessment',
         'query_geography',
+        'discover_contacts',
+        'mark_contact_stale',
     ],
 }
 

@@ -66,3 +66,43 @@ def save_discovery(kind: str, data: dict[str, Any]) -> str:
     """
     record_discovery(_db(), kind, data)
     return f"Saved {kind}: {data.get('name', '?')} in {data.get('municipality', '?')}"
+
+
+@mcp.tool()
+async def discover_contacts(municipality: str, kind: str) -> dict[str, Any]:
+    """
+    WS1: discover canis/vets for a municipality via Google Places, extract their email
+    from their website, and register them to the KB. kind is 'canil' or 'vet'.
+    Use to curate a municipality's contacts (e.g. "find and register the canis for Tavira").
+    Needs GOOGLE_PLACES_API_KEY. Returns counts {registered, with_email}.
+    """
+    from agent.places import discover_contacts_with_email
+    orgs = await discover_contacts_with_email(municipality, kind)
+    db = _db()
+    registered = 0
+    with_email = 0
+    for org in orgs:
+        record_discovery(db, kind, {
+            "municipality": municipality, "name": org["name"], "phone": org.get("phone"),
+            "email": org.get("email"), "address": org.get("address"),
+            "lat": org.get("lat") if kind == "vet" else None,
+            "lng": org.get("lng") if kind == "vet" else None, "source": "places",
+        })
+        registered += 1
+        if org.get("email"):
+            with_email += 1
+    return {"registered": registered, "with_email": with_email, "municipality": municipality}
+
+
+@mcp.tool()
+def mark_stale(kind: str, name: str, municipality: str) -> str:
+    """
+    WS1: flag a KB contact as stale (email bounced / phone dead). Nulls the email so the
+    alert stops using it. kind is 'canil', 'vet', or 'channel'.
+    """
+    table = {"canil": "kb_canils", "vet": "kb_vets", "channel": "kb_channels"}.get(kind)
+    if not table:
+        return f"unknown kind: {kind}"
+    _db().table(table).update({"email": None, "source": "stale"}) \
+        .ilike("name", f"%{name}%").eq("municipality", municipality).execute()
+    return f"Marked stale: {name} in {municipality}"

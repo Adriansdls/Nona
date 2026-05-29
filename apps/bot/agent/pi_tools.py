@@ -480,6 +480,39 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
         },
     },
     {
+        "name": "discover_contacts",
+        "description": (
+            "WS1: When the KB has few/no canis or vets for a municipality, discover them via "
+            "Google Places and extract their contact email from their website, then register "
+            "to the KB. Call BEFORE notify_canil/notify_vet if 'LOCAL CANILS/VETS IN KB' is thin. "
+            "Without an email a contact can't be alerted, so this fills that gap."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "municipality": {"type": "string", "description": "Leave empty to use case municipality."},
+                "kind": {"type": "string", "enum": ["canil", "vet"]},
+            },
+            "required": ["kind"],
+        },
+    },
+    {
+        "name": "mark_contact_stale",
+        "description": (
+            "WS1: Flag a KB contact as stale when its email bounced or phone is dead. "
+            "Nulls the email so the alert no longer tries it. Use when you learn a contact is wrong."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "kind": {"type": "string", "enum": ["canil", "vet", "channel"]},
+                "name": {"type": "string", "description": "Contact name (partial match)."},
+                "municipality": {"type": "string", "description": "Leave empty to use case municipality."},
+            },
+            "required": ["kind", "name"],
+        },
+    },
+    {
         "name": "update_behavioral_assessment",
         "description": (
             "WP9: Update the behavioral profile with new intelligence gathered during this run. "
@@ -1450,5 +1483,55 @@ async def execute_pi_tool(
             f"Queried kb_geography for {municipality}",
         )
         return json.dumps(geo)
+
+    if name == "discover_contacts":
+        # WS1: find canis/vets via Google Places + extract email, register to KB.
+        from agent.places import discover_contacts_with_email
+        from agent.kb import lookup_canils, lookup_vets
+        municipality = str(inputs.get("municipality") or harness.case.get("last_seen_municipality", ""))
+        kind = str(inputs.get("kind", "canil"))
+        if not municipality or kind not in ("canil", "vet"):
+            return json.dumps({"error": "municipality + kind (canil|vet) required"})
+        action = f"discover_{kind}_{municipality.lower().replace(' ', '_')[:24]}"
+        if harness.skip_if_done(action):
+            return json.dumps({"skipped": True, "reason": "already discovered this municipality"})
+
+        orgs = await discover_contacts_with_email(municipality, kind)
+        registered = 0
+        with_email = 0
+        for org in orgs:
+            record_discovery(db, kind, {
+                "municipality": municipality,
+                "name": org["name"],
+                "phone": org.get("phone"),
+                "email": org.get("email"),
+                "address": org.get("address"),
+                "lat": org.get("lat") if kind == "vet" else None,
+                "lng": org.get("lng") if kind == "vet" else None,
+                "source": "places",
+            })
+            registered += 1
+            if org.get("email"):
+                with_email += 1
+        harness.log_action(action, name, f"Places: {registered} {kind}(s), {with_email} with email")
+        return json.dumps({"registered": registered, "with_email": with_email, "municipality": municipality})
+
+    if name == "mark_contact_stale":
+        # WS1: agent learns the KB is wrong (email bounced / phone dead).
+        kind = str(inputs.get("kind", ""))
+        contact_name = str(inputs.get("name", ""))
+        table_map = {"canil": "kb_canils", "vet": "kb_vets", "channel": "kb_channels"}
+        table = table_map.get(kind)
+        if not table or not contact_name:
+            return json.dumps({"error": "kind + name required"})
+        muni = str(inputs.get("municipality") or harness.case.get("last_seen_municipality", ""))
+        # Null the email + flag in source so the alert filter excludes it.
+        db.table(table).update({"email": None, "source": "stale"}) \
+            .ilike("name", f"%{contact_name}%").eq("municipality", muni).execute()
+        harness.log_action(
+            f"marked_stale_{contact_name.lower().replace(' ', '_')[:24]}",
+            name, f"Marked {contact_name} stale in {muni}",
+        )
+        return json.dumps({"marked_stale": contact_name})
 
     return json.dumps({"error": f"unknown tool: {name}"})
