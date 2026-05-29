@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { sendCaseResolved, sendResolutionCelebration } from '@/lib/email/send'
 import { sendTelegramMessage } from '@/lib/notifications/telegram'
+import { captureOutcome } from '@/lib/outcomes'
 
 const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
 
@@ -54,6 +55,9 @@ export async function POST(
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  // WS3: learning substrate.
+  await captureOutcome(supabase, caseRow.id as string)
 
   const dogName = (caseRow.dog_name as string | null) ?? 'O cão'
   const caseUrl = `${APP_URL}/pt/caso/${slug}`

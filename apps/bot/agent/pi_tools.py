@@ -498,6 +498,40 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
         },
     },
     {
+        "name": "recall_similar_outcomes",
+        "description": (
+            "WS3/WP14: Recall how past RESOLVED cases with a similar profile (breed + municipality) "
+            "were recovered — which actions preceded recovery, days-to-recovery, phase. Real local "
+            "evidence beats priors. Returns empty until comparable cases have resolved (then rely on "
+            "priors). Call early to check if we have precedent for this kind of dog in this area."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "breed_category": {"type": "string", "description": "Leave empty to use case profile."},
+                "municipality": {"type": "string", "description": "Leave empty to use case municipality."},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "consult_research",
+        "description": (
+            "WS4: Retrieve specific evidence from the research vault (Weiss, Lord, Albrecht/MAR, "
+            "heat-stress, terrain studies) WITH citations, for hard or cold cases or when the owner "
+            "asks 'why'. Use when the prompt-level summary isn't specific enough — e.g. exact camera "
+            "placement for brachycephalic dogs, refeeding protocol, sighthound flight distance. "
+            "Returns passages + source note ids to cite. Not for the acute first-hours rails."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Specific research question, e.g. 'brachycephalic heat stress search timing'"},
+            },
+            "required": ["query"],
+        },
+    },
+    {
         "name": "discover_contacts",
         "description": (
             "WS1: When the KB has few/no canis or vets for a municipality, discover them via "
@@ -1547,6 +1581,46 @@ async def execute_pi_tool(
                 with_email += 1
         harness.log_action(action, name, f"Places: {registered} {kind}(s), {with_email} with email")
         return json.dumps({"registered": registered, "with_email": with_email, "municipality": municipality})
+
+    if name == "recall_similar_outcomes":
+        # WS3: surface what worked in past resolved cases with a similar profile.
+        # Empty until real cases resolve — agent falls back to priors (no harm).
+        bp = harness.case.get("behavioral_profile") or {}
+        breed = str(inputs.get("breed_category") or bp.get("breed_category") or "")
+        muni = str(inputs.get("municipality") or harness.case.get("last_seen_municipality", ""))
+        q = db.table("case_outcomes").select(
+            "municipality,breed_category,zone,phase_at_recovery,days_to_recovery,actions_taken,sighting_count"
+        ).eq("recovered", True)
+        if breed:
+            q = q.eq("breed_category", breed)
+        if muni:
+            q = q.ilike("municipality", f"%{muni}%")
+        rows = q.limit(10).execute().data or []
+        return json.dumps({
+            "matches": len(rows),
+            "outcomes": rows,
+            "note": "empty = no comparable resolved cases yet; rely on priors" if not rows else "real local evidence — weight these",
+        })
+
+    if name == "consult_research":
+        # WS4: RAG over the research vault — retrieve + cite real science for depth cases.
+        query = str(inputs.get("query", "")).strip()
+        if not query:
+            return json.dumps({"error": "query required"})
+        if not os.environ.get("OPENAI_API_KEY"):
+            return json.dumps({"error": "research index unavailable"})
+        try:
+            from openai import OpenAI
+            emb = OpenAI().embeddings.create(model="text-embedding-3-small", input=query).data[0].embedding
+            res = db.rpc("match_research_chunks", {"query_embedding": emb, "limit_count": 4}).execute()
+        except Exception as exc:
+            return json.dumps({"error": f"research lookup failed: {exc}"})
+        hits = [
+            {"source": r["note_id"], "passage": r["chunk_text"][:600], "score": round(r["score"], 3)}
+            for r in (res.data or []) if r.get("score", 0) > 0.25
+        ]
+        harness.log_action(f"research_{query.lower().replace(' ', '_')[:24]}", name, f"{len(hits)} passages")
+        return json.dumps({"query": query, "results": hits})
 
     if name == "mark_contact_stale":
         # WS1: agent learns the KB is wrong (email bounced / phone dead).

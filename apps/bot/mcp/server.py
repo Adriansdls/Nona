@@ -95,6 +95,40 @@ async def discover_contacts(municipality: str, kind: str) -> dict[str, Any]:
 
 
 @mcp.tool()
+def recall_similar_outcomes(breed_category: str | None = None, municipality: str | None = None) -> dict[str, Any]:
+    """
+    WS3/WP14: recall resolved cases with a similar profile — what worked locally.
+    Empty until comparable cases resolve. Returns {matches, outcomes}.
+    """
+    q = _db().table("case_outcomes").select(
+        "municipality,breed_category,zone,phase_at_recovery,days_to_recovery,actions_taken,sighting_count"
+    ).eq("recovered", True)
+    if breed_category:
+        q = q.eq("breed_category", breed_category)
+    if municipality:
+        q = q.ilike("municipality", f"%{municipality}%")
+    rows = q.limit(10).execute().data or []
+    return {"matches": len(rows), "outcomes": rows}
+
+
+@mcp.tool()
+def consult_research(query: str) -> list[dict[str, Any]]:
+    """
+    WS4: retrieve evidence from the research vault with citations. Embeds the query
+    (OpenAI text-embedding-3-small) and pgvector-matches research_chunks. Returns
+    [{source, passage, score}]. Use for specific science questions (camera placement,
+    refeeding, breed flight distance).
+    """
+    from openai import OpenAI
+    emb = OpenAI().embeddings.create(model="text-embedding-3-small", input=query).data[0].embedding
+    res = _db().rpc("match_research_chunks", {"query_embedding": emb, "limit_count": 4}).execute()
+    return [
+        {"source": r["note_id"], "passage": r["chunk_text"][:600], "score": round(r["score"], 3)}
+        for r in (res.data or []) if r.get("score", 0) > 0.25
+    ]
+
+
+@mcp.tool()
 def mark_stale(kind: str, name: str, municipality: str) -> str:
     """
     WS1: flag a KB contact as stale (email bounced / phone dead). Nulls the email so the

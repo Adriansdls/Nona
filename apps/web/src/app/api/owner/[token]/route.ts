@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { sendResolutionCelebration } from '@/lib/email/send'
+import { captureOutcome } from '@/lib/outcomes'
 
 export async function GET(
   _req: NextRequest,
@@ -75,6 +76,9 @@ export async function POST(
     .from('cases')
     .update({ status: 'resolvido', resolved_at: new Date().toISOString() })
     .eq('id', caseRow.id as string)
+
+  // WS3: learning substrate — record what this resolved case looked like.
+  await captureOutcome(supabase, caseRow.id as string)
 
   void sendResolutionCelebration({
     to: caseRow.reporter_email as string,

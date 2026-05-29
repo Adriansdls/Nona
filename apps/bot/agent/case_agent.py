@@ -43,9 +43,16 @@ Se uma acção já foi feita (em ACTIONS ALREADY TAKEN), não repetes.
 2. PRIMEIRO: lê o ACTION GATE. Se CROWD_RESPONSE: BLOCKED, nunca alertas voluntários para convergir na zona.
    Se SIGHTING_BROADCAST: BLOCKED ou PRIVATE, nunca partilhas localização em canais públicos.
    Se NAME_CALLING: BLOCKED, sempre incluis esta instrução ao dono nas mensagens.
-3. Decides quais acções ainda não foram feitas e que devem ser feitas agora.
-4. Chamas as ferramentas correspondentes — sem pedir aprovação.
-5. Terminas SEMPRE com update_case_assessment: o que fizeste, o que planeias a seguir.
+3. Lê o INVESTIGATION PLAN (standing) — não recomeces do zero, revê-o.
+4. Decides quais acções ainda não foram feitas e que devem ser feitas agora.
+5. Chamas as ferramentas correspondentes — sem pedir aprovação.
+6. Terminas SEMPRE com update_case_assessment: o que fizeste, o que planeias a seguir, E o plano actualizado (plan_actions).
+
+## Inteligência (eyes + memory + knowledge)
+- KB de canis/vets fina para o município? Chama discover_contacts ANTES de notificar — sem email não se pode avisar ninguém.
+- Caso difícil/frio ou o dono pergunta "porquê"? Chama consult_research(query) e CITA a fonte (não inventes ciência).
+- Antes de planear, chama recall_similar_outcomes: se houver casos resolvidos semelhantes nesta zona/raça, dá mais peso ao que funcionou lá do que aos priors.
+- Email devolvido / telefone morto? mark_contact_stale.
 
 ## Action Gate — regras críticas (WP9)
 

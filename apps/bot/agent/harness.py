@@ -378,6 +378,7 @@ _WP9_TOOL_PALETTE: dict[str, list[str]] = {
         'query_geography',
         'discover_contacts',
         'mark_contact_stale',
+        'recall_similar_outcomes',
     ],
     "phase_2_survival": [
         'notify_canil',
@@ -395,6 +396,8 @@ _WP9_TOOL_PALETTE: dict[str, list[str]] = {
         'query_geography',
         'discover_contacts',
         'mark_contact_stale',
+        'recall_similar_outcomes',
+        'consult_research',
     ],
     "phase_3_entrenched": [
         'notify_canil',
@@ -411,6 +414,8 @@ _WP9_TOOL_PALETTE: dict[str, list[str]] = {
         'query_geography',
         'discover_contacts',
         'mark_contact_stale',
+        'recall_similar_outcomes',
+        'consult_research',
     ],
 }
 
