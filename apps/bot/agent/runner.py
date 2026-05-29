@@ -10,7 +10,8 @@ Three concurrent coroutines:
 from __future__ import annotations
 
 import asyncio
-import logging
+import logging  # noqa: F401  (kept for any stdlib level constants)
+import structlog
 import os
 import pathlib
 import sys
@@ -22,7 +23,10 @@ from supabase import create_client
 
 from agent.case_agent import run_case_agent
 
-log = logging.getLogger(__name__)
+# structlog logger — accepts key/value kwargs (log.error("msg", error=...)); the
+# stdlib getLogger this replaced raised TypeError on those kwargs, which crashed the
+# realtime listener's own error handlers and drove the bot into a restart loop.
+log = structlog.get_logger(__name__)
 
 _ESCALATION_INTERVAL_H = 6
 _ACTIVE_STATES = ["new", "active", "planning"]
@@ -197,11 +201,16 @@ async def _realtime_listener(db_url: str, db_key: str) -> None:
     await ch_sightings.subscribe()
     log.info("PI Agent realtime listener active")
 
-    # Heartbeat to keep WebSocket alive on Fly.io
+    # Keep the task alive. AsyncRealtimeClient runs its OWN heartbeat task once
+    # connected — the previous code called client.send_heartbeat() which does not
+    # exist on this client (AttributeError → crash loop). Only call it if present.
+    heartbeat = getattr(client, "send_heartbeat", None)
     while True:
         await asyncio.sleep(25)
+        if not callable(heartbeat):
+            continue  # client self-heartbeats; nothing to do
         try:
-            await client.send_heartbeat()
+            await heartbeat()
         except Exception as exc:
             log.warning("Realtime heartbeat failed — reconnecting", error=str(exc))
             try:

@@ -6,8 +6,9 @@ Converts Telegram updates into brain.run() calls and sends replies.
 from __future__ import annotations
 
 import asyncio
-import logging
+import logging  # noqa: F401
 import os
+import structlog
 from io import BytesIO
 
 import httpx
@@ -33,7 +34,9 @@ from storage import (
 )
 from transcribe import transcribe_voice
 
-logger = logging.getLogger(__name__)
+# structlog — _flush_notifications logs with kwargs (notif_id=, tid=, error=) which
+# stdlib logging rejects with TypeError; structlog accepts them.
+logger = structlog.get_logger(__name__)
 
 WEB_APP_URL = os.environ.get("WEB_APP_URL", "http://localhost:3001")
 INTERNAL_TOKEN = os.environ.get("INTERNAL_API_TOKEN", "")
