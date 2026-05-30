@@ -6,6 +6,13 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { generateSlug } from '@/lib/slug'
 import { fireProfessionalAlert } from '@/lib/notifications/professional-alert'
 
+// Streaming agent loop (up to 8 Anthropic round-trips + tools) needs the Node
+// runtime + a long budget. Without these Vercel can return 200 headers then
+// kill/buffer the function → 0 bytes → the client hangs forever at "a processar".
+export const runtime = 'nodejs'
+export const maxDuration = 300
+export const dynamic = 'force-dynamic'
+
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 // WP9: Phase + action gate compute (mirrors Python harness.py logic)
@@ -705,6 +712,11 @@ export async function POST(req: NextRequest) {
       const send = (data: Record<string, unknown>) => {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`))
       }
+
+      // Flush a first byte immediately so the connection never sits at 0 bytes
+      // (proxy buffering / cold start). The client ignores 'connected'.
+      controller.enqueue(encoder.encode(`: connected\n\n`))
+      send({ type: 'connected' })
 
       try {
         const modeLabel = mode === 'lost' ? 'perdido' : 'encontrado'

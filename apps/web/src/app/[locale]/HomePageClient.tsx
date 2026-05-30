@@ -796,6 +796,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             } else if (evt['type'] === 'quick_replies') {
               setQuickReplies(Array.isArray(evt['replies']) ? evt['replies'] as string[] : [])
             } else if (evt['type'] === 'done') {
+              gotDone = true
               const qr = Array.isArray(evt['quick_replies']) ? evt['quick_replies'] as string[] : []
               setMessages(prev => [...prev, { from: 'agent' as const, text: accumulated, time: formatTime(), ...(qr.length > 0 ? { quickReplies: qr } : {}), ...(scenariosSnap.length > 0 ? { scenarios: scenariosSnap } : {}), ...(actionGateSnap ? { actionGate: actionGateSnap } : {}), ...(fieldGuideSnap ? { fieldGuide: fieldGuideSnap } : {}) }])
               setProbabilityScenarios([])
