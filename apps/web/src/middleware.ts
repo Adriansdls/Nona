@@ -41,7 +41,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // exclude /auth (OAuth/magic-link callback — non-localized, must not be rewritten by intl)
-    '/((?!api|auth|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
+    // exclude /auth (OAuth/magic-link callback) and /login (admin sign-in) —
+    // both are non-localized routes that must not be rewritten/prefixed by intl
+    '/((?!api|auth|login|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
   ],
 }

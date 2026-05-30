@@ -1029,6 +1029,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
             {locale === 'en'
               ? <><span>privacy</span><span>how it works</span><span>community</span></>
               : <><span>privacidade</span><span>como funciona</span><span>comunidade</span></>}
+            <a href="/login" style={{ color: N.ink4, textDecoration: 'none' }}>{locale === 'en' ? 'team' : 'equipa'}</a>
           </span>
         </footer>
       </div>
