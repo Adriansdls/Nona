@@ -823,6 +823,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
 
   const inChat = phase >= 1
   const panelIn = phase >= 4
+  const isMobile = viewport.w < 640
 
   return (
     <div className="nn" style={{ position: 'fixed', inset: 0, background: N.paper, overflow: 'hidden' }}>
@@ -838,7 +839,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         <header style={{ position: 'sticky', top: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 32px', background: N.paper, borderBottom: `1px solid ${N.rule}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
             <Logo size={18}/>
-            <nav style={{ display: 'flex', gap: 22 }}>
+            <nav style={{ display: isMobile ? 'none' : 'flex', gap: 22 }}>
               {(locale === 'en'
                 ? [{ label: 'Cases', href: `/${locale}/casos` }, { label: 'How it works', href: '#como' }, { label: 'I saw a dog', href: `/${locale}/vi-um-cao` }]
                 : [{ label: 'Casos', href: `/${locale}/casos` }, { label: 'Como funciona', href: '#como' }, { label: 'Vi um cão', href: `/${locale}/vi-um-cao` }]
@@ -1051,7 +1052,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           right: 0,
           bottom: 0,
           borderRadius: 0,
-          paddingRight: panelIn ? 360 : 0,
+          paddingRight: panelIn && !isMobile ? 360 : 0,
         }}
         transition={{
           type: 'spring',
@@ -1073,7 +1074,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         }}
       >
         {/* Compact nav — absolute inside canvas */}
-        <header style={{ position: 'absolute', top: 0, left: 0, right: panelIn ? 360 : 0, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px', borderBottom: `1px solid ${N.rule}`, background: N.white }}>
+        <header style={{ position: 'absolute', top: 0, left: 0, right: panelIn && !isMobile ? 360 : 0, zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 24px', borderBottom: `1px solid ${N.rule}`, background: N.white }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <Logo size={18}/>
             {caseSlug && (<>
@@ -1090,7 +1091,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         </header>
 
         {/* Thread — completed history first, then ongoing streaming at bottom */}
-        <div ref={chatRef} style={{ flex: 1, width: '100%', maxWidth: panelIn ? 680 : 760, padding: '80px 36px 16px', overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+        <div ref={chatRef} style={{ flex: 1, width: '100%', maxWidth: panelIn ? 680 : 760, padding: `80px ${isMobile ? '16px' : '36px'} 16px`, overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
 
           {/* All completed messages in chronological order */}
           {messages.map((msg, i) => (
@@ -1224,7 +1225,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         </div>
 
         {/* Reply input */}
-        <div style={{ width: '100%', maxWidth: panelIn ? 680 : 760, padding: '0 36px' }}>
+        <div style={{ width: '100%', maxWidth: panelIn ? 680 : 760, padding: `0 ${isMobile ? '16px' : '36px'}` }}>
           <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, padding: '14px 16px 12px', boxShadow: '0 1px 0 rgba(11,12,16,.02), 0 8px 24px -8px rgba(11,12,16,.10)' }}>
             {/* Attached photo preview */}
             {(stagedPhoto || uploadingPhoto) && (
@@ -1287,7 +1288,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
 
       {/* ══ ACTIVITY PANEL ══ */}
       <motion.div
-        animate={{ x: panelIn ? 0 : 360, opacity: panelIn ? 1 : 0 }}
+        animate={{ x: panelIn && !isMobile ? 0 : 360, opacity: panelIn && !isMobile ? 1 : 0 }}
         initial={false}
         transition={{ type: 'spring', stiffness: 260, damping: 28 }}
         style={{ position: 'fixed', top: 0, bottom: 0, right: 0, width: 360, background: N.paper, borderLeft: `1px solid ${N.rule}`, padding: '64px 20px 24px', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 12, zIndex: 30 }}
