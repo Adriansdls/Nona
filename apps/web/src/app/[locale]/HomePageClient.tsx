@@ -717,6 +717,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
 
     setStreaming(true)
     let accumulated = ''
+    let gotDone = false
     let scenariosSnap: ProbabilityScenario[] = []
     let actionGateSnap: ActionGate | undefined = undefined
     let fieldGuideSnap: FieldGuide | undefined = undefined
@@ -808,6 +809,14 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
     } catch (err) {
       console.error('intake stream error', err)
     } finally {
+      // Always leave the "a processar" state, even if the fetch threw before
+      // setPhase(4) ran or the stream ended without a 'done' event — otherwise
+      // the thinking indicator hangs forever.
+      setPhase(4)
+      if (!accumulated && !gotDone) {
+        setMessages(prev => [...prev, { from: 'agent' as const, text: 'Algo correu mal a contactar a Nona. Tenta enviar de novo.', time: formatTime() }])
+      }
+      setNonaText(''); setNonaActions([])
       setStreaming(false); scrollChat()
     }
   }, [inputValue, mode, messages, scrollChat, stagedPhoto, locale, agentName])
@@ -830,7 +839,10 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
             <Logo size={18}/>
             <nav style={{ display: 'flex', gap: 22 }}>
-              {[{ label: 'Casos', href: `/${locale}/casos` }, { label: 'Como funciona', href: '#como' }, { label: 'Comunidade', href: '#comunidade' }].map(item => (
+              {(locale === 'en'
+                ? [{ label: 'Cases', href: `/${locale}/casos` }, { label: 'How it works', href: '#como' }, { label: 'I saw a dog', href: `/${locale}/vi-um-cao` }]
+                : [{ label: 'Casos', href: `/${locale}/casos` }, { label: 'Como funciona', href: '#como' }, { label: 'Vi um cão', href: `/${locale}/vi-um-cao` }]
+              ).map(item => (
                 <a key={item.label} href={item.href} style={{ fontSize: 13, color: N.ink3, textDecoration: 'none', fontWeight: 500, fontFamily: N.sans }}>{item.label}</a>
               ))}
             </nav>
