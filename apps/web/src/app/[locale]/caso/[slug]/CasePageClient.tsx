@@ -12,6 +12,8 @@ import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
 import type { ActivityResponse } from '@/app/api/cases/[slug]/activity/route'
 import { QRTile } from '@/components/nona/QRTile'
 import { SharePanel } from '@/components/nona/SharePanel'
+import { ProtocolBand } from '@/components/nona/ProtocolBand'
+import { useSearchParams } from 'next/navigation'
 import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
 import type { SearchIntel, IntelZone, IntelHazard, InsufficientData } from '@/app/api/cases/[slug]/intel/route'
 
@@ -257,6 +259,10 @@ interface CasePageClientProps {
 export function CasePageClient({ locale, data }: CasePageClientProps) {
   const { case: c, sightings, stats, geo } = data
   const [selectedImg, setSelectedImg] = useState(0)
+  // Role: owner opens the case via their private link (?t=<owner_token>); everyone
+  // else sees the observer view. Owner-only ACTIONS still verify the token server-side.
+  const searchParams = useSearchParams()
+  const isOwner = !!searchParams.get('t')
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -427,6 +433,21 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={scrollToShare}>Partilhar</Btn>
           </div>
 
+          {/* quick-nav — fast index / observer entry point */}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {[
+              { label: isOwner ? '✓ O que fazer' : '👁 Como ajudar', id: 'protocol' },
+              { label: '🧭 Onde procurar', id: 'mapa' },
+              { label: '📡 O que se passa', id: 'feed' },
+              { label: '↗ Partilhar', id: 'share' },
+            ].map((n) => (
+              <button key={n.id} onClick={() => document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                style={{ cursor: 'pointer', padding: '6px 12px', borderRadius: 999, background: N.surface, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 11.5, color: N.ink2, letterSpacing: '0.01em' }}>
+                {n.label}
+              </button>
+            ))}
+          </div>
+
           <p style={{ margin: 0, fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>
             O contacto do proprietário não é público. Toda a comunicação passa pela equipa Nona.
           </p>
@@ -553,31 +574,18 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           <section style={{ padding: `4px ${isMobile ? '16px' : '32px'} 30px` }}>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.55fr 1fr', gap: 16, alignItems: 'start' }}>
               <div>
-            <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderLeft: `4px solid ${accent}`, borderRadius: 16, overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-              {/* header band */}
-              <div style={{ padding: isMobile ? '18px 18px 14px' : '22px 28px 16px', background: accentBg, borderBottom: `1px solid ${N.rule}` }}>
-                <div style={{ fontFamily: N.mono, fontSize: 11, color: accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
-                  {bucket.label}
-                </div>
-                <h2 style={{ margin: 0, fontFamily: N.display, fontSize: isMobile ? 30 : 38, fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1, color: N.ink }}>
-                  O que fazer agora
-                </h2>
-              </div>
-              {/* numbered steps — weighted, the centrepiece */}
-              <ol style={{ margin: 0, padding: isMobile ? '8px 0' : '10px 0', listStyle: 'none' }}>
-                {bucket.items.map((item, i) => (
-                  <li key={i} style={{ display: 'grid', gridTemplateColumns: '44px 1fr', alignItems: 'start', gap: 4, padding: isMobile ? '12px 18px' : '14px 28px', borderBottom: i < bucket.items.length - 1 ? `1px solid ${N.ruleSoft}` : 'none' }}>
-                    <span style={{ fontFamily: N.display, fontSize: 22, fontWeight: 400, color: accent, lineHeight: 1.2 }}>{i + 1}</span>
-                    <span style={{ fontSize: isMobile ? 15 : 16, color: N.ink, lineHeight: 1.5, fontWeight: 450, alignSelf: 'center' } as React.CSSProperties}>{item}</span>
-                  </li>
-                ))}
-              </ol>
-              {bucket.warning && (
-                <div style={{ margin: isMobile ? '0 18px 16px' : '0 28px 18px', padding: '12px 16px', background: '#FEF9C3', border: '1px solid #FDE047', borderRadius: 10, fontSize: 13.5, color: '#713F12', lineHeight: 1.5, display: 'flex', gap: 8 }}>
-                  <span style={{ flexShrink: 0 }}>⚠️</span><span>{bucket.warning}</span>
-                </div>
-              )}
-            </div>
+                <ProtocolBand
+                  isOwner={isOwner}
+                  ownerBucket={bucket}
+                  dogName={dogName}
+                  zone={c.last_seen_zone_approx || c.last_seen_municipality}
+                  fearful={isHard}
+                  accent={accent}
+                  accentBg={accentBg}
+                  slug={c.slug}
+                  locale={locale}
+                  isMobile={isMobile}
+                />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       {/* WP10 ENVIRONMENT PANEL — activity windows + physical context */}
@@ -750,20 +758,9 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         )
       })()}
 
-      {/* STATS — only HONEST live numbers (no fake zeroes) */}
-      <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 22px` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)', gap: 10 }}>
-          {(() => {
-            const liveSightings = activity?.counts.sightings ?? stats.publicSightings
-            return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? `${liveSightings} confirmados` : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
-          })()}
-          <LiveStat icon="clock" n={elapsedLabel} label={c.type === 'perdido' ? 'perdido há' : 'visto há'} sub="cada hora conta" accent={phase.key === 'panic' ? N.rose : N.ink3} pulsing={phase.key === 'panic'}/>
-          <LiveStat icon="activity" n={phase.label.split('·')[0]!.replace('fase ', '').trim()} label="fase comportamental" sub={phase.label.split('·')[1]?.trim() ?? ''} accent={phase.key === 'panic' ? N.rose : phase.key === 'survival' ? N.amber : N.ink3}/>
-        </div>
-      </section>
 
       {/* SEARCH MAP + INTEL */}
-      <section style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px` }}>
+      <section id="mapa" style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px`, scrollMarginTop: 16 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
           <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
             Onde procurar.
@@ -986,7 +983,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         </article>
 
         {/* LIVE SPINE — feed + share, sticky on the side (the "war-room" rail) */}
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20 }}>
+        <aside id="feed" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20, scrollMarginTop: 16 }}>
           {activityEvents.length > 0 ? (
             <AgentFeed
               title="O que está a acontecer"
