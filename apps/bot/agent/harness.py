@@ -467,7 +467,7 @@ class CaseHarness:
             .maybe_single()
             .execute()
         )
-        return res.data or {}
+        return (res.data if res else None) or {}
 
     def _recalculate_behavioral_engine(self) -> tuple[str, dict]:
         """

@@ -29,6 +29,17 @@ def post_to_telegram_channel(chat_id: str, text: str) -> bool:
         log.info("[SIM] Telegram channel post suppressed", chat_id=chat_id, text_preview=text[:120])
         return True
 
+    # Sandbox allowlist guard: when an allowlist is configured, only post to those
+    # chats (the founder's private group) — never a real community channel.
+    from agent import sim_config
+    allowlist = sim_config.real_allowlist()
+    if allowlist:
+        cid = str(chat_id).strip()
+        chat_int = int(cid) if cid.lstrip("-").isdigit() else None
+        if chat_int is None or chat_int not in allowlist:
+            log.info("[SIM] channel post suppressed (not in allowlist)", chat_id=chat_id)
+            return True
+
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     if not token:
         log.warning("TELEGRAM_BOT_TOKEN not set — Telegram channel post skipped")

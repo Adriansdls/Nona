@@ -215,7 +215,7 @@ async def run_case_agent(
     try:
         harness = CaseHarness(case_id, db)
     except Exception as exc:
-        log.error("CaseHarness load failed", case_id=case_id, error=str(exc))
+        log.error("CaseHarness load failed for case %s: %s", case_id, exc)
         return
 
     if harness.case.get("agent_state") == "resolved":

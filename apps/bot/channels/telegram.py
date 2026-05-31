@@ -564,8 +564,19 @@ async def handle_resolve_callback(update: Update, context: ContextTypes.DEFAULT_
 # Application builder
 # ---------------------------------------------------------------------------
 
+_MAX_REAL_PER_FLUSH = 20  # throttle real sends to stay under Telegram rate limits
+
+
 async def _flush_notifications(context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Job: flush pending PI agent owner messages via Telegram."""
+    """
+    Flush pending PI agent notifications via Telegram, with per-recipient routing.
+
+    REAL delivery only for ids in SIM_REAL_DELIVERY_ALLOWLIST (and not flagged
+    is_simulated); everyone else is recorded as sent WITHOUT a Telegram API call.
+    SIMULATION_MODE=true forces everything virtual.
+    """
+    from agent import sim_config
+
     try:
         from storage import get_supabase
         db = get_supabase()
@@ -574,23 +585,51 @@ async def _flush_notifications(context: ContextTypes.DEFAULT_TYPE) -> None:
             .select("*")
             .is_("sent_at", "null")
             .eq("channel", "telegram")
-            .limit(10)
+            .limit(200)
             .execute()
         )
+
+        sim_ids: list = []   # virtual recipients — bulk-marked sent, no API call
+        real_sent = 0
+
         for notif in (pending.data or []):
             tid = notif.get("telegram_id")
             if not tid:
                 continue
+
+            real = sim_config.is_real_recipient(tid) and not notif.get("is_simulated")
+
+            if not real:
+                logger.info(
+                    "[SIM] Telegram notify recorded",
+                    notif_id=notif["id"], tid=tid,
+                    is_simulated=notif.get("is_simulated"),
+                    distance_km=notif.get("distance_km"),
+                    preview=str(notif.get("message", ""))[:80],
+                )
+                sim_ids.append(notif["id"])
+                continue
+
+            # Real delivery — throttled.
+            if real_sent >= _MAX_REAL_PER_FLUSH:
+                db.table("case_notifications").update(
+                    {"rate_limit_flag": True}
+                ).eq("id", notif["id"]).execute()  # leave pending for next flush
+                continue
             try:
-                if SIM_MODE:
-                    logger.info("[SIM] Telegram notify suppressed", notif_id=notif["id"], tid=tid, preview=notif["message"][:120])
-                else:
-                    await context.bot.send_message(chat_id=tid, text=notif["message"])
+                await context.bot.send_message(chat_id=tid, text=notif["message"])
+                real_sent += 1
+                await asyncio.sleep(0.05)
                 db.table("case_notifications").update(
                     {"sent_at": "now()"}
                 ).eq("id", notif["id"]).execute()
             except Exception as exc:
                 logger.error("Telegram notify failed", notif_id=notif["id"], error=str(exc))
+
+        if sim_ids:
+            db.table("case_notifications").update(
+                {"sent_at": "now()"}
+            ).in_("id", sim_ids).execute()
     except Exception as exc:
         logger.error("flush_notifications error", error=str(exc))
 

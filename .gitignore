@@ -48,3 +48,7 @@ brief_red_cao_algarve.md
 identificacion-perros-ml.md
 perros-algarve.md
 .vercel
+
+# sandbox simulation config (contains founder telegram id)
+.env.sim
+apps/bot/.env.sim

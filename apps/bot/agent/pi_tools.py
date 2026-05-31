@@ -713,6 +713,13 @@ async def execute_pi_tool(
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already posted"})
 
+        # ACTION GATE (code-enforced, not just prompt): hard cases (galgo / fear-mode /
+        # crowd-conditioned) must never have their location broadcast publicly.
+        _gate = getattr(harness, "_wp9_action_gate", {}) or {}
+        if _gate.get("broadcast_sighting_location") == "blocked":
+            harness.log_action(action, name, f"[GATE BLOCKED] broadcast=blocked — {channel_name} suppressed (hard case)")
+            return json.dumps({"blocked": True, "reason": "broadcast_sighting_location=blocked"})
+
         from agent.broadcast import (
             post_to_telegram_channel,
             make_facebook_share_url,
@@ -811,14 +818,30 @@ async def execute_pi_tool(
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already alerted"})
 
-        # Municipality-based volunteer query (geo-fenced radius in WP6)
+        # ACTION GATE (code-enforced): never converge a crowd / alert volunteers for
+        # hard cases — crowd convergence can fatally displace a fear-mode dog.
+        _gate = getattr(harness, "_wp9_action_gate", {}) or {}
+        if _gate.get("crowd_response_blocked"):
+            harness.log_action(action, name, "[GATE BLOCKED] crowd_response_blocked — volunteer alert suppressed (hard case)")
+            return json.dumps({"blocked": True, "reason": "crowd_response_blocked"})
+
+        try:
+            alert_radius = float(radius_km)
+        except (TypeError, ValueError):
+            alert_radius = 8.0
+
+        # Geolocated volunteer registry. Query municipality as a cheap pre-filter,
+        # then haversine-filter by each volunteer's personal radius (capped by the
+        # alert radius). is_simulated routes real vs virtual delivery downstream.
         volunteers = (
-            db.table("user_profiles")
-            .select("telegram_id,municipality")
-            .eq("role", "voluntario")
+            db.table("sim_volunteers")
+            .select("telegram_id,home_coords,radius_km,municipality,is_simulated")
+            .eq("active", True)
             .ilike("municipality", f"%{municipality}%")
             .execute()
         )
+
+        case_coords = _parse_point(harness.case.get("last_seen_coords_approx"))
 
         dog_name = harness.case.get("dog_name") or "Cão"
         breed = harness.case.get("breed", "")
@@ -827,30 +850,53 @@ async def execute_pi_tool(
         case_url = f"{web_url}/pt/caso/{slug}"
         prefix = "🚨 URGENTE" if urgency == "immediate" else "🐕 Alerta voluntário"
 
-        message = (
-            f"{prefix} — {dog_name} ({breed}, {color}) perdido em {zone}.\n"
-            f"Zona: {municipality} · raio ~{radius_km}km\n"
-            f"Ver caso: {case_url}"
-        )
-
         count = 0
+        in_radius = 0
+        rows_to_insert = []
         for vol in (volunteers.data or []):
             tid = vol.get("telegram_id")
-            if tid:
-                db.table("case_notifications").insert({
-                    "case_id": case_id,
-                    "channel": "telegram",
-                    "telegram_id": int(tid),
-                    "message": message,
-                    "phase": harness.phase.value,
-                }).execute()
-                count += 1
+            if not tid:
+                continue
+
+            vol_coords = _parse_point(vol.get("home_coords"))
+            dist_km = None
+            if case_coords and vol_coords:
+                dist_km = _haversine_km(case_coords[0], case_coords[1], vol_coords[0], vol_coords[1])
+                try:
+                    vol_radius = float(vol.get("radius_km") or 10)
+                except (TypeError, ValueError):
+                    vol_radius = 10.0
+                if dist_km > min(vol_radius, alert_radius):
+                    continue  # outside this volunteer's willingness radius
+                distance_str = f"a {dist_km:.1f} km de si"
+            else:
+                distance_str = f"na zona de {municipality}"  # no coords → municipality fallback
+
+            in_radius += 1
+            message = (
+                f"{prefix} — {dog_name} ({breed}, {color}) perdido {distance_str}.\n"
+                f"Zona: {zone}\n"
+                f"Ver caso: {case_url}"
+            )
+            rows_to_insert.append({
+                "case_id": case_id,
+                "channel": "telegram",
+                "telegram_id": int(tid),
+                "message": message,
+                "phase": harness.phase.value,
+                "is_simulated": bool(vol.get("is_simulated", True)),
+                "distance_km": dist_km,
+            })
+            count += 1
+
+        if rows_to_insert:
+            db.table("case_notifications").insert(rows_to_insert).execute()
 
         harness.log_action(
             action, name,
-            f"Queued volunteer alerts: {count} volunteers in {municipality}"
+            f"Queued {count} volunteer alerts ({in_radius} in radius) in {municipality}"
         )
-        return json.dumps({"queued": count, "municipality": municipality})
+        return json.dumps({"queued": count, "in_radius": in_radius, "municipality": municipality})
 
     if name == "update_case_assessment":
         harness.log_action(
