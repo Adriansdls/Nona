@@ -390,6 +390,21 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               </div>
             </div>
           )}
+
+          {/* quick-nav — under the photo, prominent. Fast index + observer entry. */}
+          <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {[
+              { label: isOwner ? '✓ O que fazer' : '👁 Como ajudar', id: 'protocol' },
+              { label: '🧭 Onde procurar', id: 'mapa' },
+              { label: '📡 O que se passa', id: 'feed' },
+              { label: '↗ Partilhar', id: 'share' },
+            ].map((n) => (
+              <button key={n.id} onClick={() => document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                style={{ cursor: 'pointer', padding: '10px 16px', borderRadius: 999, background: N.white, border: `1px solid ${N.rule}`, fontFamily: N.sans, fontSize: 14, fontWeight: 500, color: N.ink, letterSpacing: '-0.005em' }}>
+                {n.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -403,7 +418,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             {dogName}
           </h1>
           <p style={{ margin: '-6px 0 0', fontFamily: N.display, fontStyle: 'italic', fontSize: 22, color: N.ink2, letterSpacing: '-0.01em' }}>
-            {[c.breed, c.sex, c.age_estimate].filter(Boolean).join(' · ')}
+            {[c.breed, c.sex, [c.primary_color, c.secondary_color].filter(Boolean).join('/'), c.age_estimate].filter(Boolean).join(' · ')}
           </p>
 
           {c.status !== 'resolvido' && (
@@ -419,7 +434,6 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           <div style={{ borderTop: `1px solid ${N.rule}`, borderBottom: `1px solid ${N.rule}`, marginTop: 4 }}>
             <MetaRow label="Última vez" value={`${c.last_seen_municipality} · ${c.last_seen_zone_approx}`}/>
             <MetaRow label="Quando" value={new Date(c.last_seen_at).toLocaleDateString('pt-PT', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })} mono/>
-            <MetaRow label="Cor" value={[c.primary_color, c.secondary_color].filter(Boolean).join(', ')}/>
             {c.distinctive_marks && c.distinctive_marks.length > 0 && (
               <MetaRow label="Marcas" value={c.distinctive_marks.join(' · ')}/>
             )}
@@ -432,27 +446,22 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             </Link>
             <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={scrollToShare}>Partilhar</Btn>
           </div>
-
-          {/* quick-nav — fast index / observer entry point */}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {[
-              { label: isOwner ? '✓ O que fazer' : '👁 Como ajudar', id: 'protocol' },
-              { label: '🧭 Onde procurar', id: 'mapa' },
-              { label: '📡 O que se passa', id: 'feed' },
-              { label: '↗ Partilhar', id: 'share' },
-            ].map((n) => (
-              <button key={n.id} onClick={() => document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                style={{ cursor: 'pointer', padding: '6px 12px', borderRadius: 999, background: N.surface, border: `1px solid ${N.rule}`, fontFamily: N.mono, fontSize: 11.5, color: N.ink2, letterSpacing: '0.01em' }}>
-                {n.label}
-              </button>
-            ))}
-          </div>
-
-          <p style={{ margin: 0, fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>
-            O contacto do proprietário não é público. Toda a comunicação passa pela equipa Nona.
-          </p>
         </div>
       </section>
+
+      {/* VITAL SIGNS — big live numbers (the case's pulse) */}
+      {c.status !== 'resolvido' && (
+        <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 24px` }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+            {(() => {
+              const liveSightings = activity?.counts.sightings ?? stats.publicSightings
+              return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? 'confirmados' : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
+            })()}
+            <LiveStat icon="clock" n={elapsedLabel} label={c.type === 'perdido' ? 'perdido há' : 'visto há'} sub="cada hora conta" accent={phase.key === 'panic' ? N.rose : N.ink3} pulsing={phase.key === 'panic'}/>
+            <LiveStat icon="activity" n={(phase.label.split('·')[0] ?? '').replace('fase ', '').trim()} label="fase" sub={(phase.label.split('·')[1] ?? '').trim()} accent={phase.key === 'panic' ? N.rose : phase.key === 'survival' ? N.amber : N.ink3}/>
+          </div>
+        </section>
+      )}
 
       {/* ACTION GATE WARNINGS (WP9) — shown before scenarios */}
       {c.behavioral_profile?.action_gate && (
@@ -952,8 +961,28 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         </section>
       )}
 
-      {/* DESCRIPTION (left) + LIVE SPINE (right rail) */}
-      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 0.85fr', gap: 32, alignItems: 'flex-start' }}>
+      {/* LIVE FEED — full-width, prominent. The case's pulse: fills as things happen. */}
+      <section id="feed" style={{ padding: `8px ${isMobile ? '16px' : '32px'} 28px`, scrollMarginTop: 16 }}>
+        <h2 style={{ margin: '0 0 12px', fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
+          O que está a acontecer.
+        </h2>
+        {activityEvents.length > 0 ? (
+          <AgentFeed
+            title="Atividade do caso"
+            subtitle="ao vivo · 15s"
+            events={activityEvents}
+            animate
+            footer
+          />
+        ) : (
+          <div style={{ padding: '18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, fontSize: 13, color: N.ink3, fontFamily: N.mono }}>
+            a carregar atividade do caso…
+          </div>
+        )}
+      </section>
+
+      {/* DESCRIPTION + QR (left) · SHARE (right) */}
+      <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 0.85fr', gap: 32, alignItems: 'flex-start' }}>
         <article>
           {c.description && (
             <>
@@ -965,7 +994,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               </p>
             </>
           )}
-          {/* QR + poster (under description, left) */}
+          {/* QR + poster */}
           <div style={{ marginTop: c.description ? 24 : 0, padding: 18, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'flex', gap: 16, alignItems: 'center', maxWidth: 580 }}>
             <div style={{ padding: 6, background: N.surface, borderRadius: 8 }}>
               <QRTile size={104}/>
@@ -980,58 +1009,22 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               </Link>
             </div>
           </div>
-        </article>
-
-        {/* LIVE SPINE — feed + share, sticky on the side (the "war-room" rail) */}
-        <aside id="feed" style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20, scrollMarginTop: 16 }}>
-          {activityEvents.length > 0 ? (
-            <AgentFeed
-              title="O que está a acontecer"
-              subtitle="ao vivo · 15s"
-              events={activityEvents}
-              animate
-              footer={false}
-            />
-          ) : (
-            <div style={{ padding: '18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, fontSize: 13, color: N.ink3, fontFamily: N.mono }}>
-              a carregar atividade do caso…
-            </div>
-          )}
-
-          {/* share */}
-          <div id="share">
-            <SharePanel dogName={dogName} caseUrl={caseUrl} />
-            {images[0]?.public_url && (
-              <p style={{ margin: '12px 4px 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
-              </p>
-            )}
-          </div>
-
-          {/* next steps */}
-          <div style={{ padding: 16, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
-            <h4 style={{ margin: 0, fontFamily: N.display, fontSize: 16, fontWeight: 400, letterSpacing: '-0.015em' }}>Próximos passos automáticos</h4>
-            <ul style={{ margin: '10px 0 0', padding: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 12.5, color: N.ink2 }}>
-              {[
-                'recheck visual se houver 5+ avistamentos',
-                'update à comunidade em 24h se sem novidades',
-                'alerta a clínicas veterinárias se passarem 48h',
-              ].map((t, i) => (
-                <li key={i} style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ marginTop: 5, width: 5, height: 5, borderRadius: '50%', background: N.ink3, flexShrink: 0 }}/>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* contact (only if reporter set it public) */}
           {c.reporter_contact_public && (
-            <div style={{ padding: 16, background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 14 }}>
+            <div style={{ marginTop: 16, padding: 16, background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 14, maxWidth: 580 }}>
               <p style={{ margin: 0, fontSize: 13, color: N.indigoDeep, lineHeight: 1.5 }}>
                 <strong>Contacto público:</strong> {c.reporter_contact_public}
               </p>
             </div>
+          )}
+        </article>
+
+        <aside id="share" style={{ position: 'sticky', top: 20, scrollMarginTop: 16 }}>
+          <SharePanel dogName={dogName} caseUrl={caseUrl} />
+          {images[0]?.public_url && (
+            <p style={{ margin: '12px 4px 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
+            </p>
           )}
         </aside>
       </section>
