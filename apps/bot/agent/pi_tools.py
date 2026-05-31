@@ -830,18 +830,22 @@ async def execute_pi_tool(
         except (TypeError, ValueError):
             alert_radius = 8.0
 
-        # Geolocated volunteer registry. Query municipality as a cheap pre-filter,
-        # then haversine-filter by each volunteer's personal radius (capped by the
-        # alert radius). is_simulated routes real vs virtual delivery downstream.
-        volunteers = (
+        case_coords = _parse_point(harness.case.get("last_seen_coords_approx"))
+
+        # Geolocated volunteer registry. DISTANCE is the source of truth: when the
+        # case has coordinates, pull ALL active volunteers and haversine-filter by
+        # each one's personal radius — so a volunteer 2km away in an adjacent
+        # municipality is NOT wrongly excluded by a municipality string mismatch.
+        # Degraded fallback (no case coords): municipality pre-filter to avoid a
+        # global blast. is_simulated routes real vs virtual delivery downstream.
+        vq = (
             db.table("sim_volunteers")
             .select("telegram_id,home_coords,radius_km,municipality,is_simulated")
             .eq("active", True)
-            .ilike("municipality", f"%{municipality}%")
-            .execute()
         )
-
-        case_coords = _parse_point(harness.case.get("last_seen_coords_approx"))
+        if not case_coords:
+            vq = vq.ilike("municipality", f"%{municipality}%")
+        volunteers = vq.execute()
 
         dog_name = harness.case.get("dog_name") or "Cão"
         breed = harness.case.get("breed", "")

@@ -13,7 +13,10 @@ from io import BytesIO
 
 import httpx
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import (
+    Update, InlineKeyboardButton, InlineKeyboardMarkup,
+    KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove,
+)
 from telegram.constants import ChatAction, ParseMode
 from telegram.ext import (
     Application,
@@ -375,11 +378,109 @@ async def cmd_ajuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "Comandos:\n"
         "/start — Começar\n"
         "/encontrado — O meu cão foi encontrado! 🎉\n"
+        "/alertas — Receber alertas de cães perdidos perto de si 📍\n"
+        "/alertas_parar — Deixar de receber alertas\n"
         "/cancelar — Cancelar a conversa atual\n"
         "/ajuda — Esta mensagem\n\n"
         f"Website: {WEB_APP_URL}"
     )
     await _reply(update, help_text)
+
+
+# ---------------------------------------------------------------------------
+# /alertas — community-observer opt-in: register as a geolocated volunteer so
+# the PI agent can DM you "a X km de si" when a dog is lost near you.
+# ---------------------------------------------------------------------------
+
+_DEFAULT_ALERT_RADIUS_KM = 10.0
+
+
+async def cmd_alertas(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Ask the user to share their location to subscribe to nearby lost-dog alerts.
+    Optional radius arg: /alertas 5  (km, 1–50; default 10)."""
+    radius = _DEFAULT_ALERT_RADIUS_KM
+    if context.args:
+        try:
+            radius = max(1.0, min(50.0, float(str(context.args[0]).replace(",", "."))))
+        except ValueError:
+            pass
+    if context.user_data is not None:
+        context.user_data["alertas_radius"] = radius
+
+    kb = ReplyKeyboardMarkup(
+        [[KeyboardButton("📍 Partilhar a minha localização", request_location=True)]],
+        resize_keyboard=True, one_time_keyboard=True,
+    )
+    if update.message:
+        # Plain text (no Markdown): the command names contain underscores which
+        # break Markdown entity parsing.
+        await update.message.reply_text(
+            "Quer ajudar a encontrar cães perdidos perto de si? 🐾\n\n"
+            f"Toque no botão para partilhar a sua localização. Avisamos quando "
+            f"um cão se perder a menos de {radius:.0f} km de si — com instruções "
+            "de segurança (observar, não perseguir).\n\n"
+            "A sua localização só é usada para calcular a distância aos casos. "
+            "Pode sair quando quiser com /alertas_parar.",
+            reply_markup=kb,
+        )
+
+
+async def handle_location(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """A shared location registers/updates the user as a real (non-simulated)
+    volunteer in sim_volunteers, keyed by telegram_id."""
+    if not update.message or not update.message.location:
+        return
+    loc = update.message.location
+    tid = update.effective_user.id  # type: ignore[union-attr]
+    radius = _DEFAULT_ALERT_RADIUS_KM
+    if context.user_data and context.user_data.get("alertas_radius"):
+        radius = float(context.user_data["alertas_radius"])
+    name = (update.effective_user.first_name if update.effective_user else None) or "Voluntário"
+
+    try:
+        from storage import get_supabase
+        db = get_supabase()
+        # point stored as (lng,lat) — matches cases.last_seen_coords_approx + _parse_point
+        db.table("sim_volunteers").upsert({
+            "telegram_id": tid,
+            "display_name": name,
+            "home_coords": f"({loc.longitude},{loc.latitude})",
+            "municipality": "",            # distance is the source of truth
+            "radius_km": radius,
+            "active": True,
+            "is_simulated": False,         # real opt-in → eligible for real delivery
+            "consent_at": "now()",
+            "source": "optin",
+        }, on_conflict="telegram_id").execute()
+    except Exception as exc:
+        logger.error("alertas registration failed", tid=tid, error=str(exc))
+        await update.message.reply_text(
+            "Algo correu mal ao registar. Tente novamente mais tarde.",
+            reply_markup=ReplyKeyboardRemove(),
+        )
+        return
+
+    await update.message.reply_text(
+        f"✅ Registado! Vai receber alertas de cães perdidos a menos de "
+        f"{radius:.0f} km daqui.\n\n"
+        "Quando receber um alerta: observe à distância, NÃO persiga, e reporte "
+        "foto + local. Para sair: /alertas_parar.",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
+
+async def cmd_alertas_parar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Opt out — deactivate the volunteer record (kept for re-activation)."""
+    tid = update.effective_user.id  # type: ignore[union-attr]
+    try:
+        from storage import get_supabase
+        get_supabase().table("sim_volunteers").update(
+            {"active": False}
+        ).eq("telegram_id", tid).execute()
+    except Exception as exc:
+        logger.error("alertas opt-out failed", tid=tid, error=str(exc))
+    await _reply(update, "Deixou de receber alertas. Obrigado por ter ajudado 🐾 "
+                         "Pode voltar quando quiser com /alertas.")
 
 
 # ---------------------------------------------------------------------------
@@ -644,9 +745,12 @@ def build_application() -> Application:
     app.add_handler(CommandHandler("help", cmd_ajuda))
 
     app.add_handler(CommandHandler("encontrado", cmd_encontrado))
+    app.add_handler(CommandHandler("alertas", cmd_alertas))
+    app.add_handler(CommandHandler("alertas_parar", cmd_alertas_parar))
     app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
     app.add_handler(CallbackQueryHandler(handle_step_callback, pattern="^step:"))
 
+    app.add_handler(MessageHandler(filters.LOCATION, handle_location))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
