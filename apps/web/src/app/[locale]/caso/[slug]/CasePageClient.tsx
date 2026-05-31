@@ -296,7 +296,21 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const hoursOpen = Math.floor(msSinceCreated / 3600000)
   const openLabel = hoursOpen < 1 ? 'há menos de 1h' : hoursOpen === 1 ? 'há 1h' : `há ${hoursOpen}h`
 
-  const hoursLostHero = (Date.now() - new Date(c.last_seen_at).getTime()) / 3600000
+  // Live ticking clock — re-renders every 30s so the elapsed time is always real.
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 30000)
+    return () => clearInterval(id)
+  }, [])
+  const elapsedMs = now - new Date(c.last_seen_at).getTime()
+  const elapsedLabel = (() => {
+    const mins = Math.max(0, Math.floor(elapsedMs / 60000))
+    if (mins < 60) return `${mins} min`
+    const h = Math.floor(mins / 60), m = mins % 60
+    if (h < 48) return m > 0 ? `${h}h ${m}min` : `${h}h`
+    return `${Math.floor(h / 24)} dias`
+  })()
+  const hoursLostHero = elapsedMs / 3600000
   const phase = derivePhase(hoursLostHero, c.behavioral_profile?.breed_category)
 
   // Live, REAL activity — polled from the sanitized /activity endpoint (no mock).
@@ -388,7 +402,13 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           </p>
 
           {c.status !== 'resolvido' && (
-            <StatusBrain phaseKey={phase.key} phaseLabel={phase.label} confidence={intel?.confidence} />
+            <>
+              <StatusBrain phaseKey={phase.key} phaseLabel={phase.label} confidence={intel?.confidence} />
+              <p style={{ margin: 0, fontFamily: N.mono, fontSize: 13, color: phase.key === 'panic' ? '#dc2626' : N.ink2, letterSpacing: '0.02em' }}>
+                ⏱ {c.type === 'perdido' ? 'perdido' : 'visto'} há <strong>{elapsedLabel}</strong>
+                <span style={{ color: N.ink3 }}> · cada hora conta</span>
+              </p>
+            </>
           )}
 
           <div style={{ borderTop: `1px solid ${N.rule}`, borderBottom: `1px solid ${N.rule}`, marginTop: 4 }}>
@@ -411,145 +431,6 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           <p style={{ margin: 0, fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>
             O contacto do proprietário não é público. Toda a comunicação passa pela equipa Nona.
           </p>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 18px` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
-          {(() => {
-            const liveSightings = activity?.counts.sightings ?? stats.publicSightings
-            return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? `${liveSightings} confirmados` : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
-          })()}
-          <LiveStat icon="clock" n={openLabel.replace('há ','')} label="aberto" sub="caso activo"/>
-          <LiveStat icon="share" n="0" label="partilhas" sub="aguardando"/>
-          <LiveStat icon="users" n="0" label="voluntários" sub="zona activa"/>
-          <LiveStat icon="trending" n="0" label="visitas" sub="hoje"/>
-        </div>
-      </section>
-
-      {/* SEARCH MAP + INTEL */}
-      <section style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px` }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-          <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
-            Onde procurar.
-          </h2>
-          <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
-            {!intel && <span style={{ display: 'inline-block', width: 7, height: 7, borderRadius: '50%', background: N.amber, animation: 'nn-pulse 1.2s ease-in-out infinite' }}/>}
-            {intel ? 'análise IA · terreno e avistamentos' : 'a calcular zonas…'}
-          </span>
-        </div>
-
-        {/* Brief panel — shown when intel loads */}
-        {intel?.brief && (
-          <div style={{ marginBottom: 14, padding: '12px 16px', background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 12, fontSize: 13.5, color: N.indigoDeep, lineHeight: 1.55 }}>
-            {intel.brief}
-          </div>
-        )}
-
-        {/* Movement analysis — shown when 2+ sightings enable triangulation */}
-        {intel?.movement && (
-          <div style={{ marginBottom: 14, padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, fontSize: 13, color: '#15803d', lineHeight: 1.55 }}>
-            <strong style={{ fontFamily: N.mono, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Análise de movimento</strong>
-            <span style={{ fontWeight: 600 }}>{intel.movement.direction}</span>
-            {intel.movement.speed_estimate && <span style={{ color: '#166534', marginLeft: 6 }}>· {intel.movement.speed_estimate}</span>}
-            <div style={{ marginTop: 4 }}>{intel.movement.pattern}</div>
-          </div>
-        )}
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, alignItems: 'stretch' }}>
-          <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${N.rule}` }}>
-            <SearchMap
-              height={380}
-              center={parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }}
-              lastSeenLabel={c.last_seen_zone_approx || 'Última vez visto'}
-              sightings={sightings.flatMap((s) => {
-                const coords = parsePoint(s.coords_approx)
-                if (!coords) return []
-                return [{
-                  lat: coords.lat,
-                  lng: coords.lng,
-                  label: s.zone_approx,
-                  sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
-                  fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
-                }]
-              })}
-              zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
-              waterPoints={(geo?.water_points ?? []).filter(w => typeof w.lat === 'number' && typeof w.lng === 'number')}
-            />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {/* (phase + confidence promoted to the hero StatusBrain) */}
-
-            {/* Insufficient data state */}
-            {intelInsufficient && !intel && (
-              <div style={{ padding: '14px 16px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
-                <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 10.5, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.06em' }}>dados insuficientes</p>
-                <p style={{ margin: '0 0 8px', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>{intelInsufficient.reason}</p>
-                {intelInsufficient.partial_context && (
-                  <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink2, lineHeight: 1.4 }}>{intelInsufficient.partial_context}</p>
-                )}
-              </div>
-            )}
-
-            {/* Zone cards */}
-            {(intel ? intel.zones : []).map((z: IntelZone) => (
-              <ZoneCard
-                key={z.title}
-                title={z.title}
-                ring={ZONE_COLORS[z.color] ?? N.amber}
-                radius_km={z.radius_km}
-                instruct={z.instruction}
-                checkpoints={z.checkpoints}
-                evidence={z.evidence ?? []}
-              />
-            ))}
-            {!intel && !intelInsufficient && [1, 2].map(i => <ZoneCardSkeleton key={i} />)}
-
-            {/* Warnings */}
-            {intel && intel.warnings?.length > 0 && (
-              <div style={{ padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12 }}>
-                {intel.warnings.map((w: string, i: number) => (
-                  <p key={i} style={{ margin: i > 0 ? '6px 0 0' : 0, fontSize: 12, color: '#b91c1c', lineHeight: 1.45 }}>{w}</p>
-                ))}
-              </div>
-            )}
-
-            {/* Hazards panel */}
-            <div style={{ padding: '14px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 12 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <span style={{ width: 16, height: 16, borderRadius: 4, background: '#1f2937', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: N.mono, fontSize: 10, fontWeight: 700 }}>!</span>
-                <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em' }}>Riscos imediatos</span>
-              </div>
-              {intel
-                ? intel.hazards.length === 0
-                  ? <p style={{ margin: 0, fontSize: 12, color: N.ink3 }}>Sem riscos imediatos identificados nesta área.</p>
-                  : (
-                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
-                      {intel.hazards.map((h: IntelHazard, i: number) => (
-                        <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
-                          <span>
-                            <span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span>
-                            <span style={{ color: N.ink3 }}> · {h.note}</span>
-                          </span>
-                          {h.evidence?.url
-                            ? <a href={h.evidence.url} target="_blank" rel="noopener noreferrer" title={h.evidence.detail} style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9, color: N.ink3, textDecoration: 'none', padding: '1px 4px', borderRadius: 3, background: N.surface, border: `1px solid ${N.rule}` }}>{h.severity}</a>
-                            : <span style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9.5, color: h.severity === 'critical' ? '#dc2626' : h.severity === 'high' ? '#d97706' : N.ink3 }}>{h.severity}</span>
-                          }
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                : (
-                  <div style={{ display: 'grid', gap: 5 }}>
-                    {[1, 2].map(i => (
-                      <div key={i} style={{ height: 14, borderRadius: 4, background: '#fed7aa' }}/>
-                    ))}
-                  </div>
-                )
-              }
-            </div>
-          </div>
         </div>
       </section>
 
@@ -691,6 +572,146 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           </section>
         )
       })()}
+
+      {/* STATS */}
+      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 18px` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
+          {(() => {
+            const liveSightings = activity?.counts.sightings ?? stats.publicSightings
+            return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? `${liveSightings} confirmados` : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
+          })()}
+          <LiveStat icon="clock" n={openLabel.replace('há ','')} label="aberto" sub="caso activo"/>
+          <LiveStat icon="share" n="0" label="partilhas" sub="aguardando"/>
+          <LiveStat icon="users" n="0" label="voluntários" sub="zona activa"/>
+          <LiveStat icon="trending" n="0" label="visitas" sub="hoje"/>
+        </div>
+      </section>
+
+      {/* SEARCH MAP + INTEL */}
+      <section style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px` }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+          <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
+            Onde procurar.
+          </h2>
+          <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+            {!intel && <span style={{ display: 'inline-block', width: 7, height: 7, borderRadius: '50%', background: N.amber, animation: 'nn-pulse 1.2s ease-in-out infinite' }}/>}
+            {intel ? 'análise IA · terreno e avistamentos' : 'a calcular zonas…'}
+          </span>
+        </div>
+
+        {/* Brief panel — shown when intel loads */}
+        {intel?.brief && (
+          <div style={{ marginBottom: 14, padding: '12px 16px', background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 12, fontSize: 13.5, color: N.indigoDeep, lineHeight: 1.55 }}>
+            {intel.brief}
+          </div>
+        )}
+
+        {/* Movement analysis — shown when 2+ sightings enable triangulation */}
+        {intel?.movement && (
+          <div style={{ marginBottom: 14, padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, fontSize: 13, color: '#15803d', lineHeight: 1.55 }}>
+            <strong style={{ fontFamily: N.mono, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Análise de movimento</strong>
+            <span style={{ fontWeight: 600 }}>{intel.movement.direction}</span>
+            {intel.movement.speed_estimate && <span style={{ color: '#166534', marginLeft: 6 }}>· {intel.movement.speed_estimate}</span>}
+            <div style={{ marginTop: 4 }}>{intel.movement.pattern}</div>
+          </div>
+        )}
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, alignItems: 'stretch' }}>
+          <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${N.rule}` }}>
+            <SearchMap
+              height={380}
+              center={parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }}
+              lastSeenLabel={c.last_seen_zone_approx || 'Última vez visto'}
+              sightings={sightings.flatMap((s) => {
+                const coords = parsePoint(s.coords_approx)
+                if (!coords) return []
+                return [{
+                  lat: coords.lat,
+                  lng: coords.lng,
+                  label: s.zone_approx,
+                  sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
+                  fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
+                }]
+              })}
+              zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
+              waterPoints={(geo?.water_points ?? []).filter(w => typeof w.lat === 'number' && typeof w.lng === 'number')}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {/* (phase + confidence promoted to the hero StatusBrain) */}
+
+            {/* Insufficient data state */}
+            {intelInsufficient && !intel && (
+              <div style={{ padding: '14px 16px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
+                <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 10.5, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.06em' }}>dados insuficientes</p>
+                <p style={{ margin: '0 0 8px', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>{intelInsufficient.reason}</p>
+                {intelInsufficient.partial_context && (
+                  <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink2, lineHeight: 1.4 }}>{intelInsufficient.partial_context}</p>
+                )}
+              </div>
+            )}
+
+            {/* Zone cards */}
+            {(intel ? intel.zones : []).map((z: IntelZone) => (
+              <ZoneCard
+                key={z.title}
+                title={z.title}
+                ring={ZONE_COLORS[z.color] ?? N.amber}
+                radius_km={z.radius_km}
+                instruct={z.instruction}
+                checkpoints={z.checkpoints}
+                evidence={z.evidence ?? []}
+              />
+            ))}
+            {!intel && !intelInsufficient && [1, 2].map(i => <ZoneCardSkeleton key={i} />)}
+
+            {/* Warnings */}
+            {intel && intel.warnings?.length > 0 && (
+              <div style={{ padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12 }}>
+                {intel.warnings.map((w: string, i: number) => (
+                  <p key={i} style={{ margin: i > 0 ? '6px 0 0' : 0, fontSize: 12, color: '#b91c1c', lineHeight: 1.45 }}>{w}</p>
+                ))}
+              </div>
+            )}
+
+            {/* Hazards panel */}
+            <div style={{ padding: '14px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <span style={{ width: 16, height: 16, borderRadius: 4, background: '#1f2937', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: N.mono, fontSize: 10, fontWeight: 700 }}>!</span>
+                <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em' }}>Riscos imediatos</span>
+              </div>
+              {intel
+                ? intel.hazards.length === 0
+                  ? <p style={{ margin: 0, fontSize: 12, color: N.ink3 }}>Sem riscos imediatos identificados nesta área.</p>
+                  : (
+                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
+                      {intel.hazards.map((h: IntelHazard, i: number) => (
+                        <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
+                          <span>
+                            <span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span>
+                            <span style={{ color: N.ink3 }}> · {h.note}</span>
+                          </span>
+                          {h.evidence?.url
+                            ? <a href={h.evidence.url} target="_blank" rel="noopener noreferrer" title={h.evidence.detail} style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9, color: N.ink3, textDecoration: 'none', padding: '1px 4px', borderRadius: 3, background: N.surface, border: `1px solid ${N.rule}` }}>{h.severity}</a>
+                            : <span style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9.5, color: h.severity === 'critical' ? '#dc2626' : h.severity === 'high' ? '#d97706' : N.ink3 }}>{h.severity}</span>
+                          }
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                : (
+                  <div style={{ display: 'grid', gap: 5 }}>
+                    {[1, 2].map(i => (
+                      <div key={i} style={{ height: 14, borderRadius: 4, background: '#fed7aa' }}/>
+                    ))}
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* DEEP SCIENCE (WP10 + WP13) — progressive disclosure: the moat, but not
           dumped on a panicked owner / drive-by watcher. Open by default for owner. */}
