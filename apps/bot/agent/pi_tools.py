@@ -921,7 +921,6 @@ async def execute_pi_tool(
         # run reads the standing plan from the context block instead of re-deriving.
         plan_actions = inputs.get("plan_actions")
         if plan_actions is not None:
-            from datetime import datetime, timezone
             bp = dict(harness.case.get("behavioral_profile") or {})
             bp["investigation_plan"] = {
                 "actions": plan_actions,

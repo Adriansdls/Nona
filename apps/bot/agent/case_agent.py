@@ -236,7 +236,7 @@ async def run_case_agent(
             if last_at.tzinfo is None:
                 last_at = last_at.replace(tzinfo=timezone.utc)
             if datetime.now(timezone.utc) - last_at < timedelta(minutes=THROTTLE_MINUTES):
-                log.info("Agent throttled — ran recently", case_id=case_id, trigger=trigger)
+                log.info("Agent throttled — ran recently (case %s, trigger %s)", case_id, trigger)
                 return
 
     harness.set_agent_state("planning")
@@ -263,11 +263,8 @@ async def run_case_agent(
     active_tools = [t for t in PI_TOOL_DEFINITIONS if t["name"] in palette]
 
     log.info(
-        "PI agent starting",
-        case_id=case_id,
-        trigger=trigger,
-        phase=harness.phase.value,
-        tools=len(active_tools),
+        "PI agent starting (case %s, trigger %s, phase %s, %d tools)",
+        case_id, trigger, harness.phase.value, len(active_tools),
     )
 
     for turn in range(MAX_TURNS):
@@ -280,7 +277,7 @@ async def run_case_agent(
         )
 
         if response.stop_reason == "end_turn":
-            log.info("PI agent end_turn", case_id=case_id, turns=turn + 1)
+            log.info("PI agent end_turn (case %s, turns %d)", case_id, turn + 1)
             break
 
         if response.stop_reason == "tool_use":
@@ -298,7 +295,7 @@ async def run_case_agent(
                     )
                 except Exception as exc:
                     result = json.dumps({"error": str(exc)})
-                    log.error("PI tool error", tool=block.name, error=str(exc))
+                    log.error("PI tool error (tool %s): %s", block.name, exc)
                 tool_results.append({
                     "type": "tool_result",
                     "tool_use_id": block.id,
@@ -308,4 +305,4 @@ async def run_case_agent(
 
     new_state = "escalated" if harness.should_escalate() else "active"
     harness.set_agent_state(new_state)
-    log.info("PI agent done", case_id=case_id, agent_state=new_state, trigger=trigger)
+    log.info("PI agent done (case %s, state %s, trigger %s)", case_id, new_state, trigger)
