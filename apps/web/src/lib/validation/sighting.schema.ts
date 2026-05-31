@@ -12,6 +12,11 @@ export const sightingCreateSchema = z.object({
   // WP16: time integrity — how well do we trust the observation time?
   observedTimeConfidence: z.enum(['exact', 'approximate', 'unknown']).optional(),
   observedTimeSource: z.enum(['firsthand', 'social_post', 'secondhand']).optional(),
+  // Observer's core evidence: a photo (staged path from /api/intake/upload) and a
+  // precise GPS point (overrides the zone-text geocode when present).
+  photoPath: z.string().max(500).optional(),
+  latitude: z.coerce.number().min(-90).max(90).optional(),
+  longitude: z.coerce.number().min(-180).max(180).optional(),
 })
 
 export type SightingCreateInput = z.infer<typeof sightingCreateSchema>

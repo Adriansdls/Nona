@@ -8,8 +8,10 @@ import { Icon } from '@/components/nona/Icon'
 import { Pill } from '@/components/nona/Pill'
 import { Btn } from '@/components/nona/Btn'
 import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
-import { AgentFeed, LIFETIME_EVENTS, type AgentEvent } from '@/components/nona/AgentFeed'
+import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
+import type { ActivityResponse } from '@/app/api/cases/[slug]/activity/route'
 import { QRTile } from '@/components/nona/QRTile'
+import { SharePanel } from '@/components/nona/SharePanel'
 import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
 import type { SearchIntel, IntelZone, IntelHazard, InsufficientData } from '@/app/api/cases/[slug]/intel/route'
 
@@ -27,6 +29,44 @@ function parsePoint(raw: string | null | undefined): { lat: number; lng: number 
 }
 
 // ─── Sub-components ─────────────────────────────────────────────────
+
+// Phase label from hours-since-loss + breed (instant, no intel needed). Galgo/
+// xenophobic dogs enter survival mode at minute 0.
+function derivePhase(hoursLost: number, breedCategory?: string): { key: 'panic' | 'survival' | 'recovery'; label: string } {
+  const hardEarly = breedCategory === 'galgo'
+  if (!hardEarly && hoursLost < 24) return { key: 'panic', label: 'fase pânico · 0–24h' }
+  if (hoursLost < 168) return { key: 'survival', label: 'fase sobrevivência · 24h–7d' }
+  return { key: 'recovery', label: 'fase recuperação · 7d+' }
+}
+
+// The "status brain", promoted into the hero: phase (instant) + confidence (when
+// the AI intel resolves). Coloured chips — the system's reasoning, made obvious.
+function StatusBrain({
+  phaseKey, phaseLabel, confidence,
+}: {
+  phaseKey: 'panic' | 'survival' | 'recovery'
+  phaseLabel: string
+  confidence?: 'high' | 'medium' | 'low' | undefined
+}) {
+  const phaseColor = phaseKey === 'panic' ? '#dc2626' : phaseKey === 'survival' ? '#d97706' : N.ink3
+  const phaseBg = phaseKey === 'panic' ? '#fef2f2' : phaseKey === 'survival' ? '#fff7ed' : N.surface
+  const confColor = confidence === 'high' ? '#16a34a' : confidence === 'medium' ? '#d97706' : N.ink3
+  const chip = (color: string, bg: string, text: string, pulse?: boolean): React.ReactNode => (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 11px', borderRadius: 999, background: bg, border: `1px solid ${color}33`, fontFamily: N.mono, fontSize: 11, color, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+      <span style={{ width: 7, height: 7, borderRadius: '50%', background: color, flexShrink: 0, animation: pulse ? 'nn-pulse 1.2s ease-in-out infinite' : undefined }} />
+      {text}
+    </span>
+  )
+  return (
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      {chip(phaseColor, phaseBg, phaseLabel, phaseKey === 'panic')}
+      {confidence
+        ? chip(confColor, N.surface, `confiança ${confidence === 'high' ? 'alta' : confidence === 'medium' ? 'média' : 'baixa'}`)
+        : chip(N.ink3, N.surface, 'a analisar zona…')}
+    </div>
+  )
+}
+
 function MetaRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 12, padding: '10px 0', borderBottom: `1px solid ${N.ruleSoft}`, fontSize: 13.5, lineHeight: 1.4 }}>
@@ -217,8 +257,7 @@ interface CasePageClientProps {
 export function CasePageClient({ locale, data }: CasePageClientProps) {
   const { case: c, sightings, stats, geo } = data
   const [selectedImg, setSelectedImg] = useState(0)
-  const [copied, setCopied] = useState(false)
-  const [fbCopied, setFbCopied] = useState(false)
+  const [sciOpen, setSciOpen] = useState(false)
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -252,60 +291,33 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const chipDisplay = c.has_chip && c.chip_last_3 ? `·· ·· ${c.chip_last_3}` : c.has_chip ? '· com chip' : null
 
   const caseUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://nona.pt'}/${locale}/caso/${c.slug}`
-  const shortUrl = `nona.pt/caso/${c.slug}`
 
   const msSinceCreated = Date.now() - new Date(c.created_at).getTime()
   const hoursOpen = Math.floor(msSinceCreated / 3600000)
   const openLabel = hoursOpen < 1 ? 'há menos de 1h' : hoursOpen === 1 ? 'há 1h' : `há ${hoursOpen}h`
 
-  // Build activity events from real sightings
-  const activityEvents: AgentEvent[] = [
-    ...sightings.map(s => ({
-      t: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
-      kind: 'sighting' as const,
-      label: 'Avistamento confirmado',
-      detail: `${s.zone_approx}${s.description ? ' · ' + s.description.slice(0, 60) : ''}`,
-      fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
-    })),
-    ...LIFETIME_EVENTS.slice(sightings.length),
-  ]
+  const hoursLostHero = (Date.now() - new Date(c.last_seen_at).getTime()) / 3600000
+  const phase = derivePhase(hoursLostHero, c.behavioral_profile?.breed_category)
 
-  const copyUrl = () => {
-    navigator.clipboard.writeText(caseUrl).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
+  // Live, REAL activity — polled from the sanitized /activity endpoint (no mock).
+  const [activity, setActivity] = useState<ActivityResponse | null>(null)
+  useEffect(() => {
+    let alive = true
+    const load = () => fetch(`/api/cases/${c.slug}/activity`).then(r => r.json())
+      .then((body: ActivityResponse) => { if (alive) setActivity(body) }).catch(() => {})
+    load()
+    const id = setInterval(load, 15000)
+    return () => { alive = false; clearInterval(id) }
+  }, [c.slug])
+  const activityEvents: AgentEvent[] = (activity?.events ?? []).map(e => {
+    const ev: AgentEvent = { t: e.t, kind: e.kind, label: e.label }
+    if (e.detail) ev.detail = e.detail
+    if (e.fresh) ev.fresh = e.fresh
+    return ev
+  })
 
-  const suggestedText = `Ajuda a encontrar ${dogName}! ${caseUrl}`
-
-  const share = (platform: string) => {
-    const text = encodeURIComponent(suggestedText)
-    if (platform === 'facebook') {
-      // Meta removed share-dialog text prefill (2017). Copy the message so the
-      // user pastes it in one tap, then open the sharer with the (photo) link.
-      navigator.clipboard?.writeText(suggestedText).then(() => {
-        setFbCopied(true)
-        setTimeout(() => setFbCopied(false), 4000)
-      }).catch(() => {})
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(caseUrl)}`, '_blank')
-      return
-    }
-    const urls: Record<string, string> = {
-      whatsapp: `https://wa.me/?text=${text}`,
-      telegram: `https://t.me/share/url?url=${encodeURIComponent(caseUrl)}&text=${encodeURIComponent(`Ajuda a encontrar ${dogName}!`)}`,
-    }
-    if (urls[platform]) window.open(urls[platform], '_blank')
-  }
-
-  // Native OS share sheet (mobile: FB, WhatsApp, X, Messages, copy…). Falls back
-  // to the explicit FB/WA/TG buttons on desktop where it's unavailable.
-  const shareNative = () => {
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({ title: `${dogName} — Nona`, text: `Ajuda a encontrar ${dogName}`, url: caseUrl }).catch(() => {})
-    } else {
-      share('whatsapp')
-    }
+  const scrollToShare = () => {
+    document.getElementById('share')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 
   return (
@@ -375,6 +387,10 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             {[c.breed, c.sex, c.age_estimate].filter(Boolean).join(' · ')}
           </p>
 
+          {c.status !== 'resolvido' && (
+            <StatusBrain phaseKey={phase.key} phaseLabel={phase.label} confidence={intel?.confidence} />
+          )}
+
           <div style={{ borderTop: `1px solid ${N.rule}`, borderBottom: `1px solid ${N.rule}`, marginTop: 4 }}>
             <MetaRow label="Última vez" value={`${c.last_seen_municipality} · ${c.last_seen_zone_approx}`}/>
             <MetaRow label="Quando" value={new Date(c.last_seen_at).toLocaleDateString('pt-PT', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })} mono/>
@@ -389,7 +405,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             <Link href={`/${locale}/caso/${c.slug}/avistamento`} style={{ textDecoration: 'none' }}>
               <Btn size="lg" variant="primary" tone="ink" icon={<Icon name="eye" size={16} color={N.paper}/>}>Vi o {dogName}</Btn>
             </Link>
-            <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={shareNative}>Partilhar</Btn>
+            <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={scrollToShare}>Partilhar</Btn>
           </div>
 
           <p style={{ margin: 0, fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>
@@ -401,7 +417,10 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       {/* STATS */}
       <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 18px` }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
-          <LiveStat icon="eye" n={String(stats.publicSightings)} label="avistamentos" sub={stats.publicSightings > 0 ? `${stats.publicSightings} confirmados` : 'nenhum ainda'} accent={stats.publicSightings > 0 ? N.amber : N.ink3} pulsing={stats.publicSightings > 0}/>
+          {(() => {
+            const liveSightings = activity?.counts.sightings ?? stats.publicSightings
+            return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? `${liveSightings} confirmados` : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
+          })()}
           <LiveStat icon="clock" n={openLabel.replace('há ','')} label="aberto" sub="caso activo"/>
           <LiveStat icon="share" n="0" label="partilhas" sub="aguardando"/>
           <LiveStat icon="users" n="0" label="voluntários" sub="zona activa"/>
@@ -460,21 +479,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {/* Confidence badge + behavioral phase */}
-            {intel && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.confidence === 'high' ? '#16a34a' : intel.confidence === 'medium' ? '#d97706' : N.ink3 }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
-                  confiança {intel.confidence === 'high' ? 'alta' : intel.confidence === 'medium' ? 'média' : 'baixa'}
-                </div>
-                {intel.behavioral_phase && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.behavioral_phase === 'panic' ? '#dc2626' : intel.behavioral_phase === 'survival' ? '#d97706' : N.ink3 }}>
-                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
-                    fase {intel.behavioral_phase === 'panic' ? 'pânico · 0-24h' : intel.behavioral_phase === 'survival' ? 'sobrevivência · 24h-7d' : 'recuperação · 7d+'}
-                  </div>
-                )}
-              </div>
-            )}
+            {/* (phase + confidence promoted to the hero StatusBrain) */}
 
             {/* Insufficient data state */}
             {intelInsufficient && !intel && (
@@ -687,6 +692,15 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         )
       })()}
 
+      {/* DEEP SCIENCE (WP10 + WP13) — progressive disclosure: the moat, but not
+          dumped on a panicked owner / drive-by watcher. Open by default for owner. */}
+      <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 6px` }}>
+        <button onClick={() => setSciOpen(v => !v)} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'transparent', border: 'none', cursor: 'pointer', padding: '6px 0', fontFamily: N.mono, fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase', color: N.ink3 }}>
+          <span style={{ transform: sciOpen ? 'rotate(90deg)' : 'none', transition: 'transform .15s ease', display: 'inline-block' }}>▸</span>
+          🔬 Porquê esta zona — ciência do terreno e comportamento
+        </button>
+      </section>
+      {sciOpen && (<>
       {/* WP10 ENVIRONMENT PANEL — activity windows + physical context */}
       {(() => {
         const currentMonth = new Date().getMonth() + 1
@@ -852,6 +866,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           </section>
         )
       })()}
+      </>)}
 
       {/* BEHAVIORAL SCENARIOS */}
       {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (
@@ -927,12 +942,19 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               O que está a acontecer.
             </h2>
           </div>
-          <AgentFeed
-            title="Atividade do caso"
-            subtitle="auto-refresh"
-            events={activityEvents}
-            footer
-          />
+          {activityEvents.length > 0 ? (
+            <AgentFeed
+              title="Atividade do caso"
+              subtitle="ao vivo · 15s"
+              events={activityEvents}
+              animate
+              footer={false}
+            />
+          ) : (
+            <div style={{ padding: '18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, fontSize: 13, color: N.ink3, fontFamily: N.mono }}>
+              a carregar atividade do caso…
+            </div>
+          )}
           <div style={{ marginTop: 32 }}>
             <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em' }}>
               {c.context ? `"${c.context.slice(0, 60)}${c.context.length > 60 ? '…' : ''}"` : 'Descrição.'}
@@ -945,37 +967,10 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
 
         <aside style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20 }}>
           {/* share */}
-          <div style={{ padding: 20, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
-            <h3 style={{ margin: 0, fontFamily: N.display, fontSize: 22, fontWeight: 400, letterSpacing: '-0.02em' }}>
-              Partilha em 30 segundos.
-            </h3>
-            <p style={{ margin: '4px 0 14px', fontSize: 13, color: N.ink2, lineHeight: 1.45 }}>
-              Cada partilha aumenta a probabilidade de {dogName} voltar a casa.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-              <Btn size="md" variant="ghost" icon={<Icon name="facebook" size={14}/>} full onClick={() => share('facebook')}>Facebook</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="whatsapp" size={14}/>} full onClick={() => share('whatsapp')}>WhatsApp</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="telegram" size={14}/>} full onClick={() => share('telegram')}>Telegram</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="share" size={14}/>} full onClick={shareNative}>Mais</Btn>
-            </div>
-            {fbCopied && (
-              <p style={{ margin: '10px 0 0', fontSize: 12, color: N.ink2, lineHeight: 1.45, background: N.surface, padding: '8px 10px', borderRadius: 8 }}>
-                ✓ Texto copiado — cola na publicação do Facebook (o Facebook não deixa preencher o texto automaticamente).
-              </p>
-            )}
-            <div style={{ marginTop: 14 }}>
-              <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink3, lineHeight: 1.4 }}>
-                Não usas Facebook? Partilha este link em qualquer lado:
-              </p>
-              <div style={{ padding: '9px 12px', borderRadius: 8, background: N.surface, fontFamily: N.mono, fontSize: 11.5, color: N.ink2, display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'center' }}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{shortUrl}</span>
-                <button onClick={copyUrl} style={{ background: 'transparent', border: 'none', color: N.ink, fontFamily: N.mono, fontSize: 11.5, fontWeight: 600, cursor: 'pointer' }}>
-                  {copied ? 'copiado ✓' : 'copiar'}
-                </button>
-              </div>
-            </div>
+          <div id="share">
+            <SharePanel dogName={dogName} caseUrl={caseUrl} />
             {images[0]?.public_url && (
-              <p style={{ margin: '12px 0 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <p style={{ margin: '12px 4px 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
               </p>
             )}

@@ -89,7 +89,10 @@ export async function POST(
     return NextResponse.json({ error: 'Case not found or not active' }, { status: 404 })
   }
 
-  const sightingCoords = await geocodeZone(parsed.data.zoneApprox, parsed.data.municipality)
+  // Precise GPS (observer shared location) wins; otherwise geocode the zone text.
+  const sightingCoords = (parsed.data.latitude != null && parsed.data.longitude != null)
+    ? { lat: parsed.data.latitude, lng: parsed.data.longitude }
+    : await geocodeZone(parsed.data.zoneApprox, parsed.data.municipality)
 
   // WP16: time integrity
   const observedTimeConfidence = parsed.data.observedTimeConfidence ?? 'approximate'
@@ -119,6 +122,27 @@ export async function POST(
 
   if (error) {
     return NextResponse.json({ error: 'Failed to submit sighting' }, { status: 500 })
+  }
+
+  // Attach the observer's photo: move it from the private staging bucket to the
+  // public case-images bucket and record a sighting_images row (non-fatal).
+  if (parsed.data.photoPath) {
+    void (async () => {
+      try {
+        const staged = await supabase.storage.from('case-images-original').download(parsed.data.photoPath!)
+        if (!staged.data) return
+        const ext = parsed.data.photoPath!.split('.').pop() || 'jpg'
+        const pubPath = `sightings/${sighting.id}.${ext}`
+        await supabase.storage.from('case-images-public')
+          .upload(pubPath, await staged.data.arrayBuffer(), { contentType: staged.data.type || 'image/jpeg', upsert: true })
+        const publicUrl = supabase.storage.from('case-images-public').getPublicUrl(pubPath).data.publicUrl
+        await supabase.from('sighting_images').insert({
+          sighting_id: sighting.id, storage_path_public: pubPath, public_url: publicUrl,
+        })
+      } catch (e) {
+        console.warn('Sighting photo attach failed:', e)
+      }
+    })()
   }
 
   // WP12: score sighting reliability (non-fatal)
