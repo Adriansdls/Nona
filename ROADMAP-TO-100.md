@@ -5,14 +5,16 @@ Legend: `[ ]` todo · **CONFIG/OPS** = no code · **CODE** = code change · **DA
 
 ---
 
-## 🛑 P1.0 — Realtime auto-trigger is BROKEN (launch-blocker, found 2026-05-31 live sim)
-The Supabase Realtime listener (`apps/bot/agent/runner.py _realtime_listener`) connects, logs "PI Agent realtime listener active", then **immediately dies**: `_on_connect_error → _reconnect → ValueError('Set of Tasks/Futures is empty.')`. Confirmed live: a fresh `cases` INSERT produced **0 `case_agent_events`** — the agent never fired. The only historical agent run (Bolinha) came from the daily-briefing loop, never realtime.
+## ✅ P1.0 — Realtime auto-trigger FIXED (2026-05-31)
+**Was:** Supabase Realtime listener (`runner.py _realtime_listener`) connected, logged "active", then its internal listen task died silently — a fresh `cases` INSERT produced **0 `case_agent_events`**, so the agent never fired and the community was never alerted. (Realtime stays in as best-effort but is no longer depended on.)
 
-**Impact:** in production, creating a case does NOT trigger the agent → no broadcast, no alerts. "Community alerted immediately" silently never happens. Fix before any real use.
+**Fix (committed):** added `_new_case_sweep` to `runner.py` — a deterministic poll (every `NEW_CASE_SWEEP_INTERVAL_S`, default 15s) that finds cases with `agent_state='new'` (the default for any freshly created case, <24h), claims each by flipping to `'planning'` (no double-fire), and runs the agent with `trigger='case_created'`. Independent of Realtime/replication health.
 
-**Likely causes:** (a) `cases`/`sightings` not in the `supabase_realtime` publication (replication not enabled), and/or (b) a `realtime-py` reconnect bug. **Recommended fix:** make case creation deterministically enqueue the agent (web POST → bot internal endpoint, or a Postgres trigger + `pg_notify`, or a polling sweep for `agent_state IS NULL`) rather than relying on flaky realtime; keep realtime + add the polling fallback. `trigger_case_agent.py` is the manual stand-in meanwhile.
+**Proven live:** inserted a case, did nothing else → sweep auto-fired in ~10s → agent ran the full acute playbook autonomously → real CÃO PERDIDO broadcast landed in the founder's group (slug `sim-sweep-labrador-…`, founder confirmed). Sweep-trigger count = 1 (claim works); agent reached `agent_state=active` (clean completion).
 
-**Already fixed (committed) — agent-crash bugs found in the same live run:** `harness.py` geo None-guard; `pi_tools.py` `datetime` UnboundLocalError; `case_agent.py` ×5 stdlib-logger kwargs TypeErrors.
+**Also fixed (committed) — agent-crash bugs from the same investigation:** `harness.py` geo None-guard; `pi_tools.py` `datetime` UnboundLocalError; `case_agent.py` ×5 stdlib-logger kwargs TypeErrors.
+
+**Minor follow-ups found (not blockers):** (1) `mark_contact_stale` tool errors on channel contacts — assumes a `kb_channels.email` column that doesn't exist (caught, non-fatal). (2) Seeded real telegram channel "Canal SalvaCão Alertas" has no `url` → `[UNSUPPORTED]` log when the agent tries it. (3) Optional latency win: also enqueue from the web case-create POST so alerting is sub-second instead of ≤15s.
 
 ## P0 — Make the code that already exists actually run (the real blocker)
 *Nothing here is a new feature. This is why "80% written" delivers 0% today.*

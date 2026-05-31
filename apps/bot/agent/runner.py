@@ -31,6 +31,13 @@ log = structlog.get_logger(__name__)
 _ESCALATION_INTERVAL_H = 6
 _ACTIVE_STATES = ["new", "active", "planning"]
 
+# New-case sweep: the RELIABLE minute-0 trigger. Supabase Realtime (the listener
+# below) proved unreliable in prod — it connects, logs "active", then its internal
+# listen task dies silently, so case INSERTs never fire the agent. This polling
+# sweep is the deterministic fallback that guarantees a freshly created case
+# (agent_state='new') gets its case_created agent run within a few seconds.
+_NEW_CASE_SWEEP_INTERVAL_S = int(os.environ.get("NEW_CASE_SWEEP_INTERVAL_S", "15"))
+
 UTC = timezone.utc
 
 
@@ -219,14 +226,51 @@ async def _realtime_listener(db_url: str, db_key: str) -> None:
                 log.error("Realtime reconnect failed", error=str(exc2))
 
 
+async def _new_case_sweep(db_url: str, db_key: str) -> None:
+    """
+    Reliable minute-0 trigger: poll for freshly created cases (agent_state='new')
+    and run the PI agent with the case_created trigger. This does NOT depend on
+    Supabase Realtime, which proved deaf in prod.
+
+    A case is claimed by flipping agent_state 'new'->'planning' before the agent
+    runs, so it is never picked up twice (and run_case_agent re-affirms 'planning').
+    Only recent cases (<24h) are auto-fired here; older stuck cases are handled by
+    the 6h escalation sweep.
+    """
+    while True:
+        await asyncio.sleep(_NEW_CASE_SWEEP_INTERVAL_S)
+        try:
+            db = create_client(db_url, db_key)
+            since = (datetime.now(UTC) - timedelta(hours=24)).isoformat()
+            rows = (
+                db.table("cases")
+                .select("id")
+                .eq("agent_state", "new")
+                .neq("status", "resolvido")
+                .gte("created_at", since)
+                .order("created_at")
+                .limit(20)
+                .execute()
+            )
+            for row in rows.data or []:
+                cid = row["id"]
+                # Claim it so a subsequent sweep can't double-fire.
+                db.table("cases").update({"agent_state": "planning"}).eq("id", cid).execute()
+                log.info("New-case sweep: triggering agent", case_id=cid)
+                await run_case_agent(cid, db, trigger="case_created")
+        except Exception as exc:
+            log.error("New-case sweep failed", error=str(exc))
+
+
 async def start_runner() -> None:
-    """Start realtime listener, escalation loop, and nightly re-match."""
+    """Start realtime listener, new-case sweep, escalation loop, and nightly re-match."""
     db_url = os.environ["SUPABASE_URL"]
     db_key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
 
     log.info("Starting PI Agent runner")
     await asyncio.gather(
-        _realtime_listener(db_url, db_key),
+        _realtime_listener(db_url, db_key),   # best-effort (Realtime unreliable)
+        _new_case_sweep(db_url, db_key),      # reliable minute-0 trigger
         _escalation_loop(db_url, db_key),
         _nightly_rematch_loop(db_url, db_key),
         _daily_briefing_loop(db_url, db_key),
