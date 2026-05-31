@@ -257,7 +257,6 @@ interface CasePageClientProps {
 export function CasePageClient({ locale, data }: CasePageClientProps) {
   const { case: c, sightings, stats, geo } = data
   const [selectedImg, setSelectedImg] = useState(0)
-  const [sciOpen, setSciOpen] = useState(false)
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -552,6 +551,8 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         const accentBg = phase.key === 'panic' ? '#fef2f2' : phase.key === 'survival' ? '#fff7ed' : N.indigoBg
         return (
           <section style={{ padding: `4px ${isMobile ? '16px' : '32px'} 30px` }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.55fr 1fr', gap: 16, alignItems: 'start' }}>
+              <div>
             <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderLeft: `4px solid ${accent}`, borderRadius: 16, overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
               {/* header band */}
               <div style={{ padding: isMobile ? '18px 18px 14px' : '22px 28px 16px', background: accentBg, borderBottom: `1px solid ${N.rule}` }}>
@@ -576,6 +577,174 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
                   <span style={{ flexShrink: 0 }}>⚠️</span><span>{bucket.warning}</span>
                 </div>
               )}
+            </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {/* WP10 ENVIRONMENT PANEL — activity windows + physical context */}
+      {(() => {
+        const currentMonth = new Date().getMonth() + 1
+        const isPeakSummer = currentMonth >= 7 && currentMonth <= 8
+        const isSummer = currentMonth >= 6 && currentMonth <= 9
+        const isNortada = currentMonth >= 5 && currentMonth <= 9
+
+        type Windows = { dawn: string; dusk: string; deadZone?: string }
+        const windows: Windows = isPeakSummer
+          ? { dawn: '05:30–09:00', dusk: '19:30–21:30', deadZone: '11:00–18:00' }
+          : isSummer
+          ? { dawn: '06:00–09:30', dusk: '19:00–21:00', deadZone: '12:00–17:00' }
+          : isNortada
+          ? { dawn: '06:30–09:30', dusk: '18:30–20:30', deadZone: '12:00–16:00' }
+          : { dawn: '07:00–09:30', dusk: '17:00–19:00' }
+
+        const msSinceLoss = Date.now() - new Date(c.last_seen_at).getTime()
+        const daysLost = msSinceLoss / 86400000
+        const waterUrgencyDay = isSummer ? 2 : 3
+        const waterUrgent = daysLost >= waterUrgencyDay
+
+        const BRACHY = ['bulldog', 'pug', 'boxer', 'shih tzu', 'french', 'boston', 'cavalier', 'pekinese', 'shar pei', 'chow']
+        const breedLower = c.breed.toLowerCase()
+        const isBrachy = BRACHY.some(b => breedLower.includes(b))
+        const isLarge = c.size === 'grande'
+        const heatstrokeRisk = isSummer && (isBrachy || isLarge)
+
+        const temperament = c.behavioral_profile?.temperament
+        const escTrigger = c.behavioral_profile?.escape_trigger
+        const transportRisk = (temperament === 'gregarious' || escTrigger === 'opportunistic')
+          ? 'high' : temperament === 'xenophobic' ? 'very_low' : 'moderate'
+
+        return (
+                <div>
+            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
+              <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                janelas de actividade · ambiente físico
+              </div>
+
+              {/* Dawn/dusk/dead zone row */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF9C3', border: '1px solid #FDE047', fontFamily: N.mono, fontSize: 11.5, color: '#713F12' }}>
+                  🌅 Amanhecer · {windows.dawn}
+                </span>
+                <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF9C3', border: '1px solid #FDE047', fontFamily: N.mono, fontSize: 11.5, color: '#713F12' }}>
+                  🌆 Crepúsculo · {windows.dusk}
+                </span>
+                {windows.deadZone && (
+                  <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF2F2', border: '1px solid #FECACA', fontFamily: N.mono, fontSize: 11.5, color: '#991B1B' }}>
+                    ❌ Zona morta · {windows.deadZone}
+                  </span>
+                )}
+              </div>
+
+              {/* Contextual alerts */}
+              <div style={{ display: 'grid', gap: 5 }}>
+                {isNortada && (
+                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
+                    🧭 <strong>Nortada activa</strong> — coloque estação de odor a norte/noroeste da zona do cão. O vento leva o odor para sul, em direcção ao cão.
+                  </div>
+                )}
+                {waterUrgent && (
+                  <div style={{ fontSize: 12, color: '#92400E', lineHeight: 1.45, padding: '7px 10px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 7 }}>
+                    💧 <strong>Urgência de água</strong> (dia {Math.floor(daysLost)}+) — mapear fontes a 10km: reservatórios, campos de golfe, bebedouros. Câmara + armadilha junto à água é a colocação de maior rendimento.
+                  </div>
+                )}
+                {heatstrokeRisk && (
+                  <div style={{ fontSize: 12, color: '#991B1B', lineHeight: 1.45, padding: '7px 10px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 7 }}>
+                    🌡️ <strong>Risco de golpe de calor</strong> — buscas apenas ao amanhecer e ao crepúsculo. Se capturado com dificuldade respiratória: emergência veterinária imediata.
+                  </div>
+                )}
+                {transportRisk === 'high' && (
+                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
+                    🚗 <strong>Risco de transporte alto</strong> — cão sociável pode ter sido apanhado por alguém. Verifique todos os canils do Algarve.
+                  </div>
+                )}
+              </div>
+            </div>
+                </div>
+        )
+      })()}
+      {/* WP13 GEOGRAPHY PANEL — zone type, A22 barrier, terrain, fire risk */}
+      {geo && (() => {
+        const currentMonth = new Date().getMonth() + 1
+        const isFireSeason = currentMonth >= 6 && currentMonth <= 10
+        const isTouristPeak = (geo.tourist_peak_months ?? []).includes(currentMonth)
+
+        const zoneColors: Record<string, { bg: string; border: string; color: string }> = {
+          litoral:          { bg: '#EFF6FF', border: '#BFDBFE', color: '#1D4ED8' },
+          barrocal:         { bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' },
+          serra_caldeirae:  { bg: '#F0FDF4', border: '#BBF7D0', color: '#166534' },
+          serra_monchique:  { bg: '#DCFCE7', border: '#86EFAC', color: '#15803D' },
+          sapal:            { bg: '#F0FDFA', border: '#99F6E4', color: '#0F766E' },
+          litoral_fluvial:  { bg: '#ECFEFF', border: '#A5F3FC', color: '#0E7490' },
+        }
+        const fireColors: Record<string, { bg: string; border: string; color: string }> = {
+          extreme:  { bg: '#FEF2F2', border: '#FECACA', color: '#991B1B' },
+          high:     { bg: '#FFF7ED', border: '#FED7AA', color: '#9A3412' },
+          moderate: { bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' },
+          low:      { bg: '#F0FDF4', border: '#BBF7D0', color: '#166534' },
+        }
+
+        const zc = zoneColors[geo.zone_type] ?? { bg: N.surface, border: N.rule, color: N.ink2 }
+
+        const chips: { text: string; bg: string; border: string; color: string }[] = [
+          { text: geo.zone_type.replace(/_/g, ' '), ...zc },
+        ]
+        if (geo.a22_side === 'bisected') {
+          chips.push({ text: 'A22 atravessa', bg: '#FFF7ED', border: '#FED7AA', color: '#9A3412' })
+        } else if (geo.a22_side === 'north') {
+          chips.push({ text: 'a norte da A22', bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' })
+        }
+        if (geo.terrain_permeability === 'dense') {
+          chips.push({ text: 'terreno denso', bg: '#FEF2F2', border: '#FECACA', color: '#991B1B' })
+        }
+        if (isFireSeason && geo.fire_risk_band !== 'low') {
+          const fc = fireColors[geo.fire_risk_band] ?? fireColors['moderate']!
+          chips.push({ text: `incêndio ${geo.fire_risk_band}`, ...fc })
+        }
+        if (geo.goatherd_zone) {
+          chips.push({ text: 'zona de pastoreio', bg: '#F7FEE7', border: '#D9F99D', color: '#3F6212' })
+        }
+        if (isTouristPeak) {
+          chips.push({ text: 'época turística', bg: '#FAF5FF', border: '#E9D5FF', color: '#7E22CE' })
+        }
+
+        return (
+                <div>
+            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
+              <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                inteligência territorial · {geo.municipality.toLowerCase()}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {chips.map((chip, i) => (
+                  <span key={i} style={{
+                    padding: '4px 10px', borderRadius: 7,
+                    background: chip.bg, border: `1px solid ${chip.border}`,
+                    fontFamily: N.mono, fontSize: 11.5, color: chip.color,
+                  }}>
+                    {chip.text}
+                  </span>
+                ))}
+              </div>
+              <div style={{ display: 'grid', gap: 5 }}>
+                {geo.water_source_type === 'borehole_zone' && (
+                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
+                    💧 <strong>Zona de furos</strong> — ~20.000 furos privados no barrocal. O cão tem acesso a água escondida; armadilha junto a bebedouro de quinta privada tem maior rendimento que rio seco.
+                  </div>
+                )}
+                {geo.terrain_permeability === 'dense' && (
+                  <div style={{ fontSize: 12, color: '#991B1B', lineHeight: 1.45, padding: '7px 10px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 7 }}>
+                    🌲 <strong>Terreno denso</strong> — eucaliptal/maquis. Câmara + estação superam busca activa. Raio efectivo ~65% do calculado.
+                  </div>
+                )}
+                {geo.goatherd_zone && (
+                  <div style={{ fontSize: 12, color: '#3F6212', lineHeight: 1.45 }}>
+                    🐐 <strong>Zona de pastoreio</strong> — contacte pastores e cabrieiros locais directamente. Presença diária no terreno, vêem animais que as câmaras não captam.
+                  </div>
+                )}
+              </div>
+            </div>
+                </div>
+        )
+      })()}
+              </div>
             </div>
           </section>
         )
@@ -719,181 +888,6 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       </section>
 
 
-      {/* DEEP SCIENCE (WP10 + WP13) — progressive disclosure: the moat, but not
-          dumped on a panicked owner / drive-by watcher. Open by default for owner. */}
-      <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 6px` }}>
-        <button onClick={() => setSciOpen(v => !v)} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'transparent', border: 'none', cursor: 'pointer', padding: '6px 0', fontFamily: N.mono, fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase', color: N.ink3 }}>
-          <span style={{ transform: sciOpen ? 'rotate(90deg)' : 'none', transition: 'transform .15s ease', display: 'inline-block' }}>▸</span>
-          🔬 Porquê esta zona — ciência do terreno e comportamento
-        </button>
-      </section>
-      {sciOpen && (<>
-      {/* WP10 ENVIRONMENT PANEL — activity windows + physical context */}
-      {(() => {
-        const currentMonth = new Date().getMonth() + 1
-        const isPeakSummer = currentMonth >= 7 && currentMonth <= 8
-        const isSummer = currentMonth >= 6 && currentMonth <= 9
-        const isNortada = currentMonth >= 5 && currentMonth <= 9
-
-        type Windows = { dawn: string; dusk: string; deadZone?: string }
-        const windows: Windows = isPeakSummer
-          ? { dawn: '05:30–09:00', dusk: '19:30–21:30', deadZone: '11:00–18:00' }
-          : isSummer
-          ? { dawn: '06:00–09:30', dusk: '19:00–21:00', deadZone: '12:00–17:00' }
-          : isNortada
-          ? { dawn: '06:30–09:30', dusk: '18:30–20:30', deadZone: '12:00–16:00' }
-          : { dawn: '07:00–09:30', dusk: '17:00–19:00' }
-
-        const msSinceLoss = Date.now() - new Date(c.last_seen_at).getTime()
-        const daysLost = msSinceLoss / 86400000
-        const waterUrgencyDay = isSummer ? 2 : 3
-        const waterUrgent = daysLost >= waterUrgencyDay
-
-        const BRACHY = ['bulldog', 'pug', 'boxer', 'shih tzu', 'french', 'boston', 'cavalier', 'pekinese', 'shar pei', 'chow']
-        const breedLower = c.breed.toLowerCase()
-        const isBrachy = BRACHY.some(b => breedLower.includes(b))
-        const isLarge = c.size === 'grande'
-        const heatstrokeRisk = isSummer && (isBrachy || isLarge)
-
-        const temperament = c.behavioral_profile?.temperament
-        const escTrigger = c.behavioral_profile?.escape_trigger
-        const transportRisk = (temperament === 'gregarious' || escTrigger === 'opportunistic')
-          ? 'high' : temperament === 'xenophobic' ? 'very_low' : 'moderate'
-
-        return (
-          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
-            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
-              <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                janelas de actividade · ambiente físico
-              </div>
-
-              {/* Dawn/dusk/dead zone row */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF9C3', border: '1px solid #FDE047', fontFamily: N.mono, fontSize: 11.5, color: '#713F12' }}>
-                  🌅 Amanhecer · {windows.dawn}
-                </span>
-                <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF9C3', border: '1px solid #FDE047', fontFamily: N.mono, fontSize: 11.5, color: '#713F12' }}>
-                  🌆 Crepúsculo · {windows.dusk}
-                </span>
-                {windows.deadZone && (
-                  <span style={{ padding: '5px 10px', borderRadius: 7, background: '#FEF2F2', border: '1px solid #FECACA', fontFamily: N.mono, fontSize: 11.5, color: '#991B1B' }}>
-                    ❌ Zona morta · {windows.deadZone}
-                  </span>
-                )}
-              </div>
-
-              {/* Contextual alerts */}
-              <div style={{ display: 'grid', gap: 5 }}>
-                {isNortada && (
-                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
-                    🧭 <strong>Nortada activa</strong> — coloque estação de odor a norte/noroeste da zona do cão. O vento leva o odor para sul, em direcção ao cão.
-                  </div>
-                )}
-                {waterUrgent && (
-                  <div style={{ fontSize: 12, color: '#92400E', lineHeight: 1.45, padding: '7px 10px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 7 }}>
-                    💧 <strong>Urgência de água</strong> (dia {Math.floor(daysLost)}+) — mapear fontes a 10km: reservatórios, campos de golfe, bebedouros. Câmara + armadilha junto à água é a colocação de maior rendimento.
-                  </div>
-                )}
-                {heatstrokeRisk && (
-                  <div style={{ fontSize: 12, color: '#991B1B', lineHeight: 1.45, padding: '7px 10px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 7 }}>
-                    🌡️ <strong>Risco de golpe de calor</strong> — buscas apenas ao amanhecer e ao crepúsculo. Se capturado com dificuldade respiratória: emergência veterinária imediata.
-                  </div>
-                )}
-                {transportRisk === 'high' && (
-                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
-                    🚗 <strong>Risco de transporte alto</strong> — cão sociável pode ter sido apanhado por alguém. Verifique todos os canils do Algarve.
-                  </div>
-                )}
-              </div>
-            </div>
-          </section>
-        )
-      })()}
-
-      {/* WP13 GEOGRAPHY PANEL — zone type, A22 barrier, terrain, fire risk */}
-      {geo && (() => {
-        const currentMonth = new Date().getMonth() + 1
-        const isFireSeason = currentMonth >= 6 && currentMonth <= 10
-        const isTouristPeak = (geo.tourist_peak_months ?? []).includes(currentMonth)
-
-        const zoneColors: Record<string, { bg: string; border: string; color: string }> = {
-          litoral:          { bg: '#EFF6FF', border: '#BFDBFE', color: '#1D4ED8' },
-          barrocal:         { bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' },
-          serra_caldeirae:  { bg: '#F0FDF4', border: '#BBF7D0', color: '#166534' },
-          serra_monchique:  { bg: '#DCFCE7', border: '#86EFAC', color: '#15803D' },
-          sapal:            { bg: '#F0FDFA', border: '#99F6E4', color: '#0F766E' },
-          litoral_fluvial:  { bg: '#ECFEFF', border: '#A5F3FC', color: '#0E7490' },
-        }
-        const fireColors: Record<string, { bg: string; border: string; color: string }> = {
-          extreme:  { bg: '#FEF2F2', border: '#FECACA', color: '#991B1B' },
-          high:     { bg: '#FFF7ED', border: '#FED7AA', color: '#9A3412' },
-          moderate: { bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' },
-          low:      { bg: '#F0FDF4', border: '#BBF7D0', color: '#166534' },
-        }
-
-        const zc = zoneColors[geo.zone_type] ?? { bg: N.surface, border: N.rule, color: N.ink2 }
-
-        const chips: { text: string; bg: string; border: string; color: string }[] = [
-          { text: geo.zone_type.replace(/_/g, ' '), ...zc },
-        ]
-        if (geo.a22_side === 'bisected') {
-          chips.push({ text: 'A22 atravessa', bg: '#FFF7ED', border: '#FED7AA', color: '#9A3412' })
-        } else if (geo.a22_side === 'north') {
-          chips.push({ text: 'a norte da A22', bg: '#FFFBEB', border: '#FDE68A', color: '#92400E' })
-        }
-        if (geo.terrain_permeability === 'dense') {
-          chips.push({ text: 'terreno denso', bg: '#FEF2F2', border: '#FECACA', color: '#991B1B' })
-        }
-        if (isFireSeason && geo.fire_risk_band !== 'low') {
-          const fc = fireColors[geo.fire_risk_band] ?? fireColors['moderate']!
-          chips.push({ text: `incêndio ${geo.fire_risk_band}`, ...fc })
-        }
-        if (geo.goatherd_zone) {
-          chips.push({ text: 'zona de pastoreio', bg: '#F7FEE7', border: '#D9F99D', color: '#3F6212' })
-        }
-        if (isTouristPeak) {
-          chips.push({ text: 'época turística', bg: '#FAF5FF', border: '#E9D5FF', color: '#7E22CE' })
-        }
-
-        return (
-          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
-            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
-              <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                inteligência territorial · {geo.municipality.toLowerCase()}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {chips.map((chip, i) => (
-                  <span key={i} style={{
-                    padding: '4px 10px', borderRadius: 7,
-                    background: chip.bg, border: `1px solid ${chip.border}`,
-                    fontFamily: N.mono, fontSize: 11.5, color: chip.color,
-                  }}>
-                    {chip.text}
-                  </span>
-                ))}
-              </div>
-              <div style={{ display: 'grid', gap: 5 }}>
-                {geo.water_source_type === 'borehole_zone' && (
-                  <div style={{ fontSize: 12, color: N.ink2, lineHeight: 1.45 }}>
-                    💧 <strong>Zona de furos</strong> — ~20.000 furos privados no barrocal. O cão tem acesso a água escondida; armadilha junto a bebedouro de quinta privada tem maior rendimento que rio seco.
-                  </div>
-                )}
-                {geo.terrain_permeability === 'dense' && (
-                  <div style={{ fontSize: 12, color: '#991B1B', lineHeight: 1.45, padding: '7px 10px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 7 }}>
-                    🌲 <strong>Terreno denso</strong> — eucaliptal/maquis. Câmara + estação superam busca activa. Raio efectivo ~65% do calculado.
-                  </div>
-                )}
-                {geo.goatherd_zone && (
-                  <div style={{ fontSize: 12, color: '#3F6212', lineHeight: 1.45 }}>
-                    🐐 <strong>Zona de pastoreio</strong> — contacte pastores e cabrieiros locais directamente. Presença diária no terreno, vêem animais que as câmaras não captam.
-                  </div>
-                )}
-              </div>
-            </div>
-          </section>
-        )
-      })()}
-      </>)}
 
       {/* BEHAVIORAL SCENARIOS */}
       {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (
