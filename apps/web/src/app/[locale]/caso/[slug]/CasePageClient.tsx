@@ -548,24 +548,32 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           }
         }
 
+        const accent = phase.key === 'panic' ? '#dc2626' : phase.key === 'survival' ? '#d97706' : N.indigo
+        const accentBg = phase.key === 'panic' ? '#fef2f2' : phase.key === 'survival' ? '#fff7ed' : N.indigoBg
         return (
-          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
-            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '16px 18px' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
-                <span style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>protocolo activo</span>
-                <span style={{ fontFamily: N.display, fontSize: 15, fontWeight: 400, letterSpacing: '-0.01em', color: N.ink }}>{bucket.label}</span>
+          <section style={{ padding: `4px ${isMobile ? '16px' : '32px'} 30px` }}>
+            <div style={{ background: N.white, border: `1px solid ${N.rule}`, borderLeft: `4px solid ${accent}`, borderRadius: 16, overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+              {/* header band */}
+              <div style={{ padding: isMobile ? '18px 18px 14px' : '22px 28px 16px', background: accentBg, borderBottom: `1px solid ${N.rule}` }}>
+                <div style={{ fontFamily: N.mono, fontSize: 11, color: accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
+                  {bucket.label}
+                </div>
+                <h2 style={{ margin: 0, fontFamily: N.display, fontSize: isMobile ? 30 : 38, fontWeight: 400, letterSpacing: '-0.025em', lineHeight: 1, color: N.ink }}>
+                  O que fazer agora
+                </h2>
               </div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 6 }}>
+              {/* numbered steps — weighted, the centrepiece */}
+              <ol style={{ margin: 0, padding: isMobile ? '8px 0' : '10px 0', listStyle: 'none' }}>
                 {bucket.items.map((item, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
-                    <span style={{ color: '#16A34A', fontSize: 10, marginTop: 3, flexShrink: 0 }}>✓</span>
-                    <span>{item}</span>
+                  <li key={i} style={{ display: 'grid', gridTemplateColumns: '44px 1fr', alignItems: 'start', gap: 4, padding: isMobile ? '12px 18px' : '14px 28px', borderBottom: i < bucket.items.length - 1 ? `1px solid ${N.ruleSoft}` : 'none' }}>
+                    <span style={{ fontFamily: N.display, fontSize: 22, fontWeight: 400, color: accent, lineHeight: 1.2 }}>{i + 1}</span>
+                    <span style={{ fontSize: isMobile ? 15 : 16, color: N.ink, lineHeight: 1.5, fontWeight: 450, alignSelf: 'center' } as React.CSSProperties}>{item}</span>
                   </li>
                 ))}
-              </ul>
+              </ol>
               {bucket.warning && (
-                <div style={{ marginTop: 10, padding: '8px 12px', background: '#FEF9C3', border: '1px solid #FDE047', borderRadius: 8, fontSize: 12, color: '#713F12', lineHeight: 1.45 }}>
-                  ⚠️ {bucket.warning}
+                <div style={{ margin: isMobile ? '0 18px 16px' : '0 28px 18px', padding: '12px 16px', background: '#FEF9C3', border: '1px solid #FDE047', borderRadius: 10, fontSize: 13.5, color: '#713F12', lineHeight: 1.5, display: 'flex', gap: 8 }}>
+                  <span style={{ flexShrink: 0 }}>⚠️</span><span>{bucket.warning}</span>
                 </div>
               )}
             </div>
@@ -573,17 +581,15 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         )
       })()}
 
-      {/* STATS */}
-      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 18px` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
+      {/* STATS — only HONEST live numbers (no fake zeroes) */}
+      <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 22px` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)', gap: 10 }}>
           {(() => {
             const liveSightings = activity?.counts.sightings ?? stats.publicSightings
             return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? `${liveSightings} confirmados` : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
           })()}
-          <LiveStat icon="clock" n={openLabel.replace('há ','')} label="aberto" sub="caso activo"/>
-          <LiveStat icon="share" n="0" label="partilhas" sub="aguardando"/>
-          <LiveStat icon="users" n="0" label="voluntários" sub="zona activa"/>
-          <LiveStat icon="trending" n="0" label="visitas" sub="hoje"/>
+          <LiveStat icon="clock" n={elapsedLabel} label={c.type === 'perdido' ? 'perdido há' : 'visto há'} sub="cada hora conta" accent={phase.key === 'panic' ? N.rose : N.ink3} pulsing={phase.key === 'panic'}/>
+          <LiveStat icon="activity" n={phase.label.split('·')[0]!.replace('fase ', '').trim()} label="fase comportamental" sub={phase.label.split('·')[1]?.trim() ?? ''} accent={phase.key === 'panic' ? N.rose : phase.key === 'survival' ? N.amber : N.ink3}/>
         </div>
       </section>
 
@@ -955,50 +961,21 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         </section>
       )}
 
-      {/* ACTIVITY + SIDEBAR */}
-      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.55fr 1fr', gap: 32, alignItems: 'flex-start' }}>
+      {/* DESCRIPTION (left) + LIVE SPINE (right rail) */}
+      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 0.85fr', gap: 32, alignItems: 'flex-start' }}>
         <article>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
-            <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
-              O que está a acontecer.
-            </h2>
-          </div>
-          {activityEvents.length > 0 ? (
-            <AgentFeed
-              title="Atividade do caso"
-              subtitle="ao vivo · 15s"
-              events={activityEvents}
-              animate
-              footer={false}
-            />
-          ) : (
-            <div style={{ padding: '18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, fontSize: 13, color: N.ink3, fontFamily: N.mono }}>
-              a carregar atividade do caso…
-            </div>
-          )}
-          <div style={{ marginTop: 32 }}>
-            <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em' }}>
-              {c.context ? `"${c.context.slice(0, 60)}${c.context.length > 60 ? '…' : ''}"` : 'Descrição.'}
-            </h2>
-            <p style={{ margin: '12px 0 0', fontSize: 15.5, color: N.ink2, lineHeight: 1.65, maxWidth: 580 }}>
-              {c.description}
-            </p>
-          </div>
-        </article>
-
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20 }}>
-          {/* share */}
-          <div id="share">
-            <SharePanel dogName={dogName} caseUrl={caseUrl} />
-            {images[0]?.public_url && (
-              <p style={{ margin: '12px 4px 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
+          {c.description && (
+            <>
+              <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em' }}>
+                {c.context ? `"${c.context.slice(0, 60)}${c.context.length > 60 ? '…' : ''}"` : 'Descrição.'}
+              </h2>
+              <p style={{ margin: '12px 0 0', fontSize: 15.5, color: N.ink2, lineHeight: 1.65, maxWidth: 580 }}>
+                {c.description}
               </p>
-            )}
-          </div>
-
-          {/* QR + poster */}
-          <div style={{ padding: 18, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'flex', gap: 16, alignItems: 'center' }}>
+            </>
+          )}
+          {/* QR + poster (under description, left) */}
+          <div style={{ marginTop: c.description ? 24 : 0, padding: 18, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'flex', gap: 16, alignItems: 'center', maxWidth: 580 }}>
             <div style={{ padding: 6, background: N.surface, borderRadius: 8 }}>
               <QRTile size={104}/>
             </div>
@@ -1011,6 +988,33 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
                 <Btn size="sm" variant="ghost" icon={<Icon name="download" size={13}/>}>A4 · PT</Btn>
               </Link>
             </div>
+          </div>
+        </article>
+
+        {/* LIVE SPINE — feed + share, sticky on the side (the "war-room" rail) */}
+        <aside style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20 }}>
+          {activityEvents.length > 0 ? (
+            <AgentFeed
+              title="O que está a acontecer"
+              subtitle="ao vivo · 15s"
+              events={activityEvents}
+              animate
+              footer={false}
+            />
+          ) : (
+            <div style={{ padding: '18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, fontSize: 13, color: N.ink3, fontFamily: N.mono }}>
+              a carregar atividade do caso…
+            </div>
+          )}
+
+          {/* share */}
+          <div id="share">
+            <SharePanel dogName={dogName} caseUrl={caseUrl} />
+            {images[0]?.public_url && (
+              <p style={{ margin: '12px 4px 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
+              </p>
+            )}
           </div>
 
           {/* next steps */}
