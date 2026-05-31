@@ -5,6 +5,15 @@ Legend: `[ ]` todo · **CONFIG/OPS** = no code · **CODE** = code change · **DA
 
 ---
 
+## 🛑 P1.0 — Realtime auto-trigger is BROKEN (launch-blocker, found 2026-05-31 live sim)
+The Supabase Realtime listener (`apps/bot/agent/runner.py _realtime_listener`) connects, logs "PI Agent realtime listener active", then **immediately dies**: `_on_connect_error → _reconnect → ValueError('Set of Tasks/Futures is empty.')`. Confirmed live: a fresh `cases` INSERT produced **0 `case_agent_events`** — the agent never fired. The only historical agent run (Bolinha) came from the daily-briefing loop, never realtime.
+
+**Impact:** in production, creating a case does NOT trigger the agent → no broadcast, no alerts. "Community alerted immediately" silently never happens. Fix before any real use.
+
+**Likely causes:** (a) `cases`/`sightings` not in the `supabase_realtime` publication (replication not enabled), and/or (b) a `realtime-py` reconnect bug. **Recommended fix:** make case creation deterministically enqueue the agent (web POST → bot internal endpoint, or a Postgres trigger + `pg_notify`, or a polling sweep for `agent_state IS NULL`) rather than relying on flaky realtime; keep realtime + add the polling fallback. `trigger_case_agent.py` is the manual stand-in meanwhile.
+
+**Already fixed (committed) — agent-crash bugs found in the same live run:** `harness.py` geo None-guard; `pi_tools.py` `datetime` UnboundLocalError; `case_agent.py` ×5 stdlib-logger kwargs TypeErrors.
+
 ## P0 — Make the code that already exists actually run (the real blocker)
 *Nothing here is a new feature. This is why "80% written" delivers 0% today.*
 
