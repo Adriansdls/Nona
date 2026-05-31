@@ -72,7 +72,14 @@ Legend: `[ ]` todo · **CONFIG/OPS** = no code · **CODE** = code change · **DA
 
 ---
 
-## P2 — Per-person alerts (volunteer DMs by municipality)
+## 💡 Founder product notes (2026-05-31 — capture, decide later)
+1. **Dynamic alert radius, not a fixed 10km.** Radius should depend on case: suspected theft/car → wide (tens of km, even cross-region); small dog lost in a market → ~1km; vary by breed/temperament (galgo travels far), elapsed time, phase. The opt-in `/alertas` radius is the *volunteer's* willingness cap; the *case* should also carry its own search radius (the env/behavioral engine already computes `search_radius_modifier` per WP10/WP13 — wire that into `request_volunteer_alert` so the alert radius = min(volunteer willingness, case-appropriate radius) instead of a flat 8–10km). Highest-value realism upgrade for the matching.
+2. **Telegram onboarding / "the science" explainer.** Since most of the experience now lives in Telegram, the bot needs an onboarding flow that explains what Nona is, the behavioral science (don't chase, scent station, phases), and what being an observer means. Consider a `/sobre` or first-contact sequence + a pinned explainer. Trust-building, not just mechanics.
+
+## P2 — Per-person alerts (volunteer DMs by municipality) — ✅ shipped via /alertas (distance-based)
+NOTE: implemented better than originally scoped — `/alertas` opt-in + DISTANCE matching (not municipality). See commit. Remaining P2 polish: response buttons (Vi / Atento / Ocupado).
+
+## P2 (original) — Per-person alerts (volunteer DMs by municipality)
 *Only if the pilot shows group posts are too noisy/slow. DM code already works; registry is just empty.*
 
 - [ ] **P2.1 — Self-serve volunteer opt-in** · CODE · M
