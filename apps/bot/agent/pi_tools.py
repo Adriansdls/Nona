@@ -263,18 +263,21 @@ PI_TOOL_DEFINITIONS: list[dict[str, Any]] = [
     {
         "name": "request_volunteer_alert",
         "description": (
-            "Alert registered volunteers within radius of last-seen point. "
-            "Use in panic phase or when new sighting received."
+            "Alert registered observers near the last-seen point, each told their distance. "
+            "Use in panic phase or when a new sighting is received. The alert radius is "
+            "computed automatically from breed/temperament/phase/terrain/theft/transport — "
+            "do NOT guess it. Only pass radius_km to TIGHTEN it (e.g. a confirmed sighting "
+            "localises the dog); a larger value is ignored."
         ),
         "input_schema": {
             "type": "object",
             "properties": {
                 "municipality": {"type": "string"},
                 "zone_approx": {"type": "string"},
-                "radius_km": {"type": "number"},
+                "radius_km": {"type": "number", "description": "Optional: tighten the auto radius only (e.g. after a sighting)."},
                 "urgency": {"type": "string", "enum": ["immediate", "normal"]},
             },
-            "required": ["municipality", "radius_km"],
+            "required": ["municipality"],
         },
     },
     {
@@ -811,7 +814,6 @@ async def execute_pi_tool(
 
     if name == "request_volunteer_alert":
         municipality = str(inputs.get("municipality", "?"))
-        radius_km = inputs.get("radius_km", 8)
         urgency = str(inputs.get("urgency", "normal"))
         action = f"volunteer_alert_{municipality.lower()}"
 
@@ -825,10 +827,21 @@ async def execute_pi_tool(
             harness.log_action(action, name, "[GATE BLOCKED] crowd_response_blocked — volunteer alert suppressed (hard case)")
             return json.dumps({"blocked": True, "reason": "crowd_response_blocked"})
 
+        # Radius = case-appropriate value computed from breed/temperament/phase/
+        # terrain/theft/transport (harness.alert_radius_km), NOT a flat default and
+        # NOT the LLM's guess. A friendly market dog ~1-3km; a galgo ~15-25km; a
+        # suspected theft ~60km. The LLM MAY pass radius_km to tighten further
+        # (e.g. a confirmed sighting), but never to widen past the computed ceiling.
         try:
-            alert_radius = float(radius_km)
-        except (TypeError, ValueError):
-            alert_radius = 8.0
+            computed_radius = float(harness.alert_radius_km())
+        except Exception:
+            computed_radius = 8.0
+        alert_radius = computed_radius
+        if inputs.get("radius_km") is not None:
+            try:
+                alert_radius = min(computed_radius, float(inputs["radius_km"]))
+            except (TypeError, ValueError):
+                pass
 
         case_coords = _parse_point(harness.case.get("last_seen_coords_approx"))
 
@@ -898,9 +911,12 @@ async def execute_pi_tool(
 
         harness.log_action(
             action, name,
-            f"Queued {count} volunteer alerts ({in_radius} in radius) in {municipality}"
+            f"Queued {count} volunteer alerts ({in_radius} in radius ~{alert_radius:.1f}km) in {municipality}"
         )
-        return json.dumps({"queued": count, "in_radius": in_radius, "municipality": municipality})
+        return json.dumps({
+            "queued": count, "in_radius": in_radius,
+            "alert_radius_km": alert_radius, "municipality": municipality,
+        })
 
     if name == "update_case_assessment":
         harness.log_action(

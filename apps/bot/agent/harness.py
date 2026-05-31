@@ -364,6 +364,53 @@ def compute_environment_context(case: dict, month: int) -> dict[str, Any]:
     }
 
 
+# Hard ceiling for any alert fan-out (Algarve is ~150km E-W; beyond this we rely on
+# regional cross-posting, not per-person observer alerts).
+_MAX_ALERT_RADIUS_KM = 80.0
+
+
+def compute_alert_radius_km(
+    case: dict,
+    env_context: dict,
+    geo_context: dict,
+    phase: str,
+) -> float:
+    """
+    The case-appropriate radius for alerting nearby observers — NOT a flat value.
+
+    Combines:
+      • behavioral wander (env search_radius_km: 2km gregarious → 15km galgo),
+        terrain-adjusted by WP13 search_radius_modifier (dense/urban tightens),
+      • phase: acute = near the loss point; survival = modestly wider as the dog
+        ranges; entrenched (7d+) = expanded to 60km (matches the recovery playbook),
+      • displacement risk: suspected theft (car) → region-wide ~60km; high transport
+        risk (sociable dog near roads, can be picked up) → ~2× the wander radius.
+
+    So a friendly dog lost in a market stays ~1–3km; a suspected theft goes ~60km;
+    a galgo ~15–25km — instead of one flat 8km for everything.
+    """
+    base = float(env_context.get("search_radius_km", 5.0) or 5.0)
+    modifier = float(geo_context.get("search_radius_modifier", 1.0) or 1.0)
+    radius = base * modifier
+
+    suspected_theft = bool(case.get("suspected_theft"))
+    transport = str(env_context.get("transport_risk", "low") or "low")
+
+    if suspected_theft:
+        radius = max(radius, 60.0)            # moved by car — could be anywhere in the region
+    elif phase == "phase_3_entrenched":
+        radius = max(radius, 60.0)            # 7d+: range/uncertainty large, cross-region search
+    elif phase == "phase_2_survival":
+        radius = radius * 1.5                 # territory still contracting but search wider
+
+    if transport == "high" and not suspected_theft:
+        radius = max(radius, base * modifier * 2.0)   # road-pickup risk: widen, but not region-wide
+    elif transport == "moderate" and not suspected_theft:
+        radius = max(radius, base * modifier * 1.3)
+
+    return round(max(1.0, min(radius, _MAX_ALERT_RADIUS_KM)), 1)
+
+
 _WP9_TOOL_PALETTE: dict[str, list[str]] = {
     "phase_1_acute": [
         'notify_canil',
@@ -450,6 +497,14 @@ class CaseHarness:
         self._env_context = compute_environment_context(self.case, datetime.now(UTC).month)
         # WP13: territorial intelligence from kb_geography (DB lookup, cached)
         self._geo_context = self._load_geo_context()
+        # Dynamic, case-appropriate alert radius (not a flat default)
+        self._alert_radius_km = compute_alert_radius_km(
+            self.case, self._env_context, self._geo_context, self._wp9_phase
+        )
+
+    def alert_radius_km(self) -> float:
+        """Case-appropriate observer-alert radius in km (see compute_alert_radius_km)."""
+        return self._alert_radius_km
 
     # ------------------------------------------------------------------
     # Internals
