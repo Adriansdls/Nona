@@ -221,6 +221,13 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const [fbCopied, setFbCopied] = useState(false)
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     fetch(`/api/cases/${c.slug}/intel`)
@@ -306,7 +313,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       <NonaNav on="casos" locale={locale}/>
 
       {/* breadcrumb */}
-      <div style={{ padding: '14px 32px', display: 'flex', alignItems: 'center', gap: 12, fontFamily: N.mono, fontSize: 11.5, color: N.ink3, background: N.paper, borderBottom: `1px solid ${N.rule}` }}>
+      <div style={{ padding: `14px ${isMobile ? '16px' : '32px'}`, display: 'flex', alignItems: 'center', gap: 12, fontFamily: N.mono, fontSize: 11.5, color: N.ink3, background: N.paper, borderBottom: `1px solid ${N.rule}` }}>
         <Link href={`/${locale}/casos`} style={{ color: N.ink3, textDecoration: 'none' }}>casos</Link>
         <span>/</span>
         <Link href={`/${locale}/casos?municipality=${c.last_seen_municipality}`} style={{ color: N.ink3, textDecoration: 'none' }}>
@@ -321,7 +328,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       </div>
 
       {/* HERO — photo + meta */}
-      <section style={{ padding: '32px 32px 24px', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40 }}>
+      <section style={{ padding: `32px ${isMobile ? '16px' : '32px'} 24px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: isMobile ? 24 : 40 }}>
         <div>
           {primaryImg?.public_url ? (
             <div style={{ borderRadius: 14, overflow: 'hidden', aspectRatio: '4/3' }}>
@@ -361,7 +368,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               <Pill kind="ghost" size="sm" dot={false}>visto {stats.totalSightings}× aprox.</Pill>
             )}
           </div>
-          <h1 style={{ margin: 0, fontFamily: N.display, fontSize: 104, fontWeight: 400, letterSpacing: '-0.04em', lineHeight: 0.9, color: N.ink } as React.CSSProperties}>
+          <h1 style={{ margin: 0, fontFamily: N.display, fontSize: isMobile ? 52 : 104, fontWeight: 400, letterSpacing: '-0.04em', lineHeight: 0.9, color: N.ink } as React.CSSProperties}>
             {dogName}
           </h1>
           <p style={{ margin: '-6px 0 0', fontFamily: N.display, fontStyle: 'italic', fontSize: 22, color: N.ink2, letterSpacing: '-0.01em' }}>
@@ -392,8 +399,8 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       </section>
 
       {/* STATS */}
-      <section style={{ padding: '8px 32px 18px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 18px` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
           <LiveStat icon="eye" n={String(stats.publicSightings)} label="avistamentos" sub={stats.publicSightings > 0 ? `${stats.publicSightings} confirmados` : 'nenhum ainda'} accent={stats.publicSightings > 0 ? N.amber : N.ink3} pulsing={stats.publicSightings > 0}/>
           <LiveStat icon="clock" n={openLabel.replace('há ','')} label="aberto" sub="caso activo"/>
           <LiveStat icon="share" n="0" label="partilhas" sub="aguardando"/>
@@ -403,7 +410,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       </section>
 
       {/* SEARCH MAP + INTEL */}
-      <section style={{ padding: '12px 32px 28px' }}>
+      <section style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px` }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
           <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
             Onde procurar.
@@ -562,7 +569,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           }
           if (warnings.length === 0) return null
           return (
-            <section style={{ padding: '0 32px 20px' }}>
+            <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
               <div style={{ display: 'grid', gap: 8 }}>
                 {warnings.map((w, i) => (
                   <div key={i} style={{
@@ -656,7 +663,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         }
 
         return (
-          <section style={{ padding: '0 32px 20px' }}>
+          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
             <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '16px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
                 <span style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>protocolo activo</span>
@@ -713,7 +720,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           ? 'high' : temperament === 'xenophobic' ? 'very_low' : 'moderate'
 
         return (
-          <section style={{ padding: '0 32px 20px' }}>
+          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
             <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
               <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 janelas de actividade · ambiente físico
@@ -808,7 +815,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         }
 
         return (
-          <section style={{ padding: '0 32px 20px' }}>
+          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
             <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
               <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 inteligência territorial · {geo.municipality.toLowerCase()}
@@ -848,7 +855,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
 
       {/* BEHAVIORAL SCENARIOS */}
       {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (
-        <section style={{ padding: '0 32px 28px' }}>
+        <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 28px` }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
             <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
               Cenários por probabilidade.
@@ -913,7 +920,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       )}
 
       {/* ACTIVITY + SIDEBAR */}
-      <section style={{ padding: '8px 32px 48px', display: 'grid', gridTemplateColumns: '1.55fr 1fr', gap: 32, alignItems: 'flex-start' }}>
+      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.55fr 1fr', gap: 32, alignItems: 'flex-start' }}>
         <article>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
             <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
@@ -1019,7 +1026,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
       </section>
 
       {/* footer */}
-      <footer style={{ padding: '20px 32px', borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
+      <footer style={{ padding: `20px ${isMobile ? '16px' : '32px'}`, borderTop: `1px solid ${N.rule}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: N.mono, fontSize: 11, color: N.ink3 }}>
         <span>nona · open source · made in algarve · 2026</span>
         <span style={{ display: 'flex', gap: 18 }}>
           <span>privacidade</span>
