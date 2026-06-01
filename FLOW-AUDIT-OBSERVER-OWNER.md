@@ -87,9 +87,11 @@ Standing rule (founder, repeated; in memory `project_proximity_gap.md`): *"For n
 4. **✅ DONE — final sim-safe round** (verified where possible): `_new_sighting_sweep` (start-time-gated poll + in-process dedup, no schema change needed — fires `sighting_added` when Realtime goes deaf; compile + mirrors proven `_new_case_sweep`); **real scannable QR** (QRTile via qrcode lib — verified `<img src=data:image>`); **bot slug `NaN` fix** (generateSlug needs `lastSeenAt` — every bot case had `...-NaN-...`; verified now `...-2026-...`).
 5. **Deliberately deferred (low value / high cost / founder)**: GPS on bot sightings (geocode fallback works; needs cross-flow state or DB coupling — MINOR); httpx async in maps/broadcast (perf MINOR); failed-send retry cap (MINOR); homepage `activeAgentsCount` fake (not an observer/owner flow); migration 0030 DDL DEFAULT (deploy — backfill already run, 0 NULL tokens, code sets token on all paths).
 
-## Runtime-verified vs compile-only
-- **Runtime-verified (Playwright/endpoint against dev→prod DB):** B1 owner_token, NULL-token backfill (0 remain), B3 time-selector, isOwner-from-ownerData, sighting `reporterContact` (score 8), real QR, slug fix.
-- **Compile + review only (need a live Telegram round-trip):** B2 flow buttons, B4 guided-flow-start, `_new_sighting_sweep`, `{app_url}`/sighting-prompt, confirm-URL, agent_state-on-resolve, double-msg dedup, `_sobre_markup`, bot photo/contact attach (the web side of the sighting API IS verified).
+## Runtime-verified vs not
+- **Runtime-verified — web (Playwright/endpoint → prod DB):** B1 owner_token, NULL-token backfill (0 remain), B3 time-selector, isOwner-from-ownerData, sighting `reporterContact` (score 8), real QR (`<img src=data:image>`), slug fix (`...-2026-...`).
+- **Runtime-verified — bot DB cores (direct calls → prod DB):** B2 flow-opener mapping; B4 guided-flow persistence (`_save_step_index`+`_load_guided_flow`: bucket `h0_6`, 5 steps, pinned, idx 0); `_new_sighting_sweep` query (inserted sighting found by the sweep's select).
+- **NOT verifiable without a live bot token+chat (Telegram I/O layer only — code-reviewed + handlers registered):** the actual message-send / button-tap dispatch for B2, B4, `_sobre_markup`, confirm-URL render, resolve-callback edit. The DB effects underneath are verified above; what's untested is purely Telegram delivery — a runtime/deploy concern, not code correctness.
+- **Compile + review:** `{app_url}`/sighting-prompt wording, agent_state-on-resolve, double-msg dedup (logic + the web route change verified; the bot callback edit needs live Telegram).
 4. **Infra/credentials (founder)**: RESEND key, INTEL_SERVICE_URL, NEXT_PUBLIC_TELEGRAM_BOT, env-var docs.
 5. **Go-live decision (founder)**: GATE-1 allowlist flip, GATE-2 web proximity opt-in. ⚠️ irreversible real-people contact.
 6. **Product decisions (founder)**: i18n strategy, QR real vs PDF-only, observer follow-up notifications, web proximity UX.
