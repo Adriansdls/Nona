@@ -37,6 +37,7 @@ _ACTIVE_STATES = ["new", "active", "planning"]
 # sweep is the deterministic fallback that guarantees a freshly created case
 # (agent_state='new') gets its case_created agent run within a few seconds.
 _NEW_CASE_SWEEP_INTERVAL_S = int(os.environ.get("NEW_CASE_SWEEP_INTERVAL_S", "15"))
+_NEW_SIGHTING_SWEEP_INTERVAL_S = int(os.environ.get("NEW_SIGHTING_SWEEP_INTERVAL_S", "20"))
 
 UTC = timezone.utc
 
@@ -262,6 +263,44 @@ async def _new_case_sweep(db_url: str, db_key: str) -> None:
             log.error("New-case sweep failed", error=str(exc))
 
 
+async def _new_sighting_sweep(db_url: str, db_key: str) -> None:
+    """
+    Reliable fallback for the sighting->agent re-plan when Supabase Realtime goes
+    deaf mid-process (documented in _realtime_listener). Polls for sightings
+    inserted SINCE this process started and fires the sighting_added trigger for any
+    not yet swept. Start-time gating avoids re-processing pre-existing sightings on
+    restart; an in-process seen-set avoids double-firing within a run. run_case_agent
+    is effectively idempotent (action gate + skip_if_done), so an occasional overlap
+    with the realtime listener is harmless.
+    """
+    started_at = datetime.now(UTC)
+    seen: set[str] = set()
+    while True:
+        await asyncio.sleep(_NEW_SIGHTING_SWEEP_INTERVAL_S)
+        try:
+            db = create_client(db_url, db_key)
+            rows = (
+                db.table("sightings")
+                .select("id, case_id, created_at")
+                .gte("created_at", started_at.isoformat())
+                .order("created_at")
+                .limit(30)
+                .execute()
+            )
+            for row in rows.data or []:
+                sid = row["id"]
+                cid = row.get("case_id")
+                if not cid or sid in seen:
+                    continue
+                seen.add(sid)
+                log.info("New-sighting sweep: triggering agent", sighting_id=sid, case_id=cid)
+                await run_case_agent(cid, db, trigger="sighting_added")
+            if len(seen) > 5000:
+                seen.clear()  # bound memory; start-time gate still prevents re-sweeps
+        except Exception as exc:
+            log.error("New-sighting sweep failed", error=str(exc))
+
+
 async def start_runner() -> None:
     """Start realtime listener, new-case sweep, escalation loop, and nightly re-match."""
     db_url = os.environ["SUPABASE_URL"]
@@ -270,7 +309,8 @@ async def start_runner() -> None:
     log.info("Starting PI Agent runner")
     await asyncio.gather(
         _realtime_listener(db_url, db_key),   # best-effort (Realtime unreliable)
-        _new_case_sweep(db_url, db_key),      # reliable minute-0 trigger
+        _new_case_sweep(db_url, db_key),      # reliable minute-0 trigger (new cases)
+        _new_sighting_sweep(db_url, db_key),  # reliable fallback (new sightings)
         _escalation_loop(db_url, db_key),
         _nightly_rematch_loop(db_url, db_key),
         _daily_briefing_loop(db_url, db_key),

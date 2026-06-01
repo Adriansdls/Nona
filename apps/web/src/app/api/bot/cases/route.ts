@@ -37,12 +37,14 @@ export async function POST(req: NextRequest) {
 
   const supabase = createServiceClient()
 
-  // Build slug
+  // Build slug. lastSeenAt is required by generateSlug (it derives the year) —
+  // omitting it produced "...-NaN-xxxxx" slugs on every bot-created case.
   const slugInput = {
     type: body['type'] as string,
     dogName: (body['dogName'] as string | undefined) ?? undefined,
     breed: body['breed'] as string,
     lastSeenMunicipality: body['lastSeenMunicipality'] as string,
+    lastSeenAt: body['lastSeenAt'] as string,
   }
   const slug = generateSlug(slugInput as Parameters<typeof generateSlug>[0])
 

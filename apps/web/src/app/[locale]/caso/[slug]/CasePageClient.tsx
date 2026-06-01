@@ -1008,7 +1008,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           {/* QR + poster */}
           <div style={{ marginTop: c.description ? 24 : 0, padding: 18, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'flex', gap: 16, alignItems: 'center', maxWidth: 580 }}>
             <div style={{ padding: 6, background: N.surface, borderRadius: 8 }}>
-              <QRTile size={104}/>
+              <QRTile size={104} url={caseUrl}/>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <h4 style={{ margin: 0, fontFamily: N.display, fontSize: 18, fontWeight: 400, letterSpacing: '-0.015em' }}>Cartaz pronto.</h4>
