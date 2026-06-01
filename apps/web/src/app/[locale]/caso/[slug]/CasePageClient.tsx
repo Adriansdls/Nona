@@ -13,6 +13,7 @@ import type { ActivityResponse } from '@/app/api/cases/[slug]/activity/route'
 import { QRTile } from '@/components/nona/QRTile'
 import { SharePanel } from '@/components/nona/SharePanel'
 import { ProtocolBand } from '@/components/nona/ProtocolBand'
+import { OwnerPanel, type OwnerData } from '@/components/nona/OwnerPanel'
 import { useSearchParams } from 'next/navigation'
 import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
 import type { SearchIntel, IntelZone, IntelHazard, InsufficientData } from '@/app/api/cases/[slug]/intel/route'
@@ -335,6 +336,21 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
     if (e.fresh) ev.fresh = e.fresh
     return ev
   })
+
+  // Owner powers — fetched client-side ONLY when ?t= is present, so the cached
+  // public shell carries zero owner data. A bogus token → 404 → ownerData stays
+  // null → OwnerPanel never mounts. Every mutation re-verifies the token server-side.
+  const ownerToken = searchParams.get('t')
+  const [ownerData, setOwnerData] = useState<OwnerData | null>(null)
+  useEffect(() => {
+    if (!isOwner || !ownerToken) return
+    let alive = true
+    fetch(`/api/owner/${ownerToken}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then((body: OwnerData | null) => { if (alive && body && body.case) setOwnerData(body) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [isOwner, ownerToken])
 
   const scrollToShare = () => {
     document.getElementById('share')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -776,6 +792,17 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         )
       })()}
 
+      {/* OWNER POWERS — only for the owner (?t=token), only after the owner fetch
+          succeeds. ProtocolBand above is the *plan*; this is the *powers*. */}
+      {isOwner && ownerData && (
+        <OwnerPanel
+          token={ownerToken!}
+          locale={locale}
+          dogName={dogName}
+          ownerData={ownerData}
+          isMobile={isMobile}
+        />
+      )}
 
       {/* SEARCH MAP + INTEL */}
       <section id="mapa" style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px`, scrollMarginTop: 16 }}>
