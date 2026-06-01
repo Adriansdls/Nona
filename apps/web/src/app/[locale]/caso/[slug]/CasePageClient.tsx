@@ -62,9 +62,10 @@ function StatusBrain({
   return (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       {chip(phaseColor, phaseBg, phaseLabel, phaseKey === 'panic')}
-      {confidence
-        ? chip(confColor, N.surface, `confiança ${confidence === 'high' ? 'alta' : confidence === 'medium' ? 'média' : 'baixa'}`)
-        : chip(N.ink3, N.surface, 'a analisar zona…')}
+      {/* Only surface confidence when it's a positive signal — "baixa" reads as
+          a negative and isn't useful to the reader. */}
+      {(confidence === 'high' || confidence === 'medium') &&
+        chip(confColor, N.surface, `análise · confiança ${confidence === 'high' ? 'alta' : 'média'}`)}
     </div>
   )
 }
@@ -391,16 +392,24 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             </div>
           )}
 
-          {/* quick-nav — under the photo, prominent. Fast index + observer entry. */}
-          <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {/* quick-nav — under the photo, prominent. First chip (primary action)
+              is filled/dark so it leads; the rest are strong outline chips. */}
+          <div style={{ marginTop: 18, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {[
-              { label: isOwner ? '✓ O que fazer' : '👁 Como ajudar', id: 'protocol' },
+              { label: isOwner ? '✓ O que fazer' : '👁 Como ajudar', id: 'protocol', primary: true },
               { label: '🧭 Onde procurar', id: 'mapa' },
               { label: '📡 O que se passa', id: 'feed' },
               { label: '↗ Partilhar', id: 'share' },
             ].map((n) => (
               <button key={n.id} onClick={() => document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                style={{ cursor: 'pointer', padding: '10px 16px', borderRadius: 999, background: N.white, border: `1px solid ${N.rule}`, fontFamily: N.sans, fontSize: 14, fontWeight: 500, color: N.ink, letterSpacing: '-0.005em' }}>
+                style={{
+                  cursor: 'pointer', padding: '11px 18px', borderRadius: 999,
+                  background: n.primary ? N.ink : N.white,
+                  border: `1.5px solid ${n.primary ? N.ink : N.ruleSoft}`,
+                  fontFamily: N.sans, fontSize: 15, fontWeight: 600,
+                  color: n.primary ? N.paper : N.ink, letterSpacing: '-0.01em',
+                  boxShadow: n.primary ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
+                }}>
                 {n.label}
               </button>
             ))}
