@@ -79,7 +79,7 @@ When attach_sighting_to_case() succeeds, send:
 - Confirmation that the sighting was recorded
 - That the owner/volunteers will be notified immediately
 - Thank them for helping
-- Do NOT write a URL — the system appends the case link after your message.
+- Keep it short and warm; do NOT paste a raw URL (you don't have a working one).
 
 ---
 
