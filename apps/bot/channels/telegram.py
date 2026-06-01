@@ -103,11 +103,19 @@ async def _run_brain(update: Update, state: ConvState, text: str) -> None:
     # If a case was just created, send the confirmation block
     if updated_state.created_case_slug and state.created_case_slug != updated_state.created_case_slug:
         slug = updated_state.created_case_slug
-        case_url = f"{WEB_APP_URL}/caso/{slug}"
-        poster_url = f"{WEB_APP_URL}/api/cases/{slug}/poster?locale={updated_state.locale}"
+        locale = updated_state.locale or "pt"
+        # Owner's PRIVATE link: ?t=<owner_token> unlocks the OwnerPanel (triage,
+        # resolve, PI assessment). Always include the locale prefix — the app routes
+        # under /[locale]. Fall back to the public URL only if the token is missing.
+        token = updated_state.created_case_owner_token
+        case_url = (
+            f"{WEB_APP_URL}/{locale}/caso/{slug}?t={token}"
+            if token else f"{WEB_APP_URL}/{locale}/caso/{slug}"
+        )
+        poster_url = f"{WEB_APP_URL}/api/cases/{slug}/poster?locale={locale}"
         confirmation = (
             f"✅ *Caso criado com sucesso!*\n\n"
-            f"🔗 {case_url}\n"
+            f"🔗 [O teu caso (link privado)]({case_url})\n"
             f"📄 [Poster para imprimir]({poster_url})\n"
             f"📢 A publicar em grupos Facebook do Algarve...\n"
             f"🔍 A verificar coincidências na base de dados...\n\n"

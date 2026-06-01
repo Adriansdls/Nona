@@ -26,6 +26,7 @@ class ConvState:
     history: list[dict] = field(default_factory=list)
     locale: str = "pt"
     created_case_slug: str | None = None
+    created_case_owner_token: str | None = None  # owner's private magic-link token → ?t= URL
     telegram_id: int | None = None
 
     @classmethod
@@ -37,6 +38,7 @@ class ConvState:
             history=data.get("history", []),
             locale=data.get("locale", "pt"),
             created_case_slug=data.get("created_case_slug"),
+            created_case_owner_token=data.get("created_case_owner_token"),
             telegram_id=data.get("telegram_id"),
         )
 
@@ -48,6 +50,7 @@ class ConvState:
             "history": self.history,
             "locale": self.locale,
             "created_case_slug": self.created_case_slug,
+            "created_case_owner_token": self.created_case_owner_token,
             "telegram_id": self.telegram_id,
         }
 
@@ -343,8 +346,10 @@ async def _create_case(
         return f"Failed to create case: {resp.text}", state
 
     result = resp.json()
-    slug = result.get("data", {}).get("slug", "")
+    data = result.get("data", {})
+    slug = data.get("slug", "")
     state.created_case_slug = slug
+    state.created_case_owner_token = data.get("ownerToken")
     state.flow = "done"
     return json.dumps({"success": True, "slug": slug}), state
 
