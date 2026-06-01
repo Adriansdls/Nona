@@ -193,7 +193,7 @@ async def execute_tool(
         elif name == "search_lost_dogs_by_photo":
             return await _search_lost_dogs_by_photo(inputs, state, web_app_url, internal_token)
         elif name == "attach_sighting_to_case":
-            return await _attach_sighting_to_case(inputs, web_app_url, internal_token)
+            return await _attach_sighting_to_case(inputs, state, web_app_url, internal_token)
         elif name == "create_case":
             return await _create_case(state, web_app_url, internal_token)
         elif name == "get_case":
@@ -269,21 +269,28 @@ async def _search_lost_dogs_by_photo(
 
 
 async def _attach_sighting_to_case(
-    inputs: dict, web_app_url: str, internal_token: str
+    inputs: dict, state: ConvState, web_app_url: str, internal_token: str
 ) -> tuple[str, ConvState]:
     case_id = inputs["case_id"]
+    payload: dict[str, Any] = {
+        "seenAt": inputs["seen_at"],
+        "municipality": inputs["municipality"],
+        "zoneApprox": inputs["zone_approx"],
+        "description": inputs["description"],
+        "seemedInjured": inputs.get("seemed_injured"),
+        "wasMoving": inputs.get("was_moving"),
+        "direction": inputs.get("direction"),
+    }
+    # Don't lose what the observer already gave us: the photo they sent (staged) and
+    # their Telegram identity (bumps the reliability score's observer_familiarity).
+    if state.staged_photos:
+        payload["photoPath"] = state.staged_photos[0]
+    if state.telegram_id:
+        payload["reporterContact"] = f"tg:{state.telegram_id}"
     async with httpx.AsyncClient(timeout=15) as client:
         resp = await client.post(
             f"{web_app_url}/api/sightings/{case_id}",
-            json={
-                "seenAt": inputs["seen_at"],
-                "municipality": inputs["municipality"],
-                "zoneApprox": inputs["zone_approx"],
-                "description": inputs["description"],
-                "seemedInjured": inputs.get("seemed_injured"),
-                "wasMoving": inputs.get("was_moving"),
-                "direction": inputs.get("direction"),
-            },
+            json=payload,
             headers={"x-internal-token": internal_token},
         )
     if resp.status_code not in (200, 201):

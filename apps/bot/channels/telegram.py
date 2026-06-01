@@ -126,6 +126,12 @@ async def _run_brain(update: Update, state: ConvState, text: str) -> None:
         )
         await _reply(update, confirmation)
 
+        # Bot-native lost-dog cases used to get a confirmation but never the guided
+        # recovery protocol (only the web→telegram ?start= handoff started it). Start
+        # it here so a dog reported directly in the bot gets the same step-by-step plan.
+        if (updated_state.draft or {}).get("type") == "perdido":
+            await _start_guided_flow(update, slug)
+
 
 # ---------------------------------------------------------------------------
 # Command handlers
@@ -281,6 +287,44 @@ def _save_step_index(
         gf["started_at"] = datetime.now(timezone.utc).isoformat()
     bp["guided_flow"] = gf
     db.table("cases").update({"behavioral_profile": bp}).eq("id", case_id).execute()
+
+
+async def _start_guided_flow(update: Update, slug: str) -> None:
+    """Kick off the time-phased recovery protocol (step 0) for a case created
+    DIRECTLY in the bot. Mirrors what _handle_handoff does for web-created cases:
+    derive bucket + is_hard, build the sequence, pin it, and send the first step."""
+    from datetime import datetime, timezone
+    try:
+        from storage import get_supabase
+        from agent.pi_tools import build_step_sequence, bucket_from_hours
+        db = get_supabase()
+        res = (
+            db.table("cases").select("id, last_seen_at, behavioral_profile")
+            .eq("slug", slug).maybe_single().execute()
+        )
+        case = dict(res.data or {})
+        if not case.get("id"):
+            return
+        hours = 0.0
+        last_seen = case.get("last_seen_at")
+        if last_seen:
+            try:
+                dt = datetime.fromisoformat(str(last_seen).replace("Z", "+00:00"))
+                hours = max(0.0, (datetime.now(timezone.utc) - dt).total_seconds() / 3600.0)
+            except (ValueError, TypeError):
+                hours = 0.0
+        bp = case.get("behavioral_profile") or {}
+        gate = bp.get("action_gate") or {}
+        # is_hard mirrors sequence_for_case: passive profile / crowd-blocked.
+        is_hard = (not gate.get("active_search_permitted", True)) or bool(gate.get("crowd_response_blocked"))
+        bucket = bucket_from_hours(hours)
+        steps = build_step_sequence(bucket, is_hard)
+        _save_step_index(db, case["id"], bp, 0, bucket=bucket, is_hard=is_hard)
+        chat = update.effective_chat
+        if chat:
+            await _send_step(update.get_bot(), chat.id, steps, 0)
+    except Exception:
+        logger.exception("failed to start guided flow for bot-native case %s", slug)
 
 
 async def _handle_handoff(update: Update, context: ContextTypes.DEFAULT_TYPE, owner_token: str) -> bool:
