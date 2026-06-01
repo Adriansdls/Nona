@@ -79,8 +79,8 @@ Standing rule (founder, repeated; in memory `project_proximity_gap.md`): *"For n
 - `/api/owner/[token]/step` orphaned on web (P6 dropped check-off; bot still tracks `guided_flow` directly). Decide: re-add web checkboxes vs. accept Telegram-only tracking.
 
 ## Fix execution order
-1. **Sim-safe bug fixes — DONE this session** (do not touch the go-live gate): B1 owner_token + DEFAULT, B5 record_discovery crash, agent_state='resolved' on /encontrado, double-resolve dedup, {app_url} .format(), bot confirm URL → `/pt` + `?t=token`. All also improve the founder's sandbox. Verified in sim harness.
-2. **Sim-safe, needs behavior definition**: B2 dead `flow_*` buttons, B4 guided-flow-start for bot-native cases. (Sim-safe; implemented if behavior is clear.)
+1. **Sim-safe bug fixes — ✅ DONE + committed this session** (go-live gate untouched): B1 owner_token + migration DEFAULT/backfill, B5 record_discovery crash, agent_state='resolved' on /encontrado, double-resolve dedup, {app_url} prompt-leak fix, bot confirm URL → `/[locale]` + `?t=token`. B1 verified end-to-end (POST→32-hex token→OwnerPanel renders→public clean). All also improve the founder's sandbox.
+2. **✅ DONE — B2 dead `flow_*` buttons**: registered `^flow_` `CallbackQueryHandler` + made `_reply` callback-safe; each button seeds the brain conversation with an opening line. Compiles; needs one live Telegram tap to confirm. **Still TODO (sim-safe): B4 guided-flow-start for bot-native cases.**
 3. **Code fixes still pending** (sim-safe, next): photo/GPS/contact on bot sighting attach, `_new_sighting_sweep`, map null-coords fallback, intake email of owner link, FB-boost null guard, isOwner-from-ownerData, QR real render.
 4. **Infra/credentials (founder)**: RESEND key, INTEL_SERVICE_URL, NEXT_PUBLIC_TELEGRAM_BOT, env-var docs.
 5. **Go-live decision (founder)**: GATE-1 allowlist flip, GATE-2 web proximity opt-in. ⚠️ irreversible real-people contact.
