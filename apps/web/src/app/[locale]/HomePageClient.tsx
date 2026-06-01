@@ -9,7 +9,9 @@ import { Pill } from '@/components/nona/Pill'
 import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
 import { buildStepSequence } from '@/lib/guided/sequencer'
 
-const TELEGRAM_BOT = process.env['NEXT_PUBLIC_TELEGRAM_BOT'] ?? 'salvacao_bot'
+// Real bot is @dogs_trace_bot (verified via Telegram getMe). The old 'salvacao_bot'
+// fallback pointed every deep-link at a non-existent bot when the env var was unset.
+const TELEGRAM_BOT = process.env['NEXT_PUBLIC_TELEGRAM_BOT'] ?? 'dogs_trace_bot'
 
 type Mode = 'lost' | 'found'
 type Phase = 0 | 1 | 2 | 3 | 4
