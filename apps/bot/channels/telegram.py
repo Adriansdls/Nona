@@ -627,9 +627,12 @@ _SOBRE_PAGES: dict[str, dict] = {
 
 
 def _sobre_markup(page: str) -> InlineKeyboardMarkup:
+    # Fall back to "intro" for an unknown page key so a stale/malformed callback can
+    # never raise KeyError and silently drop the tap.
+    spec = _SOBRE_PAGES.get(page) or _SOBRE_PAGES["intro"]
     return InlineKeyboardMarkup(
         [[InlineKeyboardButton(label, callback_data=cb)]
-         for label, cb in _SOBRE_PAGES[page]["buttons"]]
+         for label, cb in spec["buttons"]]
     )
 
 

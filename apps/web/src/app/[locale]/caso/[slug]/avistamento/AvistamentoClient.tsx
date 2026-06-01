@@ -14,12 +14,25 @@ const FIELD = {
 }
 const LABEL = { display: 'block', marginBottom: 6, fontFamily: N.mono, fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase' as const, color: N.ink3 }
 
+// WP16: when the observer saw the dog drives the time-reliability scoring. Never
+// silently assume "now" — an observer reporting a 4h-old sighting as "exact/now"
+// corrupts the lambda weighting (the "Facebook há 2h that was really 10h" problem).
+type SeenWhen = 'now' | '1h' | 'hours' | 'today' | 'earlier'
+const WHEN: Record<SeenWhen, { label: string; hours: number; conf: 'exact' | 'approximate' | 'unknown'; src: 'firsthand' | 'social_post' | 'secondhand' }> = {
+  now:     { label: 'Agora mesmo',     hours: 0,  conf: 'exact',       src: 'firsthand' },
+  '1h':    { label: 'Há cerca de 1h',  hours: 1,  conf: 'approximate', src: 'firsthand' },
+  hours:   { label: 'Há horas',        hours: 4,  conf: 'approximate', src: 'firsthand' },
+  today:   { label: 'Hoje, mais cedo', hours: 8,  conf: 'approximate', src: 'firsthand' },
+  earlier: { label: 'Ontem ou antes',  hours: 26, conf: 'unknown',     src: 'firsthand' },
+}
+
 export default function AvistamentoClient({ dogName }: { dogName: string }) {
   const params = useParams()
   const slug = params['slug'] as string
   const locale = params['locale'] as string
 
   const [zone, setZone] = useState('')
+  const [seenWhen, setSeenWhen] = useState<SeenWhen>('now')
   const [desc, setDesc] = useState('')
   const [contact, setContact] = useState('')
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null)
@@ -60,11 +73,12 @@ export default function AvistamentoClient({ dogName }: { dogName: string }) {
       const caseRes = await fetch(`/api/cases/${slug}`)
       const caseData = await caseRes.json()
       if (!caseData.data?.id) { setErr('Caso não encontrado.'); setSubmitting(false); return }
+      const w = WHEN[seenWhen]
       const payload: Record<string, unknown> = {
-        seenAt: new Date().toISOString(),
+        seenAt: new Date(Date.now() - w.hours * 3_600_000).toISOString(),
         municipality: caseData.data.last_seen_municipality || 'Algarve',
         zoneApprox: zone.trim() || 'localização partilhada',
-        observedTimeConfidence: 'exact', observedTimeSource: 'firsthand',
+        observedTimeConfidence: w.conf, observedTimeSource: w.src,
       }
       if (desc.trim()) payload['description'] = desc.trim()
       if (contact.trim()) payload['reporterContact'] = contact.trim()
@@ -81,7 +95,7 @@ export default function AvistamentoClient({ dogName }: { dogName: string }) {
   if (done) {
     return (
       <div className="nn" style={{ background: N.paper, minHeight: '100vh' }}>
-        <NonaNav />
+        <NonaNav locale={locale} />
         <div style={{ maxWidth: 520, margin: '0 auto', padding: '64px 20px', textAlign: 'center' }}>
           <div style={{ fontSize: 44, marginBottom: 12 }}>🐾</div>
           <h1 style={{ fontFamily: N.display, fontSize: 34, fontWeight: 400, letterSpacing: '-0.02em', margin: 0 }}>Obrigado.</h1>
@@ -101,7 +115,7 @@ export default function AvistamentoClient({ dogName }: { dogName: string }) {
 
   return (
     <div className="nn" style={{ background: N.paper, minHeight: '100vh' }}>
-      <NonaNav />
+      <NonaNav locale={locale} />
       <div style={{ maxWidth: 560, margin: '0 auto', padding: '28px 20px 60px' }}>
         <h1 style={{ fontFamily: N.display, fontSize: 36, fontWeight: 400, letterSpacing: '-0.025em', margin: 0 }}>
           Viste o {dogName}?
@@ -124,6 +138,27 @@ export default function AvistamentoClient({ dogName }: { dogName: string }) {
             {locState === 'err' && <p style={{ margin: '6px 0 0', fontSize: 12, color: N.rose }}>Não consegui obter a localização — descreve a zona abaixo.</p>}
             <input value={zone} onChange={(e) => setZone(e.target.value)} placeholder="Ou descreve: junto ao Lidl de Faro, perto do parque…"
               style={{ ...FIELD, marginTop: 8 }} />
+          </div>
+
+          {/* When — drives time-reliability scoring */}
+          <div>
+            <span style={LABEL}>Quando viste? *</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {(Object.keys(WHEN) as SeenWhen[]).map((k) => {
+                const active = seenWhen === k
+                return (
+                  <button key={k} type="button" onClick={() => setSeenWhen(k)}
+                    style={{
+                      padding: '8px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13, fontFamily: N.sans,
+                      border: `1px solid ${active ? N.ink : N.rule}`,
+                      background: active ? N.ink : N.white, color: active ? N.paper : N.ink2,
+                      fontWeight: active ? 600 : 450,
+                    }}>
+                    {WHEN[k].label}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Photo */}

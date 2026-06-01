@@ -263,8 +263,10 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const [selectedImg, setSelectedImg] = useState(0)
   // Role: owner opens the case via their private link (?t=<owner_token>); everyone
   // else sees the observer view. Owner-only ACTIONS still verify the token server-side.
+  // isOwner is derived from the VERIFIED owner fetch (ownerData), not the raw ?t=
+  // presence — so a bogus ?t= never flashes owner chrome, and there's no flicker.
   const searchParams = useSearchParams()
-  const isOwner = !!searchParams.get('t')
+  const ownerToken = searchParams.get('t')
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -340,17 +342,17 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   // Owner powers — fetched client-side ONLY when ?t= is present, so the cached
   // public shell carries zero owner data. A bogus token → 404 → ownerData stays
   // null → OwnerPanel never mounts. Every mutation re-verifies the token server-side.
-  const ownerToken = searchParams.get('t')
   const [ownerData, setOwnerData] = useState<OwnerData | null>(null)
+  const isOwner = !!ownerData  // owner-mode UI only after the token verifies server-side
   useEffect(() => {
-    if (!isOwner || !ownerToken) return
+    if (!ownerToken) return
     let alive = true
     fetch(`/api/owner/${ownerToken}`)
       .then(r => (r.ok ? r.json() : null))
       .then((body: OwnerData | null) => { if (alive && body && body.case) setOwnerData(body) })
       .catch(() => {})
     return () => { alive = false }
-  }, [isOwner, ownerToken])
+  }, [ownerToken])
 
   const scrollToShare = () => {
     document.getElementById('share')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -839,10 +841,15 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             height={isMobile ? 320 : 420}
             center={parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }}
             lastSeenLabel={c.last_seen_zone_approx || 'Última vez visto'}
-            sightings={sightings.flatMap((s) => {
-              const coords = parsePoint(s.coords_approx)
-              if (!coords) return []
-              return [{ lat: coords.lat, lng: coords.lng, label: s.zone_approx, sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }), fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000 }]
+            sightings={sightings.map((s, i) => {
+              const exact = parsePoint(s.coords_approx)
+              // Most web sightings lack GPS (zone-text only). Rather than drop them
+              // from the map, anchor them on the case centroid with a tiny per-index
+              // offset (so they don't all stack) and flag the time as approximate.
+              const base = parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }
+              const coords = exact ?? { lat: base.lat + (i % 5) * 0.0016, lng: base.lng + (i % 3) * 0.0016 }
+              const time = new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })
+              return { lat: coords.lat, lng: coords.lng, label: s.zone_approx, sub: exact ? time : `${time} · zona aprox.`, fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000 }
             })}
             zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
             waterPoints={(geo?.water_points ?? []).filter(w => typeof w.lat === 'number' && typeof w.lng === 'number')}

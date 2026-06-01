@@ -206,9 +206,10 @@ export function OwnerPanel({
   }
 
   const adRec = c.behavioral_profile?.ad_recommendation
-  const boostUrl = c.fb_post_id
-    ? `https://www.facebook.com/${c.fb_post_id}`
-    : 'https://www.facebook.com/business/help/547448218658012'
+  // Only offer boost when there's an actual Nona FB post to boost — otherwise the
+  // button links nowhere useful and the "promove o anúncio" copy is misleading.
+  const canBoost = !!adRec?.eligible && !!c.fb_post_id
+  const boostUrl = `https://www.facebook.com/${c.fb_post_id}`
 
   return (
     <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 36px`, scrollMarginTop: 16 }} id="painel">
@@ -381,8 +382,8 @@ export function OwnerPanel({
               </div>
             )}
 
-            {/* WS-E: owner-pays Boost — only when the action_gate allows ads */}
-            {adRec?.eligible && (
+            {/* WS-E: owner-pays Boost — only when ads are allowed AND a post exists */}
+            {canBoost && (
               <div style={{ padding: '16px 18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
                 <h4 style={{ margin: '0 0 6px', fontFamily: N.display, fontWeight: 400, fontSize: 18, letterSpacing: '-0.01em', color: N.ink }}>
                   Promover no Facebook

@@ -5,6 +5,7 @@ import type { MessageParam, ToolResultBlockParam } from '@anthropic-ai/sdk/resou
 import { createServiceClient } from '@/lib/supabase/service'
 import { generateSlug } from '@/lib/slug'
 import { fireProfessionalAlert } from '@/lib/notifications/professional-alert'
+import { sendCaseConfirmation } from '@/lib/email/send'
 
 // Streaming agent loop (up to 8 Anthropic round-trips + tools) needs the Node
 // runtime + a long budget. Without these Vercel can return 200 headers then
@@ -559,6 +560,18 @@ async function executeTool(name: string, input: Record<string, unknown>, agentNa
               console.warn('intake photo attach failed:', e)
             }
           })()
+        }
+
+        // Email the owner their PRIVATE dashboard link so they never lose access if
+        // they close the chat tab. Skip the noreply default (no real address).
+        const reporterEmail = String(input.reporter_email ?? 'noreply@nona.pt')
+        if (reporterEmail && reporterEmail !== 'noreply@nona.pt') {
+          void sendCaseConfirmation({
+            to: reporterEmail,
+            caseSlug: slug,
+            reporterName: String(input.reporter_name ?? 'Anónimo'),
+            ownerToken,
+          }).catch((e) => console.warn('intake confirmation email failed:', e))
         }
 
         // WP18 Tier 1: silent professional-network alert, minute-0. Fire-and-forget
