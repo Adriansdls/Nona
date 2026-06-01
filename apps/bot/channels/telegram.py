@@ -8,6 +8,7 @@ from __future__ import annotations
 import asyncio
 import logging  # noqa: F401
 import os
+import pathlib
 import structlog
 from io import BytesIO
 
@@ -132,6 +133,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             InlineKeyboardButton("🐾 Encontrei um cão", callback_data="flow_encontrado"),
         ],
         [InlineKeyboardButton("👁 Vi um cão de um caso", callback_data="flow_avistamento")],
+        [InlineKeyboardButton("❓ Como funciona / a ciência", callback_data="sobre:intro")],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     welcome = (
@@ -377,6 +379,8 @@ async def cmd_ajuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "• Adicionar um *avistamento* a um caso existente\n\n"
         "Comandos:\n"
         "/start — Começar\n"
+        "/sobre — O que é a Nona + a ciência 🔬\n"
+        "/demo — Simulação: sinta como é ajudar a encontrar um cão 🎓\n"
         "/encontrado — O meu cão foi encontrado! 🎉\n"
         "/alertas — Receber alertas de cães perdidos perto de si 📍\n"
         "/alertas_parar — Deixar de receber alertas\n"
@@ -437,34 +441,31 @@ async def handle_location(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         radius = float(context.user_data["alertas_radius"])
     name = (update.effective_user.first_name if update.effective_user else None) or "Voluntário"
 
-    try:
-        from storage import get_supabase
-        db = get_supabase()
-        # point stored as (lng,lat) — matches cases.last_seen_coords_approx + _parse_point
-        db.table("sim_volunteers").upsert({
-            "telegram_id": tid,
-            "display_name": name,
-            "home_coords": f"({loc.longitude},{loc.latitude})",
-            "municipality": "",            # distance is the source of truth
-            "radius_km": radius,
-            "active": True,
-            "is_simulated": False,         # real opt-in → eligible for real delivery
-            "consent_at": "now()",
-            "source": "optin",
-        }, on_conflict="telegram_id").execute()
-    except Exception as exc:
-        logger.error("alertas registration failed", tid=tid, error=str(exc))
+    ok = _register_optin_volunteer(tid, loc.latitude, loc.longitude, name, radius)
+    if not ok:
         await update.message.reply_text(
             "Algo correu mal ao registar. Tente novamente mais tarde.",
             reply_markup=ReplyKeyboardRemove(),
         )
         return
 
+    # Mid-demo location share: register silently and continue the demo with the
+    # user's REAL zone, instead of the standalone /alertas confirmation.
+    if context.user_data and context.user_data.pop("demo_await_location", False):
+        await update.message.reply_text(
+            "✅ Registado — e agora a usar a *sua* zona real.",
+            reply_markup=ReplyKeyboardRemove(), parse_mode=ParseMode.MARKDOWN,
+        )
+        await _demo_send_zona(update.message.chat, (loc.latitude, loc.longitude), tid)
+        return
+
     await update.message.reply_text(
         f"✅ Registado! Vai receber alertas de cães perdidos a menos de "
         f"{radius:.0f} km daqui.\n\n"
         "Quando receber um alerta: observe à distância, NÃO persiga, e reporte "
-        "foto + local. Para sair: /alertas_parar.",
+        "foto + local. Para sair: /alertas_parar.\n\n"
+        "Nunca recebeu um alerta? Faça /demo — uma simulação de 30s mostra-lhe "
+        "exactamente como é.",
         reply_markup=ReplyKeyboardRemove(),
     )
 
@@ -481,6 +482,382 @@ async def cmd_alertas_parar(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         logger.error("alertas opt-out failed", tid=tid, error=str(exc))
     await _reply(update, "Deixou de receber alertas. Obrigado por ter ajudado 🐾 "
                          "Pode voltar quando quiser com /alertas.")
+
+
+# ---------------------------------------------------------------------------
+# /sobre — onboarding + the science. Since most of the experience now lives in
+# Telegram, this explains what Nona is, why the method works (cited research),
+# and what being a community observer means. Paginated via inline buttons.
+# ---------------------------------------------------------------------------
+
+_SOBRE_PAGES: dict[str, dict] = {
+    "intro": {
+        "text": (
+            "🐾 *O que é a Nona*\n\n"
+            "A Nona é uma ferramenta gratuita para cães perdidos e encontrados no Algarve. "
+            "Não substitui os grupos de Facebook nem as associações — *multiplica* o que já fazem.\n\n"
+            "Quando um cão se perde, a Nona age nos primeiros minutos: cria a página do caso, "
+            "gera cartaz e QR, avisa canis e veterinários, e alerta observadores próximos — "
+            "com o protocolo certo das primeiras horas, baseado em ciência.\n\n"
+            "O dono não fica sozinho, e não fica sem saber o que fazer."
+        ),
+        "buttons": [("🔬 Porque funciona", "sobre:ciencia"), ("👀 Ser observador", "sobre:observador")],
+    },
+    "ciencia": {
+        "text": (
+            "🔬 *A ciência por trás*\n\n"
+            "A maioria dos cães é encontrada nas primeiras 72h, muitas vezes perto de casa — "
+            "*se* o dono fizer o correcto cedo. Os erros das primeiras horas custam vidas:\n\n"
+            "• *Não perseguir.* Um cão assustado foge mais — um galgo já foi deslocado 11 km "
+            "numa hora por um grupo bem-intencionado. Observar à distância > perseguir.\n"
+            "• *Não chamar o nome* a um cão em pânico — condiciona-o a fugir, até do dono.\n"
+            "• *Âncora de cheiro*: deixar uma peça do dono + comida no ponto exacto da fuga "
+            "trá-lo de volta melhor que procurar.\n"
+            "• *Ir ao canil em pessoa*, não telefonar — 2,1× mais recuperações (Lord 2007, JAVMA).\n"
+            "• Em pânico, o cérebro humano não processa listas longas (Arnsten 2009) — por isso "
+            "a Nona dá *uma acção de cada vez*.\n\n"
+            "A Nona aplica isto automaticamente, ajustado à raça, fase e terreno."
+        ),
+        "buttons": [("👀 Ser observador", "sobre:observador"), ("⬅️ Início", "sobre:intro")],
+    },
+    "observador": {
+        "text": (
+            "👀 *Ser observador da comunidade*\n\n"
+            "Com /alertas, recebe um aviso quando um cão se perde perto de si — com a distância "
+            "ao local e instruções de segurança.\n\n"
+            "O seu papel é simples e poderoso:\n"
+            "• *Olhar bem* na sua zona — quintais, valas, zonas de sombra.\n"
+            "• Se vir o cão: *não persiga, não chame* — observe à distância.\n"
+            "• Reporte *foto + local + hora*. Isso chega.\n\n"
+            "Não precisa de capturar nada. Os olhos certos no sítio certo, na primeira hora, "
+            "são o que traz cães de volta.\n\n"
+            "Experimente primeiro — faça a simulação de 30s e veja como é."
+        ),
+        "buttons": [
+            ("▶️ Experimentar (simulação 30s)", "demo:alert"),
+            ("🔬 Porque funciona", "sobre:ciencia"),
+        ],
+    },
+}
+
+
+def _sobre_markup(page: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [[InlineKeyboardButton(label, callback_data=cb)]
+         for label, cb in _SOBRE_PAGES[page]["buttons"]]
+    )
+
+
+async def cmd_sobre(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    page = _SOBRE_PAGES["intro"]
+    if update.message:
+        await update.message.reply_text(
+            page["text"], reply_markup=_sobre_markup("intro"), parse_mode=ParseMode.MARKDOWN,
+        )
+
+
+async def handle_sobre_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    if not query:
+        return
+    await query.answer()
+    page_key = (query.data or "sobre:intro").split(":", 1)[1]
+    page = _SOBRE_PAGES.get(page_key, _SOBRE_PAGES["intro"])
+    try:
+        await query.edit_message_text(
+            page["text"], reply_markup=_sobre_markup(page_key), parse_mode=ParseMode.MARKDOWN,
+        )
+    except Exception:
+        # edit can fail if content is identical; ignore
+        pass
+
+
+# ---------------------------------------------------------------------------
+# /demo — the observer "aha moment": a 30-second scripted practice case. The new
+# observer receives a (clearly-marked) training alert, makes the one safety-critical
+# choice (observe vs chase), and feels the dog found because of them. Pure message
+# choreography — NO DB writes, NO real alert, NO case. Every message is marked as a
+# drill so it can never be confused with a real alert (anti cried-wolf).
+# ---------------------------------------------------------------------------
+
+_DEMO_TAG = "🎓 *SIMULAÇÃO — TREINO*"
+_DEMO_ASSETS = pathlib.Path(__file__).parent.parent / "assets" / "demo"
+# Demo is set at a REAL Algarve location (Loulé) so the same renderer that draws
+# this map drives real alerts too — the demo is a literal preview of the product.
+_DEMO_CENTER = (37.1377, -8.0226)   # last-seen point (lat, lng)
+_DEMO_RADIUS_KM = 3.0
+_DEMO_SIGHTING = (37.1505, -8.0150)  # "another observer" sighting, ~2km NE, near a road
+
+
+def _demo_kb(buttons: list[tuple[str, str]]) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([[InlineKeyboardButton(l, callback_data=c)] for l, c in buttons])
+
+
+def _demo_user_center(tid: int) -> tuple[float, float]:
+    """The demo is anchored on the user's own registered location (if they opted in
+    via /alertas) so the search zone is literally around them. Falls back to Loulé."""
+    try:
+        from storage import get_supabase
+        from agent.pi_tools import _parse_point
+        row = (get_supabase().table("sim_volunteers")
+               .select("home_coords").eq("telegram_id", tid).limit(1).execute().data)
+        if row:
+            c = _parse_point(row[0].get("home_coords"))
+            if c:
+                return (c[0], c[1])
+    except Exception:
+        pass
+    return _DEMO_CENTER
+
+
+def _ensure_demo_luna_case(tid: int, center: tuple[float, float]) -> str | None:
+    """Create/refresh a real (demo-tagged) Luna case near the user so the demo can
+    link to a live case page. agent_state='active' keeps it out of the new-case sweep;
+    source='demo' makes it purgeable. Returns the slug, or None on failure."""
+    import datetime
+    slug = f"demo-luna-{tid}"
+    row = {
+        "slug": slug, "type": "perdido", "status": "ativo", "sensitivity": "publico",
+        "dog_name": "Luna", "breed": "Galgo", "sex": "femea", "size": "medio",
+        "primary_color": "castanho claro",
+        "last_seen_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "last_seen_municipality": "Loulé", "last_seen_zone_approx": "junto ao parque",
+        "last_seen_coords_approx": f"({center[1]},{center[0]})",
+        "description": "Caso de demonstração da Nona (cão fictício, para treino de observadores).",
+        "reporter_name": "Demo", "reporter_email": "demo@salvacao.local",
+        "agent_state": "active", "source": "demo",
+    }
+    try:
+        from storage import get_supabase
+        db = get_supabase()
+        res = db.table("cases").upsert(row, on_conflict="slug").execute()
+        case_id = (res.data[0]["id"] if res.data else
+                   db.table("cases").select("id").eq("slug", slug).single().execute().data["id"])
+        _ensure_demo_luna_image(db, case_id, slug)
+        return slug
+    except Exception as exc:
+        logger.error("demo luna case upsert failed", error=str(exc))
+        return None
+
+
+def _ensure_demo_luna_image(db, case_id: str, slug: str) -> None:
+    """Attach Luna's photo to the demo case (once) so the case page shows her."""
+    try:
+        existing = db.table("case_images").select("id").eq("case_id", case_id).limit(1).execute().data
+        if existing:
+            return
+        path = f"demo/{slug}.jpg"
+        with open(_DEMO_ASSETS / "luna_lost.jpg", "rb") as f:
+            data = f.read()
+        try:
+            db.storage.from_("case-images-public").upload(
+                path, data, {"content-type": "image/jpeg", "upsert": "true"},
+            )
+        except Exception:
+            pass  # already uploaded / race — getPublicUrl still works
+        public_url = db.storage.from_("case-images-public").get_public_url(path)
+        db.table("case_images").insert({
+            "case_id": case_id, "storage_path_public": path, "public_url": public_url,
+            "is_primary": True, "image_type": "referencia",
+        }).execute()
+    except Exception as exc:
+        logger.error("demo luna image attach failed", error=str(exc))
+
+
+def _register_optin_volunteer(tid: int, lat: float, lng: float, name: str, radius: float) -> bool:
+    """Upsert a real (non-simulated) observer keyed by telegram_id. Returns ok."""
+    try:
+        from storage import get_supabase
+        get_supabase().table("sim_volunteers").upsert({
+            "telegram_id": tid, "display_name": name or "Voluntário",
+            "home_coords": f"({lng},{lat})", "municipality": "",
+            "radius_km": radius, "active": True, "is_simulated": False,
+            "consent_at": "now()", "source": "optin",
+        }, on_conflict="telegram_id").execute()
+        return True
+    except Exception as exc:
+        logger.error("optin volunteer upsert failed", tid=tid, error=str(exc))
+        return False
+
+
+def _demo_has_location(tid: int) -> bool:
+    """True if this user already shared a location (registered observer)."""
+    try:
+        from storage import get_supabase
+        return bool(get_supabase().table("sim_volunteers")
+                    .select("telegram_id").eq("telegram_id", tid).limit(1).execute().data)
+    except Exception:
+        return False
+
+
+async def _demo_send_zona(chat, center: tuple[float, float], tid: int) -> None:
+    """The map+reasoning beat — reusable so it can run after a mid-demo location share."""
+    from agent.maps import fetch_search_map_png
+    live = f"https://www.google.com/maps/search/?api=1&query={center[0]:.5f},{center[1]:.5f}"
+    cap = (
+        f"{_DEMO_TAG}\n\n"
+        "🧭 *Zona de busca calculada pela Nona*\n"
+        "📍 Ponto de fuga · raio ~3 km · *fase aguda* (primeiras horas)\n\n"
+        "*Porquê esta zona — e não a vila toda:*\n"
+        "• Uma galga assustada entra em modo sobrevivência logo ao minuto 0: não "
+        "procura pessoas — esconde-se e desloca-se por vales, linhas de água e "
+        "bermas com mato, evitando ruas abertas e barulho.\n"
+        "• Nas primeiras horas raramente se afasta muito do ponto de fuga — por isso "
+        "o raio começa apertado e só alarga se houver um avistamento confirmado.\n"
+        "• Persegui-la ou chamá-la empurra-a para *mais* longe (e para a estrada). "
+        "O protocolo é observar, nunca convergir.\n\n"
+        f"🔗 [Abrir esta zona no mapa]({live})\n\n"
+        "Só os observadores *dentro da zona* — como você — são avisados. "
+        "Não tem de a encontrar. Basta estar atento."
+    )
+    kb = _demo_kb([("👀 Fico atento", "demo:network")])
+    png = fetch_search_map_png(center, _DEMO_RADIUS_KM, [(center[0], center[1], "L", "red")])
+    if png:
+        await chat.send_photo(photo=png, caption=cap, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+    else:
+        await chat.send_message(cap, parse_mode=ParseMode.MARKDOWN, reply_markup=kb)
+
+
+async def cmd_demo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not update.message:
+        return
+    await update.message.reply_text(
+        f"{_DEMO_TAG}\n\n"
+        "Quer *sentir* como é ajudar a encontrar um cão? 🐾\n\n"
+        "30 segundos, um caso real recriado — nenhum cão verdadeiro envolvido. "
+        "Vai viver o que acontece quando se torna um observador.",
+        reply_markup=_demo_kb([("▶️ Começar", "demo:alert")]),
+        parse_mode=ParseMode.MARKDOWN,
+    )
+
+
+async def handle_demo_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    if not query:
+        return
+    await query.answer()
+    step = (query.data or "demo:alert").split(":", 1)[1]
+
+    # Disable the buttons on the message that was just tapped, so old steps can't be
+    # re-tapped (prevents the flow branching/duplicating or feeling "stuck").
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:
+        pass
+
+    chat = query.message.chat  # type: ignore[union-attr]
+
+    async def say(text: str, buttons: list[tuple[str, str]] | None = None):
+        await chat.send_message(
+            text, parse_mode=ParseMode.MARKDOWN,
+            reply_markup=_demo_kb(buttons) if buttons else None,
+        )
+
+    async def photo(fname: str, caption: str, buttons: list[tuple[str, str]] | None = None):
+        path = _DEMO_ASSETS / fname
+        try:
+            with open(path, "rb") as f:
+                await chat.send_photo(
+                    photo=f, caption=caption, parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=_demo_kb(buttons) if buttons else None,
+                )
+        except Exception:
+            # If the asset is missing, fall back to text so the flow never breaks.
+            await say(caption, buttons)
+
+    tid = update.effective_user.id  # type: ignore[union-attr]
+    center = _demo_user_center(tid)
+
+    if step == "alert":
+        slug = _ensure_demo_luna_case(tid, center)
+        if context.user_data is not None:
+            context.user_data["demo_slug"] = slug
+        case_link = f"{WEB_APP_URL}/pt/caso/{slug}" if slug else WEB_APP_URL
+        await photo(
+            "luna_lost.jpg",
+            f"{_DEMO_TAG}\n\n"
+            "🚨 *CÃO PERDIDO — perto de si*\n\n"
+            "*Luna* · galga · castanha clara\n"
+            "Perdida há 40 min. É medrosa — foge de estranhos.\n\n"
+            "👉 *Não a persiga. Não a chame.* Se a vir, só observe de longe e diga onde.\n\n"
+            f"🔗 [Abrir o caso da Luna]({case_link}) — é assim que vê qualquer caso real.\n\n"
+            "Este alerta acabou de chegar ao seu telemóvel — porque está dentro da zona.",
+            [("🧭 Ver a minha zona", "demo:zona")],
+        )
+    elif step == "zona":
+        # Use the user's REAL location from here on. If they haven't shared it, ask
+        # now ("ver a SUA zona") — a motivated opt-in that also enrols them.
+        if _demo_has_location(tid):
+            await _demo_send_zona(chat, center, tid)
+        else:
+            if context.user_data is not None:
+                context.user_data["demo_await_location"] = True
+                context.user_data["alertas_radius"] = _DEFAULT_ALERT_RADIUS_KM
+            kb = ReplyKeyboardMarkup(
+                [[KeyboardButton("📍 Partilhar a minha localização", request_location=True)]],
+                resize_keyboard=True, one_time_keyboard=True,
+            )
+            await chat.send_message(
+                f"{_DEMO_TAG}\n\n"
+                "Para lhe mostrar a *sua* zona real — e o que receberia num caso a sério — "
+                "partilhe a localização 👇\n\n"
+                "Serve só para calcular a distância aos casos.",
+                reply_markup=kb, parse_mode=ParseMode.MARKDOWN,
+            )
+    elif step == "network":
+        # The net, not the lone hero: ANOTHER observer ~400m away spots her.
+        # Reuse the case created in step 1 (don't re-create). One map only: the
+        # interactive native location pin (no redundant Maps text link).
+        slat = center[0] + 0.0040   # ~440m north
+        slng = center[1] + 0.0015
+        slug = (context.user_data or {}).get("demo_slug")
+        case_link = f"{WEB_APP_URL}/pt/caso/{slug}" if slug else WEB_APP_URL
+        await photo(
+            "luna_sighting.jpg",
+            f"{_DEMO_TAG}\n\n"
+            "📣 *Marco — observador a ~400 m de si* — acabou de ver a Luna e enviou isto:\n\n"
+            "Ela vai em direcção à estrada. O caso já tem foto, local exacto e a sua atenção.\n\n"
+            f"🔗 [Ver o caso da Luna]({case_link})",
+            [("➡️ E depois?", "demo:win")],
+        )
+        # One map: the interactive native location pin (tappable, opens maps).
+        try:
+            await chat.send_location(latitude=slat, longitude=slng)
+        except Exception:
+            pass
+    elif step == "win":
+        await say(
+            f"{_DEMO_TAG}\n\n"
+            "O dono recebe a foto e o local exacto. Estava perto — chega devagar, "
+            "sem correr, e a Luna reconhece-o antes da passadeira.\n\n"
+            "🐾 *Está em casa.*\n\n"
+            "Ninguém a perseguiu nem a apanhou. Foram vários olhos atentos — o seu incluído — "
+            "que a mantiveram debaixo de olho até o dono chegar. É só isto que pedimos.",
+            [("✅ Terminar", "demo:cta")],
+        )
+    elif step == "cta":
+        # If they shared location at step 2, they're already enrolled — confirm it.
+        # Otherwise offer the opt-in now.
+        if _demo_has_location(tid):
+            await say(
+                "Isto foi um treino — o próximo alerta será sobre um cão verdadeiro perto de si. 🐾\n\n"
+                "*Já está activo.* Vai receber alertas só quando um cão se perder na sua zona. "
+                "Quando vir um, é só tirar foto e enviar.\n\n"
+                "Para sair quando quiser: /alertas\\_parar.",
+            )
+        else:
+            kb = ReplyKeyboardMarkup(
+                [[KeyboardButton("📍 Partilhar a minha localização", request_location=True)]],
+                resize_keyboard=True, one_time_keyboard=True,
+            )
+            if context.user_data is not None:
+                context.user_data["alertas_radius"] = _DEFAULT_ALERT_RADIUS_KM
+            await chat.send_message(
+                "Isto foi um treino — o próximo alerta será sobre um cão verdadeiro perto de si. 🐾\n\n"
+                "Para se tornar observador, partilhe a localização (só serve para calcular "
+                "a distância aos casos). Avisamos só quando for preciso.",
+                reply_markup=kb,
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -747,8 +1124,12 @@ def build_application() -> Application:
     app.add_handler(CommandHandler("encontrado", cmd_encontrado))
     app.add_handler(CommandHandler("alertas", cmd_alertas))
     app.add_handler(CommandHandler("alertas_parar", cmd_alertas_parar))
+    app.add_handler(CommandHandler("sobre", cmd_sobre))
+    app.add_handler(CommandHandler("demo", cmd_demo))
     app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
     app.add_handler(CallbackQueryHandler(handle_step_callback, pattern="^step:"))
+    app.add_handler(CallbackQueryHandler(handle_sobre_callback, pattern="^sobre:"))
+    app.add_handler(CallbackQueryHandler(handle_demo_callback, pattern="^demo:"))
 
     app.add_handler(MessageHandler(filters.LOCATION, handle_location))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))

@@ -8,8 +8,12 @@ import { Icon } from '@/components/nona/Icon'
 import { Pill } from '@/components/nona/Pill'
 import { Btn } from '@/components/nona/Btn'
 import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
-import { AgentFeed, LIFETIME_EVENTS, type AgentEvent } from '@/components/nona/AgentFeed'
+import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
+import type { ActivityResponse } from '@/app/api/cases/[slug]/activity/route'
 import { QRTile } from '@/components/nona/QRTile'
+import { SharePanel } from '@/components/nona/SharePanel'
+import { ProtocolBand } from '@/components/nona/ProtocolBand'
+import { useSearchParams } from 'next/navigation'
 import { MUNICIPALITY_CENTROIDS } from '@/lib/geo/geocode'
 import type { SearchIntel, IntelZone, IntelHazard, InsufficientData } from '@/app/api/cases/[slug]/intel/route'
 
@@ -27,6 +31,45 @@ function parsePoint(raw: string | null | undefined): { lat: number; lng: number 
 }
 
 // ─── Sub-components ─────────────────────────────────────────────────
+
+// Phase label from hours-since-loss + breed (instant, no intel needed). Galgo/
+// xenophobic dogs enter survival mode at minute 0.
+function derivePhase(hoursLost: number, breedCategory?: string): { key: 'panic' | 'survival' | 'recovery'; label: string } {
+  const hardEarly = breedCategory === 'galgo'
+  if (!hardEarly && hoursLost < 24) return { key: 'panic', label: 'fase pânico · 0–24h' }
+  if (hoursLost < 168) return { key: 'survival', label: 'fase sobrevivência · 24h–7d' }
+  return { key: 'recovery', label: 'fase recuperação · 7d+' }
+}
+
+// The "status brain", promoted into the hero: phase (instant) + confidence (when
+// the AI intel resolves). Coloured chips — the system's reasoning, made obvious.
+function StatusBrain({
+  phaseKey, phaseLabel, confidence,
+}: {
+  phaseKey: 'panic' | 'survival' | 'recovery'
+  phaseLabel: string
+  confidence?: 'high' | 'medium' | 'low' | undefined
+}) {
+  const phaseColor = phaseKey === 'panic' ? '#dc2626' : phaseKey === 'survival' ? '#d97706' : N.ink3
+  const phaseBg = phaseKey === 'panic' ? '#fef2f2' : phaseKey === 'survival' ? '#fff7ed' : N.surface
+  const confColor = confidence === 'high' ? '#16a34a' : confidence === 'medium' ? '#d97706' : N.ink3
+  const chip = (color: string, bg: string, text: string, pulse?: boolean): React.ReactNode => (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 11px', borderRadius: 999, background: bg, border: `1px solid ${color}33`, fontFamily: N.mono, fontSize: 11, color, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+      <span style={{ width: 7, height: 7, borderRadius: '50%', background: color, flexShrink: 0, animation: pulse ? 'nn-pulse 1.2s ease-in-out infinite' : undefined }} />
+      {text}
+    </span>
+  )
+  return (
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      {chip(phaseColor, phaseBg, phaseLabel, phaseKey === 'panic')}
+      {/* Only surface confidence when it's a positive signal — "baixa" reads as
+          a negative and isn't useful to the reader. */}
+      {(confidence === 'high' || confidence === 'medium') &&
+        chip(confColor, N.surface, `análise · confiança ${confidence === 'high' ? 'alta' : 'média'}`)}
+    </div>
+  )
+}
+
 function MetaRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 12, padding: '10px 0', borderBottom: `1px solid ${N.ruleSoft}`, fontSize: 13.5, lineHeight: 1.4 }}>
@@ -217,8 +260,10 @@ interface CasePageClientProps {
 export function CasePageClient({ locale, data }: CasePageClientProps) {
   const { case: c, sightings, stats, geo } = data
   const [selectedImg, setSelectedImg] = useState(0)
-  const [copied, setCopied] = useState(false)
-  const [fbCopied, setFbCopied] = useState(false)
+  // Role: owner opens the case via their private link (?t=<owner_token>); everyone
+  // else sees the observer view. Owner-only ACTIONS still verify the token server-side.
+  const searchParams = useSearchParams()
+  const isOwner = !!searchParams.get('t')
   const [intel, setIntel] = useState<SearchIntel | null>(null)
   const [intelInsufficient, setIntelInsufficient] = useState<InsufficientData | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -252,60 +297,47 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
   const chipDisplay = c.has_chip && c.chip_last_3 ? `·· ·· ${c.chip_last_3}` : c.has_chip ? '· com chip' : null
 
   const caseUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://nona.pt'}/${locale}/caso/${c.slug}`
-  const shortUrl = `nona.pt/caso/${c.slug}`
 
   const msSinceCreated = Date.now() - new Date(c.created_at).getTime()
   const hoursOpen = Math.floor(msSinceCreated / 3600000)
   const openLabel = hoursOpen < 1 ? 'há menos de 1h' : hoursOpen === 1 ? 'há 1h' : `há ${hoursOpen}h`
 
-  // Build activity events from real sightings
-  const activityEvents: AgentEvent[] = [
-    ...sightings.map(s => ({
-      t: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
-      kind: 'sighting' as const,
-      label: 'Avistamento confirmado',
-      detail: `${s.zone_approx}${s.description ? ' · ' + s.description.slice(0, 60) : ''}`,
-      fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
-    })),
-    ...LIFETIME_EVENTS.slice(sightings.length),
-  ]
+  // Live ticking clock — re-renders every 30s so the elapsed time is always real.
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 30000)
+    return () => clearInterval(id)
+  }, [])
+  const elapsedMs = now - new Date(c.last_seen_at).getTime()
+  const elapsedLabel = (() => {
+    const mins = Math.max(0, Math.floor(elapsedMs / 60000))
+    if (mins < 60) return `${mins} min`
+    const h = Math.floor(mins / 60), m = mins % 60
+    if (h < 48) return m > 0 ? `${h}h ${m}min` : `${h}h`
+    return `${Math.floor(h / 24)} dias`
+  })()
+  const hoursLostHero = elapsedMs / 3600000
+  const phase = derivePhase(hoursLostHero, c.behavioral_profile?.breed_category)
 
-  const copyUrl = () => {
-    navigator.clipboard.writeText(caseUrl).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
+  // Live, REAL activity — polled from the sanitized /activity endpoint (no mock).
+  const [activity, setActivity] = useState<ActivityResponse | null>(null)
+  useEffect(() => {
+    let alive = true
+    const load = () => fetch(`/api/cases/${c.slug}/activity`).then(r => r.json())
+      .then((body: ActivityResponse) => { if (alive) setActivity(body) }).catch(() => {})
+    load()
+    const id = setInterval(load, 15000)
+    return () => { alive = false; clearInterval(id) }
+  }, [c.slug])
+  const activityEvents: AgentEvent[] = (activity?.events ?? []).map(e => {
+    const ev: AgentEvent = { t: e.t, kind: e.kind, label: e.label }
+    if (e.detail) ev.detail = e.detail
+    if (e.fresh) ev.fresh = e.fresh
+    return ev
+  })
 
-  const suggestedText = `Ajuda a encontrar ${dogName}! ${caseUrl}`
-
-  const share = (platform: string) => {
-    const text = encodeURIComponent(suggestedText)
-    if (platform === 'facebook') {
-      // Meta removed share-dialog text prefill (2017). Copy the message so the
-      // user pastes it in one tap, then open the sharer with the (photo) link.
-      navigator.clipboard?.writeText(suggestedText).then(() => {
-        setFbCopied(true)
-        setTimeout(() => setFbCopied(false), 4000)
-      }).catch(() => {})
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(caseUrl)}`, '_blank')
-      return
-    }
-    const urls: Record<string, string> = {
-      whatsapp: `https://wa.me/?text=${text}`,
-      telegram: `https://t.me/share/url?url=${encodeURIComponent(caseUrl)}&text=${encodeURIComponent(`Ajuda a encontrar ${dogName}!`)}`,
-    }
-    if (urls[platform]) window.open(urls[platform], '_blank')
-  }
-
-  // Native OS share sheet (mobile: FB, WhatsApp, X, Messages, copy…). Falls back
-  // to the explicit FB/WA/TG buttons on desktop where it's unavailable.
-  const shareNative = () => {
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({ title: `${dogName} — Nona`, text: `Ajuda a encontrar ${dogName}`, url: caseUrl }).catch(() => {})
-    } else {
-      share('whatsapp')
-    }
+  const scrollToShare = () => {
+    document.getElementById('share')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 
   return (
@@ -359,6 +391,29 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               </div>
             </div>
           )}
+
+          {/* quick-nav — under the photo, prominent. First chip (primary action)
+              is filled/dark so it leads; the rest are strong outline chips. */}
+          <div style={{ marginTop: 18, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {[
+              { label: isOwner ? '✓ O que fazer' : '👁 Como ajudar', id: 'protocol', primary: true },
+              { label: '🧭 Onde procurar', id: 'mapa' },
+              { label: '📡 O que se passa', id: 'feed' },
+              { label: '↗ Partilhar', id: 'share' },
+            ].map((n) => (
+              <button key={n.id} onClick={() => document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                style={{
+                  cursor: 'pointer', padding: '11px 18px', borderRadius: 999,
+                  background: n.primary ? N.ink : N.white,
+                  border: `1.5px solid ${n.primary ? N.ink : N.ruleSoft}`,
+                  fontFamily: N.sans, fontSize: 15, fontWeight: 600,
+                  color: n.primary ? N.paper : N.ink, letterSpacing: '-0.01em',
+                  boxShadow: n.primary ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
+                }}>
+                {n.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -372,13 +427,22 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             {dogName}
           </h1>
           <p style={{ margin: '-6px 0 0', fontFamily: N.display, fontStyle: 'italic', fontSize: 22, color: N.ink2, letterSpacing: '-0.01em' }}>
-            {[c.breed, c.sex, c.age_estimate].filter(Boolean).join(' · ')}
+            {[c.breed, c.sex, [c.primary_color, c.secondary_color].filter(Boolean).join('/'), c.age_estimate].filter(Boolean).join(' · ')}
           </p>
+
+          {c.status !== 'resolvido' && (
+            <>
+              <StatusBrain phaseKey={phase.key} phaseLabel={phase.label} confidence={intel?.confidence} />
+              <p style={{ margin: 0, fontFamily: N.mono, fontSize: 13, color: phase.key === 'panic' ? '#dc2626' : N.ink2, letterSpacing: '0.02em' }}>
+                ⏱ {c.type === 'perdido' ? 'perdido' : 'visto'} há <strong>{elapsedLabel}</strong>
+                <span style={{ color: N.ink3 }}> · cada hora conta</span>
+              </p>
+            </>
+          )}
 
           <div style={{ borderTop: `1px solid ${N.rule}`, borderBottom: `1px solid ${N.rule}`, marginTop: 4 }}>
             <MetaRow label="Última vez" value={`${c.last_seen_municipality} · ${c.last_seen_zone_approx}`}/>
             <MetaRow label="Quando" value={new Date(c.last_seen_at).toLocaleDateString('pt-PT', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })} mono/>
-            <MetaRow label="Cor" value={[c.primary_color, c.secondary_color].filter(Boolean).join(', ')}/>
             {c.distinctive_marks && c.distinctive_marks.length > 0 && (
               <MetaRow label="Marcas" value={c.distinctive_marks.join(' · ')}/>
             )}
@@ -389,164 +453,24 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
             <Link href={`/${locale}/caso/${c.slug}/avistamento`} style={{ textDecoration: 'none' }}>
               <Btn size="lg" variant="primary" tone="ink" icon={<Icon name="eye" size={16} color={N.paper}/>}>Vi o {dogName}</Btn>
             </Link>
-            <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={shareNative}>Partilhar</Btn>
-          </div>
-
-          <p style={{ margin: 0, fontSize: 12.5, color: N.ink3, lineHeight: 1.5 }}>
-            O contacto do proprietário não é público. Toda a comunicação passa pela equipa Nona.
-          </p>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 18px` }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
-          <LiveStat icon="eye" n={String(stats.publicSightings)} label="avistamentos" sub={stats.publicSightings > 0 ? `${stats.publicSightings} confirmados` : 'nenhum ainda'} accent={stats.publicSightings > 0 ? N.amber : N.ink3} pulsing={stats.publicSightings > 0}/>
-          <LiveStat icon="clock" n={openLabel.replace('há ','')} label="aberto" sub="caso activo"/>
-          <LiveStat icon="share" n="0" label="partilhas" sub="aguardando"/>
-          <LiveStat icon="users" n="0" label="voluntários" sub="zona activa"/>
-          <LiveStat icon="trending" n="0" label="visitas" sub="hoje"/>
-        </div>
-      </section>
-
-      {/* SEARCH MAP + INTEL */}
-      <section style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px` }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-          <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
-            Onde procurar.
-          </h2>
-          <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
-            {!intel && <span style={{ display: 'inline-block', width: 7, height: 7, borderRadius: '50%', background: N.amber, animation: 'nn-pulse 1.2s ease-in-out infinite' }}/>}
-            {intel ? 'análise IA · terreno e avistamentos' : 'a calcular zonas…'}
-          </span>
-        </div>
-
-        {/* Brief panel — shown when intel loads */}
-        {intel?.brief && (
-          <div style={{ marginBottom: 14, padding: '12px 16px', background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 12, fontSize: 13.5, color: N.indigoDeep, lineHeight: 1.55 }}>
-            {intel.brief}
-          </div>
-        )}
-
-        {/* Movement analysis — shown when 2+ sightings enable triangulation */}
-        {intel?.movement && (
-          <div style={{ marginBottom: 14, padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, fontSize: 13, color: '#15803d', lineHeight: 1.55 }}>
-            <strong style={{ fontFamily: N.mono, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Análise de movimento</strong>
-            <span style={{ fontWeight: 600 }}>{intel.movement.direction}</span>
-            {intel.movement.speed_estimate && <span style={{ color: '#166534', marginLeft: 6 }}>· {intel.movement.speed_estimate}</span>}
-            <div style={{ marginTop: 4 }}>{intel.movement.pattern}</div>
-          </div>
-        )}
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, alignItems: 'stretch' }}>
-          <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${N.rule}` }}>
-            <SearchMap
-              height={380}
-              center={parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }}
-              lastSeenLabel={c.last_seen_zone_approx || 'Última vez visto'}
-              sightings={sightings.flatMap((s) => {
-                const coords = parsePoint(s.coords_approx)
-                if (!coords) return []
-                return [{
-                  lat: coords.lat,
-                  lng: coords.lng,
-                  label: s.zone_approx,
-                  sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }),
-                  fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000,
-                }]
-              })}
-              zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
-              waterPoints={(geo?.water_points ?? []).filter(w => typeof w.lat === 'number' && typeof w.lng === 'number')}
-            />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {/* Confidence badge + behavioral phase */}
-            {intel && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.confidence === 'high' ? '#16a34a' : intel.confidence === 'medium' ? '#d97706' : N.ink3 }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
-                  confiança {intel.confidence === 'high' ? 'alta' : intel.confidence === 'medium' ? 'média' : 'baixa'}
-                </div>
-                {intel.behavioral_phase && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: N.mono, fontSize: 10.5, color: intel.behavioral_phase === 'panic' ? '#dc2626' : intel.behavioral_phase === 'survival' ? '#d97706' : N.ink3 }}>
-                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }}/>
-                    fase {intel.behavioral_phase === 'panic' ? 'pânico · 0-24h' : intel.behavioral_phase === 'survival' ? 'sobrevivência · 24h-7d' : 'recuperação · 7d+'}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Insufficient data state */}
-            {intelInsufficient && !intel && (
-              <div style={{ padding: '14px 16px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
-                <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 10.5, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.06em' }}>dados insuficientes</p>
-                <p style={{ margin: '0 0 8px', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>{intelInsufficient.reason}</p>
-                {intelInsufficient.partial_context && (
-                  <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink2, lineHeight: 1.4 }}>{intelInsufficient.partial_context}</p>
-                )}
-              </div>
-            )}
-
-            {/* Zone cards */}
-            {(intel ? intel.zones : []).map((z: IntelZone) => (
-              <ZoneCard
-                key={z.title}
-                title={z.title}
-                ring={ZONE_COLORS[z.color] ?? N.amber}
-                radius_km={z.radius_km}
-                instruct={z.instruction}
-                checkpoints={z.checkpoints}
-                evidence={z.evidence ?? []}
-              />
-            ))}
-            {!intel && !intelInsufficient && [1, 2].map(i => <ZoneCardSkeleton key={i} />)}
-
-            {/* Warnings */}
-            {intel && intel.warnings?.length > 0 && (
-              <div style={{ padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12 }}>
-                {intel.warnings.map((w: string, i: number) => (
-                  <p key={i} style={{ margin: i > 0 ? '6px 0 0' : 0, fontSize: 12, color: '#b91c1c', lineHeight: 1.45 }}>{w}</p>
-                ))}
-              </div>
-            )}
-
-            {/* Hazards panel */}
-            <div style={{ padding: '14px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 12 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <span style={{ width: 16, height: 16, borderRadius: 4, background: '#1f2937', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: N.mono, fontSize: 10, fontWeight: 700 }}>!</span>
-                <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em' }}>Riscos imediatos</span>
-              </div>
-              {intel
-                ? intel.hazards.length === 0
-                  ? <p style={{ margin: 0, fontSize: 12, color: N.ink3 }}>Sem riscos imediatos identificados nesta área.</p>
-                  : (
-                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
-                      {intel.hazards.map((h: IntelHazard, i: number) => (
-                        <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
-                          <span>
-                            <span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span>
-                            <span style={{ color: N.ink3 }}> · {h.note}</span>
-                          </span>
-                          {h.evidence?.url
-                            ? <a href={h.evidence.url} target="_blank" rel="noopener noreferrer" title={h.evidence.detail} style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9, color: N.ink3, textDecoration: 'none', padding: '1px 4px', borderRadius: 3, background: N.surface, border: `1px solid ${N.rule}` }}>{h.severity}</a>
-                            : <span style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9.5, color: h.severity === 'critical' ? '#dc2626' : h.severity === 'high' ? '#d97706' : N.ink3 }}>{h.severity}</span>
-                          }
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                : (
-                  <div style={{ display: 'grid', gap: 5 }}>
-                    {[1, 2].map(i => (
-                      <div key={i} style={{ height: 14, borderRadius: 4, background: '#fed7aa' }}/>
-                    ))}
-                  </div>
-                )
-              }
-            </div>
+            <Btn size="lg" variant="ghost" icon={<Icon name="shareUp" size={15}/>} onClick={scrollToShare}>Partilhar</Btn>
           </div>
         </div>
       </section>
+
+      {/* VITAL SIGNS — big live numbers (the case's pulse) */}
+      {c.status !== 'resolvido' && (
+        <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 24px` }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+            {(() => {
+              const liveSightings = activity?.counts.sightings ?? stats.publicSightings
+              return <LiveStat icon="eye" n={String(liveSightings)} label="avistamentos" sub={liveSightings > 0 ? 'confirmados' : 'nenhum ainda'} accent={liveSightings > 0 ? N.amber : N.ink3} pulsing={liveSightings > 0}/>
+            })()}
+            <LiveStat icon="clock" n={elapsedLabel} label={c.type === 'perdido' ? 'perdido há' : 'visto há'} sub="cada hora conta" accent={phase.key === 'panic' ? N.rose : N.ink3} pulsing={phase.key === 'panic'}/>
+            <LiveStat icon="activity" n={(phase.label.split('·')[0] ?? '').replace('fase ', '').trim()} label="fase" sub={(phase.label.split('·')[1] ?? '').trim()} accent={phase.key === 'panic' ? N.rose : phase.key === 'survival' ? N.amber : N.ink3}/>
+          </div>
+        </section>
+      )}
 
       {/* ACTION GATE WARNINGS (WP9) — shown before scenarios */}
       {c.behavioral_profile?.action_gate && (
@@ -662,31 +586,26 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           }
         }
 
+        const accent = phase.key === 'panic' ? '#dc2626' : phase.key === 'survival' ? '#d97706' : N.indigo
+        const accentBg = phase.key === 'panic' ? '#fef2f2' : phase.key === 'survival' ? '#fff7ed' : N.indigoBg
         return (
-          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
-            <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '16px 18px' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
-                <span style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>protocolo activo</span>
-                <span style={{ fontFamily: N.display, fontSize: 15, fontWeight: 400, letterSpacing: '-0.01em', color: N.ink }}>{bucket.label}</span>
+          <section style={{ padding: `4px ${isMobile ? '16px' : '32px'} 30px` }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.55fr 1fr', gap: 16, alignItems: 'start' }}>
+              <div>
+                <ProtocolBand
+                  isOwner={isOwner}
+                  ownerBucket={bucket}
+                  dogName={dogName}
+                  zone={c.last_seen_zone_approx || c.last_seen_municipality}
+                  fearful={isHard}
+                  accent={accent}
+                  accentBg={accentBg}
+                  slug={c.slug}
+                  locale={locale}
+                  isMobile={isMobile}
+                />
               </div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 6 }}>
-                {bucket.items.map((item, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
-                    <span style={{ color: '#16A34A', fontSize: 10, marginTop: 3, flexShrink: 0 }}>✓</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              {bucket.warning && (
-                <div style={{ marginTop: 10, padding: '8px 12px', background: '#FEF9C3', border: '1px solid #FDE047', borderRadius: 8, fontSize: 12, color: '#713F12', lineHeight: 1.45 }}>
-                  ⚠️ {bucket.warning}
-                </div>
-              )}
-            </div>
-          </section>
-        )
-      })()}
-
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       {/* WP10 ENVIRONMENT PANEL — activity windows + physical context */}
       {(() => {
         const currentMonth = new Date().getMonth() + 1
@@ -720,7 +639,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           ? 'high' : temperament === 'xenophobic' ? 'very_low' : 'moderate'
 
         return (
-          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
+                <div>
             <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
               <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 janelas de actividade · ambiente físico
@@ -765,10 +684,9 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
                 )}
               </div>
             </div>
-          </section>
+                </div>
         )
       })()}
-
       {/* WP13 GEOGRAPHY PANEL — zone type, A22 barrier, terrain, fire risk */}
       {geo && (() => {
         const currentMonth = new Date().getMonth() + 1
@@ -815,7 +733,7 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         }
 
         return (
-          <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 20px` }}>
+                <div>
             <div style={{ background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12, padding: '14px 18px', display: 'grid', gap: 10 }}>
               <div style={{ fontFamily: N.mono, fontSize: 10, color: N.ink3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 inteligência territorial · {geo.municipality.toLowerCase()}
@@ -849,9 +767,110 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
                 )}
               </div>
             </div>
+                </div>
+        )
+      })()}
+              </div>
+            </div>
           </section>
         )
       })()}
+
+
+      {/* SEARCH MAP + INTEL */}
+      <section id="mapa" style={{ padding: `12px ${isMobile ? '16px' : '32px'} 28px`, scrollMarginTop: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+          <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
+            Onde procurar.
+          </h2>
+          <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+            {!intel && <span style={{ display: 'inline-block', width: 7, height: 7, borderRadius: '50%', background: N.amber, animation: 'nn-pulse 1.2s ease-in-out infinite' }}/>}
+            {intel ? 'análise IA · terreno e avistamentos' : 'a calcular zonas…'}
+          </span>
+        </div>
+
+        {/* Brief panel — shown when intel loads */}
+        {intel?.brief && (
+          <div style={{ marginBottom: 14, padding: '12px 16px', background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 12, fontSize: 13.5, color: N.indigoDeep, lineHeight: 1.55 }}>
+            {intel.brief}
+          </div>
+        )}
+
+        {/* Movement analysis — shown when 2+ sightings enable triangulation */}
+        {intel?.movement && (
+          <div style={{ marginBottom: 14, padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, fontSize: 13, color: '#15803d', lineHeight: 1.55 }}>
+            <strong style={{ fontFamily: N.mono, fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Análise de movimento</strong>
+            <span style={{ fontWeight: 600 }}>{intel.movement.direction}</span>
+            {intel.movement.speed_estimate && <span style={{ color: '#166534', marginLeft: 6 }}>· {intel.movement.speed_estimate}</span>}
+            <div style={{ marginTop: 4 }}>{intel.movement.pattern}</div>
+          </div>
+        )}
+
+        {/* Map — full width */}
+        <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${N.rule}` }}>
+          <SearchMap
+            height={isMobile ? 320 : 420}
+            center={parsePoint(c.last_seen_coords_approx) ?? MUNICIPALITY_CENTROIDS[c.last_seen_municipality] ?? { lat: 37.0194, lng: -7.9304 }}
+            lastSeenLabel={c.last_seen_zone_approx || 'Última vez visto'}
+            sightings={sightings.flatMap((s) => {
+              const coords = parsePoint(s.coords_approx)
+              if (!coords) return []
+              return [{ lat: coords.lat, lng: coords.lng, label: s.zone_approx, sub: new Date(s.seen_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }), fresh: Date.now() - new Date(s.seen_at).getTime() < 3600000 }]
+            })}
+            zones={intel?.zones?.map(z => ({ radius_km: z.radius_km, color: z.color })) ?? []}
+            waterPoints={(geo?.water_points ?? []).filter(w => typeof w.lat === 'number' && typeof w.lng === 'number')}
+          />
+        </div>
+
+        {/* Zone cards — below the map, side by side */}
+        <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 12 }}>
+          {(intel ? intel.zones : []).map((z: IntelZone) => (
+            <ZoneCard key={z.title} title={z.title} ring={ZONE_COLORS[z.color] ?? N.amber} radius_km={z.radius_km} instruct={z.instruction} checkpoints={z.checkpoints} evidence={z.evidence ?? []} />
+          ))}
+          {!intel && !intelInsufficient && [1, 2].map(i => <ZoneCardSkeleton key={i} />)}
+        </div>
+
+        {intelInsufficient && !intel && (
+          <div style={{ marginTop: 12, padding: '14px 16px', background: N.surface, border: `1px solid ${N.rule}`, borderRadius: 12 }}>
+            <p style={{ margin: '0 0 6px', fontFamily: N.mono, fontSize: 10.5, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.06em' }}>dados insuficientes</p>
+            <p style={{ margin: '0 0 8px', fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>{intelInsufficient.reason}</p>
+            {intelInsufficient.partial_context && (<p style={{ margin: 0, fontSize: 12, color: N.ink2, lineHeight: 1.4 }}>{intelInsufficient.partial_context}</p>)}
+          </div>
+        )}
+
+        {/* Warnings + hazards row, below */}
+        <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : (intel && intel.warnings?.length > 0 ? '1fr 1fr' : '1fr'), gap: 12 }}>
+          {intel && intel.warnings?.length > 0 && (
+            <div style={{ padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12 }}>
+              {intel.warnings.map((w: string, i: number) => (<p key={i} style={{ margin: i > 0 ? '6px 0 0' : 0, fontSize: 12.5, color: '#b91c1c', lineHeight: 1.45 }}>{w}</p>))}
+            </div>
+          )}
+          <div style={{ padding: '14px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <span style={{ width: 16, height: 16, borderRadius: 4, background: '#1f2937', color: 'white', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: N.mono, fontSize: 10, fontWeight: 700 }}>!</span>
+              <span style={{ fontFamily: N.display, fontSize: 17, fontWeight: 400, letterSpacing: '-0.015em' }}>Riscos imediatos</span>
+            </div>
+            {intel
+              ? intel.hazards.length === 0
+                ? <p style={{ margin: 0, fontSize: 12, color: N.ink3 }}>Sem riscos imediatos identificados nesta área.</p>
+                : (
+                  <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 5 }}>
+                    {intel.hazards.map((h: IntelHazard, i: number) => (
+                      <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, fontSize: 12.5, color: N.ink2, lineHeight: 1.45 }}>
+                        <span><span style={{ color: h.severity === 'critical' ? '#dc2626' : N.ink, fontWeight: 500 }}>{h.label}</span><span style={{ color: N.ink3 }}> · {h.note}</span></span>
+                        {h.evidence?.url
+                          ? <a href={h.evidence.url} target="_blank" rel="noopener noreferrer" title={h.evidence.detail} style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9, color: N.ink3, textDecoration: 'none', padding: '1px 4px', borderRadius: 3, background: N.surface, border: `1px solid ${N.rule}` }}>{h.severity}</a>
+                          : <span style={{ flexShrink: 0, fontFamily: N.mono, fontSize: 9, color: N.ink3, padding: '1px 4px', borderRadius: 3, background: N.surface, border: `1px solid ${N.rule}` }}>{h.severity}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )
+              : <p style={{ margin: 0, fontSize: 12, color: N.ink3 }}>A analisar riscos…</p>}
+          </div>
+        </div>
+      </section>
+
+
 
       {/* BEHAVIORAL SCENARIOS */}
       {c.behavioral_profile?.scenarios && c.behavioral_profile.scenarios.length > 0 && (
@@ -919,70 +938,41 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
         </section>
       )}
 
-      {/* ACTIVITY + SIDEBAR */}
-      <section style={{ padding: `8px ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.55fr 1fr', gap: 32, alignItems: 'flex-start' }}>
-        <article>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
-            <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
-              O que está a acontecer.
-            </h2>
-          </div>
+      {/* LIVE FEED — full-width, prominent. The case's pulse: fills as things happen. */}
+      <section id="feed" style={{ padding: `8px ${isMobile ? '16px' : '32px'} 28px`, scrollMarginTop: 16 }}>
+        <h2 style={{ margin: '0 0 12px', fontFamily: N.display, fontSize: 26, fontWeight: 400, letterSpacing: '-0.02em' }}>
+          O que está a acontecer.
+        </h2>
+        {activityEvents.length > 0 ? (
           <AgentFeed
             title="Atividade do caso"
-            subtitle="auto-refresh"
+            subtitle="ao vivo · 15s"
             events={activityEvents}
+            animate
             footer
           />
-          <div style={{ marginTop: 32 }}>
-            <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em' }}>
-              {c.context ? `"${c.context.slice(0, 60)}${c.context.length > 60 ? '…' : ''}"` : 'Descrição.'}
-            </h2>
-            <p style={{ margin: '12px 0 0', fontSize: 15.5, color: N.ink2, lineHeight: 1.65, maxWidth: 580 }}>
-              {c.description}
-            </p>
+        ) : (
+          <div style={{ padding: '18px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, fontSize: 13, color: N.ink3, fontFamily: N.mono }}>
+            a carregar atividade do caso…
           </div>
-        </article>
+        )}
+      </section>
 
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 20 }}>
-          {/* share */}
-          <div style={{ padding: 20, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
-            <h3 style={{ margin: 0, fontFamily: N.display, fontSize: 22, fontWeight: 400, letterSpacing: '-0.02em' }}>
-              Partilha em 30 segundos.
-            </h3>
-            <p style={{ margin: '4px 0 14px', fontSize: 13, color: N.ink2, lineHeight: 1.45 }}>
-              Cada partilha aumenta a probabilidade de {dogName} voltar a casa.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-              <Btn size="md" variant="ghost" icon={<Icon name="facebook" size={14}/>} full onClick={() => share('facebook')}>Facebook</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="whatsapp" size={14}/>} full onClick={() => share('whatsapp')}>WhatsApp</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="telegram" size={14}/>} full onClick={() => share('telegram')}>Telegram</Btn>
-              <Btn size="md" variant="ghost" icon={<Icon name="share" size={14}/>} full onClick={shareNative}>Mais</Btn>
-            </div>
-            {fbCopied && (
-              <p style={{ margin: '10px 0 0', fontSize: 12, color: N.ink2, lineHeight: 1.45, background: N.surface, padding: '8px 10px', borderRadius: 8 }}>
-                ✓ Texto copiado — cola na publicação do Facebook (o Facebook não deixa preencher o texto automaticamente).
+      {/* DESCRIPTION + QR (left) · SHARE (right) */}
+      <section style={{ padding: `0 ${isMobile ? '16px' : '32px'} 48px`, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 0.85fr', gap: 32, alignItems: 'flex-start' }}>
+        <article>
+          {c.description && (
+            <>
+              <h2 style={{ margin: 0, fontFamily: N.display, fontSize: 24, fontWeight: 400, letterSpacing: '-0.02em' }}>
+                {c.context ? `"${c.context.slice(0, 60)}${c.context.length > 60 ? '…' : ''}"` : 'Descrição.'}
+              </h2>
+              <p style={{ margin: '12px 0 0', fontSize: 15.5, color: N.ink2, lineHeight: 1.65, maxWidth: 580 }}>
+                {c.description}
               </p>
-            )}
-            <div style={{ marginTop: 14 }}>
-              <p style={{ margin: '0 0 6px', fontSize: 12, color: N.ink3, lineHeight: 1.4 }}>
-                Não usas Facebook? Partilha este link em qualquer lado:
-              </p>
-              <div style={{ padding: '9px 12px', borderRadius: 8, background: N.surface, fontFamily: N.mono, fontSize: 11.5, color: N.ink2, display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'center' }}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{shortUrl}</span>
-                <button onClick={copyUrl} style={{ background: 'transparent', border: 'none', color: N.ink, fontFamily: N.mono, fontSize: 11.5, fontWeight: 600, cursor: 'pointer' }}>
-                  {copied ? 'copiado ✓' : 'copiar'}
-                </button>
-              </div>
-            </div>
-            {images[0]?.public_url && (
-              <p style={{ margin: '12px 0 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
-              </p>
-            )}
-          </div>
-
+            </>
+          )}
           {/* QR + poster */}
-          <div style={{ padding: 18, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'flex', gap: 16, alignItems: 'center' }}>
+          <div style={{ marginTop: c.description ? 24 : 0, padding: 18, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, display: 'flex', gap: 16, alignItems: 'center', maxWidth: 580 }}>
             <div style={{ padding: 6, background: N.surface, borderRadius: 8 }}>
               <QRTile size={104}/>
             </div>
@@ -996,31 +986,22 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
               </Link>
             </div>
           </div>
-
-          {/* next steps */}
-          <div style={{ padding: 16, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
-            <h4 style={{ margin: 0, fontFamily: N.display, fontSize: 16, fontWeight: 400, letterSpacing: '-0.015em' }}>Próximos passos automáticos</h4>
-            <ul style={{ margin: '10px 0 0', padding: 0, listStyle: 'none', display: 'grid', gap: 8, fontSize: 12.5, color: N.ink2 }}>
-              {[
-                'recheck visual se houver 5+ avistamentos',
-                'update à comunidade em 24h se sem novidades',
-                'alerta a clínicas veterinárias se passarem 48h',
-              ].map((t, i) => (
-                <li key={i} style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ marginTop: 5, width: 5, height: 5, borderRadius: '50%', background: N.ink3, flexShrink: 0 }}/>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* contact (only if reporter set it public) */}
           {c.reporter_contact_public && (
-            <div style={{ padding: 16, background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 14 }}>
+            <div style={{ marginTop: 16, padding: 16, background: N.indigoBg, border: `1px solid ${N.indigo}33`, borderRadius: 14, maxWidth: 580 }}>
               <p style={{ margin: 0, fontSize: 13, color: N.indigoDeep, lineHeight: 1.5 }}>
                 <strong>Contacto público:</strong> {c.reporter_contact_public}
               </p>
             </div>
+          )}
+        </article>
+
+        <aside id="share" style={{ position: 'sticky', top: 20, scrollMarginTop: 16 }}>
+          <SharePanel dogName={dogName} caseUrl={caseUrl} />
+          {images[0]?.public_url && (
+            <p style={{ margin: '12px 4px 0', fontSize: 11.5, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="facebook" size={12} color={N.ink3}/> Já publicámos na página da Nona.
+            </p>
           )}
         </aside>
       </section>

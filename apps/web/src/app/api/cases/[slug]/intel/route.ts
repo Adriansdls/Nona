@@ -91,6 +91,74 @@ const FALLBACK: SearchIntel = {
   warnings: [],
 }
 
+// ─── Case-aware fallback ──────────────────────────────────────────────────
+// Shown when the Python intel service is unavailable. NOT generic boilerplate:
+// it reads the case (breed/temperament, hours elapsed, theft, municipality) and
+// writes copy specific to THIS dog in THESE circumstances.
+
+function inferBreedCategory(breed: string): 'galgo' | 'podenco' | 'caça' | 'pequeno' | 'comum' {
+  const b = breed.toLowerCase()
+  if (/galg|greyhound|podengo p|whippet/.test(b)) return 'galgo'
+  if (/podeng|podenco/.test(b)) return 'podenco'
+  if (/perdigueiro|pointer|braco|caç|hound|beagle/.test(b)) return 'caça'
+  if (/yorks|chihuahua|caniche|toy|anão|bichon|malt/.test(b)) return 'pequeno'
+  return 'comum'
+}
+
+function buildFallbackIntel(args: {
+  breed: string; dogName: string; municipality: string
+  hoursElapsed: number; suspectedTheft: boolean
+}): SearchIntel {
+  const cat = inferBreedCategory(args.breed)
+  const h = args.hoursElapsed
+  const fearful = cat === 'galgo' || cat === 'podenco'
+  const phase: 'panic' | 'survival' | 'recovery' =
+    (fearful || h >= 24) ? (h >= 168 ? 'recovery' : 'survival') : 'panic'
+  const dog = args.dogName
+  const muni = args.municipality
+
+  // Hot zone — radius + copy by breed temperament + elapsed time
+  let hotRadius = 1, hotMsg: string
+  if (suspectedThefty(args.suspectedTheft)) {
+    hotRadius = 3
+    hotMsg = `Há suspeita de furto — ${dog} pode ter sido transportado de carro. Verifique também estradas de saída e áreas de serviço, não só ${muni}.`
+  } else if (cat === 'galgo') {
+    hotRadius = 2
+    hotMsg = `Galgos assustados entram em modo de fuga e percorrem grandes distâncias em linha — siga vales e bermas, sem o perseguir nem chamar (a aproximação afasta-o).`
+  } else if (cat === 'podenco' || cat === 'caça') {
+    hotRadius = 2
+    hotMsg = `Cães de caça seguem rastos por corredores de mato. ${dog} provavelmente desceu por uma linha de água ou ravina próxima do ponto de fuga.`
+  } else if (cat === 'pequeno') {
+    hotRadius = 0.8
+    hotMsg = `Cães pequenos escondem-se perto — sob carros, em quintais, valas e arbustos a poucos metros. Procure baixo e em silêncio à volta do ponto onde desapareceu.`
+  } else {
+    hotMsg = h < 6
+      ? `Nas primeiras horas, ${dog} está quase de certeza a poucos minutos do ponto onde desapareceu. Concentre a busca aí.`
+      : `${dog} tende a manter-se na zona conhecida. Refaça a busca à volta do ponto de fuga, sobretudo ao amanhecer e ao anoitecer.`
+  }
+
+  const warmMsg = fearful
+    ? `Se não houver sinais na zona quente, alargue para corredores de mato, ribeiras e fontes de água — ${dog} evita ruas movimentadas e procura abrigo.`
+    : `Alargue a parques, zonas de sombra e água em ${muni}, e avise comércio e paragens onde passa gente.`
+
+  return {
+    breed_category: cat,
+    behavioral_phase: phase,
+    confidence: 'low',
+    brief: '',
+    brief_sources: [],
+    zones: [
+      { title: 'Zona quente', radius_km: hotRadius, color: 'rose', instruction: hotMsg, checkpoints: ['Ponto de fuga', 'Bermas e valas', 'Quintais próximos'], evidence: [] },
+      { title: 'Zona morna', radius_km: fearful ? 5 : 3, color: 'amber', instruction: warmMsg, checkpoints: fearful ? ['Ribeiras', 'Corredores de mato', 'Fontes de água'] : ['Parques', 'Paragens', 'Comércio'], evidence: [] },
+    ],
+    hazards: [],
+    movement: null,
+    warnings: fearful ? ['Não persiga nem chame este cão — a convergência de pessoas pode afastá-lo para longe ou para uma estrada.'] : [],
+  }
+}
+
+function suspectedThefty(v: unknown): boolean { return v === true }
+
 // ─── Coord parser ─────────────────────────────────────────────────────────
 
 function parsePoint(raw: string | null | undefined): { lat: number; lng: number } | null {
@@ -189,5 +257,13 @@ export async function GET(
     }
   }
 
-  return NextResponse.json({ data: FALLBACK })
+  return NextResponse.json({
+    data: buildFallbackIntel({
+      breed: (caseRow.breed as string) ?? '',
+      dogName: (caseRow.dog_name as string | null) ?? 'o cão',
+      municipality: (caseRow.last_seen_municipality as string) ?? 'Algarve',
+      hoursElapsed,
+      suspectedTheft: (caseRow as Record<string, unknown>).suspected_theft === true,
+    }),
+  })
 }
