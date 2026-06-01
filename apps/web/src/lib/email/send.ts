@@ -1,5 +1,21 @@
 import nodemailer from 'nodemailer'
 
+// Visible-failure guard: if the Resend key is absent or still a placeholder in a
+// non-dev environment, every email silently fails at SMTP auth (callers swallow
+// the error). Log it loudly ONCE so it surfaces in prod logs instead of vanishing
+// — the audit flagged "emails silently fail" as the problem.
+let _emailKeyWarned = false
+export function emailConfigured(): boolean {
+  const key = process.env['RESEND_API_KEY'] ?? ''
+  const ok = key.length > 0 && key !== 're_placeholder'
+  const devRelay = process.env['NODE_ENV'] === 'development' || !!process.env['SMTP_HOST']
+  if (!ok && !devRelay && !_emailKeyWarned) {
+    _emailKeyWarned = true
+    console.error('[email] RESEND_API_KEY missing or placeholder — outbound email will NOT send. Set a real key on web (Vercel) + bot (fly) envs.')
+  }
+  return ok || devRelay
+}
+
 function getTransport() {
   if (process.env['NODE_ENV'] === 'development' || process.env['SMTP_HOST']) {
     return nodemailer.createTransport({
@@ -9,6 +25,7 @@ function getTransport() {
       auth: undefined,
     })
   }
+  emailConfigured()  // emit the loud warning if the key is bad
   // Production: use Resend SMTP relay
   return nodemailer.createTransport({
     host: 'smtp.resend.com',
