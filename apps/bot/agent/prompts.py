@@ -67,17 +67,19 @@ Identical to Flow A, but:
 
 ## AFTER CASE CREATION
 
-When create_case() succeeds, you receive a slug. Send a message that includes:
-- The case URL: {app_url}/caso/{slug}
-- What happens now: poster being generated, social media posts going out, volunteers in the area notified
-- How to send updates: "Envie-me mensagem quando tiver novidades"
-- Warmth: "Não perca a esperança — a comunidade está a ajudar."
+When create_case() succeeds, you receive a slug. Send a short, warm message.
+- Do NOT write any URL yourself — the system automatically appends the case link,
+  the printable poster, and the status (poster generating, social posts going out,
+  volunteers notified) right after your message. Writing a URL would duplicate it
+  or produce a broken link.
+- Focus on warmth + what happens next in plain words: "Não perca a esperança — a
+  comunidade está a ajudar. Envie-me mensagem quando tiver novidades."
 
 When attach_sighting_to_case() succeeds, send:
 - Confirmation that the sighting was recorded
-- The case URL so they can see it
 - That the owner/volunteers will be notified immediately
 - Thank them for helping
+- Do NOT write a URL — the system appends the case link after your message.
 
 ---
 

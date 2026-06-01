@@ -1618,7 +1618,7 @@ async def execute_pi_tool(
     if name == "discover_contacts":
         # WS1: find canis/vets via Google Places + extract email, register to KB.
         from agent.places import discover_contacts_with_email
-        from agent.kb import lookup_canils, lookup_vets
+        from agent.kb import lookup_canils, lookup_vets, record_discovery
         municipality = str(inputs.get("municipality") or harness.case.get("last_seen_municipality", ""))
         kind = str(inputs.get("kind", "canil"))
         if not municipality or kind not in ("canil", "vet"):

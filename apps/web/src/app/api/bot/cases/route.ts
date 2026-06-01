@@ -3,6 +3,7 @@
  * Accepts JSON with staged photo paths (already in Supabase storage).
  * Protected by X-Internal-Token header.
  */
+import { randomBytes } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { generateSlug } from '@/lib/slug'
@@ -61,11 +62,19 @@ export async function POST(req: NextRequest) {
     body['lastSeenMunicipality'] as string,
   )
 
+  // Owner's private magic-link token — the key that unlocks the OwnerPanel at
+  // /caso/[slug]?t=<token>. Web intake generates this (intake/stream); the bot
+  // path must too, else bot-created cases have owner_token=NULL and the owner can
+  // never reach their dashboard. 16 bytes hex = 128 bits.
+  const ownerToken = randomBytes(16).toString('hex')
+
   // Insert case
   const { data: caseRow, error: caseError } = await supabase
     .from('cases')
     .insert({
       slug,
+      owner_token: ownerToken,
+      agent_state: 'new',  // explicit — don't rely on the column DEFAULT for the PI sweep
       type: body['type'],
       dog_name: body['dogName'] ?? null,
       breed: body['breed'],
@@ -92,7 +101,7 @@ export async function POST(req: NextRequest) {
       reporter_contact_public: body['reporterContactPublic'] ?? null,
       reporter_telegram_id: (body['reporterTelegramId'] as string | undefined) ?? null,
     })
-    .select('id, slug, reporter_name, reporter_email, reporter_telegram_id')
+    .select('id, slug, reporter_name, reporter_email, reporter_telegram_id, owner_token')
     .single()
 
   if (caseError || !caseRow) {
@@ -149,12 +158,15 @@ export async function POST(req: NextRequest) {
       to: body['reporterEmail'] as string,
       caseSlug: caseRow.slug,
       reporterName: body['reporterName'] as string,
+      ownerToken,  // include the private dashboard link so the owner never loses access
     })
   } catch (e) {
     console.warn('Email send failed (non-fatal):', e)
   }
 
-  return NextResponse.json({ data: { slug: caseRow.slug, id: caseRow.id } }, { status: 201 })
+  // Return ownerToken so the bot can build the owner's private case URL
+  // (/caso/[slug]?t=<token>) in its confirmation message.
+  return NextResponse.json({ data: { slug: caseRow.slug, id: caseRow.id, ownerToken } }, { status: 201 })
 }
 
 

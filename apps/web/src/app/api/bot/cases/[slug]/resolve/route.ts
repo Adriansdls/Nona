@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { sendCaseResolved, sendResolutionCelebration } from '@/lib/email/send'
-import { sendTelegramMessage } from '@/lib/notifications/telegram'
 import { captureOutcome } from '@/lib/outcomes'
-
-const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
 
 function checkInternalToken(req: NextRequest): boolean {
   const token = req.headers.get('x-internal-token')
@@ -49,7 +46,9 @@ export async function POST(
 
   const { error } = await supabase
     .from('cases')
-    .update({ status: 'resolvido', resolved_at: new Date().toISOString() })
+    // agent_state='resolved' so the PI escalation sweep (case_agent: skips when
+    // agent_state==='resolved') stops running on a closed case.
+    .update({ status: 'resolvido', resolved_at: new Date().toISOString(), agent_state: 'resolved' })
     .eq('id', caseRow.id as string)
 
   if (error) {
@@ -58,9 +57,6 @@ export async function POST(
 
   // WS3: learning substrate.
   await captureOutcome(supabase, caseRow.id as string)
-
-  const dogName = (caseRow.dog_name as string | null) ?? 'O cão'
-  const caseUrl = `${APP_URL}/pt/caso/${slug}`
 
   // Email the reporter
   void sendCaseResolved({
@@ -78,11 +74,9 @@ export async function POST(
     dogName: caseRow.dog_name as string | null,
   }).catch((e) => console.warn('Celebration email failed:', e))
 
-  // Telegram confirmation
-  void sendTelegramMessage(
-    body.telegram_id,
-    `🎉 *${dogName} foi encontrado!*\n\nO caso foi marcado como resolvido. Obrigado por usar o SalvaCão — que alegria para toda a comunidade! 💙\n\n[Ver caso](${caseUrl})`,
-  ).catch(() => {})
+  // NOTE: no Telegram message here. This route is only called by the bot's
+  // handle_resolve_callback, which edits the original message in place to show the
+  // celebration — a push here would double-message the owner.
 
   return NextResponse.json({ data: { slug: caseRow.slug, dog_name: caseRow.dog_name } })
 }

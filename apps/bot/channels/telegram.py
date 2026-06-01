@@ -72,9 +72,12 @@ async def _save_state(telegram_id: int, state: ConvState) -> None:
 
 
 async def _reply(update: Update, text: str) -> None:
-    """Send a message, using Markdown if the text contains it."""
-    if update.message:
-        await update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
+    """Send a message, using Markdown if the text contains it.
+    Uses effective_message so it works from both plain messages AND callback
+    queries (button taps) — update.message is None on a CallbackQuery."""
+    msg = update.effective_message
+    if msg:
+        await msg.reply_text(text, parse_mode=ParseMode.MARKDOWN)
 
 
 async def _run_brain(update: Update, state: ConvState, text: str) -> None:
@@ -103,11 +106,19 @@ async def _run_brain(update: Update, state: ConvState, text: str) -> None:
     # If a case was just created, send the confirmation block
     if updated_state.created_case_slug and state.created_case_slug != updated_state.created_case_slug:
         slug = updated_state.created_case_slug
-        case_url = f"{WEB_APP_URL}/caso/{slug}"
-        poster_url = f"{WEB_APP_URL}/api/cases/{slug}/poster?locale={updated_state.locale}"
+        locale = updated_state.locale or "pt"
+        # Owner's PRIVATE link: ?t=<owner_token> unlocks the OwnerPanel (triage,
+        # resolve, PI assessment). Always include the locale prefix — the app routes
+        # under /[locale]. Fall back to the public URL only if the token is missing.
+        token = updated_state.created_case_owner_token
+        case_url = (
+            f"{WEB_APP_URL}/{locale}/caso/{slug}?t={token}"
+            if token else f"{WEB_APP_URL}/{locale}/caso/{slug}"
+        )
+        poster_url = f"{WEB_APP_URL}/api/cases/{slug}/poster?locale={locale}"
         confirmation = (
             f"✅ *Caso criado com sucesso!*\n\n"
-            f"🔗 {case_url}\n"
+            f"🔗 [O teu caso (link privado)]({case_url})\n"
             f"📄 [Poster para imprimir]({poster_url})\n"
             f"📢 A publicar em grupos Facebook do Algarve...\n"
             f"🔍 A verificar coincidências na base de dados...\n\n"
@@ -143,6 +154,36 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
     if update.message:
         await update.message.reply_text(welcome, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+
+
+# Opening line per /start menu button — seeds the brain conversation so the inline
+# buttons actually DO something (they were dead: emitted but no handler registered).
+_FLOW_OPENERS = {
+    "flow_perdido": "Perdi o meu cão.",
+    "flow_encontrado": "Encontrei um cão na rua que parece perdido.",
+    "flow_avistamento": "Vi um cão que acho que pode ser de um caso.",
+}
+
+
+async def handle_flow_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/start menu buttons (flow_perdido / flow_encontrado / flow_avistamento).
+    Answers the tap, removes the menu so it can't be re-pressed, and kicks off the
+    brain conversation with the matching opening line."""
+    query = update.callback_query
+    if not query:
+        return
+    await query.answer()
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:
+        pass  # message too old / already edited — non-fatal
+    opener = _FLOW_OPENERS.get(query.data or "")
+    if not opener:
+        return
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+    state = await _get_state(telegram_id)
+    state.telegram_id = telegram_id
+    await _run_brain(update, state, opener)
 
 
 # ---------------------------------------------------------------------------
@@ -1126,6 +1167,7 @@ def build_application() -> Application:
     app.add_handler(CommandHandler("alertas_parar", cmd_alertas_parar))
     app.add_handler(CommandHandler("sobre", cmd_sobre))
     app.add_handler(CommandHandler("demo", cmd_demo))
+    app.add_handler(CallbackQueryHandler(handle_flow_callback, pattern="^flow_"))
     app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
     app.add_handler(CallbackQueryHandler(handle_step_callback, pattern="^step:"))
     app.add_handler(CallbackQueryHandler(handle_sobre_callback, pattern="^sobre:"))
