@@ -92,17 +92,31 @@ def create_intel_app() -> FastAPI:
         if not telegram_id or not message:
             return JSONResponse({"error": "telegram_id + message required"}, status_code=400)
 
-        # Lazy-import to avoid circular deps at module load time
-        from telegram import Bot
-        bot = Bot(token=os.environ.get("TELEGRAM_BOT_TOKEN", ""))
+        # Use raw HTTP to avoid python-telegram-bot import conflicts
+        import httpx
+        token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+        if not token:
+            log.error("TELEGRAM_BOT_TOKEN not set")
+            return JSONResponse({"error": "TELEGRAM_BOT_TOKEN not configured"}, status_code=500)
         try:
-            await bot.send_message(
-                chat_id=str(telegram_id),
-                text=message,
-                parse_mode="Markdown",
-                disable_web_page_preview=False,
-            )
-            return JSONResponse({"ok": True})
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                resp = await client.post(
+                    f"https://api.telegram.org/bot{token}/sendMessage",
+                    json={
+                        "chat_id": str(telegram_id),
+                        "text": message,
+                        "parse_mode": "Markdown",
+                        "disable_web_page_preview": False,
+                    },
+                )
+                data = resp.json()
+                if not data.get("ok"):
+                    log.error("Telegram API error", response=data)
+                    return JSONResponse(
+                        {"error": "Telegram send failed", "detail": data.get("description", "Unknown")},
+                        status_code=502,
+                    )
+                return JSONResponse({"ok": True})
         except Exception as exc:
             log.error("Telegram notify failed", telegram_id=telegram_id, error=str(exc))
             return JSONResponse(
