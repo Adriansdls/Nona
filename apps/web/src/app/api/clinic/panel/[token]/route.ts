@@ -44,7 +44,7 @@ export async function GET(
     .limit(100)
 
   const shaped = (scans ?? []).map((s) => {
-    const c = s.case as Record<string, unknown> | null
+    const c = s.case as unknown as Record<string, unknown> | null
     const imgs = (c?.case_images as Array<{ public_url: string | null; is_primary: boolean }>) ?? []
     const bp = (c?.behavioral_profile as Record<string, unknown>) ?? {}
     const adRec = (bp?.ad_recommendation as Record<string, unknown>) ?? null
