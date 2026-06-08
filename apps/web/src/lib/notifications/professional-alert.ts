@@ -81,12 +81,13 @@ export async function fireProfessionalAlert(args: {
         }
         if (clinic.contact_telegram_id) {
           const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? ''
-          const tgMsg = `🔔 *Cão perdido na sua zona*
-\n*${args.dogName ?? 'Cão sem nome'}* · ${args.breed} · ${args.primaryColor}\nPerdido em ${args.municipality}${args.zone ? ` (${args.zone})` : ''}.\n\nSe for apresentado na clínica, registe o chip em:\n${appUrl}/clinica/${clinic.intake_slug}\n\n🔗 Ver caso: ${appUrl}/caso/${args.slug}`
-          void fetch(`${appUrl}/api/bot/notify-clinic`, {
+          const tgMsg = `🔔 *Cão perdido na sua zona*\n\n*${args.dogName ?? 'Cão sem nome'}* · ${args.breed} · ${args.primaryColor}\nPerdido em ${args.municipality}${args.zone ? ` (${args.zone})` : ''}.\n\nSe for apresentado na clínica, registe o chip em:\n${appUrl}/clinica/${clinic.intake_slug}\n\n🔗 Ver caso: ${appUrl}/caso/${args.slug}`
+          // Delegate Telegram PM to bot (token lives only on Fly.io)
+          const botUrl = process.env['BOT_URL'] ?? 'https://salvacao-bot.fly.dev'
+          void fetch(`${botUrl}/api/v1/notify`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-internal-token': process.env['INTERNAL_API_TOKEN'] ?? '' },
-            body: JSON.stringify({ telegramId: clinic.contact_telegram_id, message: tgMsg }),
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env['INTERNAL_API_TOKEN'] ?? ''}` },
+            body: JSON.stringify({ telegram_id: clinic.contact_telegram_id, message: tgMsg }),
           }).catch(() => {})
         }
       }),

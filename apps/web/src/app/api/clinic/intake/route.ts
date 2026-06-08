@@ -273,17 +273,18 @@ async function notifyClinic(
 ) {
   const appUrl = process.env['WEB_APP_URL'] ?? ''
 
-  // Telegram PM to vet
+  // Telegram PM to vet — delegated to bot (token lives only on Fly.io)
   if (clinic.contact_telegram_id) {
     const tgMsg = kind === 'match'
       ? `🔔 *Cruzamento encontrado*\n\n*${matchOrCase.dogName ?? 'Cão'}* — semelhança ${Math.round((matchOrCase.score ?? 0) * 100)}%\n🔗 Ver caso: ${appUrl}/caso/${matchOrCase.slug}\n🩺 Painel: ${appUrl}/clinica/painel/${clinic.id}`
       : `✅ *Caso criado*\n\n*${matchOrCase.dogName ?? 'Cão encontrado'}*\n🔗 Ver caso: ${appUrl}/caso/${matchOrCase.slug}\n🩺 Painel: ${appUrl}/clinica/painel/${clinic.id}`
 
-    void fetch(`${appUrl}/api/bot/notify-clinic`, {
+    const botUrl = process.env['BOT_URL'] ?? 'https://salvacao-bot.fly.dev'
+    void fetch(`${botUrl}/api/v1/notify`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-internal-token': process.env['INTERNAL_API_TOKEN'] ?? '' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env['INTERNAL_API_TOKEN'] ?? ''}` },
       body: JSON.stringify({
-        telegramId: clinic.contact_telegram_id,
+        telegram_id: clinic.contact_telegram_id,
         message: tgMsg,
       }),
     }).catch(() => {})

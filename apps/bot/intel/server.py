@@ -72,6 +72,44 @@ def create_intel_app() -> FastAPI:
     async def health() -> dict[str, str]:
         return {"status": "ok"}
 
+    @app.post("/api/v1/notify")
+    async def notify_endpoint(
+        request: dict,
+        authorization: str = Header(...),
+    ) -> JSONResponse:
+        """Proxy Telegram PM notifications from the web app.
+
+        The web app (Vercel) never touches the Telegram token — it delegates
+        here so the bot remains the single owner of Telegram credentials.
+        """
+        if not INTERNAL_TOKEN:
+            raise HTTPException(status_code=500, detail="INTERNAL_API_TOKEN not configured")
+        if authorization != f"Bearer {INTERNAL_TOKEN}":
+            raise HTTPException(status_code=403, detail="Forbidden")
+
+        telegram_id = request.get("telegram_id")
+        message = request.get("message")
+        if not telegram_id or not message:
+            return JSONResponse({"error": "telegram_id + message required"}, status_code=400)
+
+        # Lazy-import to avoid circular deps at module load time
+        from telegram import Bot
+        bot = Bot(token=os.environ.get("TELEGRAM_BOT_TOKEN", ""))
+        try:
+            await bot.send_message(
+                chat_id=str(telegram_id),
+                text=message,
+                parse_mode="Markdown",
+                disable_web_page_preview=False,
+            )
+            return JSONResponse({"ok": True})
+        except Exception as exc:
+            log.error("Telegram notify failed", telegram_id=telegram_id, error=str(exc))
+            return JSONResponse(
+                {"error": "Telegram send failed", "detail": str(exc)},
+                status_code=502,
+            )
+
     @app.post("/intel")
     async def intel_endpoint(
         request: IntelRequest,
