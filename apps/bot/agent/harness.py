@@ -678,7 +678,9 @@ class CaseHarness:
         if not ag.get("active_search_permitted", True):
             gate_lines.append("ACTIVE_SEARCH: SUSPENDED — protocolo passivo obrigatório")
         broadcast = ag.get("broadcast_sighting_location", "public")
-        if broadcast != "public":
+        if broadcast == "blocked":
+            gate_lines.append("SIGHTING_BROADCAST: WARNING-TAGGED — public post with 'NÃO APROXIMAR' safety notice")
+        elif broadcast != "public":
             gate_lines.append(f"SIGHTING_BROADCAST: {broadcast.upper()} — avistamentos para coordenador apenas")
         gate_str = '\n'.join(gate_lines) or 'standard (active search permitted)'
 
