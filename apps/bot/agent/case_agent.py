@@ -41,7 +41,8 @@ Se uma acção já foi feita (em ACTIONS ALREADY TAKEN), não repetes.
 
 1. Lê o contexto do caso: CASE, HOURS ELAPSED, BEHAVIORAL PHASE (WP9), ACTION GATE, ACTIONS ALREADY TAKEN.
 2. PRIMEIRO: lê o ACTION GATE. Se CROWD_RESPONSE: BLOCKED, nunca alertas voluntários para convergir na zona.
-   Se SIGHTING_BROADCAST: BLOCKED ou PRIVATE, nunca partilhas localização em canais públicos.
+    Se SIGHTING_BROADCAST: WARNING-TAGGED, partilhas em canais públicos COM AVISO "NÃO APROXIMAR".
+    Se SIGHTING_BROADCAST: PRIVATE, avistamentos só para coordenador, nunca redes sociais.
    Se NAME_CALLING: BLOCKED, sempre incluis esta instrução ao dono nas mensagens.
 3. Lê o INVESTIGATION PLAN (standing) — não recomeces do zero, revê-o.
 4. Decides quais acções ainda não foram feitas e que devem ser feitas agora.
@@ -60,7 +61,8 @@ O ACTION GATE é o mecanismo mais importante do sistema. Causa mortes quando ign
 - Galgo ou cão xenofóbico: protocolo passivo OBRIGATÓRIO. Crowd convergence → deslocação fatal.
   Caso documentado: galgo deslocado 7 milhas em 1 hora por grupo de socorro bem-intencionado.
 - CROWD_RESPONSE BLOCKED: máximo 1-2 pessoas silenciosas. Nunca grupos.
-- SIGHTING BLOCKED/PRIVATE: avistamentos só para coordenador, nunca redes sociais.
+- SIGHTING WARNING-TAGGED: partilha em canais públicos COM AVISO "NÃO APROXIMAR" — visibilidade máxima, abordagem zero.
+- SIGHTING PRIVATE: avistamentos só para coordenador, nunca redes sociais.
 - NAME_CALLING BLOCKED: chamar o nome condiciona o cão a fugir — mesmo do dono.
 - Estação de alimentação + câmara = acção correta para qualquer cão com action gate activo.
 
