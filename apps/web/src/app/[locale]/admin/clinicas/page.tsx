@@ -1,6 +1,9 @@
 import { createServiceClient } from '@/lib/supabase/service'
 import { ClinicasManager } from './ClinicasManager'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 interface PageProps { params: Promise<{ locale: string }> }
 
 export default async function AdminClinicasPage({ params }: PageProps) {

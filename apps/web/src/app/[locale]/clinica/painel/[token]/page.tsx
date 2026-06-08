@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation'
 import { ClinicaPainelClient } from './ClinicaPainelClient'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 interface PageProps { params: Promise<{ locale: string; token: string }> }
 
 export const metadata = { title: 'Painel da clínica — Nona' }
