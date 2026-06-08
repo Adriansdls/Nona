@@ -57,7 +57,7 @@ export async function sendProfessionalAlert({
 }: {
   to: string
   orgName: string
-  orgKind: 'canil' | 'vet'
+  orgKind: 'canil' | 'vet' | 'clinica'
   caseSlug: string
   dogName: string | null
   breed: string
@@ -67,7 +67,9 @@ export async function sendProfessionalAlert({
   locale?: string
 }) {
   const caseUrl = `${APP_URL}/${locale}/caso/${caseSlug}`
-  const kindWord = orgKind === 'canil' ? 'animais recebidos' : 'animais dados à entrada'
+  const kindWord =
+    orgKind === 'canil' ? 'animais recebidos' :
+    orgKind === 'clinica' ? 'animais apresentados com chip' : 'animais dados à entrada'
   await getTransport().sendMail({
     from: FROM,
     to,
