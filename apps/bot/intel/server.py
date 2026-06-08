@@ -111,14 +111,14 @@ def create_intel_app() -> FastAPI:
                 )
                 data = resp.json()
                 if not data.get("ok"):
-                    log.error("Telegram API error", response=data)
+                    log.error("Telegram API error: %s", data)
                     return JSONResponse(
                         {"error": "Telegram send failed", "detail": data.get("description", "Unknown")},
                         status_code=502,
                     )
                 return JSONResponse({"ok": True})
         except Exception as exc:
-            log.error("Telegram notify failed", telegram_id=telegram_id, error=str(exc))
+            log.error("Telegram notify failed: telegram_id=%s error=%s", telegram_id, str(exc))
             return JSONResponse(
                 {"error": "Telegram send failed", "detail": str(exc)},
                 status_code=502,

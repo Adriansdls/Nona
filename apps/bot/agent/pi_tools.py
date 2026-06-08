@@ -717,11 +717,10 @@ async def execute_pi_tool(
             return json.dumps({"skipped": True, "reason": "already posted"})
 
         # ACTION GATE (code-enforced, not just prompt): hard cases (galgo / fear-mode /
-        # crowd-conditioned) must never have their location broadcast publicly.
+        # Warning-tagged broadcast: hard cases get a safety warning in the message
+        # instead of being completely suppressed. The action_gate still controls
+        # active_search_permitted, drone_blocked, etc. — only broadcast is softened.
         _gate = getattr(harness, "_wp9_action_gate", {}) or {}
-        if _gate.get("broadcast_sighting_location") == "blocked":
-            harness.log_action(action, name, f"[GATE BLOCKED] broadcast=blocked — {channel_name} suppressed (hard case)")
-            return json.dumps({"blocked": True, "reason": "broadcast_sighting_location=blocked"})
 
         from agent.broadcast import (
             post_to_telegram_channel,
@@ -740,7 +739,12 @@ async def execute_pi_tool(
         if not channel_type and rows.data:
             channel_type = str(rows.data[0].get("channel_type", ""))  # type: ignore[index]
 
-        formatted = post_content or format_broadcast_post(harness.case, channel_name)
+        # Check action gate to determine if warning tag is needed
+        is_hard_case = _gate.get("broadcast_sighting_location") == "blocked"
+        warning_tag = "do_not_approach" if is_hard_case else None
+        gate_label = "[WARNING] do_not_approach" if is_hard_case else "public"
+
+        formatted = post_content or format_broadcast_post(harness.case, channel_name, warning_tag)
         case_url = f"{web_url}/pt/caso/{slug}"
         sent = False
         owner_msg: str | None = None
@@ -749,7 +753,7 @@ async def execute_pi_tool(
         if channel_type == "telegram" and channel_url:
             sent = post_to_telegram_channel(str(channel_url), formatted)
             outcome = (
-                f"Posted to Telegram channel {channel_name} ({channel_url})"
+                f"Posted to Telegram channel {channel_name} ({channel_url}) — {gate_label}"
                 if sent else
                 f"Telegram post failed for {channel_name} ({channel_url})"
             )

@@ -75,8 +75,13 @@ def make_whatsapp_share_url(text: str, case_url: str) -> str:
     return f"https://wa.me/?text={content}"
 
 
-def format_broadcast_post(case: dict, channel_name: str) -> str:
-    """Format a lost dog broadcast post in PT-PT for community channels."""
+def format_broadcast_post(case: dict, channel_name: str, warning_tag: str | None = None) -> str:
+    """Format a lost dog broadcast post in PT-PT for community channels.
+
+    Args:
+        warning_tag: Optional safety warning (e.g., "do_not_approach") for hard cases.
+            When set, the post includes a clear instruction not to chase/approach.
+    """
     dog_name = case.get("dog_name") or "Cão sem nome"
     breed = case.get("breed", "raça desconhecida")
     color = case.get("primary_color", "")
@@ -86,11 +91,30 @@ def format_broadcast_post(case: dict, channel_name: str) -> str:
     case_url = f"{_APP_URL}/pt/caso/{slug}"
     zone_str = f" ({zone})" if zone else ""
 
-    return (
-        f"🐕 *CÃO PERDIDO — {municipality.upper()}*\n\n"
-        f"*{dog_name}* · {breed} · {color}\n"
-        f"Visto pela última vez em {municipality}{zone_str}.\n\n"
-        f"Se viste este cão, por favor contacta através do link:\n"
-        f"{case_url}\n\n"
-        f"Qualquer informação ajuda. Obrigado 🙏"
-    )
+    # Base post
+    lines = [
+        f"🐕 *CÃO PERDIDO — {municipality.upper()}*",
+        "",
+        f"*{dog_name}* · {breed} · {color}",
+        f"Visto pela última vez em {municipality}{zone_str}.",
+    ]
+
+    # Hard-case warning — replaces the generic "contact us" with explicit safety instruction
+    if warning_tag == "do_not_approach":
+        lines.extend([
+            "",
+            "⚠️ *NÃO APROXIMAR*",
+            "Este cão está em pânico. Aviste mas *NÃO persiga*.",
+            f"Contacta pelo link: {case_url}",
+        ])
+    else:
+        lines.extend([
+            "",
+            f"Se viste este cão, por favor contacta através do link:",
+            case_url,
+        ])
+
+    lines.append("")
+    lines.append("Qualquer informação ajuda. Obrigado 🙏")
+
+    return "\n".join(lines)
