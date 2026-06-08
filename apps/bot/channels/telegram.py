@@ -469,6 +469,7 @@ async def cmd_ajuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/encontrado — O meu cão foi encontrado! 🎉\n"
         "/alertas — Receber alertas de cães perdidos perto de si 📍\n"
         "/alertas_parar — Deixar de receber alertas\n"
+        "/chip — Veterinário: registar microchip de cão encontrado 🔬\n"
         "/cancelar — Cancelar a conversa atual\n"
         "/ajuda — Esta mensagem\n\n"
         f"Website: {WEB_APP_URL}"
@@ -953,11 +954,17 @@ async def handle_demo_callback(update: Update, context: ContextTypes.DEFAULT_TYP
 # ---------------------------------------------------------------------------
 
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle plain text messages."""
+    """Handle plain text messages. Delegates to chip flow if active."""
     telegram_id = update.effective_user.id  # type: ignore[union-attr]
     text = update.message.text or ""  # type: ignore[union-attr]
     state = await _get_state(telegram_id)
     state.telegram_id = telegram_id
+    
+    # Delegate to chip flow if draft exists
+    if state.draft and state.draft.get("chip_number"):
+        await handle_chip_text(update, context)
+        return
+    
     await _run_brain(update, state, text)
 
 
@@ -995,11 +1002,18 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     state = await _get_state(telegram_id)
     state.telegram_id = telegram_id
+    
+    # Delegate to chip flow if draft exists
+    if state.draft and state.draft.get("chip_number"):
+        # Voice not supported in chip flow yet — treat as text input
+        await handle_chip_text(update, context)
+        return
+    
     await _run_brain(update, state, transcribed)
 
 
 async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Upload photo to staging then run brain."""
+    """Upload photo to staging then run brain. Delegates to chip flow if active."""
     telegram_id = update.effective_user.id  # type: ignore[union-attr]
     photos = update.message.photo  # type: ignore[union-attr]
     if not photos:
@@ -1030,11 +1044,349 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     state.telegram_id = telegram_id
     state.staged_photos.append(staging_path)
 
+    # Delegate to chip flow if draft exists
+    if state.draft and state.draft.get("chip_number"):
+        await handle_chip_photo(update, context)
+        return
+
     # Get caption as text if provided, otherwise describe the upload
     caption = update.message.caption or ""
     user_text = caption if caption else "Enviei uma foto do cão."
 
     await _run_brain(update, state, user_text)
+
+
+# ---------------------------------------------------------------------------
+# /chip — veterinarian chip scan submission (WS-G-Vet Phase 3)
+# ---------------------------------------------------------------------------
+
+async def cmd_chip(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Vet submits a chip scan directly via Telegram bot.
+    
+    Flow:
+    1. Vet sends: /chip 900123456789013
+    2. Bot checks if sender is a registered clinic vet (clinic_partners.contact_telegram_id)
+    3. If yes → asks for: photo (optional), municipality, zone, notes
+    4. Submits to /api/clinic/intake
+    """
+    from storage import get_supabase
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+    
+    sb = get_supabase()
+    
+    # Check if this user is a registered clinic vet
+    clinic = (
+        sb.table("clinic_partners")
+        .select("id, name, municipality, intake_slug, panel_token, is_approved")
+        .eq("contact_telegram_id", str(telegram_id))
+        .eq("is_approved", True)
+        .maybe_single()
+        .execute()
+    )
+    
+    if not clinic.data:
+        await _reply(
+            update,
+            "🔬 Este comando é apenas para veterinários registados na Nona.\n\n"
+            "Se é veterinário e quer aderir, peça ao administrador para o registar "
+            "em `/admin/clinicas`. Depois partilhe o seu ID de Telegram.\n\n"
+            "O seu ID: `" + str(telegram_id) + "`",
+        )
+        return
+    
+    clinic_data = clinic.data
+    
+    # Parse arguments
+    args = context.args or []
+    if not args:
+        await _reply(
+            update,
+            "🔬 *Registar microchip*\n\n"
+            "Envie o número do chip assim:\n"
+            "`/chip 900123456789013`\n\n"
+            "Opcional: pode enviar uma foto do cão depois.",
+        )
+        return
+    
+    chip_number = str(args[0]).strip()
+    
+    # Validate chip number (basic: 15 digits)
+    if not chip_number.isdigit() or len(chip_number) not in (15, 10, 9, 8):
+        await _reply(
+            update,
+            "⚠️ Número de chip inválido. Deve ter 15 dígitos (padrão ISO).\n\n"
+            "Exemplo: `/chip 900123456789013`",
+        )
+        return
+    
+    # Store chip in conversation state for multi-step flow
+    state = await _get_state(telegram_id)
+    state.telegram_id = telegram_id
+    state.draft = {
+        "type": "encontrado",
+        "clinic_id": clinic_data["id"],
+        "intake_slug": clinic_data["intake_slug"],
+        "panel_token": clinic_data["panel_token"],
+        "chip_number": chip_number,
+        "municipality": clinic_data.get("municipality") or "",
+    }
+    await _save_state(telegram_id, state)
+    
+    # If clinic has a municipality, pre-fill it
+    prefilled_muni = clinic_data.get("municipality") or ""
+    
+    keyboard = [
+        [InlineKeyboardButton("📸 Enviar foto", callback_data="chip:photo")],
+        [InlineKeyboardButton("📍 Confirmar localização", callback_data="chip:location")],
+        [InlineKeyboardButton("➡️ Submeter sem foto", callback_data="chip:submit")],
+        [InlineKeyboardButton("❌ Cancelar", callback_data="chip:cancel")],
+    ]
+    
+    msg = (
+        f"🔬 *Chip registado:* `{chip_number}`\n\n"
+        f"Clínica: *{clinic_data['name']}*\n"
+    )
+    if prefilled_muni:
+        msg += f"Concelho: *{prefilled_muni}*\n\n"
+    else:
+        msg += "\nPreciso de saber onde foi encontrado.\n"
+    
+    msg += (
+        "O que quer fazer?\n\n"
+        "• Enviar foto → cruza com cães perdidos automaticamente\n"
+        "• Submeter sem foto → regista o chip na base de dados"
+    )
+    
+    if update.message:
+        await update.message.reply_text(
+            msg,
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode=ParseMode.MARKDOWN,
+        )
+
+
+async def handle_chip_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle /chip inline button taps (photo, location, submit, cancel)."""
+    query = update.callback_query
+    if not query:
+        return
+    await query.answer()
+    
+    telegram_id: int = update.effective_user.id  # type: ignore[union-attr]
+    state = await _get_state(telegram_id)
+    draft = state.draft or {}
+    
+    action = (query.data or "").split(":", 1)[1] if ":" in (query.data or "") else ""
+    
+    if action == "cancel":
+        state.draft = {}
+        await _save_state(telegram_id, state)
+        await query.edit_message_text("❌ Cancelado.")
+        return
+    
+    if action == "photo":
+        await query.edit_message_text(
+            "📸 Envie uma foto do cão agora. Vou cruzar com os cães perdidos automaticamente.",
+        )
+        return
+    
+    if action == "location":
+        await query.edit_message_text(
+            "📍 Em que concelho e zona foi encontrado?\n\n"
+            "Exemplo: *Faro, junto ao Lidl*",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+        return
+    
+    if action == "submit":
+        await _submit_chip(update, state)
+        return
+
+
+async def handle_chip_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle text messages during the /chip multi-step flow.
+    
+    Expected inputs:
+    - After 'chip:location': "Faro, junto ao Lidl"
+    - After 'chip:photo' (photo already sent): notes
+    """
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+    state = await _get_state(telegram_id)
+    draft = state.draft or {}
+    
+    # Only process if we're in a chip flow
+    if not draft.get("chip_number"):
+        return  # not in chip flow, ignore (will be handled by normal handle_text)
+    
+    text = update.message.text or "" if update.message else ""
+    
+    # Check if municipality is set
+    if not draft.get("municipality"):
+        # This text is the location
+        parts = text.split(",", 1)
+        draft["municipality"] = parts[0].strip()
+        draft["zone"] = parts[1].strip() if len(parts) > 1 else ""
+        state.draft = draft
+        await _save_state(telegram_id, state)
+        
+        keyboard = [
+            [InlineKeyboardButton("➡️ Submeter", callback_data="chip:submit")],
+            [InlineKeyboardButton("❌ Cancelar", callback_data="chip:cancel")],
+        ]
+        if update.message:
+            await update.message.reply_text(
+                f"📍 *{draft['municipality']}* · {draft['zone']}\n\n"
+                f"Chip: `{draft['chip_number']}`\n\n"
+                f"Pronto para submeter?",
+                reply_markup=InlineKeyboardMarkup(keyboard),
+                parse_mode=ParseMode.MARKDOWN,
+            )
+        return
+    
+    # Municipality already set → this is notes
+    draft["note"] = text
+    state.draft = draft
+    await _save_state(telegram_id, state)
+    
+    keyboard = [
+        [InlineKeyboardButton("➡️ Submeter", callback_data="chip:submit")],
+        [InlineKeyboardButton("❌ Cancelar", callback_data="chip:cancel")],
+    ]
+    if update.message:
+        await update.message.reply_text(
+            f"📝 Notas: {text}\n\n"
+            f"Chip: `{draft['chip_number']}`\n"
+            f"Local: *{draft['municipality']}* · {draft.get('zone', '')}\n\n"
+            f"Pronto para submeter?",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode=ParseMode.MARKDOWN,
+        )
+
+
+async def handle_chip_photo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle photo upload during the /chip multi-step flow."""
+    telegram_id = update.effective_user.id  # type: ignore[union-attr]
+    state = await _get_state(telegram_id)
+    draft = state.draft or {}
+    
+    # Only process if we're in a chip flow
+    if not draft.get("chip_number"):
+        return  # not in chip flow, let normal handle_photo take over
+    
+    photos = update.message.photo if update.message else None  # type: ignore[union-attr]
+    if not photos:
+        return
+    
+    if update.message:
+        await update.message.chat.send_action(ChatAction.UPLOAD_PHOTO)
+    
+    # Download and upload to staging
+    best_photo = max(photos, key=lambda p: p.file_size or 0)
+    tg_file = await context.bot.get_file(best_photo.file_id)
+    buf = BytesIO()
+    await tg_file.download_to_memory(buf)
+    image_bytes = buf.getvalue()
+    
+    try:
+        staging_path = await upload_staging_photo(telegram_id, image_bytes, "image/jpeg")
+        draft["staged_photo_path"] = staging_path
+        state.draft = draft
+        await _save_state(telegram_id, state)
+    except Exception:
+        logger.exception("Photo upload failed in /chip flow")
+        await _reply(update, "❌ Não consegui guardar a foto. Tente novamente.")
+        return
+    
+    keyboard = [
+        [InlineKeyboardButton("📍 Adicionar localização", callback_data="chip:location")],
+        [InlineKeyboardButton("➡️ Submeter", callback_data="chip:submit")],
+    ]
+    if update.message:
+        await update.message.reply_text(
+            "✅ Foto recebida. Vou cruzar com os cães perdidos.\n\n"
+            "Quer adicionar a localização antes de submeter?",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+        )
+
+
+async def _submit_chip(update: Update, state: ConvState) -> None:
+    """Submit the chip scan to /api/clinic/intake."""
+    draft = state.draft or {}
+    intake_slug = draft.get("intake_slug")
+    chip_number = draft.get("chip_number")
+    municipality = draft.get("municipality")
+    
+    if not intake_slug or not chip_number or not municipality:
+        await _reply(update, "❌ Faltam dados. Comece de novo com `/chip`.")
+        return
+    
+    payload = {
+        "intakeSlug": intake_slug,
+        "stagedPhotoPath": draft.get("staged_photo_path"),
+        "chipNumber": chip_number,
+        "municipality": municipality,
+        "zone": draft.get("zone", ""),
+        "note": draft.get("note", ""),
+        "vetName": update.effective_user.first_name if update.effective_user else "Veterinário",
+    }
+    
+    try:
+        async with httpx.AsyncClient(timeout=30) as client:
+            resp = await client.post(
+                f"{WEB_APP_URL}/api/clinic/intake",
+                json=payload,
+                headers={"x-internal-token": INTERNAL_TOKEN},
+            )
+        
+        data = resp.json()
+        
+        if resp.status_code == 200:
+            result = data.get("result", "created")
+            case_slug = data.get("caseSlug", "")
+            panel_url = data.get("panelUrl", "")
+            
+            if result == "matched":
+                dog_name = data.get("dogName", "Cão")
+                score = data.get("score", 0)
+                await _reply(
+                    update,
+                    f"🎯 *Cruzamento encontrado!*\n\n"
+                    f"*{dog_name}* — semelhança {score}%\n"
+                    f"🔗 Caso: {WEB_APP_URL}/caso/{case_slug}\n\n"
+                    f"O dono vai confirmar se é o cão dele.",
+                )
+            elif result == "chip_known":
+                status = data.get("status", "ativo")
+                await _reply(
+                    update,
+                    f"ℹ️ *Chip já registado*\n\n"
+                    f"Este chip já está na base de dados.\n"
+                    f"🔗 Caso: {WEB_APP_URL}/caso/{case_slug}\n"
+                    f"Estado: {status}",
+                )
+            else:
+                await _reply(
+                    update,
+                    f"✅ *Caso criado*\n\n"
+                    f"Chip `{chip_number}` registado.\n"
+                    f"🔗 Caso: {WEB_APP_URL}/caso/{case_slug}\n"
+                    f"🩺 Painel: {WEB_APP_URL}{panel_url}",
+                )
+        else:
+            error = data.get("error", "Erro desconhecido")
+            await _reply(update, f"❌ Erro ao submeter: {error}")
+    except Exception:
+        logger.exception("Chip submission failed")
+        await _reply(update, "❌ Erro de ligação. Tente novamente.")
+    finally:
+        # Clear draft
+        state.draft = {}
+        await _save_state(telegram_id_from_state(state), state)
+
+
+def telegram_id_from_state(state: ConvState) -> int:
+    """Extract telegram_id from ConvState safely."""
+    return getattr(state, "telegram_id", 0) or 0
 
 
 # ---------------------------------------------------------------------------
@@ -1214,11 +1566,13 @@ def build_application() -> Application:
     app.add_handler(CommandHandler("alertas_parar", cmd_alertas_parar))
     app.add_handler(CommandHandler("sobre", cmd_sobre))
     app.add_handler(CommandHandler("demo", cmd_demo))
+    app.add_handler(CommandHandler("chip", cmd_chip))
     app.add_handler(CallbackQueryHandler(handle_flow_callback, pattern="^flow_"))
     app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
     app.add_handler(CallbackQueryHandler(handle_step_callback, pattern="^step:"))
     app.add_handler(CallbackQueryHandler(handle_sobre_callback, pattern="^sobre:"))
     app.add_handler(CallbackQueryHandler(handle_demo_callback, pattern="^demo:"))
+    app.add_handler(CallbackQueryHandler(handle_chip_callback, pattern="^chip:"))
 
     app.add_handler(MessageHandler(filters.LOCATION, handle_location))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))

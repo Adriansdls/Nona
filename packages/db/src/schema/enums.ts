@@ -12,3 +12,4 @@ export const posterTypeEnum = pgEnum('poster_type', ['a4', 'cuadrado_1080', 'hor
 export const posterLanguageEnum = pgEnum('poster_language', ['pt', 'en', 'es'])
 export const userRoleEnum = pgEnum('user_role', ['admin', 'asociacion', 'clinica', 'voluntario'])
 export const localeEnum = pgEnum('locale_preference', ['pt', 'en', 'es'])
+export const siacLookupStatusEnum = pgEnum('siac_lookup_status', ['nao_realizado', 'contactado_siac', 'dono_encontrado', 'nao_registado'])
