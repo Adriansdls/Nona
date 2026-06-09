@@ -1,6 +1,6 @@
 import { createServiceClient } from '@/lib/supabase/service'
 import type { Metadata } from 'next'
-import { HomePageClient } from './HomePageClient'
+import { HomePageClient, type RecentCase } from './HomePageClient'
 
 export const metadata: Metadata = {
   title: 'Nona — Investigador privado para cães perdidos no Algarve',
@@ -20,45 +20,45 @@ async function getReunidosCount(): Promise<number> {
   }
 }
 
-async function getRecentReunidos() {
+async function getRecentReunidos(): Promise<RecentCase[]> {
   try {
     const supabase = createServiceClient()
     // Prefer reunited cases (success stories). Fall back to recent active cases.
     const { data: reunidos } = await supabase
       .from('cases')
-      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, case_images(public_url, is_primary)')
+      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, created_at, case_images(public_url, is_primary)')
       .eq('status', 'reunido')
       .eq('sensitivity', 'publico')
       .order('resolved_at', { ascending: false })
       .limit(7)
-    if (reunidos && reunidos.length >= 4) return reunidos
+    if (reunidos && reunidos.length >= 4) return reunidos as unknown as RecentCase[]
 
     // Not enough reunidos — fill with recent active cases
     const { data: active } = await supabase
       .from('cases')
-      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, case_images(public_url, is_primary)')
+      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, created_at, case_images(public_url, is_primary)')
       .eq('status', 'ativo')
       .eq('sensitivity', 'publico')
       .order('created_at', { ascending: false })
       .limit(7)
-    return active ?? []
+    return (active ?? []) as unknown as RecentCase[]
   } catch {
     return []
   }
 }
 
-async function getRecentByType(type: 'perdido' | 'encontrado') {
+async function getRecentByType(type: 'perdido' | 'encontrado'): Promise<RecentCase[]> {
   try {
     const supabase = createServiceClient()
     const { data } = await supabase
       .from('cases')
-      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, created_at, case_images(public_url, is_primary)')
+      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, resolved_at, created_at, case_images(public_url, is_primary)')
       .eq('type', type)
       .eq('status', 'ativo')
       .eq('sensitivity', 'publico')
       .order('created_at', { ascending: false })
       .limit(7)
-    return data ?? []
+    return (data ?? []) as unknown as RecentCase[]
   } catch {
     return []
   }
@@ -77,9 +77,9 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
     <HomePageClient
       locale={locale}
       reunidosCount={reunidosCount}
-      recentReunidos={recentReunidos as any[]}
-      recentMissing={recentMissing as any[]}
-      recentFound={recentFound as any[]}
+      recentReunidos={recentReunidos}
+      recentMissing={recentMissing}
+      recentFound={recentFound}
     />
   )
 }

@@ -54,7 +54,7 @@ interface ChatMessage {
   fieldGuide?: FieldGuide
 }
 interface ActionItem { label: string; detail?: string; live?: boolean }
-interface RecentCase {
+export interface RecentCase {
   id: string; slug: string; type: string; status: string; dog_name: string | null; breed: string
   last_seen_municipality: string; resolved_at?: string | null; created_at?: string | null
   case_images: Array<{ public_url: string | null; is_primary: boolean }>
