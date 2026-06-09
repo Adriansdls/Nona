@@ -8,6 +8,7 @@ import { PhotoPlaceholder } from '@/components/nona/PhotoPlaceholder'
 import { Pill } from '@/components/nona/Pill'
 import { AgentFeed, type AgentEvent } from '@/components/nona/AgentFeed'
 import { buildStepSequence } from '@/lib/guided/sequencer'
+import { GuidedStepCard } from '@/components/nona/GuidedStepCard'
 
 // Real bot is @dogs_trace_bot (verified via Telegram getMe). The old 'salvacao_bot'
 // fallback pointed every deep-link at a non-existent bot when the env var was unset.
@@ -193,35 +194,6 @@ function ProtocolCard({ gate }: { gate: ActionGate }) {
 }
 
 // WP15: Time-indexed field guide card — delivered before a case exists.
-function FieldGuideCard({ guide }: { guide: FieldGuide }) {
-  const accent = guide.isHard ? '#DC2626' : '#0F766E'
-  const bg = guide.isHard ? '#FEF2F2' : '#F0FDFA'
-  return (
-    <div style={{ marginTop: 12, padding: '14px 16px', background: bg, border: `1.5px solid ${accent}33`, borderRadius: 12 }}>
-      <p style={{ margin: '0 0 10px', fontFamily: N.mono, fontSize: 10, color: accent, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>
-        protocolo · {guide.label}
-      </p>
-      {guide.hardNote && (
-        <p style={{ margin: '0 0 10px', fontSize: 12.5, color: '#991B1B', fontWeight: 500 }}>🔴 {guide.hardNote}</p>
-      )}
-      <div style={{ display: 'grid', gap: 5 }}>
-        {guide.do.map((item, i) => (
-          <div key={`d-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: '#166534' }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><polyline points="4 12.5 9 17.5 20 6.5"/></svg>
-            {item}
-          </div>
-        ))}
-        {guide.dont.map((item, i) => (
-          <div key={`x-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', fontSize: 12.5, color: '#991B1B' }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            {item}
-          </div>
-        ))}
-      </div>
-      <p style={{ margin: '10px 0 0', fontFamily: N.mono, fontSize: 9.5, color: N.ink4, letterSpacing: '0.04em' }}>{guide.source}</p>
-    </div>
-  )
-}
 
 // ── Protocol widget: breed + trigger → real protocol card, no signup ────────
 type BreedKey = 'galgo' | 'podenco' | 'labrador' | 'outro'
@@ -1192,7 +1164,12 @@ export function HomePageClient({
                     <span style={{ fontFamily: N.mono, fontSize: 10.5, color: N.ink3, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{agentName} · {msg.time}</span>
                   </div>
                   <p style={{ margin: 0, fontSize: 15.5, color: N.ink, lineHeight: 1.65, letterSpacing: '-0.005em' }}>{renderMarkdown(msg.text)}</p>
-                  {msg.fieldGuide && <FieldGuideCard guide={msg.fieldGuide}/>}
+                  {msg.fieldGuide && (
+                    <GuidedStepCard 
+                      steps={buildStepSequence(msg.fieldGuide as any)} 
+                      locale={locale} 
+                    />
+                  )}
                   {msg.scenarios && msg.scenarios.length > 0 && <ScenarioPanel scenarios={msg.scenarios}/>}
                   {msg.actionGate && <ProtocolCard gate={msg.actionGate}/>}
                   {msg.quickReplies && (
@@ -1210,7 +1187,9 @@ export function HomePageClient({
             const en = locale === 'en'
             // is_hard from the action gate → first step from the web mirror sequencer (fresh case = h0_6)
             const isHard = !!caseActionGate && (caseActionGate.crowd_response_blocked === true || caseActionGate.active_search_permitted === false)
-            const firstStep = buildStepSequence('h0_6', isHard)[0]?.title
+            // Mock a FieldGuide to pass to the sequencer just to get the first title for the dashboard preview
+            const mockGuide: any = { do: ['Coloca um cartaz'], dont: [], isHard }
+            const firstStep = buildStepSequence(mockGuide)[0]?.action
             // honest status: -1 sentinel = pending; 0 = nothing reached yet; >0 = real confirmed
             const canils = proAlert?.canils ?? -1
             const vets = proAlert?.vets ?? -1
