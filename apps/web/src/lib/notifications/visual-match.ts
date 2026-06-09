@@ -1,7 +1,7 @@
 import { sendAdminVisualMatch, sendReporterVisualMatch } from '@/lib/email/send'
 import { sendTelegramMessage } from '@/lib/notifications/telegram'
 
-const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export interface VisualMatchNotifyParams {
   caseASlug: string

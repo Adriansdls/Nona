@@ -12,7 +12,7 @@ export default async function ClinicaPainelPage({ params }: PageProps) {
   const { locale, token } = await params
 
   const res = await fetch(
-    `${process.env['NEXT_PUBLIC_APP_URL'] ?? ''}/api/clinic/panel/${token}`,
+    `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/api/clinic/panel/${token}`,
     { cache: 'no-store' }
   )
   if (!res.ok) notFound()
@@ -60,7 +60,7 @@ export default async function ClinicaPainelPage({ params }: PageProps) {
     intakeUrl: string
   }
 
-  const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? ''
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
 
   return (
     <ClinicaPainelClient

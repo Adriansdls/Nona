@@ -123,7 +123,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const name = c.dog_name ?? c.breed
   const title = `${name} — ${c.last_seen_municipality}`
   const description = `Cão ${c.type === 'perdido' ? 'perdido' : 'encontrado'} em ${c.last_seen_municipality}. Ajuda-nos a reunir ${name} com a sua família.`
-  const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://nona-deploy.vercel.app'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://nona-deploy.vercel.app'
   const url = `${appUrl}/${locale}/caso/${slug}`
   // opengraph-image.tsx is auto-wired by Next as the og:image; url/type added here.
   return {

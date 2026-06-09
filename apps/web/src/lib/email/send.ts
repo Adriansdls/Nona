@@ -39,7 +39,7 @@ function getTransport() {
 }
 
 const FROM = process.env['EMAIL_FROM'] ?? 'noreply@salvacao.local'
-const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 // WP18 Tier 1: silent professional-network alert (canil / vet). Always safe to
 // fire at minute 0 — professionals consult received animals, they don't chase.

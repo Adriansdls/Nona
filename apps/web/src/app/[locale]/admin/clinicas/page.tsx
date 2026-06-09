@@ -14,7 +14,7 @@ export default async function AdminClinicasPage({ params }: PageProps) {
     .select('id, name, municipality, vet_license, contact_email, contact_phone, is_approved, intake_slug, panel_token, created_at')
     .order('created_at', { ascending: false })
 
-  const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? ''
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
   return (
     <div className="p-6">
       <div className="mb-6">

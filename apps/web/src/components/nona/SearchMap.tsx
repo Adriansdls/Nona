@@ -1,7 +1,7 @@
 'use client'
 import { APIProvider, Map, AdvancedMarker, Pin, Circle } from '@vis.gl/react-google-maps'
 
-const API_KEY = process.env['NEXT_PUBLIC_GOOGLE_MAPS_API_KEY'] ?? ''
+const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ''
 
 const ZONE_HEX: Record<'rose' | 'amber' | 'blue', string> = {
   rose: '#E04F4F',

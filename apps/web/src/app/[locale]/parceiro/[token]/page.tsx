@@ -16,7 +16,7 @@ export default async function ParceiroPage({ params }: PageProps) {
     .single()
   if (!partner) notFound()
 
-  const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? ''
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
   return (
     <ParceiroClient
       locale={locale}

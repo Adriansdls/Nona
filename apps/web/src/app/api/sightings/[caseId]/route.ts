@@ -5,7 +5,7 @@ import { sendNewSighting } from '@/lib/email/send'
 import { sendTelegramMessage } from '@/lib/notifications/telegram'
 import { geocodeZone } from '@/lib/geo/geocode'
 
-const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 type SightingActionRec = 'move_camera_within_6h' | 'log_and_monitor' | 'log_only'
 

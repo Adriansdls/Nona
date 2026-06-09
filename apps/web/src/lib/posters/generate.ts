@@ -6,7 +6,7 @@ import { createElement } from 'react'
 import { PosterA4 } from './PosterA4'
 import { DossierPDF } from './DossierPDF'
 
-const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 interface CaseData {
   slug: string

@@ -80,7 +80,7 @@ export async function fireProfessionalAlert(args: {
           notifications.push({ case_id: args.caseId, channel: 'email', message: `Tier-1 alerta clinica → ${clinic.name} (${clinic.contact_email})`, phase: 'tier1_professional', sent_at: now })
         }
         if (clinic.contact_telegram_id) {
-          const appUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? ''
+          const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
           const tgMsg = `🔔 *Cão perdido na sua zona*\n\n*${args.dogName ?? 'Cão sem nome'}* · ${args.breed} · ${args.primaryColor}\nPerdido em ${args.municipality}${args.zone ? ` (${args.zone})` : ''}.\n\nSe for apresentado na clínica, registe o chip em:\n${appUrl}/clinica/${clinic.intake_slug}\n\n🔗 Ver caso: ${appUrl}/caso/${args.slug}`
           // Delegate Telegram PM to bot (token lives only on Fly.io)
           const botUrl = process.env['BOT_URL'] ?? 'https://salvacao-bot.fly.dev'

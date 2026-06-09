@@ -1,5 +1,5 @@
 const GRAPH = 'https://graph.facebook.com/v19.0'
-const APP_URL = process.env['NEXT_PUBLIC_APP_URL'] ?? 'http://localhost:3000'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export interface MetaPostParams {
   slug: string
