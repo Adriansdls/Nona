@@ -75,13 +75,30 @@ def make_whatsapp_share_url(text: str, case_url: str) -> str:
     return f"https://wa.me/?text={content}"
 
 
+def get_broadcast_tag(case: dict) -> str | None:
+    """Determine broadcast warning tag from case action gate.
+
+    Returns 'do_not_approach' for hard cases (galgo, xenophobic, survival/entrenched,
+    crowd-conditioned) where crowd convergence risks fatal displacement.
+    """
+    bp = case.get("behavioral_profile") or {}
+    gate = bp.get("action_gate") or {}
+    if gate.get("broadcast_sighting_location") == "blocked":
+        return "do_not_approach"
+    return None
+
+
 def format_broadcast_post(case: dict, channel_name: str, warning_tag: str | None = None) -> str:
     """Format a lost dog broadcast post in PT-PT for community channels.
 
     Args:
         warning_tag: Optional safety warning (e.g., "do_not_approach") for hard cases.
             When set, the post includes a clear instruction not to chase/approach.
+            If None, auto-computed from the case's action gate.
     """
+    if warning_tag is None:
+        warning_tag = get_broadcast_tag(case)
+
     dog_name = case.get("dog_name") or "Cão sem nome"
     breed = case.get("breed", "raça desconhecida")
     color = case.get("primary_color", "")

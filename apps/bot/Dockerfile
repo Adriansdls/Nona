@@ -8,6 +8,8 @@ COPY pyproject.toml uv.lock ./
 
 RUN uv sync --frozen --no-dev
 
+RUN uv run playwright install chromium --with-deps
+
 COPY . .
 
 CMD ["uv", "run", "python", "main.py"]

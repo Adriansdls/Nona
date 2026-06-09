@@ -29,6 +29,7 @@ from agent.case_agent import run_case_agent
 log = structlog.get_logger(__name__)
 
 _ESCALATION_INTERVAL_H = 6
+_CLASSIFIEDS_SCAN_INTERVAL_H = int(os.environ.get("CLASSIFIEDS_SCAN_INTERVAL_H", "6"))
 _ACTIVE_STATES = ["new", "active", "planning"]
 
 # New-case sweep: the RELIABLE minute-0 trigger. Supabase Realtime (the listener
@@ -301,8 +302,21 @@ async def _new_sighting_sweep(db_url: str, db_key: str) -> None:
             log.error("New-sighting sweep failed", error=str(exc))
 
 
+async def _classifieds_scan_loop(db_url: str, db_key: str) -> None:
+    """Scan classifieds sites (OLX, CustoJusto) every CLASSIFIEDS_SCAN_INTERVAL_H hours."""
+    while True:
+        await asyncio.sleep(_CLASSIFIEDS_SCAN_INTERVAL_H * 3600)
+        try:
+            from jobs.classifieds_scanner import run_classifieds_scan
+            db = create_client(db_url, db_key)
+            result = await run_classifieds_scan(db)
+            log.info("Classifieds scan complete", **result)
+        except Exception as exc:
+            log.error("Classifieds scan failed", error=str(exc))
+
+
 async def start_runner() -> None:
-    """Start realtime listener, new-case sweep, escalation loop, and nightly re-match."""
+    """Start realtime listener, new-case sweep, escalation loop, classifieds scan, and nightly re-match."""
     db_url = os.environ["SUPABASE_URL"]
     db_key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
 
@@ -314,4 +328,5 @@ async def start_runner() -> None:
         _escalation_loop(db_url, db_key),
         _nightly_rematch_loop(db_url, db_key),
         _daily_briefing_loop(db_url, db_key),
+        _classifieds_scan_loop(db_url, db_key),
     )

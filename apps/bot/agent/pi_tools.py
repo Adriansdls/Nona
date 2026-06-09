@@ -716,17 +716,14 @@ async def execute_pi_tool(
         if harness.skip_if_done(action):
             return json.dumps({"skipped": True, "reason": "already posted"})
 
-        # ACTION GATE (code-enforced, not just prompt): hard cases (galgo / fear-mode /
-        # Warning-tagged broadcast: hard cases get a safety warning in the message
-        # instead of being completely suppressed. The action_gate still controls
-        # active_search_permitted, drone_blocked, etc. — only broadcast is softened.
-        _gate = getattr(harness, "_wp9_action_gate", {}) or {}
-
+        # Broadcast safety tag is computed inside format_broadcast_post (broadcast.py).
+        # The action_gate still controls active_search_permitted, drone_blocked, etc.
         from agent.broadcast import (
             post_to_telegram_channel,
             make_facebook_share_url,
             make_whatsapp_share_url,
             format_broadcast_post,
+            get_broadcast_tag,
         )
 
         # Look up channel URL/chat_id from KB
@@ -739,12 +736,10 @@ async def execute_pi_tool(
         if not channel_type and rows.data:
             channel_type = str(rows.data[0].get("channel_type", ""))  # type: ignore[index]
 
-        # Check action gate to determine if warning tag is needed
-        is_hard_case = _gate.get("broadcast_sighting_location") == "blocked"
-        warning_tag = "do_not_approach" if is_hard_case else None
-        gate_label = "[WARNING] do_not_approach" if is_hard_case else "public"
-
-        formatted = post_content or format_broadcast_post(harness.case, channel_name, warning_tag)
+        formatted = post_content or format_broadcast_post(harness.case, channel_name)
+        # gate_label for audit logging
+        _tag = get_broadcast_tag(harness.case)
+        gate_label = "[WARNING] do_not_approach" if _tag else "public"
         case_url = f"{web_url}/pt/caso/{slug}"
         sent = False
         owner_msg: str | None = None

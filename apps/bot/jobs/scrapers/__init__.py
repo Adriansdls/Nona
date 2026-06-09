@@ -1,0 +1,1 @@
+# Classifieds scrapers — OLX.pt, CustoJusto.pt, etc.
