@@ -31,7 +31,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const fetchCases = async (pageNum = 1, append = false) => {
-    if (isVisualSearch) return // Do not run text-based pagination if visual search is active
+    if (isVisualSearch) return
     
     setLoading(true)
     try {
@@ -59,7 +59,6 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
     }
   }
 
-  // Trigger search on filter change
   useEffect(() => {
     if (isVisualSearch) return
     const timer = setTimeout(() => {
@@ -82,7 +81,6 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
     setCases([])
     
     try {
-      // 1. Upload to staging
       const formData = new FormData()
       formData.append('photo', file)
       
@@ -94,7 +92,6 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
       if (!uploadRes.ok) throw new Error('Upload failed')
       const { path } = await uploadRes.json()
 
-      // 2. Request visual similarity search
       const searchRes = await fetch('/api/cases/search-visual', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -106,7 +103,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
       
       setCases(data)
       setTotal(data.length)
-      setHasMore(false) // Visual search returns a single fixed batch
+      setHasMore(false)
     } catch (err) {
       console.error(err)
       alert(locale === 'en' ? 'Error performing visual search.' : 'Erro na pesquisa visual.')
@@ -123,119 +120,128 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
     fetchCases(1, false)
   }
 
+  // Common input styles matching Nona design system
+  const inputStyle = {
+    width: '100%',
+    appearance: 'none' as const,
+    WebkitAppearance: 'none' as const,
+    border: `1px solid ${N.rule}`,
+    borderRadius: 8,
+    background: N.white,
+    color: N.ink,
+    fontSize: 14,
+    fontFamily: N.sans,
+    padding: '10px 14px',
+    outline: 'none',
+  }
+  const labelStyle = {
+    display: 'block',
+    fontFamily: N.mono,
+    fontSize: 10,
+    color: N.ink3,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase' as const,
+    marginBottom: 6,
+    fontWeight: 600
+  }
+
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8 flex flex-col md:flex-row gap-8">
-      {/* Sidebar / Filters */}
-      <aside className="w-full md:w-64 shrink-0 flex flex-col gap-6">
-        <div>
-          <h2 className="text-xl font-bold mb-4" style={{ fontFamily: N.display }}>
-            {locale === 'en' ? 'Catalogue' : 'Catálogo'}
-          </h2>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 20px', display: 'flex', gap: 40, flexDirection: 'row', flexWrap: 'wrap' }}>
+      
+      {/* Sidebar Filters */}
+      <aside style={{ flex: '0 0 280px', width: '100%' }}>
+        <h2 style={{ fontFamily: N.display, fontSize: 32, letterSpacing: '-0.02em', color: N.ink, margin: '0 0 24px' }}>
+          {locale === 'en' ? 'Catalogue' : 'Catálogo'}
+        </h2>
+        
+        <div style={{ background: N.surface, borderRadius: 16, border: `1px solid ${N.rule}`, padding: 24, display: 'grid', gap: 24 }}>
           
-          <div className="bg-surface rounded-xl p-5 border border-border space-y-5">
-            {/* Visual Search Button */}
-            <div>
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                className="hidden"
-                onChange={handleVisualSearchUpload}
-              />
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploadingImage}
-                style={{ background: N.indigo, color: N.white }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-medium text-sm transition-opacity hover:opacity-90 disabled:opacity-50"
-              >
-                <div className="w-4 h-4"><Icon name="camera" /></div>
-                {uploadingImage ? (locale === 'en' ? 'Searching...' : 'A pesquisar...') : (locale === 'en' ? 'Search by Photo' : 'Pesquisar por Foto')}
+          {/* Visual Search */}
+          <div>
+            <input type="file" accept="image/*" ref={fileInputRef} style={{ display: 'none' }} onChange={handleVisualSearchUpload} />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingImage}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: N.indigo, color: N.white, border: 'none', borderRadius: 10, padding: '12px 16px',
+                fontSize: 14, fontWeight: 500, cursor: uploadingImage ? 'not-allowed' : 'pointer', fontFamily: N.sans,
+                opacity: uploadingImage ? 0.7 : 1
+              }}
+            >
+              <div style={{ width: 16, height: 16 }}><Icon name="camera" /></div>
+              {uploadingImage ? (locale === 'en' ? 'Searching...' : 'A pesquisar...') : (locale === 'en' ? 'Search by Photo' : 'Pesquisar por Foto')}
+            </button>
+            {isVisualSearch && !uploadingImage && (
+              <button onClick={clearVisualSearch} style={{ width: '100%', background: 'transparent', border: 'none', color: N.ink3, fontSize: 12, marginTop: 12, cursor: 'pointer', fontFamily: N.sans }}>
+                {locale === 'en' ? 'Clear Visual Search' : 'Limpar pesquisa visual'}
               </button>
-              {isVisualSearch && !uploadingImage && (
-                <button
-                  onClick={clearVisualSearch}
-                  className="w-full mt-2 text-xs text-center text-muted-foreground hover:text-foreground"
-                >
-                  {locale === 'en' ? 'Clear Visual Search' : 'Limpar pesquisa visual'}
-                </button>
-              )}
-            </div>
+            )}
+          </div>
 
-            <hr className="border-border" />
+          <hr style={{ border: 'none', borderTop: `1px solid ${N.rule}`, margin: 0 }} />
 
-            {/* Status Filter */}
-            <div className={`space-y-2 ${isVisualSearch ? 'opacity-50 pointer-events-none' : ''}`}>
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status</label>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as 'ativo' | 'reunido' | 'todos')}
-                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background"
-              >
-                <option value="ativo">{locale === 'en' ? 'Active Cases' : 'Casos Ativos'}</option>
-                <option value="reunido">{locale === 'en' ? 'Reunited (Found)' : 'Reunidos (Finais)'}</option>
-                <option value="todos">{locale === 'en' ? 'All' : 'Todos'}</option>
-              </select>
-            </div>
+          {/* Status Filter */}
+          <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
+            <label style={labelStyle}>Status</label>
+            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as any)} style={inputStyle}>
+              <option value="ativo">{locale === 'en' ? 'Active Cases' : 'Casos Ativos'}</option>
+              <option value="reunido">{locale === 'en' ? 'Reunited (Found)' : 'Reunidos (Finais)'}</option>
+              <option value="todos">{locale === 'en' ? 'All' : 'Todos'}</option>
+            </select>
+          </div>
 
-            {/* Type Filter */}
-            <div className={`space-y-2 ${isVisualSearch ? 'opacity-50 pointer-events-none' : ''}`}>
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === 'en' ? 'Type' : 'Tipo'}
-              </label>
-              <select
-                value={typeFilter}
-                onChange={(e) => setTypeFilter(e.target.value as 'perdido' | 'encontrado' | 'todos')}
-                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background"
-              >
-                <option value="todos">{locale === 'en' ? 'All' : 'Todos'}</option>
-                <option value="perdido">{locale === 'en' ? 'Missing Dogs' : 'Cães Perdidos'}</option>
-                <option value="encontrado">{locale === 'en' ? 'Found Dogs' : 'Cães Encontrados'}</option>
-              </select>
-            </div>
+          {/* Type Filter */}
+          <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
+            <label style={labelStyle}>{locale === 'en' ? 'Type' : 'Tipo'}</label>
+            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as any)} style={inputStyle}>
+              <option value="todos">{locale === 'en' ? 'All' : 'Todos'}</option>
+              <option value="perdido">{locale === 'en' ? 'Missing Dogs' : 'Cães Perdidos'}</option>
+              <option value="encontrado">{locale === 'en' ? 'Found Dogs' : 'Cães Encontrados'}</option>
+            </select>
+          </div>
 
-            {/* Text Search */}
-            <div className={`space-y-2 ${isVisualSearch ? 'opacity-50 pointer-events-none' : ''}`}>
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === 'en' ? 'Search terms' : 'Pesquisa livre'}
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={locale === 'en' ? 'Name, breed, color, zone...' : 'Nome, raça, cor, zona...'}
-                  className="w-full border border-border rounded-lg pl-9 pr-3 py-2 text-sm bg-background"
-                />
-                <div className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground"><Icon name="search" /></div>
-              </div>
+          {/* Text Search */}
+          <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
+            <label style={labelStyle}>{locale === 'en' ? 'Search terms' : 'Pesquisa livre'}</label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={locale === 'en' ? 'Name, breed, color, zone...' : 'Nome, raça, cor, zona...'}
+                style={{ ...inputStyle, paddingLeft: 36 }}
+              />
+              <div style={{ position: 'absolute', left: 12, top: 12, width: 14, height: 14, color: N.ink3 }}><Icon name="search" /></div>
             </div>
           </div>
+          
         </div>
       </aside>
 
-      {/* Grid */}
-      <main className="flex-1">
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
-            {total} {locale === 'en' ? 'cases found' : 'casos encontrados'}
+      {/* Main Grid */}
+      <main style={{ flex: 1, minWidth: 0 }}>
+        
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+          <span style={{ fontSize: 14, color: N.ink3, fontFamily: N.sans }}>
+            <strong style={{ color: N.ink }}>{total}</strong> {locale === 'en' ? 'cases found' : 'casos encontrados'}
             {isVisualSearch && (
-              <span className="ml-2 font-medium" style={{ color: N.indigo }}>
+              <span style={{ marginLeft: 8, color: N.indigo, fontWeight: 500 }}>
                 (Visual Similarity Search)
               </span>
             )}
           </span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 }}>
           {cases.map((c) => {
-            // Check for the old structure for Nona cases vs the new unified structure
             const imgArray = c.images as any[]
             const primaryImgUrl = imgArray?.find((i) => i.is_primary)?.public_url || imgArray?.[0]?.public_url
             
             const isNona = c.source === 'nona'
             const typeLabel = c.type === 'perdido' ? (locale === 'en' ? 'Missing' : 'Perdido') 
                             : c.type === 'encontrado' ? (locale === 'en' ? 'Found' : 'Encontrado')
-                            : (locale === 'en' ? 'Online Listing' : 'Anúncio Online')
+                            : (locale === 'en' ? 'Online' : 'Anúncio Online')
             
             const statusLabel = c.status === 'reunido' ? (locale === 'en' ? 'Reunited 🎉' : 'Reunido 🎉') 
                               : c.status === 'removido' ? (locale === 'en' ? 'Removed' : 'Removido') : ''
@@ -245,72 +251,98 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
               ? { href: c.url } 
               : { href: c.url, target: '_blank', rel: 'noopener noreferrer' }
 
+            const typeColor = isNona 
+              ? (c.type === 'perdido' ? { bg: N.roseBg, text: N.roseDeep } : { bg: N.amberBg, text: N.amber })
+              : { bg: N.indigoBg, text: N.indigoDeep } // Blue for classifieds
+
             return (
               <CardWrapper
                 key={c.id}
-                {...wrapperProps}
-                className="group flex flex-col bg-white border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all duration-200"
+                {...wrapperProps as any}
+                style={{ 
+                  display: 'flex', flexDirection: 'column', background: N.white, 
+                  border: `1px solid ${N.rule}`, borderRadius: 16, overflow: 'hidden', 
+                  textDecoration: 'none', color: 'inherit', transition: 'transform 0.2s, box-shadow 0.2s',
+                  boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+                }}
               >
-                <div className="relative aspect-square bg-muted">
+                {/* Image Section */}
+                <div style={{ position: 'relative', aspectRatio: '1/1', background: N.surface }}>
                   {primaryImgUrl ? (
                     <img
                       src={primaryImgUrl}
                       alt={c.name ?? c.breed ?? 'Dog photo'}
-                      className="w-full h-full object-cover"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: N.ink4, fontSize: 13, fontFamily: N.sans }}>
                       Sem foto
                     </div>
                   )}
                   
-                  {/* Badges Overlay */}
-                  <div className="absolute top-2 left-2 flex flex-col gap-1">
-                    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-md ${
-                      isNona ? (c.type === 'perdido' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700') 
-                             : 'bg-blue-100 text-blue-700'
-                    }`}>
+                  {/* Badges Overlay (Top Left) */}
+                  <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    <span style={{ 
+                      background: typeColor.bg, color: typeColor.text, 
+                      padding: '4px 8px', borderRadius: 6, fontSize: 10, fontFamily: N.mono, 
+                      fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' 
+                    }}>
                       {isNona ? typeLabel : c.source_name}
                     </span>
                     {statusLabel && (
-                      <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-md bg-emerald-100 text-emerald-700">
+                      <span style={{ 
+                        background: N.emeraldBg, color: N.emeraldDeep, 
+                        padding: '4px 8px', borderRadius: 6, fontSize: 10, fontFamily: N.mono, 
+                        fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' 
+                      }}>
                         {statusLabel}
                       </span>
                     )}
                   </div>
 
+                  {/* Match Score (Top Right) */}
                   {c.similarity_score && (
-                    <div className="absolute top-2 right-2 px-2 py-0.5 text-[10px] font-bold rounded-md bg-black/60 text-white backdrop-blur-sm">
+                    <div style={{ 
+                      position: 'absolute', top: 12, right: 12, background: 'rgba(0,0,0,0.7)', color: N.white, 
+                      padding: '4px 8px', borderRadius: 6, fontSize: 10, fontFamily: N.mono, 
+                      fontWeight: 600, backdropFilter: 'blur(4px)'
+                    }}>
                       {Math.round(c.similarity_score * 100)}% Match
                     </div>
                   )}
                   
                   {/* External link indicator */}
                   {!isNona && (
-                    <div className="absolute bottom-2 right-2 w-5 h-5 bg-black/50 text-white rounded-full flex items-center justify-center backdrop-blur-sm">
-                      <div className="w-3 h-3"><Icon name="arrowUp" /></div>
+                    <div style={{ 
+                      position: 'absolute', bottom: 12, right: 12, width: 24, height: 24, 
+                      background: 'rgba(0,0,0,0.6)', color: N.white, borderRadius: '50%', 
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' 
+                    }}>
+                      <div style={{ width: 12, height: 12 }}><Icon name="arrowUp" /></div>
                     </div>
                   )}
                 </div>
 
-                <div className="p-3 flex-1 flex flex-col">
-                  <h3 className="font-bold text-sm line-clamp-1 mb-1" style={{ fontFamily: N.display }}>
+                {/* Content Section */}
+                <div style={{ padding: 16, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <h3 style={{ fontFamily: N.display, fontSize: 18, color: N.ink, margin: '0 0 6px', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {c.name ?? c.breed ?? 'Desconhecido'}
                   </h3>
                   
-                  {/* Features */}
                   {(c.breed || c.color) && (
-                    <div className="text-[11px] text-muted-foreground mb-1 line-clamp-1">
+                    <div style={{ fontSize: 12, color: N.ink3, marginBottom: 8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: N.sans }}>
                       {[c.breed, c.color].filter(Boolean).join(' · ')}
                     </div>
                   )}
 
-                  <div className="text-[11px] text-muted-foreground mb-2 flex items-center gap-1 mt-auto">
-                    <div className="w-3 h-3"><Icon name="pin" /></div>
-                    <span className="line-clamp-1">{c.municipality || 'Localização desconhecida'}</span>
+                  <div style={{ fontSize: 12, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto', marginBottom: 12, fontFamily: N.sans }}>
+                    <div style={{ width: 12, height: 12, flexShrink: 0 }}><Icon name="pin" /></div>
+                    <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {c.municipality || 'Localização desconhecida'}
+                    </span>
                   </div>
                   
-                  <div className="text-[10px] text-muted-foreground font-mono">
+                  <div style={{ fontSize: 11, color: N.ink4, fontFamily: N.mono }}>
                     {new Date(c.timestamp).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-PT')}
                   </div>
                 </div>
@@ -320,20 +352,25 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
         </div>
 
         {cases.length === 0 && !loading && (
-          <div className="py-20 text-center flex flex-col items-center">
-            <div className="w-12 h-12 text-muted-foreground mb-4 opacity-50"><Icon name="search" /></div>
-            <p className="text-muted-foreground">
+          <div style={{ padding: '80px 20px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ width: 32, height: 32, color: N.ink4, marginBottom: 16 }}><Icon name="search" /></div>
+            <p style={{ color: N.ink3, fontSize: 15, fontFamily: N.sans }}>
               {locale === 'en' ? 'No dogs found matching your criteria.' : 'Nenhum cão encontrado com estes critérios.'}
             </p>
           </div>
         )}
 
         {hasMore && !isVisualSearch && (
-          <div className="mt-8 flex justify-center">
+          <div style={{ marginTop: 40, display: 'flex', justifyContent: 'center' }}>
             <button
               onClick={handleLoadMore}
               disabled={loading}
-              className="px-6 py-2 border border-border rounded-full text-sm font-medium hover:bg-accent disabled:opacity-50 transition-colors"
+              style={{
+                background: N.white, border: `1px solid ${N.rule}`, color: N.ink, 
+                padding: '12px 24px', borderRadius: 999, fontSize: 14, fontWeight: 500, 
+                cursor: loading ? 'not-allowed' : 'pointer', fontFamily: N.sans,
+                opacity: loading ? 0.6 : 1, transition: 'background 0.2s'
+              }}
             >
               {loading ? (locale === 'en' ? 'Loading...' : 'A carregar...') : (locale === 'en' ? 'Load More' : 'Carregar Mais')}
             </button>
