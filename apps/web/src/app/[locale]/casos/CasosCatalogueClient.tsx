@@ -4,31 +4,16 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { N } from '@/components/nona/tokens'
 import { Icon } from '@/components/nona/Icon'
-
-export interface CaseRecord {
-  id: string
-  slug: string
-  type: 'perdido' | 'encontrado'
-  status: 'ativo' | 'reunido'
-  dog_name: string | null
-  breed: string
-  size: string
-  primary_color: string
-  last_seen_municipality: string
-  last_seen_at: string
-  created_at: string
-  case_images: Array<{ public_url: string | null; is_primary: boolean }>
-  similarity_score?: number
-}
+import type { UnifiedCatalogueItem } from '@/app/api/cases/search/route'
 
 interface CatalogueClientProps {
   locale: string
-  initialCases: CaseRecord[]
+  initialCases: UnifiedCatalogueItem[]
   initialTotal: number
 }
 
 export function CasosCatalogueClient({ locale, initialCases, initialTotal }: CatalogueClientProps) {
-  const [cases, setCases] = useState<CaseRecord[]>(initialCases)
+  const [cases, setCases] = useState<UnifiedCatalogueItem[]>(initialCases)
   const [total, setTotal] = useState(initialTotal)
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
@@ -218,7 +203,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={locale === 'en' ? 'Name, breed, zone...' : 'Nome, raça, zona...'}
+                  placeholder={locale === 'en' ? 'Name, breed, color, zone...' : 'Nome, raça, cor, zona...'}
                   className="w-full border border-border rounded-lg pl-9 pr-3 py-2 text-sm bg-background"
                 />
                 <div className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground"><Icon name="search" /></div>
@@ -243,21 +228,34 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {cases.map((c) => {
-            const primaryImg = c.case_images?.find((i) => i.is_primary) || c.case_images?.[0]
-            const typeLabel = c.type === 'perdido' ? (locale === 'en' ? 'Missing' : 'Perdido') : (locale === 'en' ? 'Found' : 'Encontrado')
-            const statusLabel = c.status === 'reunido' ? (locale === 'en' ? 'Reunited 🎉' : 'Reunido 🎉') : ''
+            // Check for the old structure for Nona cases vs the new unified structure
+            const imgArray = c.images as any[]
+            const primaryImgUrl = imgArray?.find((i) => i.is_primary)?.public_url || imgArray?.[0]?.public_url
+            
+            const isNona = c.source === 'nona'
+            const typeLabel = c.type === 'perdido' ? (locale === 'en' ? 'Missing' : 'Perdido') 
+                            : c.type === 'encontrado' ? (locale === 'en' ? 'Found' : 'Encontrado')
+                            : (locale === 'en' ? 'Online Listing' : 'Anúncio Online')
+            
+            const statusLabel = c.status === 'reunido' ? (locale === 'en' ? 'Reunited 🎉' : 'Reunido 🎉') 
+                              : c.status === 'removido' ? (locale === 'en' ? 'Removed' : 'Removido') : ''
+
+            const CardWrapper = isNona ? Link : 'a'
+            const wrapperProps = isNona 
+              ? { href: c.url } 
+              : { href: c.url, target: '_blank', rel: 'noopener noreferrer' }
 
             return (
-              <Link
+              <CardWrapper
                 key={c.id}
-                href={`/${locale}/caso/${c.slug}`}
+                {...wrapperProps}
                 className="group flex flex-col bg-white border border-border rounded-xl overflow-hidden hover:shadow-lg transition-all duration-200"
               >
                 <div className="relative aspect-square bg-muted">
-                  {primaryImg?.public_url ? (
+                  {primaryImgUrl ? (
                     <img
-                      src={primaryImg.public_url}
-                      alt={c.dog_name ?? c.breed}
+                      src={primaryImgUrl}
+                      alt={c.name ?? c.breed ?? 'Dog photo'}
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -265,11 +263,14 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                       Sem foto
                     </div>
                   )}
+                  
+                  {/* Badges Overlay */}
                   <div className="absolute top-2 left-2 flex flex-col gap-1">
                     <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-md ${
-                      c.type === 'perdido' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700'
+                      isNona ? (c.type === 'perdido' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700') 
+                             : 'bg-blue-100 text-blue-700'
                     }`}>
-                      {typeLabel}
+                      {isNona ? typeLabel : c.source_name}
                     </span>
                     {statusLabel && (
                       <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-md bg-emerald-100 text-emerald-700">
@@ -277,25 +278,43 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                       </span>
                     )}
                   </div>
+
                   {c.similarity_score && (
                     <div className="absolute top-2 right-2 px-2 py-0.5 text-[10px] font-bold rounded-md bg-black/60 text-white backdrop-blur-sm">
                       {Math.round(c.similarity_score * 100)}% Match
                     </div>
                   )}
+                  
+                  {/* External link indicator */}
+                  {!isNona && (
+                    <div className="absolute bottom-2 right-2 w-5 h-5 bg-black/50 text-white rounded-full flex items-center justify-center backdrop-blur-sm">
+                      <div className="w-3 h-3"><Icon name="arrowUp" /></div>
+                    </div>
+                  )}
                 </div>
+
                 <div className="p-3 flex-1 flex flex-col">
                   <h3 className="font-bold text-sm line-clamp-1 mb-1" style={{ fontFamily: N.display }}>
-                    {c.dog_name ?? c.breed}
+                    {c.name ?? c.breed ?? 'Desconhecido'}
                   </h3>
-                  <div className="text-[11px] text-muted-foreground mb-2 flex items-center gap-1">
+                  
+                  {/* Features */}
+                  {(c.breed || c.color) && (
+                    <div className="text-[11px] text-muted-foreground mb-1 line-clamp-1">
+                      {[c.breed, c.color].filter(Boolean).join(' · ')}
+                    </div>
+                  )}
+
+                  <div className="text-[11px] text-muted-foreground mb-2 flex items-center gap-1 mt-auto">
                     <div className="w-3 h-3"><Icon name="pin" /></div>
-                    <span className="line-clamp-1">{c.last_seen_municipality}</span>
+                    <span className="line-clamp-1">{c.municipality || 'Localização desconhecida'}</span>
                   </div>
-                  <div className="mt-auto text-[10px] text-muted-foreground font-mono">
-                    {new Date(c.last_seen_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-PT')}
+                  
+                  <div className="text-[10px] text-muted-foreground font-mono">
+                    {new Date(c.timestamp).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-PT')}
                   </div>
                 </div>
-              </Link>
+              </CardWrapper>
             )
           })}
         </div>
@@ -304,7 +323,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
           <div className="py-20 text-center flex flex-col items-center">
             <div className="w-12 h-12 text-muted-foreground mb-4 opacity-50"><Icon name="search" /></div>
             <p className="text-muted-foreground">
-              {locale === 'en' ? 'No cases found matching your criteria.' : 'Nenhum caso encontrado com estes critérios.'}
+              {locale === 'en' ? 'No dogs found matching your criteria.' : 'Nenhum cão encontrado com estes critérios.'}
             </p>
           </div>
         )}
