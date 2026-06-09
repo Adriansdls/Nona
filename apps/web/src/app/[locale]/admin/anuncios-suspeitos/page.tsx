@@ -85,7 +85,7 @@ export default async function AdminAnunciosSuspeitosPage({ params, searchParams 
             Nenhum anúncio suspeito encontrado.
           </div>
         )}
-        {matches?.map((m) => (
+        {matches?.map((m: any) => (
           <SuspiciousMatchCard key={m.id} match={m} locale={locale} />
         ))}
       </div>

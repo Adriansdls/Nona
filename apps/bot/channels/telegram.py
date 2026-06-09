@@ -1604,12 +1604,12 @@ async def handle_ack_alert_callback(update: Update, context: ContextTypes.DEFAUL
 
     if status == "watching":
         await query.edit_message_text(
-            f"{query.message.text_markdown_v2}\n\n👀 *Registado: Está atento\! Obrigado\.*",
+            rf"{query.message.text_markdown_v2}\n\n👀 *Registado: Está atento\! Obrigado\.*",
             parse_mode=ParseMode.MARKDOWN_V2
         )
     elif status == "busy":
         await query.edit_message_text(
-            f"{query.message.text_markdown_v2}\n\n❌ *Registado: Agora não pode\.*",
+            rf"{query.message.text_markdown_v2}\n\n❌ *Registado: Agora não pode\.*",
             parse_mode=ParseMode.MARKDOWN_V2
         )
 
