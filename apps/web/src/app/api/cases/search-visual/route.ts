@@ -106,12 +106,12 @@ export async function POST(req: NextRequest) {
     })
 
     similarClassifieds.forEach((sc: any) => {
-      const c = classifiedsDataRes.data?.find((c) => c.id === sc.listing_id)
+      const c: any = classifiedsDataRes.data?.find((c) => c.id === sc.listing_id)
       if (c) {
         unified.push({
           id: c.id,
           source: 'classified',
-          source_name: c.classified_sources?.display_name || 'Online',
+          source_name: c.classified_sources?.display_name || c.classified_sources?.[0]?.display_name || 'Online',
           type: 'venda',
           status: c.is_active ? 'ativo' : 'removido',
           name: c.title,
