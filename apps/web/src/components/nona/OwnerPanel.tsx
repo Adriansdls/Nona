@@ -132,6 +132,17 @@ export function OwnerPanel({
   const { case: c, events, assessment, sightings } = ownerData
   const [resolving, setResolving] = useState(false)
   const [resolved, setResolved] = useState(c.status === 'resolvido')
+  const [showMethods, setShowMethods] = useState(false)
+
+  const RECOVERY_METHODS = [
+    { id: 'found_by_owner', label: 'Encontrado por mim (dono)' },
+    { id: 'nona_sighting', label: 'Graças a um avistamento na Nona' },
+    { id: 'social_media', label: 'Através de redes sociais' },
+    { id: 'returned_home', label: 'Voltou a casa sozinho' },
+    { id: 'shelter_vet', label: 'Entregue por canil ou veterinário' },
+    { id: 'trap_feeding', label: 'Capturado com armadilha/alimentação' },
+    { id: 'other', label: 'Outro' },
+  ]
 
   // WP17: owner triage of sightings (clearly yes / no / don't know).
   const [verdicts, setVerdicts] = useState<Record<string, 'confirmed' | 'rejected' | 'unsure'>>(() => {
@@ -194,11 +205,19 @@ export function OwnerPanel({
     }
   }
 
-  async function handleResolve() {
+  async function handleResolve(methodId?: string) {
+    if (!methodId) {
+      setShowMethods(true)
+      return
+    }
     if (!confirm(`Confirmar: ${dogName} foi encontrado?`)) return
     setResolving(true)
     try {
-      const res = await fetch(`/api/owner/${token}`, { method: 'POST' })
+      const res = await fetch(`/api/owner/${token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ method: methodId }),
+      })
       if (res.ok) { setResolved(true); onResolved?.() }
     } finally {
       setResolving(false)
@@ -409,19 +428,36 @@ export function OwnerPanel({
 
       {/* Resolve — the owner's biggest button */}
       {!resolved && (
-        <button
-          onClick={handleResolve}
-          disabled={resolving}
-          style={{
-            marginTop: 24, width: '100%', padding: '16px 24px', borderRadius: 12,
-            background: resolving ? N.surface : N.emerald,
-            color: resolving ? N.ink3 : N.white,
-            border: 'none', cursor: resolving ? 'default' : 'pointer',
-            fontSize: 16, fontWeight: 600, fontFamily: N.sans, transition: 'background 0.15s',
-          }}
-        >
-          {resolving ? 'A processar…' : `🎉 ${dogName} foi encontrado!`}
-        </button>
+        <div style={{ marginTop: 24 }}>
+          {showMethods ? (
+            <div style={{ padding: '16px 18px', background: N.white, border: `1px solid ${N.emerald}33`, borderRadius: 14 }}>
+              <div style={{ fontSize: 13, color: N.emeraldDeep, fontWeight: 600, marginBottom: 12 }}>Como foi o {dogName} encontrado?</div>
+              <div style={{ display: 'grid', gap: 8 }}>
+                {RECOVERY_METHODS.map(m => (
+                  <button key={m.id} onClick={() => handleResolve(m.id)} disabled={resolving}
+                    style={{ padding: '10px 14px', borderRadius: 9, border: `1px solid ${N.rule}`, background: N.surface, color: N.ink, fontSize: 13.5, textAlign: 'left', cursor: resolving ? 'default' : 'pointer', fontFamily: N.sans }}>
+                    {m.label}
+                  </button>
+                ))}
+                <button onClick={() => setShowMethods(false)} style={{ marginTop: 4, background: 'transparent', border: 'none', color: N.ink3, fontSize: 12, cursor: 'pointer' }}>Cancelar</button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => handleResolve()}
+              disabled={resolving}
+              style={{
+                width: '100%', padding: '16px 24px', borderRadius: 12,
+                background: resolving ? N.surface : N.emerald,
+                color: resolving ? N.ink3 : N.white,
+                border: 'none', cursor: resolving ? 'default' : 'pointer',
+                fontSize: 16, fontWeight: 600, fontFamily: N.sans, transition: 'background 0.15s',
+              }}
+            >
+              {resolving ? 'A processar…' : `🎉 ${dogName} foi encontrado!`}
+            </button>
+          )}
+        </div>
       )}
     </section>
   )

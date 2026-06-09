@@ -592,15 +592,15 @@ export function CasePageClient({ locale, data }: CasePageClientProps) {
           }
         } else {
           bucket = {
-            label: 'Dia 10+',
+            label: 'Dia 10+ — fase de recuperação',
             items: [
-              'Visite TODOS os canils num raio 60km — pessoalmente',
-              'Verifique adopções recentes (últimos 30 dias) no canil',
-              'Contacte AMAL, APPA, associações locais de resgate',
-              'Reponha cartazes — os antigos desbotam',
-              'Mantenha estação activa — cães são encontrados meses depois',
+              'Transição para busca passiva: focar na monitorização e rede de contactos',
+              'Visite TODOS os canils num raio 60km pessoalmente — as fotos nos sites podem falhar',
+              'Verifique adopções recentes (últimos 30 dias) nos canis da região',
+              'Substitua cartazes desbotados; os cães são frequentemente encontrados meses depois',
+              'Mantenha a estação de alimentação activa — é a única âncora de segurança dele',
             ],
-            warning: 'Captura após longa ausência: contacte veterinário ANTES de alimentar',
+            warning: 'Fase de Longo Prazo: O cão já estabeleceu um território de sobrevivência. A paciência e a monitorização constante são agora as ferramentas mais eficazes.',
           }
         }
 

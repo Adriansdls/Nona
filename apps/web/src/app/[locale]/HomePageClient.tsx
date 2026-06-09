@@ -54,9 +54,9 @@ interface ChatMessage {
   fieldGuide?: FieldGuide
 }
 interface ActionItem { label: string; detail?: string; live?: boolean }
-interface RecentReunido {
+interface RecentCase {
   id: string; slug: string; type: string; status: string; dog_name: string | null; breed: string
-  last_seen_municipality: string; resolved_at: string | null
+  last_seen_municipality: string; resolved_at?: string | null; created_at?: string | null
   case_images: Array<{ public_url: string | null; is_primary: boolean }>
 }
 
@@ -570,7 +570,8 @@ function PillarsSection({ locale }: { locale: string }) {
 }
 
 interface HomePageClientProps {
-  locale: string; reunidosCount: number; recentReunidos: RecentReunido[]
+  locale: string; reunidosCount: number; recentReunidos: RecentCase[]
+  recentMissing: RecentCase[]; recentFound: RecentCase[]
 }
 
 // Card dimensions for the canvas before expansion (matches hero input card position)
@@ -578,7 +579,9 @@ interface CardRect { left: number; top: number; width: number; height: number }
 
 const _AGENT_NAMES = ["Beatriz","Rui","Margarida","Tiago","Catarina","João","Sofia","Marta","Pedro","Inês","Gonçalo","Carolina","Diogo","Rita","André","Matilde","Nuno","Raquel","Miguel","Lara"]
 
-export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePageClientProps) {
+export function HomePageClient({
+  locale, reunidosCount, recentReunidos, recentMissing, recentFound,
+}: HomePageClientProps) {
   const [agentName] = useState(() => _AGENT_NAMES[Math.floor(Math.random() * _AGENT_NAMES.length)]!)
   const [candidates] = useState<string[]>(() => {
     const pool = _AGENT_NAMES.filter(n => n !== agentName).sort(() => Math.random() - 0.5).slice(0, 3)
@@ -979,6 +982,80 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
         {/* ══ 5 PILARES ══ */}
         <PillarsSection locale={locale}/>
 
+        {/* ══ PERDIDOS RECENTES ══ */}
+        {recentMissing.length > 0 && (
+          <div style={{ padding: '56px 32px 0' }}>
+            <div style={{ maxWidth: 900, margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+                <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  {locale === 'en' ? 'recently missing' : 'perdidos recentemente'}
+                </span>
+                <a href={`/${locale}/casos?type=perdido`} style={{ fontSize: 12, color: N.ink2, textDecoration: 'none' }}>
+                  {locale === 'en' ? 'see all →' : 'ver todos →'}
+                </a>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10 }}>
+                {recentMissing.map((c, i) => {
+                  const tone = TONES[i % TONES.length] ?? 'cocoa'
+                  const img = c.case_images?.find(x => x.is_primary) ?? c.case_images?.[0]
+                  return (
+                    <a key={c.id} href={`/${locale}/caso/${c.slug}`}
+                      style={{ display: 'flex', flexDirection: 'column', gap: 5, textDecoration: 'none', color: 'inherit' }}>
+                      <div style={{ position: 'relative' }}>
+                        {img?.public_url
+                          ? <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1' }}><img src={img.public_url} alt={c.dog_name ?? ''} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/></div>
+                          : <PhotoPlaceholder tone={tone} radius={10} ratio="1/1"/>}
+                        <span style={{ position: 'absolute', top: 7, left: 7, width: 7, height: 7, borderRadius: '50%', background: N.rose, boxShadow: '0 0 0 2px rgba(255,255,255,.8)' }}/>
+                      </div>
+                      <div style={{ paddingBottom: 2 }}>
+                        <div style={{ fontFamily: N.display, fontSize: 14, letterSpacing: '-0.015em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.dog_name ?? c.breed}</div>
+                        <div style={{ fontSize: 10.5, color: N.ink3, fontFamily: N.mono }}>{c.last_seen_municipality}</div>
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ══ ENCONTRADOS RECENTES ══ */}
+        {recentFound.length > 0 && (
+          <div style={{ padding: '56px 32px 0' }}>
+            <div style={{ maxWidth: 900, margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+                <span style={{ fontFamily: N.mono, fontSize: 11, color: N.ink3, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  {locale === 'en' ? 'recently found' : 'encontrados recentemente'}
+                </span>
+                <a href={`/${locale}/casos?type=encontrado`} style={{ fontSize: 12, color: N.ink2, textDecoration: 'none' }}>
+                  {locale === 'en' ? 'see all →' : 'ver todos →'}
+                </a>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10 }}>
+                {recentFound.map((c, i) => {
+                  const tone = TONES[i % TONES.length] ?? 'cocoa'
+                  const img = c.case_images?.find(x => x.is_primary) ?? c.case_images?.[0]
+                  return (
+                    <a key={c.id} href={`/${locale}/caso/${c.slug}`}
+                      style={{ display: 'flex', flexDirection: 'column', gap: 5, textDecoration: 'none', color: 'inherit' }}>
+                      <div style={{ position: 'relative' }}>
+                        {img?.public_url
+                          ? <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1' }}><img src={img.public_url} alt={c.dog_name ?? ''} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/></div>
+                          : <PhotoPlaceholder tone={tone} radius={10} ratio="1/1"/>}
+                        <span style={{ position: 'absolute', top: 7, left: 7, width: 7, height: 7, borderRadius: '50%', background: N.amber, boxShadow: '0 0 0 2px rgba(255,255,255,.8)' }}/>
+                      </div>
+                      <div style={{ paddingBottom: 2 }}>
+                        <div style={{ fontFamily: N.display, fontSize: 14, letterSpacing: '-0.015em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.dog_name ?? c.breed}</div>
+                        <div style={{ fontSize: 10.5, color: N.ink3, fontFamily: N.mono }}>{c.last_seen_municipality}</div>
+                      </div>
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ══ REUNIDOS ══ */}
         <div style={{ padding: '56px 32px 0' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -992,7 +1069,7 @@ export function HomePageClient({ locale, reunidosCount, recentReunidos }: HomePa
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10 }}>
             {(recentReunidos.length > 0 ? recentReunidos : Array.from({ length: 7 })).map((d, i) => {
-              const c = d as RecentReunido | undefined
+              const c = d as RecentCase | undefined
               const tone = TONES[i % TONES.length] ?? 'cocoa'
               const img = c?.case_images?.find(x => x.is_primary) ?? c?.case_images?.[0]
               const isReunido = c?.status === 'reunido'

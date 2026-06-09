@@ -902,6 +902,12 @@ async def execute_pi_tool(
                 "phase": harness.phase.value,
                 "is_simulated": bool(vol.get("is_simulated", True)),
                 "distance_km": dist_km,
+                "metadata": {
+                    "inline_buttons": [
+                        [{"text": "👀 Estou atento", "callback_data": f"ack_alert:{case_id}:watching"}],
+                        [{"text": "❌ Agora não posso", "callback_data": f"ack_alert:{case_id}:busy"}]
+                    ]
+                }
             })
             count += 1
 

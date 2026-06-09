@@ -70,6 +70,18 @@ export function ParceiroClient({ locale, token, partner, pinnedUrl }: {
         </h1>
         <p style={{ fontSize: 14, color: N.ink3, margin: '0 0 24px' }}>{partner.municipality ?? 'Algarve'}</p>
 
+        {/* Impact Metrics */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 28 }}>
+          <div style={{ padding: '16px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
+            <div style={{ fontSize: 11, fontFamily: N.mono, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>Casos na comunidade</div>
+            <div style={{ fontSize: 28, fontFamily: N.display, color: N.ink }}>{cases.length}</div>
+          </div>
+          <div style={{ padding: '16px', background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14 }}>
+            <div style={{ fontSize: 11, fontFamily: N.mono, color: N.ink3, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>Cães reunidos 🎉</div>
+            <div style={{ fontSize: 28, fontFamily: N.display, color: N.ink }}>{cases.filter(c => c.status === 'resolvido').length}</div>
+          </div>
+        </div>
+
         {/* Pinned link */}
         <div style={{ padding: 16, background: N.white, border: `1px solid ${N.rule}`, borderRadius: 14, marginBottom: 22 }}>
           <p style={{ margin: '0 0 8px', fontSize: 13.5, color: N.ink2, lineHeight: 1.5 }}>

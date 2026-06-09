@@ -506,10 +506,12 @@ async def cmd_alertas(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         # break Markdown entity parsing.
         await update.message.reply_text(
             "Quer ajudar a encontrar cães perdidos perto de si? 🐾\n\n"
+            "A Nona não é um grupo de chat barulhento. Receberá mensagens privadas e "
+            "apenas quando um cão se perder *mesmo* perto de si (geofencing).\n\n"
             f"Toque no botão para partilhar a sua localização. Avisamos quando "
-            f"um cão se perder a menos de {radius:.0f} km de si — com instruções "
+            f"un cão se perder a menos de {radius:.0f} km de si — com instruções "
             "de segurança (observar, não perseguir).\n\n"
-            "A sua localização só é usada para calcular a distância aos casos. "
+            "A sua localização é privada e apenas usada para calcular a distância. "
             "Pode sair quando quiser com /alertas_parar.",
             reply_markup=kb,
         )
@@ -546,8 +548,9 @@ async def handle_location(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         return
 
     await update.message.reply_text(
-        f"✅ Registado! Vai receber alertas de cães perdidos a menos de "
+        f"✅ Registado! Receberá alertas privados de cães perdidos a menos de "
         f"{radius:.0f} km daqui.\n\n"
+        "Fique descansado: só o incomodamos se o cão estiver na sua vizinhança. "
         "Quando receber um alerta: observe à distância, NÃO persiga, e reporte "
         "foto + local. Para sair: /alertas_parar.\n\n"
         "Nunca recebeu um alerta? Faça /demo — uma simulação de 30s mostra-lhe "
@@ -609,8 +612,10 @@ _SOBRE_PAGES: dict[str, dict] = {
     "observador": {
         "text": (
             "👀 *Ser observador da comunidade*\n\n"
-            "Com /alertas, recebe um aviso quando um cão se perde perto de si — com a distância "
-            "ao local e instruções de segurança.\n\n"
+            "Com /alertas, recebe um aviso privado quando um cão se perde perto de si — "
+            "com a distância exacta ao local e instruções de segurança.\n\n"
+            "Não é um grupo de chat: só recebe alertas *hyper-locais* (geofencing) "
+            "relevantes para onde vive ou está.\n\n"
             "O seu papel é simples e poderoso:\n"
             "• *Olhar bem* na sua zona — quintais, valas, zonas de sombra.\n"
             "• Se vir o cão: *não persiga, não chame* — observe à distância.\n"
@@ -1446,14 +1451,34 @@ async def handle_resolve_callback(update: Update, context: ContextTypes.DEFAULT_
         await query.edit_message_text("Cancelado.")
         return
 
-    slug = (query.data or "").split(":", 1)[1]
+    parts = (query.data or "").split(":")
+    slug = parts[1]
+    method = parts[2] if len(parts) > 2 else None
+
+    if not method:
+        # Ask for recovery method
+        buttons = [
+            [InlineKeyboardButton("🏠 Voltou sozinho", callback_data=f"resolve:{slug}:returned_home")],
+            [InlineKeyboardButton("👀 Avistamento Nona", callback_data=f"resolve:{slug}:nona_sighting")],
+            [InlineKeyboardButton("📱 Redes Sociais", callback_data=f"resolve:{slug}:social_media")],
+            [InlineKeyboardButton("👤 Encontrado por mim", callback_data=f"resolve:{slug}:found_by_owner")],
+            [InlineKeyboardButton("🏥 Canil/Vet", callback_data=f"resolve:{slug}:shelter_vet")],
+            [InlineKeyboardButton("🪤 Armadilha/Comida", callback_data=f"resolve:{slug}:trap_feeding")],
+            [InlineKeyboardButton("❓ Outro", callback_data=f"resolve:{slug}:other")],
+        ]
+        await query.edit_message_text(
+            "Como foi o cão encontrado? Esta informação ajuda a Nona a aprender.",
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+        return
+
     telegram_id = update.effective_user.id  # type: ignore[union-attr]
 
     try:
         async with httpx.AsyncClient(timeout=15) as client:
             resp = await client.post(
                 f"{WEB_APP_URL}/api/bot/cases/{slug}/resolve",
-                json={"telegram_id": str(telegram_id)},
+                json={"telegram_id": str(telegram_id), "method": method},
                 headers={"x-internal-token": INTERNAL_TOKEN},
             )
 
@@ -1534,8 +1559,22 @@ async def _flush_notifications(context: ContextTypes.DEFAULT_TYPE) -> None:
                     {"rate_limit_flag": True}
                 ).eq("id", notif["id"]).execute()  # leave pending for next flush
                 continue
+
+            metadata = notif.get("metadata") or {}
+            reply_markup = None
+            if metadata.get("inline_buttons"):
+                buttons = []
+                for row in metadata["inline_buttons"]:
+                    buttons.append([InlineKeyboardButton(b["text"], callback_data=b["callback_data"]) for b in row])
+                reply_markup = InlineKeyboardMarkup(buttons)
+
             try:
-                await context.bot.send_message(chat_id=tid, text=notif["message"])
+                await context.bot.send_message(
+                    chat_id=tid,
+                    text=notif["message"],
+                    reply_markup=reply_markup,
+                    parse_mode=ParseMode.MARKDOWN if "*" in notif["message"] else None
+                )
                 real_sent += 1
                 await asyncio.sleep(0.05)
                 db.table("case_notifications").update(
@@ -1550,6 +1589,29 @@ async def _flush_notifications(context: ContextTypes.DEFAULT_TYPE) -> None:
             ).in_("id", sim_ids).execute()
     except Exception as exc:
         logger.error("flush_notifications error", error=str(exc))
+
+
+async def handle_ack_alert_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle volunteer acknowledgement of an alert."""
+    query = update.callback_query
+    if not query or not query.message:
+        return
+    await query.answer()
+
+    parts = (query.data or "").split(":")
+    # status: watching | busy
+    status = parts[2]
+
+    if status == "watching":
+        await query.edit_message_text(
+            f"{query.message.text_markdown_v2}\n\n👀 *Registado: Está atento\! Obrigado\.*",
+            parse_mode=ParseMode.MARKDOWN_V2
+        )
+    elif status == "busy":
+        await query.edit_message_text(
+            f"{query.message.text_markdown_v2}\n\n❌ *Registado: Agora não pode\.*",
+            parse_mode=ParseMode.MARKDOWN_V2
+        )
 
 
 def build_application() -> Application:
@@ -1569,6 +1631,7 @@ def build_application() -> Application:
     app.add_handler(CommandHandler("chip", cmd_chip))
     app.add_handler(CallbackQueryHandler(handle_flow_callback, pattern="^flow_"))
     app.add_handler(CallbackQueryHandler(handle_resolve_callback, pattern="^resolve:"))
+    app.add_handler(CallbackQueryHandler(handle_ack_alert_callback, pattern="^ack_alert:"))
     app.add_handler(CallbackQueryHandler(handle_step_callback, pattern="^step:"))
     app.add_handler(CallbackQueryHandler(handle_sobre_callback, pattern="^sobre:"))
     app.add_handler(CallbackQueryHandler(handle_demo_callback, pattern="^demo:"))

@@ -52,10 +52,11 @@ export async function GET(
 }
 
 export async function POST(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ token: string }> },
 ) {
   const { token } = await params
+  const { method } = await req.json().catch(() => ({ method: null }))
   const supabase = createServiceClient()
 
   const { data: caseRow } = await supabase
@@ -78,7 +79,7 @@ export async function POST(
     .eq('id', caseRow.id as string)
 
   // WS3: learning substrate — record what this resolved case looked like.
-  await captureOutcome(supabase, caseRow.id as string)
+  await captureOutcome(supabase, caseRow.id as string, method)
 
   void sendResolutionCelebration({
     to: caseRow.reporter_email as string,

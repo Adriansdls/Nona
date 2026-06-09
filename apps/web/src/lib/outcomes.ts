@@ -8,6 +8,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 export async function captureOutcome(
   supabase: SupabaseClient,
   caseId: string,
+  recoveryMethod?: string,
 ): Promise<void> {
   try {
     const { data: c } = await supabase
@@ -43,6 +44,7 @@ export async function captureOutcome(
       actions_taken: actionsTaken,
       sighting_count: sightingsRes.count ?? 0,
       recovered: true,
+      recovery_method: recoveryMethod || null,
     }, { onConflict: 'case_id' })
   } catch (e) {
     console.warn('[WS3] captureOutcome failed (non-fatal):', e)

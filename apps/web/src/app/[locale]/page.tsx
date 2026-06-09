@@ -47,15 +47,39 @@ async function getRecentReunidos() {
   }
 }
 
+async function getRecentByType(type: 'perdido' | 'encontrado') {
+  try {
+    const supabase = createServiceClient()
+    const { data } = await supabase
+      .from('cases')
+      .select('id, slug, type, status, dog_name, breed, last_seen_municipality, created_at, case_images(public_url, is_primary)')
+      .eq('type', type)
+      .eq('status', 'ativo')
+      .eq('sensitivity', 'publico')
+      .order('created_at', { ascending: false })
+      .limit(7)
+    return data ?? []
+  } catch {
+    return []
+  }
+}
+
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const [reunidosCount, recentReunidos] = await Promise.all([getReunidosCount(), getRecentReunidos()])
+  const [reunidosCount, recentReunidos, recentMissing, recentFound] = await Promise.all([
+    getReunidosCount(),
+    getRecentReunidos(),
+    getRecentByType('perdido'),
+    getRecentByType('encontrado'),
+  ])
 
   return (
     <HomePageClient
       locale={locale}
       reunidosCount={reunidosCount}
-      recentReunidos={recentReunidos}
+      recentReunidos={recentReunidos as any[]}
+      recentMissing={recentMissing as any[]}
+      recentFound={recentFound as any[]}
     />
   )
 }

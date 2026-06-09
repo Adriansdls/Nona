@@ -17,7 +17,7 @@ export async function POST(
   }
 
   const { slug } = await params
-  const body = (await req.json()) as { telegram_id: string }
+  const body = (await req.json()) as { telegram_id: string; method?: string }
 
   if (!body.telegram_id) {
     return NextResponse.json({ error: 'telegram_id required' }, { status: 400 })
@@ -56,7 +56,7 @@ export async function POST(
   }
 
   // WS3: learning substrate.
-  await captureOutcome(supabase, caseRow.id as string)
+  await captureOutcome(supabase, caseRow.id as string, body.method)
 
   // Email the reporter
   void sendCaseResolved({
