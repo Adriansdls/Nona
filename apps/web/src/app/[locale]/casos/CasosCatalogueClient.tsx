@@ -20,7 +20,6 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
   const [hasMore, setHasMore] = useState(initialTotal > initialCases.length)
   
   // Filters
-  const [statusFilter, setStatusFilter] = useState<'ativo' | 'reunido' | 'todos'>('ativo')
   const [typeFilter, setTypeFilter] = useState<'perdido' | 'encontrado' | 'todos'>('todos')
   const [municipalityFilter] = useState('')
   const [breedFilter, setBreedFilter] = useState('')
@@ -40,7 +39,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
       const params = new URLSearchParams({
         page: pageNum.toString(),
         limit: '48',
-        status: statusFilter,
+        status: 'ativo',
         type: typeFilter,
       })
       if (municipalityFilter) params.append('municipality', municipalityFilter)
@@ -70,7 +69,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
     }, 300)
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusFilter, typeFilter, municipalityFilter, breedFilter, colorFilter, searchQuery, isVisualSearch])
+  }, [typeFilter, municipalityFilter, breedFilter, colorFilter, searchQuery, isVisualSearch])
 
   const handleLoadMore = () => {
     fetchCases(page + 1, true)
@@ -185,16 +184,6 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
 
           <hr style={{ border: 'none', borderTop: `1px solid ${N.rule}`, margin: 0 }} />
 
-          {/* Status Filter */}
-          <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
-            <label style={labelStyle}>Status</label>
-            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as any)} style={inputStyle}>
-              <option value="ativo">{locale === 'en' ? 'Active Cases' : 'Casos Ativos'}</option>
-              <option value="reunido">{locale === 'en' ? 'Reunited (Found)' : 'Reunidos (Finais)'}</option>
-              <option value="todos">{locale === 'en' ? 'All' : 'Todos'}</option>
-            </select>
-          </div>
-
           {/* Type Filter */}
           <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
             <label style={labelStyle}>{locale === 'en' ? 'Type' : 'Tipo'}</label>
@@ -208,25 +197,45 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
           {/* Breed Filter */}
           <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
             <label style={labelStyle}>{locale === 'en' ? 'Breed' : 'Raça'}</label>
-            <input
-              type="text"
-              value={breedFilter}
-              onChange={(e) => setBreedFilter(e.target.value)}
-              placeholder={locale === 'en' ? 'Any breed...' : 'Qualquer raça...'}
-              style={inputStyle}
-            />
+            <select value={breedFilter} onChange={(e) => setBreedFilter(e.target.value)} style={inputStyle}>
+              <option value="">{locale === 'en' ? 'Any breed...' : 'Qualquer raça...'}</option>
+              <option value="rafeiro">Rafeiro / Sem Raça Definida</option>
+              <option value="galgo">Galgo</option>
+              <option value="podengo">Podengo</option>
+              <option value="pastor alemão">Pastor Alemão</option>
+              <option value="labrador">Labrador</option>
+              <option value="pit bull">Pit Bull / Staffordshire</option>
+              <option value="bulldog">Bulldog</option>
+              <option value="husky">Husky</option>
+              <option value="golden">Golden Retriever</option>
+              <option value="chihuahua">Husky / Malamute</option>
+              <option value="beagle">Beagle</option>
+              <option value="epagneul breton">Epagneul Breton</option>
+              <option value="caniche">Caniche</option>
+              <option value="yorkshire">Yorkshire</option>
+              <option value="teckel">Yorkshire / Teckel</option>
+              <option value="bull terrier">Bull Terrier</option>
+              <option value="pinscher">Pinscher</option>
+              <option value="serra da estrela">Serra da Estrela</option>
+              <option value="rafeiro do alentejo">Rafeiro do Alentejo</option>
+            </select>
           </div>
 
           {/* Color Filter */}
           <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
             <label style={labelStyle}>{locale === 'en' ? 'Color' : 'Cor'}</label>
-            <input
-              type="text"
-              value={colorFilter}
-              onChange={(e) => setColorFilter(e.target.value)}
-              placeholder={locale === 'en' ? 'Any color...' : 'Qualquer cor...'}
-              style={inputStyle}
-            />
+            <select value={colorFilter} onChange={(e) => setColorFilter(e.target.value)} style={inputStyle}>
+              <option value="">{locale === 'en' ? 'Any color...' : 'Qualquer cor...'}</option>
+              <option value="preto">{locale === 'en' ? 'Black' : 'Preto'}</option>
+              <option value="branco">{locale === 'en' ? 'White' : 'Branco'}</option>
+              <option value="castanho">{locale === 'en' ? 'Brown' : 'Castanho / Marrom'}</option>
+              <option value="bege">{locale === 'en' ? 'Beige / Fawn' : 'Bege / Fulvo'}</option>
+              <option value="amarelo">{locale === 'en' ? 'Yellow / Gold' : 'Amarelo / Dourado'}</option>
+              <option value="cinzento">{locale === 'en' ? 'Grey' : 'Cinzento / Cinza'}</option>
+              <option value="tigrado">{locale === 'en' ? 'Brindle' : 'Tigrado / Rajado'}</option>
+              <option value="malhado">{locale === 'en' ? 'Spotted / Bi-color' : 'Malhado / Bicolor'}</option>
+              <option value="preto e fogo">{locale === 'en' ? 'Black & Tan' : 'Preto e Fogo / Tricolor'}</option>
+            </select>
           </div>
 
           {/* Text Search */}
@@ -291,19 +300,19 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                   display: 'flex', flexDirection: 'column', background: N.white, 
                   border: `1px solid ${N.rule}`, borderRadius: 12, overflow: 'hidden', 
                   textDecoration: 'none', color: 'inherit', transition: 'transform 0.2s, box-shadow 0.2s',
-                  boxShadow: `0 2px 8px rgba(0,0,0,0.02)`
+                  boxShadow: `0 2px 8px rgba(0,0,0,0.02)`, height: '100%'
                 }}
               >
                 {/* Image Section */}
-                <div style={{ position: 'relative', aspectRatio: '1/1', background: N.surface }}>
+                <div style={{ position: 'relative', aspectRatio: '1/1', width: '100%', background: N.surface }}>
                   {primaryImgUrl ? (
                     <img
                       src={primaryImgUrl}
                       alt={c.name ?? c.breed ?? 'Dog photo'}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }}
                     />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: N.ink4, fontSize: 11, fontFamily: N.sans }}>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: N.ink4, fontSize: 11, fontFamily: N.sans, position: 'absolute', top: 0, left: 0 }}>
                       Sem foto
                     </div>
                   )}
@@ -315,7 +324,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                       padding: '3px 6px', borderRadius: 4, fontSize: 9, fontFamily: N.mono, 
                       fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' 
                     }}>
-                      {isNona ? typeLabel : c.source_name}
+                      {isNona ? typeLabel : 'Online'}
                     </span>
                     {statusLabel && (
                       <span style={{ 
@@ -357,6 +366,10 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                     {c.name ?? c.breed ?? 'Desconhecido'}
                   </h3>
                   
+                  <div style={{ fontSize: 11, color: N.ink3, marginBottom: 8, fontFamily: N.sans, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <strong style={{ color: N.ink2 }}>Fonte:</strong> {c.source_name || (isNona ? 'Nona' : 'Online')}
+                  </div>
+
                   {(c.breed || c.color) && (
                     <div style={{ fontSize: 11, color: N.ink3, marginBottom: 8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: N.sans }}>
                       {[c.breed, c.color].filter(Boolean).join(' · ')}
