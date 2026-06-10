@@ -23,6 +23,8 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
   const [statusFilter, setStatusFilter] = useState<'ativo' | 'reunido' | 'todos'>('ativo')
   const [typeFilter, setTypeFilter] = useState<'perdido' | 'encontrado' | 'todos'>('todos')
   const [municipalityFilter] = useState('')
+  const [breedFilter, setBreedFilter] = useState('')
+  const [colorFilter, setColorFilter] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   
   // Visual Search
@@ -37,11 +39,13 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
     try {
       const params = new URLSearchParams({
         page: pageNum.toString(),
-        limit: '24',
+        limit: '48',
         status: statusFilter,
         type: typeFilter,
       })
       if (municipalityFilter) params.append('municipality', municipalityFilter)
+      if (breedFilter) params.append('breed', breedFilter)
+      if (colorFilter) params.append('color', colorFilter)
       if (searchQuery) params.append('q', searchQuery)
 
       const res = await fetch(`/api/cases/search?${params.toString()}`)
@@ -66,7 +70,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
     }, 300)
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusFilter, typeFilter, municipalityFilter, searchQuery, isVisualSearch])
+  }, [statusFilter, typeFilter, municipalityFilter, breedFilter, colorFilter, searchQuery, isVisualSearch])
 
   const handleLoadMore = () => {
     fetchCases(page + 1, true)
@@ -201,6 +205,30 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
             </select>
           </div>
 
+          {/* Breed Filter */}
+          <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
+            <label style={labelStyle}>{locale === 'en' ? 'Breed' : 'Raça'}</label>
+            <input
+              type="text"
+              value={breedFilter}
+              onChange={(e) => setBreedFilter(e.target.value)}
+              placeholder={locale === 'en' ? 'Any breed...' : 'Qualquer raça...'}
+              style={inputStyle}
+            />
+          </div>
+
+          {/* Color Filter */}
+          <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
+            <label style={labelStyle}>{locale === 'en' ? 'Color' : 'Cor'}</label>
+            <input
+              type="text"
+              value={colorFilter}
+              onChange={(e) => setColorFilter(e.target.value)}
+              placeholder={locale === 'en' ? 'Any color...' : 'Qualquer cor...'}
+              style={inputStyle}
+            />
+          </div>
+
           {/* Text Search */}
           <div style={{ opacity: isVisualSearch ? 0.5 : 1, pointerEvents: isVisualSearch ? 'none' : 'auto' }}>
             <label style={labelStyle}>{locale === 'en' ? 'Search terms' : 'Pesquisa livre'}</label>
@@ -233,7 +261,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
           </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 12 }}>
           {cases.map((c) => {
             const imgArray = c.images as any[]
             const primaryImgUrl = imgArray?.find((i) => i.is_primary)?.public_url || imgArray?.[0]?.public_url
@@ -261,9 +289,9 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                 {...wrapperProps as any}
                 style={{ 
                   display: 'flex', flexDirection: 'column', background: N.white, 
-                  border: `1px solid ${N.rule}`, borderRadius: 16, overflow: 'hidden', 
+                  border: `1px solid ${N.rule}`, borderRadius: 12, overflow: 'hidden', 
                   textDecoration: 'none', color: 'inherit', transition: 'transform 0.2s, box-shadow 0.2s',
-                  boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+                  boxShadow: `0 2px 8px rgba(0,0,0,0.02)`
                 }}
               >
                 {/* Image Section */}
@@ -275,16 +303,16 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: N.ink4, fontSize: 13, fontFamily: N.sans }}>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: N.ink4, fontSize: 11, fontFamily: N.sans }}>
                       Sem foto
                     </div>
                   )}
                   
                   {/* Badges Overlay (Top Left) */}
-                  <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
                     <span style={{ 
                       background: typeColor.bg, color: typeColor.text, 
-                      padding: '4px 8px', borderRadius: 6, fontSize: 10, fontFamily: N.mono, 
+                      padding: '3px 6px', borderRadius: 4, fontSize: 9, fontFamily: N.mono, 
                       fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' 
                     }}>
                       {isNona ? typeLabel : c.source_name}
@@ -292,7 +320,7 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                     {statusLabel && (
                       <span style={{ 
                         background: N.emeraldBg, color: N.emeraldDeep, 
-                        padding: '4px 8px', borderRadius: 6, fontSize: 10, fontFamily: N.mono, 
+                        padding: '3px 6px', borderRadius: 4, fontSize: 9, fontFamily: N.mono, 
                         fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' 
                       }}>
                         {statusLabel}
@@ -303,8 +331,8 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                   {/* Match Score (Top Right) */}
                   {c.similarity_score && (
                     <div style={{ 
-                      position: 'absolute', top: 12, right: 12, background: 'rgba(0,0,0,0.7)', color: N.white, 
-                      padding: '4px 8px', borderRadius: 6, fontSize: 10, fontFamily: N.mono, 
+                      position: 'absolute', top: 8, right: 8, background: 'rgba(0,0,0,0.7)', color: N.white, 
+                      padding: '3px 6px', borderRadius: 4, fontSize: 9, fontFamily: N.mono, 
                       fontWeight: 600, backdropFilter: 'blur(4px)'
                     }}>
                       {Math.round(c.similarity_score * 100)}% Match
@@ -314,35 +342,35 @@ export function CasosCatalogueClient({ locale, initialCases, initialTotal }: Cat
                   {/* External link indicator */}
                   {!isNona && (
                     <div style={{ 
-                      position: 'absolute', bottom: 12, right: 12, width: 24, height: 24, 
+                      position: 'absolute', bottom: 8, right: 8, width: 20, height: 20, 
                       background: 'rgba(0,0,0,0.6)', color: N.white, borderRadius: '50%', 
                       display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' 
                     }}>
-                      <div style={{ width: 12, height: 12 }}><Icon name="arrowUp" /></div>
+                      <div style={{ width: 10, height: 10 }}><Icon name="arrowUp" /></div>
                     </div>
                   )}
                 </div>
 
                 {/* Content Section */}
-                <div style={{ padding: 16, display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <h3 style={{ fontFamily: N.display, fontSize: 18, color: N.ink, margin: '0 0 6px', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ padding: 12, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <h3 style={{ fontFamily: N.display, fontSize: 16, color: N.ink, margin: '0 0 4px', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {c.name ?? c.breed ?? 'Desconhecido'}
                   </h3>
                   
                   {(c.breed || c.color) && (
-                    <div style={{ fontSize: 12, color: N.ink3, marginBottom: 8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: N.sans }}>
+                    <div style={{ fontSize: 11, color: N.ink3, marginBottom: 8, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: N.sans }}>
                       {[c.breed, c.color].filter(Boolean).join(' · ')}
                     </div>
                   )}
 
-                  <div style={{ fontSize: 12, color: N.ink3, display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto', marginBottom: 12, fontFamily: N.sans }}>
-                    <div style={{ width: 12, height: 12, flexShrink: 0 }}><Icon name="pin" /></div>
+                  <div style={{ fontSize: 11, color: N.ink3, display: 'flex', alignItems: 'center', gap: 4, marginTop: 'auto', marginBottom: 8, fontFamily: N.sans }}>
+                    <div style={{ width: 10, height: 10, flexShrink: 0 }}><Icon name="pin" /></div>
                     <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {c.municipality || 'Localização desconhecida'}
                     </span>
                   </div>
                   
-                  <div style={{ fontSize: 11, color: N.ink4, fontFamily: N.mono }}>
+                  <div style={{ fontSize: 10, color: N.ink4, fontFamily: N.mono }}>
                     {new Date(c.timestamp).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-PT')}
                   </div>
                 </div>

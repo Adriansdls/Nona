@@ -24,8 +24,10 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get('type') || 'todos'
   const q = searchParams.get('q') || ''
   const municipality = searchParams.get('municipality') || ''
+  const breedFilter = searchParams.get('breed') || ''
+  const colorFilter = searchParams.get('color') || ''
   const page = parseInt(searchParams.get('page') || '1', 10)
-  const limit = parseInt(searchParams.get('limit') || '24', 10)
+  const limit = parseInt(searchParams.get('limit') || '48', 10) // increased limit for denser grid
 
   const supabase = createServiceClient()
   
@@ -45,6 +47,8 @@ export async function GET(req: NextRequest) {
   if (status !== 'todos') casesQuery = casesQuery.eq('status', status)
   if (type !== 'todos') casesQuery = casesQuery.eq('type', type)
   if (municipality) casesQuery = casesQuery.eq('last_seen_municipality', municipality)
+  if (breedFilter) casesQuery = casesQuery.ilike('breed', `%${breedFilter}%`)
+  if (colorFilter) casesQuery = casesQuery.ilike('primary_color', `%${colorFilter}%`)
   if (q) {
     const searchStr = `%${q}%`
     casesQuery = casesQuery.or(`dog_name.ilike.${searchStr},breed.ilike.${searchStr}`)
@@ -72,6 +76,8 @@ export async function GET(req: NextRequest) {
   if (status === 'ativo') classifiedsQuery = classifiedsQuery.eq('is_active', true)
   if (status === 'reunido') classifiedsQuery = classifiedsQuery.eq('is_active', false)
   if (municipality) classifiedsQuery = classifiedsQuery.eq('municipality', municipality)
+  if (breedFilter) classifiedsQuery = classifiedsQuery.ilike('breed_hint', `%${breedFilter}%`)
+  if (colorFilter) classifiedsQuery = classifiedsQuery.ilike('color_hint', `%${colorFilter}%`)
   if (q) {
     const searchStr = `%${q}%`
     classifiedsQuery = classifiedsQuery.or(`title.ilike.${searchStr},breed_hint.ilike.${searchStr},color_hint.ilike.${searchStr}`)
